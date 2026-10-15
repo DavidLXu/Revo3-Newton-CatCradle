@@ -1,0 +1,22 @@
+name: CPU regression
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+      - name: Fetch pinned dependencies and model
+        run: bash scripts/setup.sh
+      - name: Physics and motion checks
+        run: .venv/bin/python -m pytest -m 'not integration' -q
+      - name: Full default CPU trajectory
+        run: .venv/bin/python -m revo3_cat_cradle --no-meshes
+      - name: Deformation and specified-strand pickup
+        run: .venv/bin/python -m pytest -m integration -q

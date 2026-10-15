@@ -1,0 +1,11 @@
+Revo3 Newton Cat's Cradle
+Copyright 2026 DavidLXu and contributors
+
+This project includes an adapted Newton XPBD particle-contact kernel.
+Copyright (c) 2025 The Newton Developers.
+The adaptation excludes adjacent particles in a single closed rope from
+self-contact and substitutes the kernel in a subclass-local solver step.
+Newton is licensed under the Apache License, Version 2.0.
+
+Three.js and OrbitControls are provided under the MIT license;
+see web/THREE-LICENSE.txt.

@@ -1,0 +1,8 @@
+numpy==2.5.4
+scipy==1.18.1
+warp-lang==1.18.0
+trimesh==5.1.1
+fast-simplification==0.2.0
+pycollada==0.9.3
+pytest==9.1.1
+playwright==1.64.0
