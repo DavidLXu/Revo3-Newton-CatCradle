@@ -1,12 +1,55 @@
 """Kinematic validity and physical behavior, not just rendering smoke tests."""
 import numpy as np
 from revo3_cat_cradle.hand import Hand
-from revo3_cat_cradle.motion import RecordedMotion, PickupMotion
+from revo3_cat_cradle.motion import RecordedMotion, PickupMotion, TimeScaledMotion
 import pytest
 from revo3_cat_cradle.hand import ROOT
 from revo3_cat_cradle.sim import Simulation, Config
 from revo3_cat_cradle.rope import ROUTE, wrap_sites
 from revo3_cat_cradle.contact_geometry import finger_capsule
+
+
+def test_speed_scales_corrected_commands_and_velocity_in_physical_time():
+    base = PickupMotion(RecordedMotion(Hand()))
+    fast = TimeScaledMotion(base, 1.5)
+    assert fast.duration == pytest.approx(11.5/1.5)
+    for source_time in (0., .7, 4.13, 4.3, 4.65, 5., 11.5):
+        np.testing.assert_allclose(fast.sample(source_time/1.5)[0], base.sample(source_time)[0], atol=1e-12)
+    dt = 1e-5
+    source_time = 4.5
+    velocity = (base.sample(source_time+dt)[0]-base.sample(source_time-dt)[0])/(2*dt)
+    fast_velocity = (fast.sample(source_time/1.5+dt)[0]-fast.sample(source_time/1.5-dt)[0])/(2*dt)
+    assert np.linalg.norm(velocity) > .1
+    np.testing.assert_allclose(fast_velocity, 1.5*velocity, atol=1e-6)
+    for speed in (0., -1., np.inf, np.nan):
+        with pytest.raises(ValueError, match='finite and positive'):
+            TimeScaledMotion(base, speed)
+
+
+def test_inverse_endpoints_match_forward_and_limit_changes_are_audited():
+    hand=Hand()
+    forward=RecordedMotion(hand)
+    inverse=RecordedMotion(hand,ROOT/'data/inverse_motion.json')
+    assert inverse.duration==12. and len(inverse.steps)==24
+    np.testing.assert_array_equal(inverse.sample(0)[0],forward.sample(forward.duration)[0])
+    np.testing.assert_array_equal(inverse.sample(inverse.duration)[0],forward.sample(0)[0])
+    assert inverse.metadata['direction']=='反向'
+    assert len(inverse.metadata['joint_limit_adjustments'])==4
+    assert np.all(inverse.q>=hand.limits[:,0]) and np.all(inverse.q<=hand.limits[:,1])
+
+
+def test_checkpoint_preserves_rope_velocity_and_subsequent_dynamics(tmp_path):
+    continuous=Simulation(Config(motion_speed=1.5))
+    for i in range(1,4):continuous.advance(i/30)
+    assert np.linalg.norm(continuous.state.particle_qd.numpy()) > .001
+    path=tmp_path/'state.npz'
+    continuous.save_checkpoint(path)
+    resumed=Simulation(Config(motion_speed=1.5))
+    resumed.load_checkpoint(path)
+    np.testing.assert_array_equal(resumed.state.particle_qd.numpy(),continuous.state.particle_qd.numpy())
+    continuous.advance(4/30);resumed.advance(4/30)
+    np.testing.assert_array_equal(resumed.state.particle_q.numpy(),continuous.state.particle_q.numpy())
+    np.testing.assert_array_equal(resumed.rest_lengths,continuous.rest_lengths)
 
 
 def test_initial_wrap_arcs_follow_contact_surfaces():

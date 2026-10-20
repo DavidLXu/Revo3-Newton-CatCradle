@@ -1,5 +1,7 @@
 """Newton XPBD deformable loop with kinematic Revo3 collision proxies."""
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+import json
+from pathlib import Path
 import numpy as np
 from scipy.spatial.transform import Rotation
 import warp as wp
@@ -7,7 +9,7 @@ import newton
 from .rope_solver import RopeSolverXPBD
 
 from .hand import Hand
-from .motion import RecordedMotion, PickupMotion
+from .motion import RecordedMotion, PickupMotion, TimeScaledMotion
 from .rope import build_rope, site_positions, wrap_sites
 from .contact_geometry import finger_capsule, clear_initial_intersections
 from .tension import adjust_lengths, tensioned_lengths
@@ -16,6 +18,7 @@ from .tension import adjust_lengths, tensioned_lengths
 @dataclass
 class Config:
     pickup_correction: bool = True
+    motion_speed: float = 1.
     fps: int = 30
     substeps: int = 96
     iterations: int = 32
@@ -53,6 +56,7 @@ class Simulation:
         self.motion = RecordedMotion(self.hand)
         if c.pickup_correction:
             self.motion = PickupMotion(self.motion)
+        self.motion = TimeScaledMotion(self.motion, c.motion_speed)
         self.t = 0.
         self.q, self.phase = self.motion.sample(0)
         self.transforms = self.hand.fk(self.q)
@@ -193,3 +197,30 @@ class Simulation:
             initial_wrap_displacement_m=float(np.max(np.linalg.norm(
                 p[self.initial_wrap_indices]-self.initial_positions[self.initial_wrap_indices],axis=1))),
             min_height_m=float(p[:,2].min()), max_coordinate_m=float(np.abs(p).max()))
+
+    def save_checkpoint(self, path):
+        """Preserve dynamics at a motion boundary, including rope velocities."""
+        path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+        np.savez_compressed(path, config=json.dumps(asdict(self.config)), time=self.t,
+            contact_peak=self.contact_peak,
+            joints=self.q, particle_q=self.state.particle_q.numpy(),
+            particle_qd=self.state.particle_qd.numpy(),body_q=self.state.body_q.numpy(),
+            body_qd=self.state.body_qd.numpy(),rest_lengths=self.rest_lengths,
+            initial_rest_lengths=self.initial_rest_lengths,springs=self.spring_rest_buffer)
+
+    def load_checkpoint(self, path):
+        data=np.load(path,allow_pickle=False)
+        if json.loads(str(data['config'])) != asdict(self.config):
+            raise ValueError('Checkpoint physics configuration does not match')
+        if data['particle_q'].shape != (self.model.particle_count,3):
+            raise ValueError('Checkpoint rope discretization does not match')
+        self.t=float(data['time']);self.q=data['joints'].copy()
+        self.transforms=self.hand.fk(self.q)
+        self.rest_lengths=data['rest_lengths'].copy()
+        self.initial_rest_lengths=data['initial_rest_lengths'].copy()
+        self.spring_rest_buffer=data['springs'].copy()
+        self.model.spring_rest_length.assign(self.spring_rest_buffer)
+        for state in (self.state,self.next):
+            for name in ('particle_q','particle_qd','body_q','body_qd'):
+                getattr(state,name).assign(data[name])
+        self.contact_peak=int(data['contact_peak']) if 'contact_peak' in data else 0

@@ -4,9 +4,13 @@
 
 `data/forward_motion.json` contains named left-hand URDF joint positions in **radians**, and per-command durations in **seconds**. The loader verifies exact joint-name coverage, finite values, positive durations and joint limits, then reorders by name. There is no SDK connection or hardware control.
 
-The example was normalized from a supplied forward command recording, not measured feedback. The conversion used `targets_deg + target_offset_deg`, then SDK-to-URDF reordering. The sign is an inference supported by limits, not a confirmed property of the recording application. Of 483 original values, no offset produced 93 limit violations, subtraction 124, and addition one. That last middle-PIP value was clamped by approximately 0.08065° to the model limit before export. The source calibration, device identifier and unused inverse recording are excluded.
+The example was normalized from a supplied forward command recording, not measured feedback. The conversion used `targets_deg + target_offset_deg`, then SDK-to-URDF reordering. The sign is an inference supported by limits, not a confirmed property of the recording application. Of 483 original values, no offset produced 93 limit violations, subtraction 124, and addition one. That last middle-PIP value was clamped by approximately 0.08065° to the model limit before export. Source calibration, device identifiers and raw recordings are excluded.
 
 The first target is held for 0.5 s because its preceding pose is unknown. Subsequent targets use `u³(10−15u+6u²)` interpolation. All 23 command entries, including the repeated step in the original sequence, remain in order. The duration stays 11.5 s; there is no claimed frame alignment with the four-second reference clip.
+
+`data/inverse_motion.json` uses the same inferred offset convention, with 24 ordered commands over 12 s. The first and last joint targets match the forward end and start exactly. Array entries 1 and 2 have thumb PIP 91.6° and DIP 110.1° after normalization; these are explicitly limited to the model's 88.9975° and 100.9322° maxima. The source and adjusted angles are preserved in `joint_limit_adjustments`; no other inverse targets or timings are changed.
+
+Inverse motion starts from a physical forward-end checkpoint. This retains rope position and velocity, all spring rest lengths, body state and the initial material-length reference used by the active controller. No new initial wrapping or collision-clearance projection is applied to the inherited rope. A checkpoint-resume regression verifies exact subsequent particle positions. The forward pickup correction is used during preparation only; it is not applied to the inverse command sequence. `--motion-speed 1.5` compresses both command timelines, while gravity and controller rates remain in physical seconds.
 
 ## Local pickup correction
 

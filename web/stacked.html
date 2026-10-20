@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>Revo3 · Cat's Cradle / Dual View</title>
+<style>
+*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#dce1e0;color:#343d43;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif}
+iframe{position:absolute;left:0;width:100%;height:50%;border:0}#front{top:0}#oblique{top:50%}
+header{position:absolute;top:48px;left:56px;pointer-events:none}header small{font-size:24px;letter-spacing:5px;color:#68777d}
+h1{font-size:54px;font-weight:400;letter-spacing:.5px;margin:18px 0 0}
+.divider{position:absolute;top:50%;left:56px;right:56px;height:1px;background:#87949250}
+footer{position:absolute;left:56px;bottom:38px;font-size:22px;letter-spacing:2px;color:#7e898b}
+</style></head><body>
+<iframe id="front" title="Fixed front view"></iframe><iframe id="oblique" title="Fixed oblique view"></iframe>
+<header><small>Revo3</small><h1 lang="en">Cat's Cradle</h1></header>
+<div class="divider"></div><footer>Newton physics</footer>
+<script>
+const panels=[document.querySelector('#front'),document.querySelector('#oblique')];
+const angles=[0,-45];
+const query=new URLSearchParams(location.search);
+query.set('capture','1');query.set('cinematic','1');query.set('stacked','1');
+for(const panel of panels)panel.src=`./?${query}`;
+window.stackedReady=()=>panels.every(panel=>panel.contentWindow.viewerReady===true);
+window.renderStacked=time=>{
+  if(!window.stackedReady())throw new Error('Both views must finish loading');
+  panels.forEach((panel,i)=>panel.contentWindow.renderCinematicView(time,angles[i]));
+};
+window.stackedInfo=()=>({views:angles,source:panels[0].contentWindow.revo3});
+</script></body></html>

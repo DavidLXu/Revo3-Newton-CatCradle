@@ -32,19 +32,37 @@ class RecordedMotion:
         self.ends = np.cumsum(durations)
         self.starts = np.r_[0., self.ends[:-1]]
         self.duration = float(self.ends[-1])
-        self.metadata = dict(source=path.name, name=raw['name'], direction='正向',
+        self.direction=raw.get('direction','正向')
+        self.metadata = dict(source=path.name, name=raw['name'], direction=self.direction,
             duration=self.duration, command_count=len(self.steps),
             source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
             source_kind=raw.get('source_kind','command_targets'),
             normalization=raw.get('normalization','none'),
             interpolation='quintic rest-to-rest; first target held for its duration')
+        if 'joint_limit_adjustments' in raw:
+            self.metadata['joint_limit_adjustments']=raw['joint_limit_adjustments']
 
     def sample(self, t):
         t = float(np.clip(t, 0, self.duration))
         i = min(int(np.searchsorted(self.ends,t,side='right')), len(self.steps)-1)
         u = np.clip((t-self.starts[i])/(self.ends[i]-self.starts[i]),0,1)
         u = u*u*u*(10+u*(-15+6*u))
-        return (1-u)*self.q[max(0,i-1)]+u*self.q[i], f'正向翻 · {i+1:02d}/{len(self.steps)}'
+        return (1-u)*self.q[max(0,i-1)]+u*self.q[i], f'{self.direction}翻 · {i+1:02d}/{len(self.steps)}'
+
+
+class TimeScaledMotion:
+    """Speed up kinematic commands while physics continues in real seconds."""
+    def __init__(self, base, speed):
+        if not np.isfinite(speed) or speed <= 0:
+            raise ValueError('motion speed must be finite and positive')
+        self.base, self.hand, self.speed = base, base.hand, float(speed)
+        self.duration = base.duration / self.speed
+        self.metadata = dict(base.metadata, duration=self.duration,
+            motion_speed=self.speed, source_duration=base.duration,
+            timing='source_time = simulation_time * motion_speed; adjustment timestamps use source time')
+
+    def sample(self, t):
+        return self.base.sample(float(np.clip(t, 0, self.duration)) * self.speed)
 
 
 class PickupMotion:

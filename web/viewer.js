@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from './OrbitControls.js';
+import { studio } from './cinematic.js';
+const cinematic = new URLSearchParams(location.search).has('cinematic');
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#e9e7e2');
@@ -44,11 +46,14 @@ for(const x of [-.037,.037]) for(const y of [-.05,.05]) {
   screw.rotation.x = Math.PI/2;
 }
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+const orbit = cinematic ? studio(scene, renderer, camera, controls) : null;
 try {
-  const [data, meshes] = await Promise.all(['trajectory','meshes'].map(async name=>{
-    const response=await fetch(`../output/${name}.json`,{cache:'no-store'});if(!response.ok)throw new Error(`${name}.json: ${response.status}`);return response.json();
+  const [data, meshes] = await Promise.all(['trajectory',cinematic?'meshes_cinematic':'meshes'].map(async name=>{
+    const path=name==='trajectory' ? (new URLSearchParams(location.search).get('trajectory') ?? '../output/trajectory.json') : `../output/${name}.json`;
+    const response=await fetch(path,{cache:'no-store'});if(!response.ok)throw new Error(`${name}.json: ${response.status}`);return response.json();
   }));
   const motion=data.motion;
+  if(cinematic && motion?.direction==='反向')document.querySelector('.film-title h2').textContent='反向翻花绳';
   document.querySelector('h1').textContent=`指间翻花绳 · ${motion?.direction ?? '正向'}`;
   document.querySelector('#source').textContent=`${motion?.source ?? '关节记录'} · ${motion?.command_count ?? ''} 组目标 · ${data.frames.at(-1).time.toFixed(1)} s`;
   if(motion?.simulation_joint_adjustments) document.querySelector('#source').textContent+=' · 小指挑线 · 拇指送线时序调整';
@@ -67,7 +72,7 @@ try {
     geo.setAttribute('position',new THREE.Float32BufferAttribute(item.vertices.flat(),3));
     geo.setIndex(item.faces.flat());geo.computeVertexNormals();
     const silicone=item.color[0]<.65;
-    const mat=new THREE.MeshStandardMaterial({color:new THREE.Color(...item.color),metalness:silicone?.05:.48,roughness:silicone?.86:.32});
+    const mat=new THREE.MeshStandardMaterial({color:new THREE.Color(...item.color),metalness:silicone?.05:(cinematic?.65:.48),roughness:silicone?.86:(cinematic?.28:.32)});
     const mesh=new THREE.Mesh(geo,mat);mesh.castShadow=true;mesh.receiveShadow=true;groups.get(item.link).add(mesh);
   }
   const n = data.frames[0].rope.length;
@@ -79,14 +84,30 @@ try {
   const dummy=new THREE.Object3D(), a=new THREE.Vector3(), b=new THREE.Vector3(), direction=new THREE.Vector3(), up=new THREE.Vector3(0,1,0);
   let frame=0, playing=false, clock=0, last=performance.now();
   const seek=document.querySelector('#seek');seek.max=data.frames.length-1;
-  function setFrame(index) {
+  const poseA=new THREE.Matrix4(), poseB=new THREE.Matrix4();
+  const posA=new THREE.Vector3(), posB=new THREE.Vector3(), scaleA=new THREE.Vector3(), scaleB=new THREE.Vector3();
+  const quatA=new THREE.Quaternion(), quatB=new THREE.Quaternion();
+  function setFrame(index, interpolate=false) {
+    const sample=Math.max(0,Math.min(data.frames.length-1,index));
+    const lo=Math.floor(sample), mix=interpolate?sample-lo:0;
     frame=Math.max(0,Math.min(data.frames.length-1,Math.round(index)));
-    const f=data.frames[frame];
+    const f=data.frames[interpolate?lo:frame];
+    const next=data.frames[Math.min(lo+1,data.frames.length-1)];
     const restLength=f.rope_rest_length_m ?? data.rope_rest_length_m;
     document.querySelector('#source').textContent=`${sourceCaption} · ${lengthMode} · 当前未拉伸长度 ${(restLength*100).toFixed(1)} cm`;
-    data.links.forEach((name,i)=>groups.get(name).matrix.fromArray(f.transforms[i]));
+    data.links.forEach((name,i)=>{
+      const matrix=groups.get(name).matrix;
+      if(mix===0) matrix.fromArray(f.transforms[i]);
+      else {
+        poseA.fromArray(f.transforms[i]).decompose(posA,quatA,scaleA);
+        poseB.fromArray(next.transforms[i]).decompose(posB,quatB,scaleB);
+        matrix.compose(posA.lerp(posB,mix),quatA.slerp(quatB,mix),scaleA.lerp(scaleB,mix));
+      }
+    });
     for(let i=0;i<n;i++) {
-      a.fromArray(f.rope[i]);b.fromArray(f.rope[(i+1)%n]);direction.subVectors(b,a);
+      a.fromArray(f.rope[i]);b.fromArray(f.rope[(i+1)%n]);
+      if(mix){a.lerp(posA.fromArray(next.rope[i]),mix);b.lerp(posB.fromArray(next.rope[(i+1)%n]),mix);}
+      direction.subVectors(b,a);
       dummy.position.copy(a).add(b).multiplyScalar(.5);dummy.quaternion.setFromUnitVectors(up,direction.clone().normalize());
       dummy.scale.set(1,direction.length(),1);dummy.updateMatrix();cylinders.setMatrixAt(i,dummy.matrix);
       dummy.position.copy(a);dummy.scale.set(1,1,1);dummy.quaternion.identity();dummy.updateMatrix();balls.setMatrixAt(i,dummy.matrix);
@@ -101,10 +122,12 @@ try {
   seek.oninput=()=>{playing=false;document.querySelector('#play').textContent='播放';clock=Number(seek.value)/data.config.fps;setFrame(Number(seek.value));};
   let front=false;
   document.querySelector('#camera').onclick=()=>{front=!front;camera.position.set(...(front?[.65,0,.21]:[.62,-.14,.28]));controls.target.set(.01,0,.137);controls.update();document.querySelector('#camera').textContent=front?'斜侧面':'正面';};
+  window.renderCinematic=(time,progress)=>{if(!orbit)throw new Error('Cinematic mode required');orbit(progress);setFrame(time*data.config.fps,true);};
+  window.renderCinematicView=(time,azimuth)=>{if(!orbit)throw new Error('Cinematic mode required');orbit(0,azimuth);setFrame(time*data.config.fps,true);};
   window.setFrame=(index)=>{playing=false;document.querySelector('#play').textContent='播放';setFrame(index);};
   window.setFront=()=>{front=true;camera.position.set(.65,0,.21);controls.update();renderer.render(scene,camera);};
   window.setSide=()=>{camera.position.set(.12,-.65,.24);controls.update();renderer.render(scene,camera);};
-  window.revo3={frameCount:data.frames.length,particles:n,meshes:meshes.length,fps:data.config.fps,motionSource:motion?.source,interaction:data.interaction,anchors:data.anchor_indices.length};
+  window.revo3={frameCount:data.frames.length,particles:n,meshes:meshes.length,fps:data.config.fps,motionSource:motion?.source,direction:motion?.direction,interaction:data.interaction,anchors:data.anchor_indices.length};
   const requestedTime=Number(new URLSearchParams(location.search).get('t') ?? 0);
   clock=Number.isFinite(requestedTime)?Math.max(0,Math.min(data.frames.at(-1).time,requestedTime)):0;
   setFrame(clock*data.config.fps);window.viewerReady=true;
