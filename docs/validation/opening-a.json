@@ -1,0 +1,50 @@
+{
+  "passed": false,
+  "checks": {
+    "completed": true,
+    "finite": true,
+    "all_particles_dynamic": true,
+    "joint_limits": true,
+    "arm_speed": true,
+    "right_cross_hand_pickup": true,
+    "left_cross_hand_pickup": true,
+    "left_index_threads_right_bight": true,
+    "both_index_bights_retained": true,
+    "four_original_supports_retained": true,
+    "rope_self_contact": false,
+    "strain": false,
+    "opposing_hands_clear": true,
+    "finger_proxies_clear": true
+  },
+  "threading_crossings": [
+    {
+      "time_s": 12.491470368226363,
+      "barycentric_weights": [
+        0.517585622274289,
+        0.29659682297491907,
+        0.185817554750792
+      ]
+    }
+  ],
+  "final_support_gaps_m": {
+    "left": {
+      "thumb": -3.679398950965241e-05,
+      "little": -1.746340873990098e-05
+    },
+    "right": {
+      "thumb": -4.4995027726418314e-05,
+      "little": -0.0001699855354356872
+    }
+  },
+  "minimum_segment_distance_m": 0.001724197516096241,
+  "maximum_edge_length_m": 0.010861591611067823,
+  "self_contact_search_bound_m": 0.016,
+  "maximum_stretch_ratio": 1.901679853581583,
+  "minimum_opposing_hand_gap_m": -0.0004460463552438086,
+  "minimum_self_capsule_gap_m": -0.002245830322597814,
+  "maximum_arm_speed_rad_s": 0.8856218361400777,
+  "duration_s": 21.0,
+  "physics": "Newton XPBD, contact and friction, active rest-length control",
+  "note": "Publication check of the default experimental Opening A recipe. Passing unit tests do not imply successful physical validation.",
+  "recipe": "docs/opening-a.md"
+}

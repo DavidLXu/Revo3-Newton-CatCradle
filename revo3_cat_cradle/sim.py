@@ -147,6 +147,18 @@ class Simulation:
         angular = Rotation.from_matrix(tf[:3,:3] @ previous[:3,:3].T).as_rotvec()/dt
         return np.r_[(com-old_com)/dt, angular]
 
+    @staticmethod
+    def body_kinematics(transforms, previous, local_com, dt):
+        """Batch the same COM velocities and poses used by the scalar path."""
+        rotations = transforms[:, :3, :3]
+        old_rotations = previous[:, :3, :3]
+        com = np.einsum('nij,nj->ni', rotations, local_com) + transforms[:, :3, 3]
+        old_com = np.einsum('nij,nj->ni', old_rotations, local_com) + previous[:, :3, 3]
+        angular = Rotation.from_matrix(rotations @ old_rotations.transpose(0, 2, 1)).as_rotvec() / dt
+        poses = np.column_stack((transforms[:, :3, 3], Rotation.from_matrix(rotations).as_quat()))
+        velocities = np.column_stack(((com-old_com)/dt, angular))
+        return poses, velocities
+
     def advance(self, end_time, move=True):
         c = self.config
         dt = 1/(c.fps*c.substeps)
@@ -155,19 +167,14 @@ class Simulation:
             self.q, self.phase = self.motion.sample(t)
             previous = self.transforms
             self.transforms = self.hand.fk(self.q)
-            poses, velocities = [], []
-            for name, local_com in zip(self.proxy_links, self.body_com_local):
-                tf, prev = self.transforms[name], previous[name]
-                poses.append(np.r_[tf[:3,3], Rotation.from_matrix(tf[:3,:3]).as_quat()])
-                velocities.append(self.body_velocity(tf, prev, local_com, dt))
+            current = np.array([self.transforms[name] for name in self.proxy_links])
+            old = np.array([previous[name] for name in self.proxy_links])
+            poses, velocities = self.body_kinematics(current, old, self.body_com_local[:len(self.proxy_links)], dt)
             self.state.body_q.assign(np.asarray(poses, dtype=np.float32))
             self.state.body_qd.assign(np.asarray(velocities, dtype=np.float32))
             self.state.clear_forces()
             if c.adaptive_length:
-                self.rest_lengths=adjust_lengths(self.state.particle_q.numpy(),self.rest_lengths,
-                    self.initial_rest_lengths,c.stretch_stiffness,dt,c.adaptive_take_up_m)
-                self.spring_rest_buffer[:self.model.particle_count]=self.rest_lengths
-                self.model.spring_rest_length.assign(self.spring_rest_buffer)
+                self.update_rest_lengths(dt)
             self.pipeline.collide(self.state, self.contacts)
             count = int(self.contacts.soft_contact_count.numpy()[0])
             if count > self.contact_capacity:
@@ -177,6 +184,13 @@ class Simulation:
             self.state, self.next = self.next, self.state
         self.t = end_time if move else self.t
         self.contact_peak = max(self.contact_peak, int(self.contacts.soft_contact_count.numpy()[0]))
+
+    def update_rest_lengths(self,dt):
+        c=self.config
+        self.rest_lengths=adjust_lengths(self.state.particle_q.numpy(),self.rest_lengths,
+            self.initial_rest_lengths,c.stretch_stiffness,dt,c.adaptive_take_up_m)
+        self.spring_rest_buffer[:self.model.particle_count]=self.rest_lengths
+        self.model.spring_rest_length.assign(self.spring_rest_buffer)
 
     def snapshot(self):
         positions = self.state.particle_q.numpy()

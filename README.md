@@ -1,8 +1,10 @@
-# Revo3 + Newton Cat's Cradle
+# Revo3 / RevoTron + Newton Cat's Cradle
 
-A small, reproducible **single-hand string manipulation demo** using a BrainCo Revo3 hand and Newton XPBD. A recorded 21-joint command sequence drives a kinematic hand; a dynamic closed rope interacts with it through collision and friction.
+Scripted string manipulation with BrainCo Revo3 hands, the RevoTron bimanual robot, and Newton XPBD. Kinematic joint commands drive the robot; a dynamic closed rope interacts with the hands through collision and friction.
 
-The demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
+The repository includes the original single-hand forward/inverse loop, a RevoTron crossed-loop demo, and an **experimental single-player Opening A** sequence. Opening A still fails strict physics validation; its limitations and reproduction commands are in [the Opening A notes](docs/opening-a.md).
+
+The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
 
@@ -98,6 +100,33 @@ The initial settling is excluded from the recording. In the reference run it too
 
 The final one-second star hold is an editorial freeze frame. The last 0.6 seconds dissolve into the first settled image to smooth the playback seam; this does not alter the exported physics or imply an exactly periodic physical state. `edit_cycle_timing.py` deliberately accepts only the 576-frame, 30 fps cycle recording produced by this recipe.
 
+## RevoTron: two arms and two hands
+
+The optional RevoTron scene uses the official bimanual robot assembly, with two seven-joint arms and two Revo3 hands. A shared loop starts seated on hooked index and little fingers. The right wrist turns the loop into a crossed figure, both middle fingers lift the side strands, and the arms spread apart while retaining the rope.
+
+After the normal setup above:
+
+```bash
+bash scripts/setup_revotron.sh
+.venv/bin/python scripts/run_bimanual.py
+.venv/bin/python scripts/validate_bimanual.py
+.venv/bin/python scripts/render_revotron.py --preview
+.venv/bin/python scripts/render_revotron.py
+bash scripts/serve.sh
+```
+
+Open **http://127.0.0.1:8765/web/revotron.html** for synchronized whole-robot and hand-detail views, or **http://127.0.0.1:8765/web/revotron-video.html** for the rendered movie. The movie is `output/revotron_bimanual/portrait/revotron_bimanual_cat_cradle.mp4`, at 1080×1920 and 30 fps. Rendering requires Chrome or Playwright Chromium and ffmpeg, as above. The CPU simulation uses 128 substeps and 48 solver iterations and can take several minutes. `scripts/run_bimanual.py --resume` continues from the most recent one-second checkpoint after an interrupted run.
+
+The 17-second motion follows two seconds of unrecorded settling. Arm targets use bounded inverse kinematics and smooth joint interpolation. All rope particles have positive mass; there are no hand attachments or runtime rope-position targets. Newton solves rope contact against both hands' capsule and palm proxies, with the same ideal active rest-length control used in the single-hand demo. Equal arc-length sampling avoids concentrated stretch near the initial support arcs. This scene adds segment-to-segment self-contact inside Newton XPBD, distributing contact corrections to the four endpoints. The current broad-phase search covers neighbor edges up to 16 mm; the original crossed-loop validator retains its stricter 8 mm edge-length check. It remains a discrete contact model without continuous collision detection.
+
+`validation.json` checks joint limits, arm speed, retained support contact, rope stretch, and movement of the same material particles onto each middle finger. The reference run uses 263 dynamic particles; peak edge stretch is 1.0866, and the left/right pickup lifts the tracked material by 25.6/26.4 mm in the hand frame. Both hands retain support contact through the final hold. The minimum nonadjacent segment centerline separation is 1.997 mm for a 2 mm rope diameter. Projected crossings only describe this view. This is a scripted crossed-loop figure, not a five-point star or a complete traditional finger-to-finger transfer sequence. The robot is kinematic: arm dynamics, arm/torso collision, and hardware control are outside this model.
+
+## Single-player Opening A (experimental)
+
+A separate 21-second RevoTron sequence now follows Position 1 → right-index pickup of the left palmar string → left-index threading through that bight → left pickup of the right palmar string → Opening A. Both cross-hand pickup checks, threading, and six final supports pass. Strict rope strain and self-contact checks still fail, so its movie is explicitly labelled **Draft**. The earlier crossed-loop demo above remains separate.
+
+See [the procedure, validation limits, and reproduction commands](docs/opening-a.md). After generating the output, open **http://127.0.0.1:8765/web/opening-a-video.html** for whole-robot and overhead hand views. This version uses a dynamic Newton rope with contact and friction plus ideal active length control; it is not a verified passive-rope manipulation result.
+
 ## Code map
 
 ```mermaid
@@ -128,6 +157,14 @@ flowchart LR
 | `scripts/render_cinematic.py`, `web/cinematic.js` | Detailed meshes, studio lighting and the orbiting landscape render |
 | `scripts/render_stacked.py`, `web/stacked.html` | Synchronized portrait cameras and English-only titles |
 | `scripts/edit_cycle_timing.py`, `web/loop.html` | Final star hold, shorter ending and repeat playback |
+| `revo3_cat_cradle/bimanual.py` | RevoTron kinematics, arm IK and shared dynamic rope |
+| `revo3_cat_cradle/single_player.py` | Initial Position 1 and cross-hand fingertip targeting |
+| `revo3_cat_cradle/bimanual_checks.py` | Shared support, material-strand and hand-clearance diagnostics |
+| `scripts/run_single_player.py`, `scripts/continue_opening_a.py` | Two-stage experimental Opening A simulation |
+| `scripts/validate_opening_a.py` | Pickup, threading, strain and retained-support checks |
+| `revo3_cat_cradle/segment_contacts.py` | Segment self-contact for the bimanual rope inside Newton XPBD |
+| `scripts/run_bimanual.py`, `scripts/validate_bimanual.py` | Scripted two-hand figure and material-point pickup checks |
+| `scripts/render_revotron.py`, `web/revotron.html` | Whole-robot/detail portrait rendering and playback |
 
 See [design and data notes](docs/design.md) for units, normalization assumptions and the pickup schedule.
 
@@ -180,6 +217,10 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 反向使用独立的反向关节记录，直接继承正向结束时的绳子位置、速度和张力，继续求解碰撞与摩擦。1.5 倍速反向动作历时 8 秒，随后保持末姿态继续仿真 2 秒；已检查掌前交叉解除、五指持续接触，以及恢复后的绳路与初始参考接近。
 
 最新版竖屏循环视频的复现命令见 “Reproduce the latest portrait loop”：先让绳子静置稳定，再连续计算正翻和反翻，录制上下两个固定视角。最终成片为 18.2 秒，使用英文标题，星形画面额外定格 1 秒，片尾剪掉 2 秒并用 0.6 秒叠化衔接开头。定格与叠化属于视频剪辑，不修改物理轨迹。
+
+双手版本使用官方 RevoTron 双臂双 Revo3 模型：先搭好同一根闭环绳，转腕形成交叉，再由双手中指挑线、双臂拉开。运行方法见 “RevoTron: two arms and two hands”。绳子通过 Newton 碰撞与摩擦响应，手和手臂由硬编码关节轨迹驱动；这是交叉绳形演示，尚不是完整的传统双手交接翻花绳套路。
+
+单人双手的 Opening A 实验版按“右食指挑左掌绳 → 左食指穿圈挑右掌绳 → 双手展开”执行。模块划分、复现命令和真实校验结果见 [Opening A 说明](docs/opening-a.md)。当前绳段拉伸和自接触精度仍未达标，视频保留 Draft 标记。
 
 ## License and upstream code
 

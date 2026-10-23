@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RevoTron · Bimanual Cat's Cradle</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#dce1e0;color:#343d43;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;overflow:hidden}
+iframe{position:absolute;left:0;width:100%;height:50%;border:0}#whole{top:0}#hands{top:50%}
+header{position:absolute;top:4vh;left:5vw;pointer-events:none}header small{font-size:clamp(16px,2.3vw,28px);letter-spacing:5px;color:#68777d}
+h1{font-size:clamp(24px,4.8vw,54px);font-weight:400;margin:14px 0 0}.subtitle{font-size:clamp(14px,2.5vw,28px);margin-top:10px;color:#68777d}
+.divider{position:absolute;top:50%;left:5%;right:5%;height:1px;background:#87949250}
+footer{position:absolute;left:5%;bottom:2%;font-size:clamp(12px,2vw,22px);letter-spacing:2px;color:#7e898b}
+.controls{position:absolute;bottom:2%;right:5%;display:flex;gap:12px;align-items:center}button{border:1px solid #87949280;background:#eef2f0;padding:8px 14px;border-radius:8px;color:#343d43;cursor:pointer}input{width:18vw}
+</style></head><body>
+<iframe id="whole" title="Whole robot"></iframe><iframe id="hands" title="Hand detail"></iframe>
+<header><small>RevoTron</small><h1>Cat's Cradle</h1><div class="subtitle">Bimanual string manipulation</div></header>
+<div class="divider"></div><footer>NEWTON PHYSICS</footer>
+<div class="controls"><button id="play">Play</button><input id="seek" type="range" min="0" max="17" step="0.033333" value="0"></div>
+<script>
+const panels=[document.querySelector('#whole'),document.querySelector('#hands')];
+const query=new URLSearchParams(location.search);const capture=query.has('capture');
+const trajectory=query.get('trajectory')??'../output/revotron_bimanual/trajectory.json';
+const meshes=query.get('meshes')??'../output/revotron_bimanual/meshes.json';
+const child=new URLSearchParams({bimanual:'1',capture:'1',film:'1',trajectory,meshes});
+panels.forEach(p=>p.src=`./?${child}`);
+window.revotronReady=()=>panels.every(p=>p.contentWindow.viewerReady===true);
+let viewsConfigured=false;
+const singlePlayer=query.get('figure')==='single-player';
+if(singlePlayer)document.querySelector('.subtitle').textContent='Single-player · Opening A'+(query.get('draft')==='1'?' · Draft':'');
+window.renderRevotron=time=>{panels.forEach((p,i)=>{if(!viewsConfigured){if(singlePlayer)p.contentWindow.setSinglePlayerView(i===1);else p.contentWindow.setBimanualView(i===1)}p.contentWindow.setFrame(Math.round(time*p.contentWindow.revo3.fps))});viewsConfigured=true};
+let playing=false,time=0,last=performance.now();const button=document.querySelector('#play'),seek=document.querySelector('#seek');
+if(capture)document.querySelector('.controls').style.display='none';
+button.onclick=()=>{if(!playing && time>=Number(seek.max))time=0;playing=!playing;button.textContent=playing?'Pause':'Play'};
+seek.oninput=()=>{time=Number(seek.value);playing=false;button.textContent='Play';window.renderRevotron(time)};
+const poll=setInterval(()=>{if(!window.revotronReady())return;clearInterval(poll);const info=panels[0].contentWindow.revo3;seek.max=(info.frameCount-1)/info.fps;window.renderRevotron(0);if(!capture)requestAnimationFrame(animate)},100);
+function animate(now){if(playing){time+=(now-last)/1000;if(time>Number(seek.max)){time=Number(seek.max);playing=false;button.textContent='Play'}seek.value=time;window.renderRevotron(time)}last=now;requestAnimationFrame(animate)}
+</script></body></html>

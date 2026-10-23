@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import { studio } from './cinematic.js';
 const cinematic = new URLSearchParams(location.search).has('cinematic');
+const bimanual = new URLSearchParams(location.search).has('bimanual');
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#e9e7e2');
@@ -17,11 +18,12 @@ document.querySelector('#scene').appendChild(renderer.domElement);
 const camera = new THREE.PerspectiveCamera(34, innerWidth/innerHeight, .001, 10);
 camera.up.set(0,0,1);
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.target.set(.01,0,.137);
-camera.position.set(.62,-.14,.28);
+controls.target.set(...(bimanual?[.18,0,.9]:[.01,0,.137]));
+camera.position.set(...(bimanual?[2.6,-1.5,1.75]:[.62,-.14,.28]));
 controls.enableDamping = true;
 controls.minDistance = .21;
 controls.maxDistance = 1.1;
+if(bimanual){controls.minDistance=.3;controls.maxDistance=5;scene.fog=new THREE.Fog('#e9e7e2',5,12);}
 controls.update();
 scene.add(new THREE.HemisphereLight(0xffffff, 0x858477, 2.2));
 function light(pos, intensity) {
@@ -32,12 +34,15 @@ const key = light([.35,-.4,.65], 3.0);
 key.castShadow = true; key.shadow.mapSize.set(2048,2048);
 Object.assign(key.shadow.camera, {left:-.3, right:.3, top:.4, bottom:-.3, near:.01, far:2});
 key.shadow.bias = -.00005; key.shadow.normalBias = .0004;
+if(bimanual){key.position.set(2,-3,5);Object.assign(key.shadow.camera,{left:-1.5,right:1.5,top:2,bottom:-1,far:10});}
 light([-.3,.3,.4], 1.8);
 function solid(geometry, color, position, roughness=.7, metalness=.1) {
   const m = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({color,roughness,metalness}));
   m.position.set(...position);m.castShadow = true;m.receiveShadow = true;scene.add(m);return m;
 }
 solid(new THREE.BoxGeometry(3,3,.018), '#c9c8bd',[0,0,-.010]);
+if(bimanual)solid(new THREE.BoxGeometry(.22,.28,.045),'#313a3d',[0,0,.0225],.6,.3);
+if(!bimanual){
 solid(new THREE.BoxGeometry(.095,.125,.009), '#272d2b',[0,0,.0045],.4,.5);
 const stand = solid(new THREE.CylinderGeometry(.023,.027,.015,64),'#535b57',[0,0,.016],.3,.6);
 stand.rotation.x = Math.PI/2;
@@ -45,16 +50,29 @@ for(const x of [-.037,.037]) for(const y of [-.05,.05]) {
   const screw = solid(new THREE.CylinderGeometry(.0023,.0023,.001,12),'#8c938c',[x,y,.0095],.3,.7);
   screw.rotation.x = Math.PI/2;
 }
+}
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 const orbit = cinematic ? studio(scene, renderer, camera, controls) : null;
+if(bimanual && new URLSearchParams(location.search).has('film')) {
+  studio(scene,renderer,camera,controls);
+  document.querySelector('.film-title').style.display='none';
+  document.querySelector('.film-note').style.display='none';
+  scene.fog=new THREE.Fog('#dce1e0',5,12);
+  for(const item of scene.children) if(item.isDirectionalLight) {
+    item.position.multiplyScalar(5);item.target.position.set(.15,0,.9);
+    if(item.castShadow)Object.assign(item.shadow.camera,{left:-1.4,right:1.4,top:1.6,bottom:-1.4,far:8});
+  }
+}
 try {
   const [data, meshes] = await Promise.all(['trajectory',cinematic?'meshes_cinematic':'meshes'].map(async name=>{
-    const path=name==='trajectory' ? (new URLSearchParams(location.search).get('trajectory') ?? '../output/trajectory.json') : `../output/${name}.json`;
+    const folder=bimanual?'../output/revotron_bimanual':'../output';
+    const path=name==='trajectory' ? (new URLSearchParams(location.search).get('trajectory') ?? `${folder}/trajectory.json`) : (new URLSearchParams(location.search).get('meshes') ?? `${folder}/${name}.json`);
     const response=await fetch(path,{cache:'no-store'});if(!response.ok)throw new Error(`${name}.json: ${response.status}`);return response.json();
   }));
   const motion=data.motion;
   if(cinematic && motion?.direction==='反向')document.querySelector('.film-title h2').textContent='反向翻花绳';
   document.querySelector('h1').textContent=`指间翻花绳 · ${motion?.direction ?? '正向'}`;
+  if(bimanual)document.querySelector('h1').textContent="RevoTron · Bimanual Cat's Cradle";
   document.querySelector('#source').textContent=`${motion?.source ?? '关节记录'} · ${motion?.command_count ?? ''} 组目标 · ${data.frames.at(-1).time.toFixed(1)} s`;
   if(motion?.simulation_joint_adjustments) document.querySelector('#source').textContent+=' · 小指挑线 · 拇指送线时序调整';
   const sourceCaption=document.querySelector('#source').textContent;
@@ -115,17 +133,19 @@ try {
     cylinders.instanceMatrix.needsUpdate=true;balls.instanceMatrix.needsUpdate=true;
     seek.value=frame;document.querySelector('#time').textContent=`${f.time.toFixed(2)} / ${data.frames.at(-1).time.toFixed(2)} s`;
     document.querySelector('#phase').textContent=f.phase;
-    document.querySelector('#meta').textContent=`21 JOINTS  /  ${n} PARTICLES  /  1 CLOSED LOOP`;
+    document.querySelector('#meta').textContent=`${data.joint_names?.length ?? 21} JOINTS  /  ${n} PARTICLES  /  1 CLOSED LOOP`;
     renderer.render(scene,camera);
   }
   document.querySelector('#play').onclick=()=>{playing=!playing;document.querySelector('#play').textContent=playing?'暂停':'播放';};
   seek.oninput=()=>{playing=false;document.querySelector('#play').textContent='播放';clock=Number(seek.value)/data.config.fps;setFrame(Number(seek.value));};
   let front=false;
-  document.querySelector('#camera').onclick=()=>{front=!front;camera.position.set(...(front?[.65,0,.21]:[.62,-.14,.28]));controls.target.set(.01,0,.137);controls.update();document.querySelector('#camera').textContent=front?'斜侧面':'正面';};
+  document.querySelector('#camera').onclick=()=>{front=!front;camera.position.set(...(bimanual?(front?[2.5,0,1.65]:[2.6,-1.5,1.75]):(front?[.65,0,.21]:[.62,-.14,.28])));controls.target.set(...(bimanual?[.18,0,.9]:[.01,0,.137]));controls.update();document.querySelector('#camera').textContent=front?'斜侧面':'正面';};
   window.renderCinematic=(time,progress)=>{if(!orbit)throw new Error('Cinematic mode required');orbit(progress);setFrame(time*data.config.fps,true);};
   window.renderCinematicView=(time,azimuth)=>{if(!orbit)throw new Error('Cinematic mode required');orbit(0,azimuth);setFrame(time*data.config.fps,true);};
   window.setFrame=(index)=>{playing=false;document.querySelector('#play').textContent='播放';setFrame(index);};
-  window.setFront=()=>{front=true;camera.position.set(.65,0,.21);controls.update();renderer.render(scene,camera);};
+  window.setFront=()=>{front=true;camera.position.set(...(bimanual?[2.5,0,1.65]:[.65,0,.21]));controls.update();renderer.render(scene,camera);};
+  window.setBimanualView=(close=false)=>{controls.target.set(...(close?[.47,0,1.20]:[.15,0,.88]));camera.position.set(...(close?[1.48,-.04,1.40]:[3.1,-1.4,1.75]));controls.update();renderer.render(scene,camera);};
+  window.setSinglePlayerView=(close=false)=>{if(!close)return window.setBimanualView(false);controls.target.set(.40,0,1.27);camera.position.set(.90,-.04,1.90);controls.update();renderer.render(scene,camera);};
   window.setSide=()=>{camera.position.set(.12,-.65,.24);controls.update();renderer.render(scene,camera);};
   window.revo3={frameCount:data.frames.length,particles:n,meshes:meshes.length,fps:data.config.fps,motionSource:motion?.source,direction:motion?.direction,interaction:data.interaction,anchors:data.anchor_indices.length};
   const requestedTime=Number(new URLSearchParams(location.search).get('t') ?? 0);
