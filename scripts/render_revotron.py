@@ -21,6 +21,7 @@ def main():
         "--simulation-dir", type=Path, default=ROOT / "output/revotron_bimanual"
     )
     p.add_argument("--single-player", action="store_true")
+    p.add_argument("--label", help="Override the single-player figure caption")
     p.add_argument(
         "--software",
         action="store_true",
@@ -79,6 +80,7 @@ def main():
                     meshes="../" + str(out.relative_to(ROOT) / "meshes.json"),
                     figure="single-player" if a.single_player else "crossed-loop",
                     draft="1" if a.draft else "0",
+                    label=a.label or data.get("motion", {}).get("figure", "Opening A"),
                 )
             )
             page.goto(

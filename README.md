@@ -4,6 +4,8 @@ Scripted string manipulation with BrainCo Revo3 hands, the RevoTron bimanual rob
 
 The repository includes the original single-hand forward/inverse loop, a RevoTron crossed-loop demo, and an **experimental single-player Opening A** sequence. Opening A still fails strict physics validation; its limitations and reproduction commands are in [the Opening A notes](docs/opening-a.md).
 
+The newer [two-hand transfer experiments](docs/experiments.md) add wider hand spacing, longer initial rope, checkpoint continuation, and joint-only thumb feedback. A left-thumb pickup from an independently placed Opening A passed the recorded pickup checks. The right pickup and the full Cup & Saucer → boat → Star sequence remain unfinished. Portable recipes include both that milestone and an unsuccessful right-pickup attempt.
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
@@ -165,6 +167,9 @@ flowchart LR
 | `revo3_cat_cradle/segment_contacts.py` | Segment self-contact for the bimanual rope inside Newton XPBD |
 | `scripts/run_bimanual.py`, `scripts/validate_bimanual.py` | Scripted two-hand figure and material-point pickup checks |
 | `scripts/render_revotron.py`, `web/revotron.html` | Whole-robot/detail portrait rendering and playback |
+| `revo3_cat_cradle/transfers.py`, `mesh_geometry.py` | Material-strand tracking, transfer planning and mesh contact diagnostics |
+| `scripts/replay_transfer.py`, `examples/transfers/` | Recompute recorded experiments from a bundled initial seed and joint commands |
+| [Experimental tools](docs/experiments.md#tool-map) | Continuation, feedback, planning, parameter search and independent audits |
 
 See [design and data notes](docs/design.md) for units, normalization assumptions and the pickup schedule.
 
@@ -221,6 +226,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 双手版本使用官方 RevoTron 双臂双 Revo3 模型：先搭好同一根闭环绳，转腕形成交叉，再由双手中指挑线、双臂拉开。运行方法见 “RevoTron: two arms and two hands”。绳子通过 Newton 碰撞与摩擦响应，手和手臂由硬编码关节轨迹驱动；这是交叉绳形演示，尚不是完整的传统双手交接翻花绳套路。
 
 单人双手的 Opening A 实验版按“右食指挑左掌绳 → 左食指穿圈挑右掌绳 → 双手展开”执行。模块划分、复现命令和真实校验结果见 [Opening A 说明](docs/opening-a.md)。当前绳段拉伸和自接触精度仍未达标，视频保留 Draft 标记。
+
+后续加长绳子、增大手距和挑绳切换的代码见[双手实验指南](docs/experiments.md)。已保存一条通过左拇指挑绳检查的记录，起点是独立搭好的 Opening A；右拇指挑绳及 Cup & Saucer、船形、Star 的连续切换仍在调试。仓库提供初始绳形和关节指令配方，可以重新计算物理，不依赖开发机器的中间文件。
 
 ## License and upstream code
 

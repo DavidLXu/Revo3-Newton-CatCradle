@@ -1,5 +1,7 @@
 """Scripted Position 1 poses and cross-hand fingertip targeting for Opening A."""
 
+from copy import deepcopy
+
 import numpy as np
 from scipy.spatial import ConvexHull
 from scipy.spatial.transform import Rotation
@@ -8,7 +10,9 @@ from .contact_geometry import finger_capsule
 
 
 class Motion:
-    def __init__(self, robot, upright=False, symmetric=False):
+    def __init__(self, robot, upright=False, symmetric=False, half_span=0.15):
+        if not np.isfinite(half_span) or not 0.075 <= half_span <= 0.30:
+            raise ValueError("Initial half-span must be between 0.075 and 0.30 m")
         self.hand = robot
         self.times = [0.0]
         self.targets = []
@@ -18,6 +22,7 @@ class Motion:
             direction="双手",
             robot="RevoTron",
             reference="https://www.alysion.org/figures/introduc.htm",
+            initial_half_span_m=float(half_span),
         )
         q = np.zeros(len(robot.names))
         for side in ("left", "right"):
@@ -60,7 +65,7 @@ class Motion:
         }
         for side, sign in [("left", 1), ("right", -1)]:
             q = robot.ik(
-                q, side, np.array([0.4, sign * 0.15, 1.13]), self.rotations[side]
+                q, side, np.array([0.4, sign * half_span, 1.13]), self.rotations[side]
             )
         self.targets = [q.copy()]
 
@@ -71,7 +76,66 @@ class Motion:
         self.phases.append(phase)
         self.metadata["duration"] = self.times[-1]
 
+    def resume_at(self, commands, metadata, time, joints):
+        """Interrupt a command at a measured pose without rewriting its past curve.
+
+        The new boundary starts subsequent commands at the checkpoint pose.
+        A clipped source polynomial in metadata preserves the exact prefix,
+        including when the checkpoint lies inside a quintic motion segment.
+        """
+        self.times = list(commands["times"])
+        self.targets = [np.asarray(q).copy() for q in commands["targets"]]
+        self.phases = list(commands["phases"])
+        self.metadata = deepcopy(metadata)
+        joints = np.asarray(joints)
+        if (
+            not np.isfinite(time)
+            or not self.times[0] <= time <= self.times[-1] + 1e-8
+            or joints.shape != self.targets[0].shape
+            or not np.isfinite(joints).all()
+            or not np.allclose(self.sample(time)[0], joints, atol=1e-8, rtol=0)
+        ):
+            raise ValueError("Checkpoint joint pose does not match its source command")
+        i = int(np.searchsorted(self.times, time + 1e-8, side="right") - 1)
+        interior = abs(self.times[i] - time) > 1e-8
+        segments = self.metadata.get("interrupted_segments", [])
+        covered = any(s["start"] <= time < s["stop"] for s in segments)
+        segments = [
+            dict(s, stop=min(s["stop"], float(time)))
+            for s in segments
+            if s["start"] < time
+        ]
+        if interior and not covered:
+            segments.append(
+                dict(
+                    start=self.times[i],
+                    end=self.times[i + 1],
+                    stop=float(time),
+                    initial=self.targets[i].tolist(),
+                    target=self.targets[i + 1].tolist(),
+                    phase=self.phases[i + 1],
+                )
+            )
+        self.metadata["interrupted_segments"] = segments
+        self.times = self.times[: i + 1]
+        self.targets = self.targets[: i + 1]
+        self.phases = self.phases[: i + 1]
+        if interior:
+            self.append(time, joints, "Measured checkpoint boundary")
+        else:
+            self.targets[-1] = joints.copy()
+            self.metadata["duration"] = self.times[-1]
+
     def sample(self, t):
+        for segment in self.metadata.get("interrupted_segments", []):
+            if segment["start"] <= t < segment["stop"]:
+                u = (t - segment["start"]) / (segment["end"] - segment["start"])
+                u = u**3 * (10 + u * (-15 + 6 * u))
+                return (
+                    (1 - u) * np.asarray(segment["initial"])
+                    + u * np.asarray(segment["target"]),
+                    segment["phase"],
+                )
         if t >= self.times[-1]:
             return self.targets[-1].copy(), self.phases[-1]
         i = max(0, np.searchsorted(self.times, t, side="right") - 1)
@@ -105,6 +169,18 @@ class Motion:
 
 
 def initial_loop(robot, motion):
+    # Independent figure-initialization experiments record their pre-settling
+    # seed so a later checkpoint rebuild has exactly the same particle layout.
+    if "initial_rope_points" in motion.metadata:
+        points = np.asarray(motion.metadata["initial_rope_points"], dtype=float)
+        if (
+            points.ndim != 2
+            or points.shape[1] != 3
+            or len(points) < 4
+            or not np.isfinite(points).all()
+        ):
+            raise ValueError("Invalid recorded initial rope geometry")
+        return points.copy()
     tf = robot.fk(motion.targets[0])
     centers = []
     radii = []

@@ -1,0 +1,13 @@
+{
+  "description": "Experimental idle-finger posture for 350 mm Position 1, mu 1.2, upright pickup depth 8 mm. The complete figure still fails retention and strain checks.",
+  "changed": {
+    "left_middle_MPR_joint": 0.4,
+    "left_middle_MCP_joint": 0.0,
+    "left_ring_MPR_joint": -0.43629989999999996,
+    "left_ring_MCP_joint": -0.0924998999999966,
+    "right_middle_MPR_joint": 0.02824307938400512,
+    "right_middle_MCP_joint": -0.005940601371657002,
+    "right_ring_MPR_joint": 0.0,
+    "right_ring_MCP_joint": 0.0
+  }
+}

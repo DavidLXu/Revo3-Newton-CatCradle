@@ -8,15 +8,19 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from revo3_cat_cradle.single_player import Motion, initial_loop
 from revo3_cat_cradle.bimanual_checks import palmar_arc
-from revo3_cat_cradle.bimanual_checks import hand_clearance
+from revo3_cat_cradle.bimanual_checks import hand_clearance, self_clearance_margin
 from revo3_cat_cradle.bimanual import RevoTron, BimanualSimulation, export_bimanual
 from revo3_cat_cradle.sim import Config
+from revo3_cat_cradle.segment_contacts import MAX_SEGMENT_LENGTH
 
 
 def pickup_plan(robot, motion, q, target, little_curl):
     """Find a nearby point on the same strand with a clear finger sweep."""
     best = None
-    for depth in (0.025, 0.022, 0.018):
+    # Root collisions can seat the strand lower, where a deep sweep strikes
+    # the opposite middle/ring MCP. Try a shallow pickup without relaxing the
+    # clearance gate; contact and bight retention still require a rollout.
+    for depth in (0.025, 0.022, 0.018, 0.013, 0.008, 0.003):
         for offset in (0, 0.002, 0.004, 0.006, 0.008, 0.010):
             point = target + np.array([offset, 0, 0])
             trial = motion.finger(q, "left", "little", [little_curl, 0, 0])
@@ -53,7 +57,73 @@ def main():
     parser.add_argument("--checkpoint", type=Path)
     parser.add_argument("--little-curl", type=float, default=0.9)
     parser.add_argument("--final-half-span", type=float, default=0.075)
+    parser.add_argument(
+        "--pickup-half-span",
+        type=float,
+        help="Optional wrist half-span while preparing the second cross-hand pickup",
+    )
+    parser.add_argument("--check-clearance", action="store_true")
+    parser.add_argument(
+        "--extension-friction",
+        type=float,
+        help="Change friction at the start of the final two-hand extension",
+    )
+    parser.add_argument(
+        "--extension-rest-length-max-scale",
+        type=float,
+        help="Local rest-length payout cap during final extension, relative to initial segment lengths",
+    )
+    parser.add_argument(
+        "--right-little-curl",
+        type=float,
+        help="Right little MCP angle during final extension",
+    )
+    parser.add_argument(
+        "--right-wrist-lift",
+        type=float,
+        default=0,
+        help="Additional right wrist height during final extension, meters",
+    )
+    parser.add_argument(
+        "--right-little-pose",
+        type=float,
+        nargs=3,
+        help="Right little MCP/PIP/DIP angles during final extension",
+    )
+    parser.add_argument(
+        "--right-little-spread",
+        type=float,
+        help="Right little MPR angle during final extension",
+    )
+    parser.add_argument(
+        "--left-index-pose",
+        type=float,
+        nargs=3,
+        default=[-0.08, -0.1, -0.2],
+        help="Left index MCP/PIP/DIP angles during final extension",
+    )
     args = parser.parse_args()
+    if args.extension_rest_length_max_scale is not None and (
+        not np.isfinite(args.extension_rest_length_max_scale)
+        or args.extension_rest_length_max_scale < 1
+    ):
+        parser.error("Extension rest-length cap must be finite and at least one")
+    if not np.isfinite(args.right_wrist_lift) or abs(args.right_wrist_lift) > 0.10:
+        parser.error("Right wrist lift must be finite and within 0.10 m")
+    if (
+        not np.isfinite(args.final_half_span)
+        or not 0.075 <= args.final_half_span <= 0.30
+    ):
+        parser.error("Final half-span must be between 0.075 and 0.30 m")
+    if args.pickup_half_span is not None and (
+        not np.isfinite(args.pickup_half_span)
+        or not 0.075 <= args.pickup_half_span <= 0.30
+    ):
+        parser.error("Pickup half-span must be between 0.075 and 0.30 m")
+    if args.extension_friction is not None and (
+        not np.isfinite(args.extension_friction) or args.extension_friction < 0
+    ):
+        parser.error("Extension friction must be finite and nonnegative")
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     payload = json.loads((args.source / "trajectory.json").read_text())
@@ -62,6 +132,40 @@ def main():
     saved = np.load(checkpoint)
     cfg = Config(**json.loads(str(saved["config"])))
     robot = RevoTron()
+    ids = [robot.indices[f"left_index_{j}_joint"] for j in ("MCP", "PIP", "DIP")]
+    pose = np.asarray(args.left_index_pose)
+    if (
+        not np.isfinite(pose).all()
+        or np.any(pose < robot.limits[ids, 0])
+        or np.any(pose > robot.limits[ids, 1])
+    ):
+        parser.error("Left index pose violates joint limits")
+    if args.right_little_spread is not None:
+        low, high = robot.limits[robot.indices["right_little_MPR_joint"]]
+        if (
+            not np.isfinite(args.right_little_spread)
+            or not low <= args.right_little_spread <= high
+        ):
+            parser.error("Right little spread violates joint limits")
+    if args.right_little_pose is not None:
+        ids = [robot.indices[f"right_little_{j}_joint"] for j in ("MCP", "PIP", "DIP")]
+        pose = np.asarray(args.right_little_pose)
+        if (
+            args.right_little_curl is not None
+            or not np.isfinite(pose).all()
+            or np.any(pose < robot.limits[ids, 0])
+            or np.any(pose > robot.limits[ids, 1])
+        ):
+            parser.error(
+                "Little pose must satisfy joint limits and cannot combine with --right-little-curl"
+            )
+    if args.right_little_curl is not None:
+        limits = robot.limits[robot.indices["right_little_MCP_joint"]]
+        if (
+            not np.isfinite(args.right_little_curl)
+            or not limits[0] <= args.right_little_curl <= limits[1]
+        ):
+            parser.error("Right little curl violates joint limits")
     motion = Motion(robot)
     motion.times = command["times"]
     motion.targets = [np.array(q) for q in command["targets"]]
@@ -71,15 +175,35 @@ def main():
     motion.targets = [motion.targets[i] for i in keep]
     motion.phases = [motion.phases[i] for i in keep]
     motion.metadata = payload["motion"].copy()
+    if "physics_events" in motion.metadata:
+        motion.metadata["physics_events"] = [
+            event
+            for event in motion.metadata["physics_events"]
+            if event["time"] < float(saved["time"]) - 1e-6
+        ]
     motion.metadata.update(source="Single-player Opening A", status="experimental")
+    motion.metadata["opening_half_span_m"] = args.final_half_span
+    initial_half_span = motion.metadata.get("initial_half_span_m", 0.15)
+    pickup_half_span = args.pickup_half_span or initial_half_span
+    motion.metadata["pickup_half_span_m"] = pickup_half_span
+    # Legacy checkpoints did not save the length controller. Recover its
+    # historical value rather than applying the source trajectory's final cap
+    # to an earlier checkpoint. New checkpoints restore their own controller.
+    rest_cap = payload.get("rest_length_max_scale", 2.0)
+    if "initial_rest_length_max_scale" in motion.metadata:
+        rest_cap = motion.metadata["initial_rest_length_max_scale"]
+        for event in motion.metadata.get("physics_events", []):
+            if event["parameter"] == "rest_length_max_scale":
+                rest_cap = event["value"]
     sim = BimanualSimulation(
         robot,
         motion,
         initial_loop(robot, motion),
         cfg,
         palm_geometry="hull",
+        knuckle_geometry=payload.get("collision_geometry", {}).get("knuckles", "none"),
         length_control=payload.get("length_control", "local"),
-        rest_length_max_scale=payload.get("rest_length_max_scale", 2.0),
+        rest_length_max_scale=rest_cap,
     )
     sim.load_checkpoint(checkpoint)
     count = round(sim.t * 30) + 1
@@ -105,6 +229,23 @@ def main():
         )
 
     def move(t, q, phase):
+        if args.check_clearance:
+            for u in np.linspace(0, 1, 41):
+                transforms = robot.fk(sim.q + u * (q - sim.q))
+                if hand_clearance(transforms)[0] < -0.001:
+                    raise ValueError(
+                        f"Opening A phase crosses the opposing hand: {phase}"
+                    )
+                if (
+                    min(
+                        self_clearance_margin(transforms, side)
+                        for side in ("left", "right")
+                    )
+                    < 0
+                ):
+                    raise ValueError(
+                        f"Opening A phase fails finger self-clearance: {phase}"
+                    )
         motion.append(t, q, phase)
         print("Plan", t, phase, "hand gap", hand_clearance(robot.fk(q)), flush=True)
         start = round(sim.t * 30) + 1
@@ -112,6 +253,27 @@ def main():
             sim.advance(i / 30)
             frames.append(sim.snapshot())
             metrics.append(sim.metrics())
+            points = np.asarray(frames[-1]["rope"])
+            longest = float(
+                np.linalg.norm(np.roll(points, -1, axis=0) - points, axis=1).max()
+            )
+            if longest >= MAX_SEGMENT_LENGTH:
+                (out / "aborted.json").write_text(
+                    json.dumps(
+                        dict(
+                            time_s=sim.t,
+                            reason="Rope segment exceeds the collision search bound",
+                            maximum_edge_m=longest,
+                            search_bound_m=float(MAX_SEGMENT_LENGTH),
+                            status="rejected",
+                        ),
+                        indent=2,
+                    )
+                )
+                save()
+                raise RuntimeError(
+                    f"Rope segment exceeds collision search bound at {sim.t:.3f} s"
+                )
             if (
                 not np.isfinite(sim.state.particle_q.numpy()).all()
                 or metrics[-1]["max_coordinate_m"] > 3
@@ -130,7 +292,19 @@ def main():
             q[robot.indices[f"right_{f}_MPR_joint"]] = a
         for f in ("index", "middle", "ring"):
             q[robot.indices[f"left_{f}_MPR_joint"]] = 0
-        q = robot.ik(q, "left", np.array([0.44, 0.15, 1.13]), motion.rotations["left"])
+        q = robot.ik(
+            q,
+            "left",
+            np.array([0.44, pickup_half_span, 1.13]),
+            motion.rotations["left"],
+        )
+        if args.pickup_half_span is not None:
+            q = robot.ik(
+                q,
+                "right",
+                np.array([0.4, -pickup_half_span, 1.13]),
+                motion.rotations["right"],
+            )
         move(11.5, q, "Open a passage through the right index bight")
     if sim.t < 13:
         q = motion.finger(q, "left", "index", [1.5, 0.15, 0.1])
@@ -173,8 +347,38 @@ def main():
         q = motion.aim_center(q, "left", "index", target + [0, 0.07, 0.045])
         move(17.2, q, "Raise left index with captured strand")
     if sim.t < 19:
+        if args.extension_rest_length_max_scale is not None:
+            motion.metadata.setdefault(
+                "initial_rest_length_max_scale", sim.rest_length_max_scale
+            )
+            motion.metadata.setdefault("physics_events", []).append(
+                dict(
+                    time=sim.t,
+                    parameter="rest_length_max_scale",
+                    previous_value=sim.rest_length_max_scale,
+                    value=args.extension_rest_length_max_scale,
+                )
+            )
+            sim.rest_length_max_scale = args.extension_rest_length_max_scale
+        if args.extension_friction is not None:
+            motion.metadata.setdefault("initial_friction", sim.config.friction)
+            motion.metadata.setdefault("physics_events", []).append(
+                dict(
+                    time=sim.t,
+                    parameter="friction",
+                    previous_value=sim.config.friction,
+                    value=args.extension_friction,
+                )
+            )
+            sim.set_contact_friction(args.extension_friction)
         q = motion.finger(q, "left", "little", [0.4, 0, 0])
-        q = motion.finger(q, "left", "index", [-0.08, -0.1, -0.2])
+        if args.right_little_curl is not None:
+            q[robot.indices["right_little_MCP_joint"]] = args.right_little_curl
+        if args.right_little_pose is not None:
+            q = motion.finger(q, "right", "little", args.right_little_pose)
+        if args.right_little_spread is not None:
+            q[robot.indices["right_little_MPR_joint"]] = args.right_little_spread
+        q = motion.finger(q, "left", "index", args.left_index_pose)
         q = robot.ik(
             q,
             "left",
@@ -184,7 +388,7 @@ def main():
         q = robot.ik(
             q,
             "right",
-            np.array([0.4, -args.final_half_span, 1.13]),
+            np.array([0.4, -args.final_half_span, 1.13 + args.right_wrist_lift]),
             motion.rotations["right"],
         )
         move(19, q, "Extend both hands into Opening A")

@@ -12,6 +12,29 @@ from newton.solvers import SolverXPBD
 MAX_SEGMENT_LENGTH = wp.constant(0.016)
 
 
+@wp.func
+def local_tube_neighbor(
+    points: wp.array[wp.vec3], i: int, j: int, s: float, t: float, diameter: float
+):
+    """Exclude a continuous tube neighborhood, independent of particle spacing."""
+    count = points.shape[0]
+    ilength = wp.length(points[(i + 1) % count] - points[i])
+    jlength = wp.length(points[(j + 1) % count] - points[j])
+    forward = (1.0 - s) * ilength + t * jlength
+    edge = (i + 1) % count
+    while edge != j and forward <= diameter:
+        forward += wp.length(points[(edge + 1) % count] - points[edge])
+        edge = (edge + 1) % count
+    if forward <= diameter:
+        return True
+    backward = s * ilength + (1.0 - t) * jlength
+    edge = (j + 1) % count
+    while edge != i and backward <= diameter:
+        backward += wp.length(points[(edge + 1) % count] - points[edge])
+        edge = (edge + 1) % count
+    return backward <= diameter
+
+
 @wp.kernel
 def segment_contacts(
     grid: wp.uint64,
@@ -84,6 +107,8 @@ def segment_contacts(
                 + t * t * wj1
             )
             if distance < radius and distance > 1.0e-9 and weight > 0.0:
+                if local_tube_neighbor(particle_x, i, j, s, t, radius):
+                    continue
                 normal = offset / distance
                 relative_v = (
                     (1.0 - s) * particle_v[i]

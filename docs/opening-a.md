@@ -11,6 +11,11 @@ The 21-second recorded sequence uses official RevoTron FK and bounded arm IK. Th
 
 ## Current status
 
+This page describes the original 21-second draft. Later work on longer rope,
+wider spacing and thumb-loop transfers is documented in the
+[experiment guide](experiments.md). The independently initialized Opening A
+used there does not resolve the continuous Position 1 draft's failures below.
+
 **This is a motion/topology draft, not a fully validated physics result.** The publication-check export ([report](validation/opening-a.json)) passes both cross-hand material-strand pickup checks, one left-index crossing inside the existing right-index bight, retention of both index bights and all four original thumb/little supports, joint limits, arm speed, and approximate finger-clearance checks.
 
 Two strict checks fail:

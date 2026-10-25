@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "checks": {
+    "left_new_far_bight": true,
+    "left_old_thumb_loop_retained": true,
+    "left_near_string_not_caught": true,
+    "right_old_thumb_loop_retained": true,
+    "right_near_string_not_caught": true,
+    "other_supports_retained": true,
+    "other_supports_retained_during_transfer": true,
+    "strain": true,
+    "full_history_strain": true,
+    "self_contact": true,
+    "dynamic_rope": true,
+    "completed_hold": true
+  },
+  "sides": {
+    "left": {
+      "far_indices": 0.0008787480829314737,
+      "old_thumb_indices": -1.5629125655904595e-05,
+      "minimum_near_string_gap_m": 0.0030007886821840435,
+      "minimum_old_loop_gap_m": -1.778544175219405e-05,
+      "maximum_old_loop_gap_m": -1.5629125655904595e-05
+    },
+    "right": {
+      "far_indices": 0.01597627817227504,
+      "old_thumb_indices": -1.3646885249550718e-05,
+      "minimum_near_string_gap_m": 0.004541844192346667,
+      "minimum_old_loop_gap_m": -1.5609851819365674e-05,
+      "maximum_old_loop_gap_m": -1.3646885249550718e-05
+    }
+  },
+  "maximum_stretch_ratio": 1.1551126962019824,
+  "full_history_maximum_stretch_ratio": 1.1551126962019824,
+  "minimum_segment_distance_m": 0.001978199101898165,
+  "local_arc_exclusion_m": 0.002,
+  "duration_s": 32.8,
+  "active_sides": [
+    "left"
+  ],
+  "reference_time_s": 6.0,
+  "initialization": "Independent placement, not replay of Position 1 or source dynamics",
+  "scope": "Thumb pickup only; Cup & Saucer and Star are not yet verified",
+  "recorded_run": "opening23_right_approach_hold",
+  "recipe": "examples/transfers/left_pickup.json",
+  "provenance": "Original continuous checkpoint experiment on Apple Silicon CPU; this report is not a fresh recipe replay result"
+}

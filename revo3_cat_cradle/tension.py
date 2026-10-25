@@ -9,9 +9,9 @@ def tensioned_lengths(edge_lengths, stiffness, force=.08, take_up_m=0.):
     return target
 
 
-def adjust_lengths(points, rest, initial, stiffness, dt, take_up_m=0.):
+def adjust_lengths(points, rest, initial, stiffness, dt, take_up_m=0., force=.08):
     lengths=np.linalg.norm(np.roll(points,-1,axis=0)-points,axis=1)
-    target=tensioned_lengths(lengths,stiffness,take_up_m=take_up_m)
+    target=tensioned_lengths(lengths,stiffness,force=force,take_up_m=take_up_m)
     target=np.clip(target,initial*.25,initial*2.)
     # Take-up rate is total loop length per second, distributed by initial
     # edge length. Payout immediately releases excess load (an ideal active

@@ -1,0 +1,14 @@
+{
+  "description": "Experimental left thumb bearing; leave the original right-hand support posture unchanged. Not validated as a complete figure.",
+  "changed": {
+    "left_thumb_CMP_joint": 0.1,
+    "left_thumb_CMR_joint": 1.4,
+    "left_thumb_MCP_joint": 0.9,
+    "left_thumb_PIP_joint": 0.3,
+    "left_thumb_DIP_joint": -0.1
+  },
+  "initial_self_margin_m": {
+    "left": 0.0023449936236693463,
+    "right": 0.003966107609074982
+  }
+}

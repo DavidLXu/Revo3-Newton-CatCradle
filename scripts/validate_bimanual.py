@@ -100,12 +100,19 @@ def main():
     held = all(np.all(np.min(v[:, [0, 2]], axis=1) < 0.0015) for v in contacts.values())
     end_cross = crossings(d["rope"][-1])
     start_cross = crossings(d["rope"][0])
-    separations = np.array([segment_separation(points) for points in d["rope"]])
+    local_arc = 2 * float(payload["config"]["radius"])
+    separations = np.array(
+        [
+            segment_separation(points, minimum_arc_distance=local_arc)
+            for points in d["rope"]
+        ]
+    )
     max_edge = float(
         np.linalg.norm(np.roll(d["rope"], -1, axis=1) - d["rope"], axis=2).max()
     )
     report = dict(
         minimum_nonadjacent_segment_distance_m=float(separations.min()),
+        local_arc_exclusion_m=local_arc,
         segment_contact_worst_time_s=float(d["time"][separations.argmin()]),
         max_edge_length_m=max_edge,
         completed_seconds=float(d["time"][-1]),

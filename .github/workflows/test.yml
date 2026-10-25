@@ -13,9 +13,17 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
       - name: Fetch pinned dependencies and model
-        run: bash scripts/setup.sh
+        run: |
+          bash scripts/setup.sh
+          bash scripts/setup_revotron.sh
+      - name: Python static checks
+        run: uvx ruff==0.14.0 check --select F revo3_cat_cradle scripts tests
       - name: Physics and motion checks
         run: .venv/bin/python -m pytest -m 'not integration' -q
+      - name: Transfer recipe smoke run
+        run: >-
+          .venv/bin/python scripts/replay_transfer.py examples/transfers/left_pickup.json
+          --duration 0.1 --output output/transfer_smoke
       - name: Full default CPU trajectory
         run: .venv/bin/python -m revo3_cat_cradle --no-meshes
       - name: Deformation and specified-strand pickup

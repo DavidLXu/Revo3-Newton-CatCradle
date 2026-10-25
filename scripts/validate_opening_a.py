@@ -93,7 +93,12 @@ def main():
                         barycentric_weights=weights.tolist(),
                     )
                 )
-    separation = np.array([segment_separation(p) for p in d["rope"]])
+    # A continuous tube overlaps its own local neighborhood; only distinct
+    # material neighborhoods constitute rope self-collision.
+    local_arc = 2 * float(payload["config"]["radius"])
+    separation = np.array(
+        [segment_separation(p, minimum_arc_distance=local_arc) for p in d["rope"]]
+    )
     edges = np.linalg.norm(np.roll(d["rope"], -1, axis=1) - d["rope"], axis=2)
     opposing = np.array([hand_clearance(t)[0] for t in tf])
     fingers = ("thumb", "index", "middle", "ring", "little")
@@ -155,6 +160,7 @@ def main():
         threading_crossings=crossings,
         final_support_gaps_m=support,
         minimum_segment_distance_m=float(separation.min()),
+        local_arc_exclusion_m=local_arc,
         maximum_edge_length_m=float(edges.max()),
         self_contact_search_bound_m=search_bound,
         maximum_stretch_ratio=float((edges / d["rest_lengths"]).max()),

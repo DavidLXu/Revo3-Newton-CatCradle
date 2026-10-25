@@ -96,3 +96,39 @@ def test_long_segment_start_outside_old_search_radius_is_not_missed():
     correction = deltas.numpy()
     assert correction[3, 2] > 0.00001
     np.testing.assert_allclose(correction.sum(axis=0), 0, atol=1e-8)
+
+
+def test_dense_straight_rope_does_not_repel_its_own_local_neighbors():
+    # Several edges within one diameter belong to a single continuous tube.
+    straight = np.c_[-0.003 + 0.006 * np.linspace(0, 1, 13) ** 1.5, np.zeros((13, 2))]
+    points = np.vstack([straight, [[0.03, 0.03, 0], [-0.03, 0.03, 0]]]).astype(
+        np.float32
+    )
+    for shift in (0, 7):
+        p = np.roll(points, shift, axis=0)
+        count = len(p)
+        positions = wp.array(p, dtype=wp.vec3, device="cpu")
+        grid = wp.HashGrid(32, 32, 32, device="cpu")
+        grid.build(positions, 0.002)
+        deltas = wp.zeros(count, dtype=wp.vec3, device="cpu")
+        wp.launch(
+            segment_contacts,
+            dim=count,
+            inputs=[
+                grid.id,
+                positions,
+                wp.zeros(count, dtype=wp.vec3, device="cpu"),
+                wp.ones(count, device="cpu"),
+                wp.full(count, 0.001, device="cpu"),
+                wp.ones(count, dtype=wp.int32, device="cpu"),
+                0.25,
+                0.0,
+                0.001,
+                0.001,
+                1.0,
+                deltas,
+            ],
+            device="cpu",
+        )
+        correction = np.roll(deltas.numpy(), -shift, axis=0)
+        np.testing.assert_allclose(correction[4:9], 0, atol=1e-10)

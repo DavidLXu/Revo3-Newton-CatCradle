@@ -18,8 +18,16 @@ def gaps(tf, points, side, finger):
     return result
 
 
-def segment_separation(points):
-    """Minimum centerline distance between non-neighboring closed-loop edges."""
+def segment_separation(points, *, minimum_arc_distance=0.0):
+    """Minimum centerline distance between non-neighboring closed-loop edges.
+
+    ``minimum_arc_distance`` optionally excludes a local continuous tube
+    neighborhood measured along the current centerline. Index distance alone
+    does not describe locality once active take-up shortens individual edges.
+    The default retains the original diagnostic for explicit comparisons.
+    """
+    if minimum_arc_distance < 0 or not np.isfinite(minimum_arc_distance):
+        raise ValueError("minimum_arc_distance must be finite and nonnegative")
     n = len(points)
     i, j = np.triu_indices(n, 3)
     mask = np.minimum(j - i, n - j + i) > 2
@@ -45,7 +53,14 @@ def segment_separation(points):
     s = np.where(t < 0, np.clip(-d / np.maximum(a, 1e-16), 0, 1), s)
     s = np.where(t > 1, np.clip((b - d) / np.maximum(a, 1e-16), 0, 1), s)
     t = np.clip(t, 0, 1)
-    return float(np.linalg.norm(x + s[:, None] * u - y - t[:, None] * v, axis=1).min())
+    distances = np.linalg.norm(x + s[:, None] * u - y - t[:, None] * v, axis=1)
+    if minimum_arc_distance:
+        lengths = np.linalg.norm(np.roll(points, -1, axis=0) - points, axis=1)
+        cumulative = np.r_[0, np.cumsum(lengths)]
+        along = abs(cumulative[j] + t * lengths[j] - cumulative[i] - s * lengths[i])
+        along = np.minimum(along, cumulative[-1] - along)
+        distances = distances[along > minimum_arc_distance]
+    return float(distances.min()) if len(distances) else float("inf")
 
 
 def hand_clearance(transforms, self_side=None, all_pairs=False):
@@ -81,6 +96,56 @@ def hand_clearance(transforms, self_side=None, all_pairs=False):
             gap = np.linalg.norm(x[0] + s * u - y[0] - t * v) - ra - rb
             hits.append((float(gap), name1, name2))
     return sorted(hits) if all_pairs else min(hits)
+
+
+def digit_clearances(transforms, side, finger):
+    """Capsule gaps from one digit to every other digit on both hands."""
+    groups = [[], []]
+    for current_side in ("left", "right"):
+        for current_finger in ("thumb", "index", "middle", "ring", "little"):
+            group = int(not (current_side == side and current_finger == finger))
+            for segment in ("MCP", "PIP", "DIP"):
+                c, axis, radius, half = finger_capsule(
+                    current_finger, segment, current_side
+                )
+                tf = transforms[f"{current_side}_{current_finger}_{segment}_link"]
+                ends = (
+                    np.array([c - axis * half, c + axis * half]) @ tf[:3, :3].T
+                    + tf[:3, 3]
+                )
+                groups[group].append((ends, radius))
+    count = len(groups[1])
+    x = np.repeat(np.array([p for p, _ in groups[0]]), count, axis=0)
+    y = np.tile(np.array([p for p, _ in groups[1]]), (3, 1, 1))
+    u, v, w = x[:, 1] - x[:, 0], y[:, 1] - y[:, 0], x[:, 0] - y[:, 0]
+    dot = lambda a, b: np.einsum("ij,ij->i", a, b)
+    a, b, c, d, e = dot(u, u), dot(u, v), dot(v, v), dot(u, w), dot(v, w)
+    den = a * c - b * b
+    s = np.clip(
+        np.divide(b * e - c * d, den, out=np.zeros_like(den), where=den > 1e-16), 0, 1
+    )
+    t = (b * s + e) / np.maximum(c, 1e-16)
+    s = np.where(t < 0, np.clip(-d / np.maximum(a, 1e-16), 0, 1), s)
+    s = np.where(t > 1, np.clip((b - d) / np.maximum(a, 1e-16), 0, 1), s)
+    distance = np.linalg.norm(
+        x[:, 0] + s[:, None] * u - y[:, 0] - np.clip(t, 0, 1)[:, None] * v, axis=1
+    )
+    return (
+        distance
+        - np.repeat([r for _, r in groups[0]], count)
+        - np.tile([r for _, r in groups[1]], 3)
+    )
+
+
+def self_clearance_margin(transforms, side):
+    """Margin under the existing Opening A finger-proxy acceptance tolerances."""
+    fingers = ("thumb", "index", "middle", "ring", "little")
+    margins = []
+    for gap, a, b in hand_clearance(transforms, side, all_pairs=True):
+        adjacent = abs(fingers.index(a.split("_")[0]) - fingers.index(b.split("_")[0])) == 1
+        tolerance = 0.003 if adjacent and a.endswith("MCP") and b.endswith("MCP") else 0.001
+        margins.append(gap + tolerance)
+    return float(min(margins))
 
 
 def palmar_arc(robot, q, points, side):

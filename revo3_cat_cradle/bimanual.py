@@ -167,7 +167,11 @@ class BimanualSimulation(Simulation):
         palm_geometry="box",
         length_control="local",
         rest_length_max_scale=2.0,
+        knuckle_geometry="none",
     ):
+        if knuckle_geometry not in ("none", "mesh"):
+            raise ValueError(f"Unknown knuckle geometry: {knuckle_geometry}")
+        self.knuckle_geometry = knuckle_geometry
         self.palm_geometry = palm_geometry
         self.length_control = length_control
         self.rest_length_max_scale = float(rest_length_max_scale)
@@ -187,16 +191,36 @@ class BimanualSimulation(Simulation):
         p = np.asarray(points, dtype=np.float32)
         for side in ("left", "right"):
             p = clear_initial_intersections(p, self.transforms, side, c.radius)
-        p = resample_loop(p, c.spacing)
+        if not motion.metadata.get("preserve_initial_sampling", False):
+            p = resample_loop(p, c.spacing)
+        elif "initial_rope_points" not in motion.metadata:
+            raise ValueError(
+                "Preserved sampling requires an explicit initial rope seed"
+            )
         for side in ("left", "right"):
             p = clear_initial_intersections(p, self.transforms, side, c.radius)
         self.initial_positions = p.copy()
         self.initial_wrap_indices = np.arange(len(p), dtype=np.int32)
         self.anchor_indices = np.empty(0, dtype=np.int32)
         edges = np.linalg.norm(np.roll(p, -1, axis=0) - p, axis=1)
+        if (
+            motion.metadata.get("preserve_initial_sampling", False)
+            and edges.max() >= MAX_SEGMENT_LENGTH
+        ):
+            raise ValueError("Initial rope edge exceeds segment contact search bound")
         self.rest_lengths = tensioned_lengths(
-            edges, c.stretch_stiffness, take_up_m=c.adaptive_take_up_m
+            edges,
+            c.stretch_stiffness,
+            force=c.adaptive_tension_n,
+            take_up_m=c.adaptive_take_up_m,
         ).astype(np.float32)
+        # Add material only while constructing a fresh initial loop. Metadata
+        # makes a checkpoint rebuild use the identical reference lengths.
+        extra = float(motion.metadata.get("initial_rope_extra_m", 0.0))
+        if not np.isfinite(extra) or extra < 0:
+            raise ValueError("Initial extra rope length must be finite and nonnegative")
+        if extra:
+            self.rest_lengths += (extra * edges / edges.sum()).astype(np.float32)
         self.initial_rest_lengths = self.rest_lengths.copy()
         b = newton.ModelBuilder(gravity=(0, 0, c.gravity))
         cfg = b.default_shape_cfg.copy()
@@ -226,6 +250,40 @@ class BimanualSimulation(Simulation):
                         half_height=half,
                         cfg=cfg,
                     )
+            if knuckle_geometry == "mesh":
+                import trimesh
+                from .hand import origin
+
+                # The MCP capsule ends below its joint origin. Without the MPR
+                # housing a bight can pass through the physical knuckle/root.
+                # Use the URDF collision surfaces, preserving their concavities.
+                for finger in ("index", "middle", "ring", "little"):
+                    name = f"{side}_{finger}_MPR_link"
+                    self.proxy_links.append(name)
+                    body = b.add_body(
+                        xform=self.as_warp(self.transforms[name]),
+                        is_kinematic=True,
+                        label=name,
+                    )
+                    link = robot.xml.find(f"link[@name='{name}']")
+                    for collision in link.findall("collision"):
+                        mesh = collision.find("geometry/mesh")
+                        if mesh is None:
+                            raise ValueError(f"Expected collision mesh for {name}")
+                        surface = trimesh.load_mesh(
+                            robot.path.parent / mesh.get("filename")
+                        )
+                        scale = np.fromstring(mesh.get("scale", "1 1 1"), sep=" ")
+                        surface.apply_scale(scale)
+                        surface.apply_transform(origin(collision.find("origin")))
+                        b.add_shape_mesh(
+                            body,
+                            mesh=newton.Mesh(
+                                surface.vertices.astype(np.float32),
+                                surface.faces.astype(np.int32).ravel(),
+                            ),
+                            cfg=cfg,
+                        )
             name = f"{side}_hand_base_link"
             self.proxy_links.append(name)
             body = b.add_body(
@@ -322,7 +380,10 @@ class BimanualSimulation(Simulation):
             initial_total = float(self.initial_rest_lengths.sum())
             target_total = float(
                 tensioned_lengths(
-                    lengths, c.stretch_stiffness, take_up_m=c.adaptive_take_up_m
+                    lengths,
+                    c.stretch_stiffness,
+                    force=c.adaptive_tension_n,
+                    take_up_m=c.adaptive_take_up_m,
                 ).sum()
             )
             minimum = initial_total * 0.65
@@ -336,7 +397,10 @@ class BimanualSimulation(Simulation):
             self.model.spring_rest_length.assign(self.spring_rest_buffer)
             return
         target = tensioned_lengths(
-            lengths, c.stretch_stiffness, take_up_m=c.adaptive_take_up_m
+            lengths,
+            c.stretch_stiffness,
+            force=c.adaptive_tension_n,
+            take_up_m=c.adaptive_take_up_m,
         )
         target = np.clip(
             target,
@@ -374,10 +438,14 @@ def export_bimanual(sim, frames, metrics, out, meshes=False):
         anchor_indices=[],
         interaction="contact_friction_only",
         rope_self_contact="segment_segment",
+        self_contact_locality="closest_point_arc_distance",
+        self_contact_locality_m=2 * sim.config.radius,
         self_contact_search_bound_m=float(MAX_SEGMENT_LENGTH),
         length_control=sim.length_control,
         rest_length_max_scale=sim.rest_length_max_scale,
-        collision_geometry=dict(fingers="capsules", palm=sim.palm_geometry),
+        collision_geometry=dict(
+            fingers="capsules", palm=sim.palm_geometry, knuckles=sim.knuckle_geometry
+        ),
         robot="revotron",
         validation=validation,
     )

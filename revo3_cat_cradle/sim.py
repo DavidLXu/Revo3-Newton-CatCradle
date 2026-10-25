@@ -31,10 +31,15 @@ class Config:
     rope_linear_density: float = .004
     adaptive_length: bool = True
     adaptive_take_up_m: float = .01
+    adaptive_tension_n: float = .08
     rope_length_m: float = .4417950868606567
     bend_stiffness: float = .002
     gravity: float = -9.81
     device: str = "cpu"
+
+    def __post_init__(self):
+        if not np.isfinite(self.adaptive_tension_n) or self.adaptive_tension_n < 0:
+            raise ValueError("adaptive_tension_n must be finite and nonnegative")
 
 
 class Simulation:
@@ -84,7 +89,7 @@ class Simulation:
         if c.adaptive_length:
             self.rest_lengths=tensioned_lengths(
                 np.linalg.norm(np.roll(p,-1,axis=0)-p,axis=1),c.stretch_stiffness,
-                take_up_m=c.adaptive_take_up_m).astype(np.float32)
+                force=c.adaptive_tension_n, take_up_m=c.adaptive_take_up_m).astype(np.float32)
         self.initial_rest_lengths=self.rest_lengths.copy()
         self.proxy_links = []
         b = newton.ModelBuilder(gravity=(0., 0., c.gravity))
@@ -188,7 +193,8 @@ class Simulation:
     def update_rest_lengths(self,dt):
         c=self.config
         self.rest_lengths=adjust_lengths(self.state.particle_q.numpy(),self.rest_lengths,
-            self.initial_rest_lengths,c.stretch_stiffness,dt,c.adaptive_take_up_m)
+            self.initial_rest_lengths,c.stretch_stiffness,dt,c.adaptive_take_up_m,
+            force=c.adaptive_tension_n)
         self.spring_rest_buffer[:self.model.particle_count]=self.rest_lengths
         self.model.spring_rest_length.assign(self.spring_rest_buffer)
 
@@ -215,19 +221,49 @@ class Simulation:
     def save_checkpoint(self, path):
         """Preserve dynamics at a motion boundary, including rope velocities."""
         path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+        controller={name:getattr(self,name) for name in ('length_control','rest_length_max_scale') if hasattr(self,name)}
         np.savez_compressed(path, config=json.dumps(asdict(self.config)), time=self.t,
+            length_controller=json.dumps(controller),
             contact_peak=self.contact_peak,
             joints=self.q, particle_q=self.state.particle_q.numpy(),
             particle_qd=self.state.particle_qd.numpy(),body_q=self.state.body_q.numpy(),
             body_qd=self.state.body_qd.numpy(),rest_lengths=self.rest_lengths,
             initial_rest_lengths=self.initial_rest_lengths,springs=self.spring_rest_buffer)
 
+    def set_contact_friction(self, friction):
+        """Change hand/ground-rope friction without modifying dynamic state.
+
+        Newton averages shape_material_mu and soft_contact_mu for these
+        contacts, so both must be updated. Rope-rope particle_mu is separate.
+        Callers record the parameter change time in exported motion metadata.
+        """
+        if not np.isfinite(friction) or friction < 0:
+            raise ValueError('friction must be finite and nonnegative')
+        self.model.shape_material_mu.fill_(float(friction))
+        self.model.soft_contact_mu = float(friction)
+        self.config.friction = float(friction)
+
     def load_checkpoint(self, path):
         data=np.load(path,allow_pickle=False)
-        if json.loads(str(data['config'])) != asdict(self.config):
+        checkpoint_config=json.loads(str(data['config']))
+        # Older checkpoints used the hardcoded 0.08 N tension target.
+        checkpoint_config.setdefault('adaptive_tension_n', .08)
+        if checkpoint_config != asdict(self.config):
             raise ValueError('Checkpoint physics configuration does not match')
         if data['particle_q'].shape != (self.model.particle_count,3):
             raise ValueError('Checkpoint rope discretization does not match')
+        if data['body_q'].shape != self.state.body_q.numpy().shape:
+            raise ValueError('Checkpoint collision bodies do not match; replay from the initial state')
+        controller=json.loads(str(data['length_controller'])) if 'length_controller' in data else {}
+        for name,value in controller.items():
+            if name not in ('length_control','rest_length_max_scale') or not hasattr(self,name):
+                raise ValueError('Checkpoint length controller does not match simulation')
+            if name=='rest_length_max_scale' and (not np.isfinite(value) or value<1):
+                raise ValueError('Invalid checkpoint rest-length cap')
+            if name=='length_control' and value not in ('local','global'):
+                raise ValueError('Invalid checkpoint length controller')
+        for name,value in controller.items():
+            setattr(self,name,value)
         self.t=float(data['time']);self.q=data['joints'].copy()
         self.transforms=self.hand.fk(self.q)
         self.rest_lengths=data['rest_lengths'].copy()
