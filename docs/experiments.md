@@ -102,6 +102,30 @@ between exported poses. `--nominal-route` accepts a JSON list of objects with
 Scripted non-feedback finger joints can follow that route while thumb feedback
 continues. Clearance checks reject a colliding command before integration.
 
+### Episode interface for the next bimanual solver
+
+The [RoboSkills workflow pattern](https://github.com/openrobokit/roboskills)
+keeps a task definition, policy actions and evaluation artifacts separate. The
+same boundary is now available here through `BimanualSkillEpisode`: `reset`
+constructs the recipe's initial scene, `observe` returns contact-level
+measurements, `step` advances to an output frame, `score` applies the existing
+physical gates, and `finish` writes the trajectory plus an auditable episode
+bundle. The observation intentionally omits particle coordinates and joint
+vectors so a future policy can use the same interface without privileged state.
+
+```bash
+.venv/bin/python scripts/run_skill_episode.py \
+  examples/transfers/right_pickup_attempt.json \
+  --output output/skill_right_attempt --active-side both --step 2
+```
+
+The command is a reproducible bimanual baseline. Its expected failure is useful:
+the right near-string clearance remains the next gate to solve before releasing
+the original loops and moving on to Cup, boat and Star. Results are stored in
+`episode.json`, `log.jsonl`, `result.json` and `summary.json` beside the normal
+Newton files. The standalone task manifest is
+`examples/skills/revotron_bimanual_transfer.json`.
+
 ## Tool map
 
 Scripts remain in `scripts/` to preserve command lines used by previous runs.
