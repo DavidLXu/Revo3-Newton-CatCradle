@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "revotron-bimanual-cat-cradle-transfer",
+  "description": "Replay and score a two-hand RevoTron thumb-bight transfer.",
+  "recipe": "../transfers/right_pickup_attempt.json",
+  "active_sides": ["left", "right"],
+  "stages": [
+    "retain Opening A supports",
+    "route both thumbs around the near strands",
+    "seat the two far index bights",
+    "hold the bimanual pickup"
+  ],
+  "gates": {
+    "far_gap_m": 0.0015,
+    "near_clearance_m": 0.002,
+    "old_loop_gap_m": 0.0015,
+    "max_stretch_ratio": 1.2,
+    "min_segment_distance_m": 0.0018
+  }
+}
