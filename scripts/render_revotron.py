@@ -1,6 +1,6 @@
 """Record Revotron overview and hand-detail views, without changing physics."""
 
-import argparse, json, subprocess, threading, shutil, sys
+import argparse, json, subprocess, threading, shutil, sys, math
 from functools import partial
 from http.server import ThreadingHTTPServer
 from pathlib import Path
@@ -12,6 +12,10 @@ from render_preview import QuietHandler, ROOT
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--preview", action="store_true")
+    p.add_argument(
+        "--preview-time", type=float, action="append", default=[],
+        help="Write an additional still at this recorded time; may be repeated",
+    )
     p.add_argument(
         "--draft",
         action="store_true",
@@ -31,6 +35,8 @@ def main():
     out = a.simulation_dir.resolve()
     data = json.loads((out / "trajectory.json").read_text())
     duration = data["frames"][-1]["time"]
+    if any(not math.isfinite(t) or not 0 <= t <= duration for t in a.preview_time):
+        p.error("--preview-time must be finite and inside the recorded duration")
     dest = out / "portrait"
     dest.mkdir(exist_ok=True)
     if not (out / "meshes.json").exists():
@@ -88,12 +94,14 @@ def main():
                 wait_until="networkidle",
             )
             page.wait_for_function("window.revotronReady?.()===true", timeout=120000)
-            for name, t in [
+            stills = [
                 ("start", 0),
                 ("crossed", min(8, duration)),
                 ("pickup", min(13, duration)),
                 ("final", duration),
-            ]:
+            ]
+            stills += [(f"time_{t:.6f}", t) for t in a.preview_time]
+            for name, t in stills:
                 page.evaluate("t=>window.renderRevotron(t)", t)
                 page.screenshot(path=str(dest / (name + ".png")))
             if not a.preview:

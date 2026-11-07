@@ -21,6 +21,7 @@ from revo3_cat_cradle.bimanual_checks import (
 )
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_gap
 from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
+from revo3_cat_cradle.body_envelope import CentralBodyEnvelope
 from scripts.audit_finger_contacts import audit_frame
 
 
@@ -102,7 +103,10 @@ def main():
     )
     palm_cache = {}
     palm_results = []
-    for pose in joints:
+    body_envelopes = CentralBodyEnvelope(robot)
+    body_results = []
+    for k, pose in enumerate(joints):
+        body_results.append(body_envelopes.measure(robot.fk(pose), rope[k], radius))
         key = pose.tobytes()
         if key not in palm_cache:
             transforms = robot.fk(pose)
@@ -122,6 +126,9 @@ def main():
     palm_bound = min(row["palm_palm_sphere_lower_bound_m"] for row in palm_results)
     finger_gap = min(row["opposing_finger_gap_m"] for row in palm_results)
     self_margin = min(row["same_hand_finger_margin_m"] for row in palm_results)
+    worst_body_frame = min(
+        range(len(times)), key=lambda k: body_results[k]["minimum_face_margin_m"]
+    )
     held = np.flatnonzero(times > times[-1] - 1 + 1e-6)
     phase = payload["frames"][-1]["phase"]
     checks.update(
@@ -140,6 +147,9 @@ def main():
             and palm_bound >= 0
         ),
         full_history_finger_clearance=bool(finger_gap >= -0.0005 and self_margin >= 0),
+        full_history_central_body_envelopes_clear=bool(
+            body_results[worst_body_frame]["minimum_face_margin_m"] >= 0
+        ),
         completed_hold=bool(
             phase.startswith("Hold")
             and times[-1] >= payload["motion"]["duration"] - 1e-6
@@ -150,7 +160,8 @@ def main():
     report = dict(
         scope="Necessary release diagnostics only; not a threading or figure certificate. "
         "Excludes swept collisions, mesh-edge intersections, arm collisions "
-        "and material identity.",
+        "and material identity. Central-body clearance uses conservative boxes; "
+        "overlap does not by itself prove mesh penetration.",
         passed_diagnostics=all(checks.values()),
         checks=checks,
         released_sides=list(released),
@@ -166,6 +177,9 @@ def main():
             minimum_palm_palm_sphere_lower_bound_m=palm_bound,
             minimum_opposing_finger_gap_m=finger_gap,
             minimum_same_hand_finger_margin_m=self_margin,
+        ),
+        full_history_central_body_clearance=dict(
+            time_s=float(times[worst_body_frame]), **body_results[worst_body_frame]
         ),
         initialization=payload["motion"].get("initialization"),
     )
