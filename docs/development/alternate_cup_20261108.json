@@ -103,7 +103,7 @@
       "run": "alternative_cup_left_release_20261108",
       "checkpoint_sha256": "666f000a06f623363a938a4c7015a132b26172fdc073d3a260380b69c7391597",
       "audit": {
-        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, mesh-edge intersections and material identity.",
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, mesh-edge intersections, arm collisions and material identity.",
         "passed_diagnostics": true,
         "checks": {
           "thumb_and_index_contacts_retained": true,
@@ -114,6 +114,7 @@
           "contact_search_bound": true,
           "dynamic_rope": true,
           "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
           "completed_hold": true
         },
         "released_sides": [
@@ -159,6 +160,14 @@
         "full_history_minimum_rope_separation_m": 0.001934369998126068,
         "minimum_separation_time_s": 0.0,
         "interval_minimum_capsule_gap_m": -9.887319067271826e-06,
+        "full_history_palm_clearance": {
+          "time_s": 8.066667,
+          "finger_palm_lower_bound_m": 0.10893738413660248,
+          "sampled_finger_palm_gap_m": 0.10918738413660248,
+          "closest_pair": "right_little_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.07010122692515935,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.07010122692515919
+        },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       }
     },
@@ -461,6 +470,79 @@
         "minimum_separation_time_s": 0.0,
         "interval_minimum_capsule_gap_m": -1.1978041773558733e-05,
         "initialization": "Fresh Opening A placement, right little splayed to -0.5 rad and support 30 mm farther distally"
+      }
+    },
+    {
+      "run": "alternative_cup_stagger_roll_20261108",
+      "checkpoint_sha256": "ba418340e367a5962296de3005eb1638d8d450ca32b9d5c457372d467bb597f2",
+      "audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, mesh-edge intersections, arm collisions and material identity.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": false,
+          "completed_hold": true
+        },
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          17.4,
+          24.6
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.7276843225907598e-06,
+            "maximum_hold_gap_m": -6.073494209632088e-07,
+            "maximum_transfer_gap_m": -4.5942435784093044e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -8.53530514073695e-06,
+            "maximum_hold_gap_m": -6.742351619611585e-06,
+            "maximum_transfer_gap_m": -1.646965682329353e-06
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.03334370955492426,
+            "maximum_hold_gap_m": 0.033383517501691,
+            "maximum_transfer_gap_m": 0.03446837560376306
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.9851382902979706e-06,
+            "maximum_hold_gap_m": -7.750688529725366e-07,
+            "maximum_transfer_gap_m": -3.567503104326755e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -8.014628679705064e-06,
+            "maximum_hold_gap_m": -4.160042780804087e-06,
+            "maximum_transfer_gap_m": -1.8251314714123196e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": 0.06025237117964097,
+            "maximum_hold_gap_m": 0.0605167152427776,
+            "maximum_transfer_gap_m": 0.0605167152427776
+          }
+        },
+        "full_history_peak_stretch": 1.1104579927538132,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -1.4257738013665096e-05,
+        "full_history_palm_clearance": {
+          "time_s": 23.833333,
+          "finger_palm_lower_bound_m": -0.008989980934978084,
+          "sampled_finger_palm_gap_m": -0.008739980934978084,
+          "closest_pair": "right_index_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794729154696936,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.02348533051739607
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       }
     }
   ]

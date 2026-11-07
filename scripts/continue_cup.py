@@ -17,6 +17,7 @@ from revo3_cat_cradle.transfers import (
 )
 from revo3_cat_cradle.bimanual_checks import gaps, hand_clearance, self_clearance_margin
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes
+from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
 from revo3_cat_cradle.segment_contacts import MAX_SEGMENT_LENGTH
 
 
@@ -83,7 +84,7 @@ def main():
     p.add_argument(
         "--check-self-collision",
         action="store_true",
-        help="Reject paths with same-hand finger overlap before replaying a phase",
+        help="Reject same-hand finger overlap and opposing palm intersections before replay",
     )
     p.add_argument("--index-curl", type=float, default=0.0)
     p.add_argument("--index-pip", type=float, default=0.0)
@@ -176,6 +177,7 @@ def main():
     frames = data["frames"][:count]
     metrics = json.loads((a.source / "metrics.json").read_text())["metrics"][:count]
     q = sim.q.copy()
+    palm_checker = OpposingPalmClearance(r, r.fk(q)) if a.check_self_collision else None
     # Subsequent arm-assisted transfers start in the actual saved wrist frames,
     # including any orientation chosen by the contact-aware search.
     m.rotations = {side: r.wrist(q, side)[:3, :3].copy() for side in ("left", "right")}
@@ -269,6 +271,15 @@ def main():
                         raise ValueError(
                             f"Transfer phase self-collides on {side}: {phase}"
                         )
+                clearance = palm_checker.measure(r.fk(trial), quick=True)
+                if (
+                    clearance["finger_palm_lower_bound_m"] < 0
+                    or clearance["palm_palm_sphere_lower_bound_m"] < 0
+                ):
+                    raise ValueError(
+                        f"Transfer phase lacks opposing palm clearance: {phase}; "
+                        f"{clearance}"
+                    )
         m.append(t, q, phase)
         for i in range(round(sim.t * 30) + 1, round(t * 30) + 1):
             sim.advance(i / 30)

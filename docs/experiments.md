@@ -27,9 +27,10 @@ static hold does not establish a secure bearing for every subsequent motion.
 
 The [November 8 alternative Cup experiments](development/alternate-cup.md)
 test releasing the little loops before exchanging the thumb loops. A left-only
-release passes its necessary contact and deformation checks; the right loop
-still catches. The page includes a compact initial recipe, exact release
-commands and the release audit. It does not claim a completed Cup figure.
+release passes the contact and deformation checks. A 24.6 s bilateral attempt
+retains the rope supports but intersects the opposite palm and is rejected.
+The page includes a compact initial recipe, exact commands and the expanded
+audit. The loop throw and thumb exchange remain unfinished.
 
 Run the normal setup and `bash scripts/setup_revotron.sh` first. The recipes
 embed the initial rope centerline, ordered joint commands, clipped command

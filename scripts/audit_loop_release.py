@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from revo3_cat_cradle.bimanual import RevoTron
 from revo3_cat_cradle.bimanual_checks import segment_separation
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_gap
+from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
 from scripts.audit_finger_contacts import audit_frame
 
 
@@ -92,6 +93,21 @@ def main():
     separation = np.array(
         [segment_separation(points, minimum_arc_distance=2 * radius) for points in rope]
     )
+    palms = OpposingPalmClearance(
+        robot, robot.fk(joints[0]), geometry=payload["collision_geometry"]["palm"]
+    )
+    palm_cache = {}
+    palm_results = []
+    for pose in joints:
+        key = pose.tobytes()
+        if key not in palm_cache:
+            palm_cache[key] = palms.measure(robot.fk(pose), quick=True)
+        palm_results.append(palm_cache[key])
+    worst_palm_frame = min(
+        range(len(times)),
+        key=lambda k: palm_results[k]["finger_palm_lower_bound_m"],
+    )
+    palm_bound = min(row["palm_palm_sphere_lower_bound_m"] for row in palm_results)
     held = np.flatnonzero(times > times[-1] - 1 + 1e-6)
     phase = payload["frames"][-1]["phase"]
     checks.update(
@@ -105,6 +121,10 @@ def main():
             np.all(joints >= robot.limits[:, 0] - 1e-7)
             and np.all(joints <= robot.limits[:, 1] + 1e-7)
         ),
+        full_history_opposing_palm_clearance=bool(
+            palm_results[worst_palm_frame]["finger_palm_lower_bound_m"] >= 0
+            and palm_bound >= 0
+        ),
         completed_hold=bool(
             phase.startswith("Hold")
             and times[-1] >= payload["motion"]["duration"] - 1e-6
@@ -114,7 +134,8 @@ def main():
     )
     report = dict(
         scope="Necessary release diagnostics only; not a threading or figure certificate. "
-        "Excludes swept collisions, mesh-edge intersections and material identity.",
+        "Excludes swept collisions, mesh-edge intersections, arm collisions "
+        "and material identity.",
         passed_diagnostics=all(checks.values()),
         checks=checks,
         released_sides=list(released),
@@ -124,6 +145,11 @@ def main():
         full_history_minimum_rope_separation_m=float(separation.min()),
         minimum_separation_time_s=float(times[separation.argmin()]),
         interval_minimum_capsule_gap_m=worst_capsule_gap,
+        full_history_palm_clearance=dict(
+            time_s=float(times[worst_palm_frame]),
+            **palm_results[worst_palm_frame],
+            minimum_palm_palm_sphere_lower_bound_m=palm_bound,
+        ),
         initialization=payload["motion"].get("initialization"),
     )
     (args.source / "loop_release_audit.json").write_text(json.dumps(report, indent=2))
