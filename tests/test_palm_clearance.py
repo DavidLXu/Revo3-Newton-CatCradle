@@ -69,3 +69,22 @@ def test_separating_plane_bound_certifies_the_opening_fixture():
         <= precise["sampled_finger_palm_gap_m"]
     )
     assert quick["palm_palm_sphere_lower_bound_m"] > 0.05
+
+
+def test_deeper_index_hook_clears_opposing_palm_during_release():
+    from revo3_cat_cradle.bimanual import RevoTron
+
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "examples/transfers/release_both_little_loops.json"
+    )
+    route = json.loads(path.read_text())
+    robot = RevoTron()
+    checker = OpposingPalmClearance(robot, robot.fk(np.asarray(route[0]["joints"])))
+    # The final 30 degrees of wrist roll previously drove the index through
+    # the opposite palm, although opposing finger capsules stayed clear.
+    start, end = [np.asarray(row["joints"]) for row in route[-2:]]
+    for u in np.linspace(0, 1, 11):
+        report = checker.measure(robot.fk((1 - u) * start + u * end), quick=True)
+        assert report["finger_palm_lower_bound_m"] > 0.001
+        assert report["palm_palm_sphere_lower_bound_m"] > 0.02

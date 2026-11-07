@@ -26,6 +26,9 @@ no hand anchors or runtime rope resets.
 | After left release and right abduction, hook right index, move right wrist 35 mm outward, roll −60° about world X | Both little loops release and remain clear during the hold, but full-history peak stretch is 1.3618. Rejected. |
 | Fresh fixture with right little MPR −0.5 rad and its initial bight shifted 30 mm distally | All six supports survive four seconds. Subsequent finger flexion releases only the left little loop; the right still catches. |
 | Replace the 35 mm outward wrist movement with 45 mm forward staggering, retaining the index hook and −60° roll | Both little loops release and stretch stays below 1.2, but the right index penetrates the opposite palm. Rejected. |
+| Move the wrist 25 mm forward, 15 mm outward and 25 mm down, with index MCP/PIP/DIP 0.2/0.6/0.6 rad | Palm clearance passes, but full-history stretch reaches 1.2292. Rejected. |
+| Keep index MCP at −0.08 rad on that balanced wrist route | Both loops release, but stretch reaches 1.2877. Rejected. |
+| Return to 45 mm forward staggering with index MCP/PIP/DIP −0.08/0.9/1.0 rad | Both little loops release. Necessary release, palm and finger-clearance checks pass over the recorded history. |
 
 The left-only result has full-history peak stretch 1.0885 and sampled nonlocal
 separation of at least 1.934 mm. These checks establish a useful local release
@@ -48,6 +51,22 @@ and by `continue_cup.py --check-self-collision`. The continuation from this
 checkpoint was stopped. This is an invalid trajectory, despite its retained
 rope supports and acceptable deformation. The loop throw and thumb exchange
 remain unfinished.
+
+The deeper index hook removes the palm intersection without repeating the
+stretch spike. At 24.6 s, the final-second little clearances are at least
+43.574 mm on the left and 60.175 mm on the right. All four thumb/index contacts
+remain throughout the 17.4–24.6 s interval. Full-history peak stretch is 1.1105,
+minimum nonlocal rope separation is 1.934 mm, and the opposing finger/palm
+clearance bound is at least 1.960 mm. Opposing finger capsules stay 4.201 mm
+apart; same-hand finger margins pass as well.
+
+This is a release checkpoint, not a completed Cup. A separate material audit
+tracks all four original thumb/index contact patches from 6 to 24.6 s without
+a lost or discontinuous track. Additional contact patches appear on the thumbs
+and right index during the wrist roll and remain listed in the report. A
+continuous contact track does not establish threading. Wrist restoration, the
+hanging-loop throw and thumb exchange still need dynamic validation and
+material inspection.
 
 ## Reproduce the left-only release
 
@@ -72,6 +91,16 @@ After the normal setup, run these commands in order with fresh output folders:
   --output output/right_little_abduct --side both --route-only --check-self-collision \
   --approach-path examples/transfers/abduct_right_little.json \
   --hold-duration 1.2 --hold-label 'Hold after right little abduction'
+
+# Curl the index farther to clear the opposing palm during the release.
+.venv/bin/python scripts/continue_cup.py --source output/right_little_abduct \
+  --output output/both_little_release --side both --route-only --check-self-collision \
+  --approach-path examples/transfers/release_both_little_loops.json \
+  --hold-duration 1.2 --hold-label 'Hold bilateral release with deeper index hook'
+.venv/bin/python scripts/audit_loop_release.py --source output/both_little_release \
+  --start 17.4 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/both_little_release \
+  --start 6
 ```
 
 `rejected_stagger_roll.json` records the rejected 45 mm staggering route.
@@ -81,7 +110,8 @@ check to treat the recorded release as a valid result.
 The release audit includes continuous contact retention at exported frames,
 interior edge/capsule gaps, full-history stretch and rope separation, positive
 particle masses, no anchors, joint limits and a completed second of fixed
-joints. Opposing finger/palm gaps use the simulated convex palm surfaces and
+joints. Same-hand and opposing finger clearances are checked over the full
+exported history. Opposing finger/palm gaps use the simulated convex palm surfaces and
 a conservative bound between capsule-axis samples. Palm/palm separation uses
 bounding spheres. Rope/mesh contacts are sampled at particles. The audit does
 not establish arm clearance, material identity, swept collision freedom or the
