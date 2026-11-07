@@ -4007,5 +4007,1437 @@
       "self_contact_search_bound_m": 0.016
     },
     "completed_cup_boat_or_star": false
+  },
+  "collision_enabled_continuations": [
+    {
+      "run": "alternative_cup_robot_hulls_left_release_20261108",
+      "checkpoint_sha256": "a3f7b34f956400f305f9d087f8409dbb4c192899e6314115d45fd169e8fe85c9",
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": true,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_retained": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left"
+        ],
+        "interval_s": [
+          6.0,
+          13.2
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.8489094039597295e-06,
+            "maximum_hold_gap_m": -1.3994955632761971e-06,
+            "maximum_transfer_gap_m": -1.1586295511475594e-06
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -2.504152315114909e-06,
+            "maximum_hold_gap_m": -2.2744011681499407e-06,
+            "maximum_transfer_gap_m": -2.24481153606685e-06
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.040951693699994955,
+            "maximum_hold_gap_m": 0.041705281752327954,
+            "maximum_transfer_gap_m": 0.041705281752327954
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -2.2712867619205032e-06,
+            "maximum_hold_gap_m": -1.7966551201309758e-06,
+            "maximum_transfer_gap_m": -1.7723838469504635e-06
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -5.252838567376206e-06,
+            "maximum_hold_gap_m": -4.80305877445129e-06,
+            "maximum_transfer_gap_m": -3.0673847659843084e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -9.385478749003758e-06,
+            "maximum_hold_gap_m": -8.178800831363207e-06,
+            "maximum_transfer_gap_m": -6.304314550008815e-06
+          }
+        },
+        "full_history_peak_stretch": 1.0885452450991138,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -4.1889685927273997e-05,
+        "full_history_palm_clearance": {
+          "time_s": 8.066667,
+          "finger_palm_lower_bound_m": 0.10918544360805599,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_little_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.07010122692515935,
+          "opposing_finger_gap_m": 0.0336538660331943,
+          "same_hand_finger_margin_m": 0.0027685145689506094,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.07010122692515919,
+          "minimum_opposing_finger_gap_m": 0.028543942715575803,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774023112
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          13.2
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 13.2,
+          "supports": {
+            "left_thumb": {
+              "center": 503,
+              "patch": [
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513,
+                514,
+                515
+              ],
+              "extras": [
+                [
+                  332,
+                  333
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 299,
+              "patch": [
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 414,
+              "patch": [
+                402,
+                403,
+                404,
+                405,
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426
+              ],
+              "extras": [
+                [
+                  650,
+                  651,
+                  652,
+                  653,
+                  654,
+                  655,
+                  656,
+                  657,
+                  658,
+                  659,
+                  660,
+                  661,
+                  662,
+                  663,
+                  664,
+                  665
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 614,
+              "patch": [
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                623,
+                624,
+                625,
+                626,
+                627,
+                628,
+                629,
+                630
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "comparison_to_legacy": {
+        "through_time_s": 13.2,
+        "joint_maximum_difference_rad": 0.0,
+        "first_rope_difference_time_s": 10.933333,
+        "maximum_rope_coordinate_difference_m": 0.09605089575052261
+      }
+    },
+    {
+      "run": "alternative_cup_forward_tilt_20261108",
+      "checkpoint_sha256": "adfa58a5b68ef59ed57d4a1f602ee42c3d059050e6edb501690f831ff11742bb",
+      "opening_support_audit": {
+        "scope": "Contact diagnostics; not a threading, topology or full physics certificate",
+        "interval_s": [
+          6.0,
+          9.6
+        ],
+        "simulated_knuckle_meshes": true,
+        "supports": {
+          "left_thumb": {
+            "final": {
+              "gap_m": 3.1404062184928715e-05,
+              "material_indices": [
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513
+              ]
+            },
+            "worst_hold_gap_m": 3.225162626750797e-05,
+            "first_missing_contact_s": null
+          },
+          "left_index": {
+            "final": {
+              "gap_m": 2.916714609098054e-05,
+              "material_indices": [
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314
+              ]
+            },
+            "worst_hold_gap_m": 2.9609331406172355e-05,
+            "first_missing_contact_s": null
+          },
+          "left_little": {
+            "final": {
+              "gap_m": 3.300963679695682e-05,
+              "material_indices": [
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60
+              ]
+            },
+            "worst_hold_gap_m": 3.376908315468486e-05,
+            "first_missing_contact_s": null
+          },
+          "right_thumb": {
+            "final": {
+              "gap_m": 3.0282876107971292e-05,
+              "material_indices": [
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428
+              ]
+            },
+            "worst_hold_gap_m": 3.0794336219782704e-05,
+            "first_missing_contact_s": null
+          },
+          "right_index": {
+            "final": {
+              "gap_m": -1.301478906691792e-05,
+              "material_indices": [
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                623,
+                624,
+                625
+              ]
+            },
+            "worst_hold_gap_m": -9.280738331140983e-06,
+            "first_missing_contact_s": null
+          },
+          "right_little": {
+            "final": {
+              "gap_m": 2.1230432129439557e-05,
+              "material_indices": [
+                151,
+                152,
+                153,
+                154,
+                155,
+                156,
+                157,
+                158,
+                159,
+                160,
+                161,
+                162,
+                163,
+                164,
+                165,
+                166,
+                167,
+                168,
+                169,
+                170,
+                171,
+                172,
+                173,
+                174,
+                175,
+                176,
+                177,
+                178
+              ]
+            },
+            "worst_hold_gap_m": 2.326109990413803e-05,
+            "first_missing_contact_s": null
+          }
+        },
+        "all_six_contacts_during_final_second": true,
+        "interval_peak_stretch": 1.1114125700004975,
+        "full_peak_stretch": 1.1114125700004975,
+        "interval_maximum_edge_m": 0.0026123924873918338,
+        "self_contact_search_bound_m": 0.016
+      },
+      "robot_hull_audit": {
+        "scope": "Detect rope centerlines entering conservative robot arm/body hulls.\n\nHulls fill cavities. A hit is an intrusion into the simulation proxy, not\nnecessarily the original mesh. No hits do not certify rope-radius clearance,\nrobot self-collisions, swept collisions, contact identity or figure topology.\n",
+        "interval_s": [
+          0.0,
+          9.6
+        ],
+        "inset_m": 1e-07,
+        "frames_checked": 289,
+        "frames_with_intrusions": 0,
+        "centerline_intrusions_absent": true,
+        "hits": []
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          9.6
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 9.6,
+          "supports": {
+            "left_thumb": {
+              "center": 501,
+              "patch": [
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 300,
+              "patch": [
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 417,
+              "patch": [
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 610,
+              "patch": [
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                623,
+                624,
+                625
+              ],
+              "extras": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "alternative_cup_forward_tilt_release_20261108",
+      "checkpoint_sha256": "ed1fc981de2b9ada61771d0bc883522c379749779d56f65c93dcf936665dbf79",
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": false,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          9.6,
+          13.8
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -2.6407592958683015e-06,
+            "maximum_hold_gap_m": -2.2254394468302838e-06,
+            "maximum_transfer_gap_m": -2.2254394468302838e-06
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -3.9231817191313564e-06,
+            "maximum_hold_gap_m": -1.768285686330577e-06,
+            "maximum_transfer_gap_m": -1.7017847983727755e-06
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -7.273964344250636e-07,
+            "maximum_hold_gap_m": 0.024318684813039275,
+            "maximum_transfer_gap_m": 0.024318684813039275
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -5.3479217872057574e-06,
+            "maximum_hold_gap_m": -1.8726488825197493e-06,
+            "maximum_transfer_gap_m": -1.8726488825197493e-06
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -6.729432589864994e-06,
+            "maximum_hold_gap_m": -3.4782179890455525e-06,
+            "maximum_transfer_gap_m": -3.0020194881753923e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -2.541737801242845e-06,
+            "maximum_hold_gap_m": -5.576288096996104e-07,
+            "maximum_transfer_gap_m": -5.37121272340367e-07
+          }
+        },
+        "full_history_peak_stretch": 1.1114125700004975,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -1.425076876453591e-05,
+        "full_history_palm_clearance": {
+          "time_s": 11.7,
+          "finger_palm_lower_bound_m": 0.10333833920796151,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_little_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.07010109033916587,
+          "opposing_finger_gap_m": 0.02547618835792282,
+          "same_hand_finger_margin_m": 0.0027685145689505817,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.07010109033916581,
+          "minimum_opposing_finger_gap_m": 0.02168117490582644,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          13.8
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 13.8,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 299,
+              "patch": [
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 417,
+              "patch": [
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 614,
+              "patch": [
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                623,
+                624,
+                625,
+                626,
+                627,
+                628,
+                629
+              ],
+              "extras": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "alternative_cup_forward_tilt_right_roll_20261108",
+      "checkpoint_sha256": "b92d0a3e56c44e02d49b87b0369ca4973cfbce1686a715f8446b88aa46155e1a",
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": false,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          13.8,
+          21.0
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.0832174083897153e-06,
+            "maximum_hold_gap_m": -6.736620089013365e-07,
+            "maximum_transfer_gap_m": -5.284239655038367e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.5998802135605908e-06,
+            "maximum_hold_gap_m": -1.419932644619419e-06,
+            "maximum_transfer_gap_m": -1.3200549893706628e-06
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -1.8187335364258303e-06,
+            "maximum_hold_gap_m": 0.005162940720978021,
+            "maximum_transfer_gap_m": 0.02504824596400062
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -8.155245660107849e-07,
+            "maximum_hold_gap_m": -5.491809826037655e-07,
+            "maximum_transfer_gap_m": -5.491809826037655e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -1.2515135193106762e-05,
+            "maximum_hold_gap_m": -3.0202300713749915e-06,
+            "maximum_transfer_gap_m": -2.365397636320621e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -1.5434042626117847e-06,
+            "maximum_hold_gap_m": 0.007242858189930055,
+            "maximum_transfer_gap_m": 0.044053183829674894
+          }
+        },
+        "full_history_peak_stretch": 1.1114125700004975,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -1.2035193418064201e-05,
+        "full_history_palm_clearance": {
+          "time_s": 20.4,
+          "finger_palm_lower_bound_m": 0.0019598769594707955,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794266778379536,
+          "opposing_finger_gap_m": 0.00420073332629098,
+          "same_hand_finger_margin_m": 0.00276851456895054,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.023562550350130218,
+          "minimum_opposing_finger_gap_m": 0.0041877087390929085,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          21.0
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 21.0,
+          "supports": {
+            "left_thumb": {
+              "center": 497,
+              "patch": [
+                483,
+                484,
+                485,
+                486,
+                487,
+                488,
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 303,
+              "patch": [
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318,
+                319,
+                320,
+                321
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 430,
+              "patch": [
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441,
+                442,
+                443,
+                444,
+                445,
+                446,
+                447
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 608,
+              "patch": [
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                623,
+                624,
+                625
+              ],
+              "extras": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "alternative_cup_tilt_clear_and_restore_20261108",
+      "checkpoint_sha256": "563bd8e0715ffb911c9d3b41b6171f76404d9ff4f0ea0a55e99218095990e3e1",
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": false,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          21.0,
+          24.8
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -7.288936942186422e-07,
+            "maximum_hold_gap_m": -4.700363653757991e-07,
+            "maximum_transfer_gap_m": -4.6177500016408163e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.8150843677450582e-06,
+            "maximum_hold_gap_m": -1.589983705274113e-06,
+            "maximum_transfer_gap_m": -1.5149070856481164e-06
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -1.1811088621123053e-06,
+            "maximum_hold_gap_m": 0.0011965536927007305,
+            "maximum_transfer_gap_m": 0.012995987991090453
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.1870551180374542e-06,
+            "maximum_hold_gap_m": -8.998659933026273e-07,
+            "maximum_transfer_gap_m": -4.2641313742052683e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -6.461788367759236e-06,
+            "maximum_hold_gap_m": -3.0864226243810383e-06,
+            "maximum_transfer_gap_m": -3.0864226243810383e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -1.5813189744888143e-06,
+            "maximum_hold_gap_m": -8.030191695077363e-07,
+            "maximum_transfer_gap_m": -4.040447991243354e-07
+          }
+        },
+        "full_history_peak_stretch": 1.1140934715079998,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -2.7067060565664006e-06,
+        "full_history_palm_clearance": {
+          "time_s": 20.4,
+          "finger_palm_lower_bound_m": 0.0019598769594707955,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794266778379536,
+          "opposing_finger_gap_m": 0.00420073332629098,
+          "same_hand_finger_margin_m": 0.00276851456895054,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.023562550350130218,
+          "minimum_opposing_finger_gap_m": 0.004099916988441957,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          24.8
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 24.8,
+          "supports": {
+            "left_thumb": {
+              "center": 498,
+              "patch": [
+                484,
+                485,
+                486,
+                487,
+                488,
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 301,
+              "patch": [
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 425,
+              "patch": [
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 608,
+              "patch": [
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622
+              ],
+              "extras": []
+            }
+          }
+        }
+      }
+    }
+  ],
+  "latest_ci": {
+    "commit": "d4d79fb960680fe39a90bff09b074efc37468b4a",
+    "url": "https://github.com/DavidLXu/Revo3-Newton-CatCradle/actions/runs/42418636566",
+    "non_integration_checks_passed": true,
+    "full_integration_passed": false,
+    "failure": "tests/test_task.py:317 single-hand uplift 0.02387601137161255 m does not exceed 0.025 m"
   }
 }

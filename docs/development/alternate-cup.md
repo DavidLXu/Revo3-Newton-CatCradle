@@ -51,6 +51,69 @@ release. The new geometry and audit regressions pass with all 101
 non-integration tests. The unrelated single-hand integration failure described
 below remains unresolved.
 
+Replaying the old fold and left-release commands with body contacts reaches
+13.2 s without a hull-centerline intrusion. Joint commands match exactly; rope
+states first diverge at 10.933333 s and differ by up to 96.051 mm in one
+coordinate. The left little finger stays at least 40.952 mm clear during the
+last second, while the right little and four thumb/index supports remain.
+Peak stretch is 1.0885, minimum sampled rope separation is 1.934 mm, and the
+four original material contact tracks remain continuous. This is a valid
+local release under the listed diagnostics, not a Cup or a free-loop threading
+certificate. New extra thumb contacts remain in the material report.
+
+A second branch rotates the strung figure 60° forward about world Y before
+releasing the little loops. Four 0.6 s waypoints and a 1.2 s hold end at 9.6 s.
+All six contacts remain; original thumb/index tracks are continuous, peak
+stretch is 1.1114, and minimum sampled rope separation remains 1.934 mm.
+No arm/body hull centerline intrusion occurs. This moves the support region
+in front of the forearms without changing rope coordinates directly.
+
+Abducting the right little finger for 1 s and folding both littles over 2 s,
+followed by a 1.2 s hold, ends at 13.8 s. The left little is clear in the final
+frame but was still touching during part of the last second; the right little
+remains caught. Both-release diagnostics therefore fail. The four original
+thumb/index tracks, strain, separation and robot-clearance checks pass. The
+next attempt rolls the right wrist within this tilted figure plane.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/opening_with_robot_contacts \
+  --output output/forward_tilt --side both --route-only --fixed-rest-lengths \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/tilt_opening_forward.json \
+  --hold-duration 1.2 --hold-label 'Hold the forward-tilted Opening A before release'
+.venv/bin/python scripts/continue_cup.py --source output/forward_tilt \
+  --output output/tilted_release --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/attempt_tilted_little_release.json \
+  --hold-duration 1.2 --hold-label 'Hold the little-loop release in front of the forearms'
+.venv/bin/python scripts/audit_loop_release.py --source output/tilted_release \
+  --start 9.6 --released both
+```
+
+The final command is expected to reject the incomplete bilateral release.
+`attempt_tilted_right_release.json` then deepens the right index hook, staggers
+the wrist by 45 mm within the tilted figure plane, and rolls it to −60° in two
+steps. At 21 s the necessary deformation, separation, arm/body and hand checks
+pass, with peak stretch still 1.1114 and all four original material tracks
+continuous. Both little fingers touch different parts of the free loop during
+the final second, however, so the release remains incomplete. The original
+little-loop material has moved away; contact alone is not enough to distinguish
+that release from subsequent contact with another strand.
+
+The next trial uses a small left-little adjustment selected from collision-free
+joint paths: MPR from −0.2 to −0.0872875 rad and MCP from 1.4 to 1.583 rad.
+It then folds the right little tip, restores the right wrist from −60° to −30°
+within the tilted plane, and advances both wrists 60 mm. Static planning checks
+do not modify the rope. At 24.8 s the continuation preserves all four original
+thumb/index material tracks and passes the deformation, separation and
+robot-clearance checks (peak stretch 1.1141), but both little fingers still
+touch the rope in the final second. It is another incomplete release attempt,
+recorded as `attempt_tilted_clearance_restore.json`. The next planned comparison
+hooks the left index, turns the figure farther forward so the fingers point
+downward, then extends both little fingers to test gravity-assisted release.
+
+## Historical hand-only comparisons
+
 The new comparison starts from the same independently placed Opening A with
 global rest-length control and interior rope-edge/capsule contacts enabled.
 After six seconds, all six supports remain, peak stretch is 1.0872, maximum
@@ -289,12 +352,15 @@ seconds. Revalidate every fresh run; these results were measured on Apple
 Silicon CPU.
 
 Verification: the portable recipe's first 0.1 s exactly matches the recorded
-global-fixture joints, rope positions and rest lengths. All 98 non-integration
+global-fixture joints, rope positions and rest lengths. All 101 non-integration
 tests and F-rule lint pass. The rotating-capsule test checks tangential dragging
 from angular velocity. Palm regressions include the recorded pose whose fingers
 clear each other while an index intersects the other palm. Body-envelope tests
 include edges crossing a box with both endpoints outside. A checkpoint replay
 confirms that the runtime body guard stops at 28.3 s, matching the offline audit.
-The existing
-single-hand integration failure on GitHub is still unresolved: uplift is
-24.576 mm against a 25 mm threshold. This is not a green full-CI claim.
+Arm/body regressions also check native soft-contact participation, FK tracking,
+checkpoint rejection for missing bodies, and complete edges crossing a hull
+with their endpoints outside. The existing single-hand integration failure on
+GitHub is still unresolved: the latest run measures 23.876 mm uplift against a
+25 mm threshold (an earlier run measured 24.576 mm). This is not a green full-CI
+claim; the latest run is recorded in the machine-readable experiment report.
