@@ -125,7 +125,7 @@ and 28.859 mm. Four original thumb/index material tracks remain continuous from
 stretch is 1.1141, sampled nonlocal rope separation is at least 1.934 mm, and
 the hand, central-body and complete-edge arm/body hull checks pass.
 
-This is the current release preparation. It retains the same passive 1.36345 m
+This is the verified starting release preparation. It retains the same passive 1.36345 m
 rest-length budget after 6 s, positive particle masses and no anchors or
 runtime rope-coordinate edits. It does not yet establish the hanging-loop
 throw, thumb-loop exchange, Cup, boat or Star. The initial Opening A is still
@@ -221,6 +221,42 @@ flexion alone does not secure this original loop; the capsule diagnostics
 place its initial contact around the thumb's PIP/DIP region. The continuation
 tool now defaults to the neutral caption `Hold transfer pose`; a default hold
 caption must not imply that a new bight was captured.
+
+Raising the right thumb is a valid preparation branch. From 30.7 s, set its
+MCP/PIP/DIP to 0.35/0.15/0.1 rad over 1.2 s, then hold for 1.2 s. The tip moves
+67.9 mm upward. At 33.1 s all four original material tracks remain continuous,
+there are no extra final contact patches, and the necessary release diagnostics
+pass with peak stretch still 1.1141. This preserves the original figure; it
+does not establish a new thumb loop or Cup. Reproduce it with
+`attempt_downward_thumb_raise.json` from `output/downward_ready`, the same
+collision guards and `--hold-duration 1.2 --hold-label 'Hold the raised right thumb'`.
+
+From that raised-thumb state, moving each wrist 20 mm outward over 1.2 s and
+holding for another 1.2 s succeeds under the same diagnostics. At 35.5 s the
+wrist lateral spacing is 240 mm (244.18 mm center-to-center). All four original
+material tracks remain continuous, with no extra final patches. The left and
+right little fingers stay at least 60.151 mm and 61.990 mm clear during the
+last second. Full-history peak stretch is 1.19185 against the unchanged 1.2
+gate, and sampled nonlocal rope separation remains at least 1.934 mm. The
+hand and complete-edge arm/body checks pass. This is the latest verified
+release preparation; the loop still hangs below the supports and Cup remains
+incomplete. The limited strain margin is relevant to the next motion.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/downward_ready \
+  --output output/raised_thumb --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/attempt_downward_thumb_raise.json \
+  --hold-duration 1.2 --hold-label 'Hold the raised right thumb'
+.venv/bin/python scripts/continue_cup.py --source output/raised_thumb \
+  --output output/raised_thumb_spread --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/attempt_raised_thumb_spread.json \
+  --hold-duration 1.2 --hold-label 'Hold the wider hands with the right thumb raised'
+.venv/bin/python scripts/audit_loop_release.py --source output/raised_thumb_spread \
+  --start 33.1 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/raised_thumb_spread --start 6
+```
 
 ## Historical hand-only comparisons
 
