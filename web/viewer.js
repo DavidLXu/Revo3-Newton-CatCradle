@@ -145,7 +145,29 @@ try {
   window.setFrame=(index)=>{playing=false;document.querySelector('#play').textContent='播放';setFrame(index);};
   window.setFront=()=>{front=true;camera.position.set(...(bimanual?[2.5,0,1.65]:[.65,0,.21]));controls.update();renderer.render(scene,camera);};
   window.setBimanualView=(close=false)=>{controls.target.set(...(close?[.47,0,1.20]:[.15,0,.88]));camera.position.set(...(close?[1.48,-.04,1.40]:[3.1,-1.4,1.75]));controls.update();renderer.render(scene,camera);};
-  window.setSinglePlayerView=(close=false)=>{if(!close)return window.setBimanualView(false);controls.target.set(.40,0,1.27);camera.position.set(.90,-.04,1.90);controls.update();renderer.render(scene,camera);};
+  window.setSinglePlayerView=(close=false,fitRope=false)=>{
+    if(!close)return window.setBimanualView(false);
+    if(fitRope){
+      // Fit once across the whole recording: playback keeps a fixed camera,
+      // including when a released loop hangs below the original hand view.
+      const bounds=new THREE.Box3(),point=new THREE.Vector3();
+      for(const sample of data.frames)for(const xyz of sample.rope)bounds.expandByPoint(point.fromArray(xyz));
+      bounds.expandByScalar(.06);bounds.getCenter(controls.target);
+      const backward=new THREE.Vector3(.50,-.04,.63).normalize();
+      const right=new THREE.Vector3().crossVectors(camera.up,backward).normalize();
+      const vertical=new THREE.Vector3().crossVectors(backward,right).normalize();
+      const tanV=Math.tan(THREE.MathUtils.degToRad(camera.fov/2)),tanH=tanV*camera.aspect;
+      let distance=controls.minDistance;
+      for(const x of [bounds.min.x,bounds.max.x])for(const y of [bounds.min.y,bounds.max.y])for(const z of [bounds.min.z,bounds.max.z]){
+        point.set(x,y,z).sub(controls.target);
+        distance=Math.max(distance,point.dot(backward)+Math.max(Math.abs(point.dot(right))/tanH,Math.abs(point.dot(vertical))/tanV));
+      }
+      camera.position.copy(controls.target).addScaledVector(backward,1.08*distance);
+    }else{
+      controls.target.set(.40,0,1.27);camera.position.set(.90,-.04,1.90);
+    }
+    controls.update();renderer.render(scene,camera);
+  };
   window.setSide=()=>{camera.position.set(.12,-.65,.24);controls.update();renderer.render(scene,camera);};
   window.revo3={frameCount:data.frames.length,particles:n,meshes:meshes.length,fps:data.config.fps,motionSource:motion?.source,direction:motion?.direction,interaction:data.interaction,anchors:data.anchor_indices.length};
   const requestedTime=Number(new URLSearchParams(location.search).get('t') ?? 0);

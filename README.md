@@ -11,6 +11,9 @@ the older hand-only model. Their release/preparation checkpoints are rejected.
 Fresh transfer replays support `--robot-body hulls` to include Newton contacts
 against conservative arm and central-body shapes; see the
 [collision correction and rerun notes](docs/development/alternate-cup.md#correction-missing-arm-collisions).
+The new downward-facing preparation releases both little loops through a full
+hold while retaining the four original thumb/index contact tracks. This is a
+local release milestone; the hanging-loop throw and thumb exchange remain.
 
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 

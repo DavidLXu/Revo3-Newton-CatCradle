@@ -6,7 +6,9 @@ gate. A second route follows the alternative method in
 release the little-finger loops, swing the hanging loop over the other strings,
 then exchange the thumb loops.
 The earlier hand-only checks reported bilateral release, but a subsequent arm
-audit invalidates that chain. Cup & Saucer, boat and Star remain incomplete.
+audit invalidates that chain. A new downward-facing preparation now releases
+both little loops with arm/body contacts enabled and passes the listed release
+and material-tracking checks. Cup & Saucer, boat and Star remain incomplete.
 
 ## Correction: missing arm collisions
 
@@ -111,6 +113,65 @@ touch the rope in the final second. It is another incomplete release attempt,
 recorded as `attempt_tilted_clearance_restore.json`. The next planned comparison
 hooks the left index, turns the figure farther forward so the fingers point
 downward, then extends both little fingers to test gravity-assisted release.
+
+## Bilateral release with arm and body contacts
+
+The downward turn releases both little loops before the planned finger
+extension. The successful branch stops changing the joints at 29.5 s and
+continues Newton for another 1.2 s with the little fingers folded. Throughout
+the last second, the left and right little clearances are at least 38.091 mm
+and 28.859 mm. Four original thumb/index material tracks remain continuous from
+6 to 30.7 s, with no extra patches in the final report. Full-history peak
+stretch is 1.1141, sampled nonlocal rope separation is at least 1.934 mm, and
+the hand, central-body and complete-edge arm/body hull checks pass.
+
+This is the current release preparation. It retains the same passive 1.36345 m
+rest-length budget after 6 s, positive particle masses and no anchors or
+runtime rope-coordinate edits. It does not yet establish the hanging-loop
+throw, thumb-loop exchange, Cup, boat or Star. The initial Opening A is still
+an independent placement.
+
+The comparison that extends the little fingers after 29.5 s touches the rope
+again and fails the final-second bilateral clearance gates at 32.7 s. Keep
+the folded-finger branch for further work.
+
+To reproduce the accepted release preparation, start with the collision-enabled
+Opening A and the two forward-tilt commands above, then run:
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/tilted_release \
+  --output output/tilted_right_roll --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/attempt_tilted_right_release.json \
+  --hold-duration 1.2 --hold-label 'Hold the tilted right-wrist roll'
+.venv/bin/python scripts/continue_cup.py --source output/tilted_right_roll \
+  --output output/tilted_restore --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/attempt_tilted_clearance_restore.json \
+  --hold-duration 1.2 --hold-label 'Hold after the forward wrist restoration'
+.venv/bin/python scripts/continue_cup.py --source output/tilted_restore \
+  --output output/downward_ready --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/release_little_loops_downward.json \
+  --hold-duration 1.2 --hold-label 'Hold both released little loops with the fingers folded'
+.venv/bin/python scripts/audit_loop_release.py --source output/downward_ready \
+  --start 24.8 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/downward_ready --start 6
+.venv/bin/python scripts/render_revotron.py --simulation-dir output/downward_ready \
+  --single-player --preview --fit-rope --draft --label 'Bilateral little-loop release check'
+```
+
+The intermediate attempts have incomplete release gates but retain the four
+supports and pass the physical diagnostics required for this continuation.
+`rejected_downward_extension.json` records the unsuccessful extra extension;
+replay it from the 29.5 s boundary, before the folded-finger hold, to reproduce
+the comparison. Replaying it after the 30.7 s hold is a different experiment.
+
+The renderer's optional `--fit-rope` detail view encloses the whole recording's
+rope bounds with one fixed camera, so the long hanging loop remains visible.
+Draft recording also accepts a missing `validation.json` and records its
+validation field as null; it never invents a passing result. A two-frame draft
+recording exercised that path, and the full release preview was inspected.
 
 ## Historical hand-only comparisons
 
@@ -235,15 +296,17 @@ the three-swing rope intersects eight official waist collision triangles at
 30.3333 s; the lowered-bridge attempt intersects six at 32.4667 s. Edge indices,
 triangle indices and intersection coordinates are retained in the data report.
 
-New continuations should pass `--check-body-envelope`. This optional runtime
+Historical continuations used `--check-body-envelope`. This optional runtime
 guard saves `body_envelope_stop.json` and stops on the first exported frame
 without certified body clearance. The historical swing paths below are
-retained to reproduce rejected experiments. Arm collisions and swept motion
-remain outside the diagnostics; no completed figure is claimed.
+retained to reproduce rejected experiments. Arm collisions were absent from those historical runs; swept motion remains
+outside the current diagnostics. No completed figure is claimed.
 
-## Reproduce release and throw attempts
+## Reproduce historical hand-only attempts (invalid for continuation)
 
-After the normal setup, run these commands in order with fresh output folders:
+These commands preserve the old experiment with missing arm collisions. They
+do not reproduce the accepted release above and must not supply a new physical
+continuation. Run only for comparison, in fresh output folders:
 
 ```bash
 .venv/bin/python scripts/replay_transfer.py examples/transfers/global_opening_seed.json \
@@ -340,8 +403,9 @@ joints. Same-hand and opposing finger clearances and central-body envelopes are
 checked over the full exported history. Opposing finger/palm gaps use the simulated convex palm surfaces and
 a conservative bound between capsule-axis samples. Palm/palm separation uses
 bounding spheres. Rope/mesh contacts are sampled at particles. The audit does
-not establish arm clearance, material identity, swept collision freedom or the
-final figure's topology. Use
+not establish finite-radius arm clearance, material identity, swept collision
+freedom or the final figure's topology. The current audit also rejects the
+historical arm-hull centerline intrusions described above. Use
 `--released both` to require both little fingers to remain clear; the left-only
 checkpoint must fail that request.
 

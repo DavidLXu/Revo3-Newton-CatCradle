@@ -25,6 +25,10 @@ def main():
         "--simulation-dir", type=Path, default=ROOT / "output/revotron_bimanual"
     )
     p.add_argument("--single-player", action="store_true")
+    p.add_argument(
+        "--fit-rope", action="store_true",
+        help="Use one fixed detail camera enclosing the rope over the entire recording",
+    )
     p.add_argument("--label", help="Override the single-player figure caption")
     p.add_argument(
         "--software",
@@ -32,6 +36,8 @@ def main():
         help="Use SwiftShader instead of Metal on macOS",
     )
     a = p.parse_args()
+    if a.fit_rope and not a.single_player:
+        p.error("--fit-rope requires --single-player")
     out = a.simulation_dir.resolve()
     data = json.loads((out / "trajectory.json").read_text())
     duration = data["frames"][-1]["time"]
@@ -46,11 +52,9 @@ def main():
         (out / "meshes.json").write_text(
             json.dumps(RevoTron().visuals(max_faces=8000), separators=(",", ":"))
         )
-    if (
-        not a.preview
-        and not a.draft
-        and not json.loads((out / "validation.json").read_text())["passed"]
-    ):
+    validation_path = out / "validation.json"
+    validation = json.loads(validation_path.read_text()) if validation_path.exists() else None
+    if not a.preview and not a.draft and (not validation or not validation.get("passed")):
         raise RuntimeError("Bimanual validation must pass before recording")
     server = ThreadingHTTPServer(
         ("127.0.0.1", 0), partial(QuietHandler, directory=str(ROOT))
@@ -87,6 +91,7 @@ def main():
                     figure="single-player" if a.single_player else "crossed-loop",
                     draft="1" if a.draft else "0",
                     label=a.label or data.get("motion", {}).get("figure", "Opening A"),
+                    detail="rope" if a.fit_rope else "hands",
                 )
             )
             page.goto(
@@ -165,9 +170,8 @@ def main():
                             duration_s=count / 30,
                             physics_playback_speed=1,
                             draft=a.draft,
-                            validation=json.loads(
-                                (out / "validation.json").read_text()
-                            ),
+                            validation=validation,
+                            detail_framing="whole trajectory rope" if a.fit_rope else "hands",
                             views=["whole robot", "hand detail"],
                         ),
                         indent=2,
