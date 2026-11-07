@@ -36,7 +36,7 @@ def main():
     )
     p.add_argument("--hold-only", action="store_true")
     p.add_argument("--hold-duration", type=float, default=2)
-    p.add_argument("--hold-label", default="Hold new thumb bights")
+    p.add_argument("--hold-label", default="Hold transfer pose")
     p.add_argument(
         "--stop-on-near-contact",
         action="store_true",

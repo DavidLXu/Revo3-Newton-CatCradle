@@ -173,6 +173,55 @@ Draft recording also accepts a missing `validation.json` and records its
 validation field as null; it never invents a passing result. A two-frame draft
 recording exercised that path, and the full release preview was inspected.
 
+## Post-release swings and hand spacing
+
+These comparisons start from the accepted 30.7 s folded-finger checkpoint.
+They keep friction at 1.2 and retain the passive rope's existing rest lengths.
+Arm/body contact geometry and all three runtime collision guards remain enabled.
+
+| Motion | Measured result |
+| --- | --- |
+| Three common-wrist swings, ±80 mm in world X, 0.5 s between extremes | Release diagnostics pass, but right-index material tracking fails at 33.033333 s after an extra contact patch appears. The free band's highest position remains 128.6 mm below the original thumb bridge. Rejected as a continuation. |
+| Same waypoints, 0.6 s between extremes | Release diagnostics and all four original material tracks pass through the 35.7 s hold. The free band remains at least 123.7 mm below the bridge; it has not flipped over. |
+| Move each wrist 40 mm outward over two seconds | Right-thumb contact is lost at 31.933333 s. Full-history peak stretch reaches 1.2685, exceeding 1.2. Rejected. |
+| Stop at the 20 mm-per-wrist boundary, then hold for 1.2 s | Right-thumb contact is still lost at 31.933333 s, during the hold. Peak stretch is 1.1918. Rejected for losing the support. |
+| Deepen only the right thumb, PIP/DIP to 0.9/0.6 rad over one second | Original right-thumb contact is lost at 31.566667 s, although full-history peak stretch remains 1.1141. Rejected. |
+
+The swing height uses the same fixed free-band and thumb-bridge material as
+the earlier motion diagnostic. It is a world X/Z projection, not a threading
+test. The slower swing preserves the supports but does not advance the figure
+to Cup. The spacing comparison also shows why a contact at the end of a joint
+movement needs a subsequent hold: the 31.7 s pose retains the right-thumb loop,
+but its continued dynamics release it after the joints stop.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/downward_ready \
+  --output output/downward_slow_swing --side both --route-only \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --approach-path examples/transfers/attempt_downward_slow_swing.json \
+  --hold-duration 1.2 --hold-label 'Hold after the slower free-loop swings'
+.venv/bin/python scripts/audit_loop_release.py --source output/downward_slow_swing \
+  --start 30.7 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/downward_slow_swing --start 6
+.venv/bin/python scripts/inspect_loop_throw.py --source output/downward_slow_swing --start 30.7
+```
+
+Use `attempt_downward_loop_swing.json` to reproduce the faster comparison, or
+`rejected_downward_spread.json` for the two outward wrist steps. Each starts
+from `output/downward_ready`, not from another comparison's final state. For
+the smaller-spread hold comparison, resume `state_0951.npz` at 31.7 s from
+the spread run using `--hold-only --hold-duration 1.2` and the same guards.
+The checkpoint hashes, retention failures and measured strain are recorded in
+`alternate_cup_20261108.json`. Failed retention is sufficient to reject the
+spacing trials; their full release audits were not run.
+
+`attempt_downward_thumb_hook.json` records the rejected deeper-thumb comparison.
+It also starts from the accepted 30.7 s state and uses a 1.2 s hold. Increasing
+flexion alone does not secure this original loop; the capsule diagnostics
+place its initial contact around the thumb's PIP/DIP region. The continuation
+tool now defaults to the neutral caption `Hold transfer pose`; a default hold
+caption must not imply that a new bight was captured.
+
 ## Historical hand-only comparisons
 
 The new comparison starts from the same independently placed Opening A with
