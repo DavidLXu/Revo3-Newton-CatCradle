@@ -23,6 +23,7 @@ class Config:
     substeps: int = 96
     iterations: int = 32
     contact_relaxation: float = .35
+    segment_hand_contacts: bool = False
     friction: float = .65
     radius: float = .001
     spacing: float = .003
@@ -243,11 +244,21 @@ class Simulation:
         self.model.soft_contact_mu = float(friction)
         self.config.friction = float(friction)
 
+    def set_stretch_damping(self, damping):
+        """Tune longitudinal spring dissipation without touching dynamic state."""
+        if not np.isfinite(damping) or damping < 0:
+            raise ValueError('stretch damping must be finite and nonnegative')
+        values = self.model.spring_damping.numpy().copy()
+        values[:self.model.particle_count] = float(damping)
+        self.model.spring_damping.assign(values)
+        self.config.stretch_damping = float(damping)
+
     def load_checkpoint(self, path):
         data=np.load(path,allow_pickle=False)
         checkpoint_config=json.loads(str(data['config']))
         # Older checkpoints used the hardcoded 0.08 N tension target.
         checkpoint_config.setdefault('adaptive_tension_n', .08)
+        checkpoint_config.setdefault('segment_hand_contacts', False)
         if checkpoint_config != asdict(self.config):
             raise ValueError('Checkpoint physics configuration does not match')
         if data['particle_q'].shape != (self.model.particle_count,3):

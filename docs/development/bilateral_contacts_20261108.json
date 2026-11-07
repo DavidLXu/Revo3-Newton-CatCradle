@@ -1,0 +1,2209 @@
+{
+  "scope": "Recorded diagnostics; no new accepted figure. Gaps use minimum for near strands and maximum for retained strands over the final second.",
+  "baseline_recipe": "examples/transfers/right_pickup_attempt.json",
+  "runs": [
+    {
+      "run": "bilateral_damping08_20261108",
+      "end_s": 46.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.001200148,
+          "near_indices": 0.001949101,
+          "old_loop_indices": -1.2708e-05
+        },
+        "right": {
+          "far_indices": 0.005606366,
+          "near_indices": 0.001504864,
+          "old_loop_indices": -1.274e-05
+        }
+      },
+      "full_peak_stretch": 1.1551126962019824,
+      "checkpoint_sha256": "32b38e94cc3487a7ca7e00da0e0699391af0f7e86174d1bc2778b7da268e6df7",
+      "segment_hand_contacts": false,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.08,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "stretch_damping",
+          "previous_value": 0.01,
+          "value": 0.08
+        }
+      ]
+    },
+    {
+      "run": "bilateral_fixed_hold_20261108",
+      "end_s": 46.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.00103479,
+          "near_indices": 0.000683648,
+          "old_loop_indices": -1.9689e-05
+        },
+        "right": {
+          "far_indices": 0.000657799,
+          "near_indices": 0.000636114,
+          "old_loop_indices": -1.5679e-05
+        }
+      },
+      "full_peak_stretch": 1.184983888118309,
+      "checkpoint_sha256": "66684e4d57c7e796771d095814160f12bf09b3da02366caaface293929776c92",
+      "segment_hand_contacts": false,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": false,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "adaptive_length",
+          "value": false
+        }
+      ]
+    },
+    {
+      "run": "bilateral_index_relief_20261108",
+      "end_s": 46.5,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000948264,
+          "near_indices": 0.000869702,
+          "old_loop_indices": -1.0053e-05
+        },
+        "right": {
+          "far_indices": 0.001701973,
+          "near_indices": -1.178e-06,
+          "old_loop_indices": -1.2496e-05
+        }
+      },
+      "full_peak_stretch": 1.192808743749825,
+      "checkpoint_sha256": "fa7c242702ba6cfc8024c9404affcde6df6c9bcad26fe3a3e9bd14c1ef18390d",
+      "segment_hand_contacts": false,
+      "feedback": {
+        "source": "output/opening23_both_pickup_spread",
+        "checkpoint": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "nominal": "output/right_index_relief_route_20261108.json",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 44.0,
+        "end": 46.5,
+        "max_joint_speed_rad_s": 0.4,
+        "margin_m": 0.0045,
+        "prediction_frames": 0.25,
+        "contact_weight": 40.0,
+        "pose_weight": 0.001,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "pickup_sides": [
+          "left",
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "left": [
+            "far_indices",
+            "old_loop_indices"
+          ],
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "left": 0.001,
+          "right": 0.001
+        },
+        "seated_strands_by_side": {
+          "left": "far_indices",
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [
+          "right_index_MCP_joint",
+          "right_index_PIP_joint",
+          "right_index_DIP_joint"
+        ],
+        "seat_depth_m": null,
+        "scripted_wrist_spread_m": 0,
+        "scripted_right_wrist_offset_m": [
+          0,
+          0,
+          0
+        ],
+        "spread_duration_s": 2,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "bilateral_midspread_fixed_20261108",
+      "end_s": 49.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000554925,
+          "near_indices": 0.00063838,
+          "old_loop_indices": -1.1759e-05
+        },
+        "right": {
+          "far_indices": 0.003005003,
+          "near_indices": 4.8003e-05,
+          "old_loop_indices": -1.0254e-05
+        }
+      },
+      "full_peak_stretch": 1.1921819555594775,
+      "checkpoint_sha256": "6b906a3d10420393774f776c68f7595d4f5c6fac270a589a442ab740e1554032",
+      "segment_hand_contacts": false,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": false,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 47.0,
+          "parameter": "adaptive_length",
+          "value": false
+        }
+      ]
+    },
+    {
+      "run": "bilateral_midspread_hold_20261108",
+      "end_s": 47.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000250596,
+          "near_indices": 0.000736586,
+          "old_loop_indices": -1.784e-05
+        },
+        "right": {
+          "far_indices": 0.004699445,
+          "near_indices": 0.001577756,
+          "old_loop_indices": -1.4877e-05
+        }
+      },
+      "full_peak_stretch": 1.1921819555594775,
+      "checkpoint_sha256": "57dcc9e5c5721021616fd716f5298f412bdb5e9ffeec6e951ee9acc4b4d3c065",
+      "segment_hand_contacts": false,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "bilateral_midspread_settle_20261108",
+      "end_s": 49.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 4.213e-06,
+          "near_indices": 0.000811492,
+          "old_loop_indices": -1.7788e-05
+        },
+        "right": {
+          "far_indices": 0.00347612,
+          "near_indices": 0.000384103,
+          "old_loop_indices": -1.2726e-05
+        }
+      },
+      "full_peak_stretch": 1.3113142264720081,
+      "checkpoint_sha256": "e8ccf92f899fe98babb11a6791b5131f6fe643a3efce2c353915c57ddb9db752",
+      "segment_hand_contacts": false,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "bilateral_passive_hold_20261108",
+      "end_s": 45.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000351888,
+          "near_indices": 0.002186483,
+          "old_loop_indices": -1.9239e-05
+        },
+        "right": {
+          "far_indices": 0.00070459,
+          "near_indices": 0.001936057,
+          "old_loop_indices": -1.6237e-05
+        }
+      },
+      "full_peak_stretch": 1.1551126962019824,
+      "checkpoint_sha256": "e2f4f164fa75f2f906b5acf6cd3d3ce2cb1cce02699a1dd055329622a5b77ffc",
+      "segment_hand_contacts": false,
+      "validation": {
+        "passed": false,
+        "checks": {
+          "left_new_far_bight": true,
+          "left_old_thumb_loop_retained": true,
+          "left_near_string_not_caught": true,
+          "right_new_far_bight": true,
+          "right_old_thumb_loop_retained": true,
+          "right_near_string_not_caught": false,
+          "other_supports_retained": true,
+          "other_supports_retained_during_transfer": true,
+          "strain": true,
+          "full_history_strain": true,
+          "self_contact": true,
+          "dynamic_rope": true,
+          "completed_hold": true
+        },
+        "sides": {
+          "left": {
+            "far_indices": 0.00035188823180572464,
+            "old_thumb_indices": -1.9238592137705603e-05,
+            "minimum_near_string_gap_m": 0.002186482964430219,
+            "minimum_old_loop_gap_m": -2.059390037814201e-05,
+            "maximum_old_loop_gap_m": -1.9238592137705603e-05
+          },
+          "right": {
+            "far_indices": 0.0007045902372241576,
+            "old_thumb_indices": -1.6236709420859065e-05,
+            "minimum_near_string_gap_m": 0.0019360572557364309,
+            "minimum_old_loop_gap_m": -1.8141769737412862e-05,
+            "maximum_old_loop_gap_m": -1.6236709420859065e-05
+          }
+        },
+        "maximum_stretch_ratio": 1.1551126962019824,
+        "full_history_maximum_stretch_ratio": 1.1551126962019824,
+        "minimum_segment_distance_m": 0.0019676408925375054,
+        "local_arc_exclusion_m": 0.002,
+        "duration_s": 45.2,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "reference_time_s": 6.0,
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics",
+        "scope": "Thumb pickup only; Cup & Saucer and Star are not yet verified"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "bilateral_passive_settle_20261108",
+      "end_s": 47.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.001263346,
+          "near_indices": 0.001324023,
+          "old_loop_indices": -1.1058e-05
+        },
+        "right": {
+          "far_indices": 0.003887596,
+          "near_indices": 0.001097791,
+          "old_loop_indices": -1.3317e-05
+        }
+      },
+      "full_peak_stretch": 1.237294749711161,
+      "checkpoint_sha256": "4aa8481d993d3e35d00aaf5681e0772fc43b6cc7330f8b3535a4919d6eb6424a",
+      "segment_hand_contacts": false,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "bilateral_right_relief_fixed_20261108",
+      "end_s": 45.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.00084208,
+          "near_indices": -9.221e-06,
+          "old_loop_indices": -2.03e-05
+        },
+        "right": {
+          "far_indices": 0.000612176,
+          "near_indices": -1.1341e-05,
+          "old_loop_indices": -1.6219e-05
+        }
+      },
+      "full_peak_stretch": 1.3521795382340958,
+      "checkpoint_sha256": "15570be65917ba8c7d011faf1a604342106d30da17017b0bcec5e45a3836dcd2",
+      "segment_hand_contacts": false,
+      "feedback": {
+        "source": "output/opening23_both_pickup_spread",
+        "checkpoint": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "nominal": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 44.0,
+        "end": 45.2,
+        "max_joint_speed_rad_s": 0.2,
+        "margin_m": 0.003,
+        "prediction_frames": 0.25,
+        "contact_weight": 40.0,
+        "pose_weight": 0.001,
+        "active_sides": [
+          "right"
+        ],
+        "pickup_sides": [
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "right": 0.001
+        },
+        "seated_strands_by_side": {
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [],
+        "seat_depth_m": null,
+        "scripted_wrist_spread_m": 0.003,
+        "scripted_right_wrist_offset_m": [
+          0,
+          0,
+          0
+        ],
+        "spread_duration_s": 1.2,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": false,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "adaptive_length",
+          "value": false
+        }
+      ]
+    },
+    {
+      "run": "bilateral_segment_contact_hold_20261108",
+      "end_s": 45.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.001036713,
+          "near_indices": 0.002673374,
+          "old_loop_indices": 0.000210277
+        },
+        "right": {
+          "far_indices": 0.00083062,
+          "near_indices": 0.001638212,
+          "old_loop_indices": 0.000477054
+        }
+      },
+      "full_peak_stretch": 1.1551126962019824,
+      "checkpoint_sha256": "5f10f82997916bc517e2cce422470c8423deaae1e15122c8535273c7e2b5718d",
+      "segment_hand_contacts": true,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "segment_hand_contacts",
+          "previous_value": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "run": "bilateral_segment_contact_settle_20261108",
+      "end_s": 47.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000987369,
+          "near_indices": 0.002749012,
+          "old_loop_indices": 0.000114519
+        },
+        "right": {
+          "far_indices": 0.000614614,
+          "near_indices": 0.001558792,
+          "old_loop_indices": 0.000262366
+        }
+      },
+      "full_peak_stretch": 1.1681221947844076,
+      "checkpoint_sha256": "7a3aa9a21801bfb104df267a61671e66c43ebbf2ef54d6bd5d42c159ddb2f40f",
+      "segment_hand_contacts": true,
+      "validation": {
+        "passed": false,
+        "checks": {
+          "finite": true,
+          "joint_limits": true,
+          "left_new_far_bight": true,
+          "left_old_thumb_loop_retained": true,
+          "left_near_string_not_caught": true,
+          "right_new_far_bight": true,
+          "right_old_thumb_loop_retained": true,
+          "right_near_string_not_caught": false,
+          "other_supports_retained": true,
+          "other_supports_retained_during_transfer": true,
+          "strain": true,
+          "full_history_strain": true,
+          "self_contact": true,
+          "dynamic_rope": true,
+          "completed_hold": true
+        },
+        "sides": {
+          "left": {
+            "far_indices": 0.0009873691004094439,
+            "old_thumb_indices": 0.00011451878327590256,
+            "minimum_near_string_gap_m": 0.002749012424320332,
+            "minimum_old_loop_gap_m": 7.676157395389727e-05,
+            "maximum_old_loop_gap_m": 0.00011451878327590256
+          },
+          "right": {
+            "far_indices": 0.0006146143177111858,
+            "old_thumb_indices": 0.00026236577448415007,
+            "minimum_near_string_gap_m": 0.0015587921339523083,
+            "minimum_old_loop_gap_m": 1.0915293786092038e-05,
+            "maximum_old_loop_gap_m": 0.00026236577448415007
+          }
+        },
+        "maximum_stretch_ratio": 1.1681221947844076,
+        "full_history_maximum_stretch_ratio": 1.1681221947844076,
+        "minimum_segment_distance_m": 0.0019676408925375054,
+        "local_arc_exclusion_m": 0.002,
+        "duration_s": 47.2,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "reference_time_s": 6.0,
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics",
+        "scope": "Thumb pickup only; Cup & Saucer and Star are not yet verified"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "segment_hand_contacts",
+          "previous_value": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "run": "bilateral_segment_spread3_20261108",
+      "end_s": 47.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.00028213,
+          "near_indices": 0.001200326,
+          "old_loop_indices": 0.000109555
+        },
+        "right": {
+          "far_indices": 0.000396542,
+          "near_indices": 0.001822659,
+          "old_loop_indices": 2.1959e-05
+        }
+      },
+      "full_peak_stretch": 1.1551126962019824,
+      "checkpoint_sha256": "098fb86bd06f226fdc7f11ae8e4f4ec39d899388afc96b7f9113328db40204d9",
+      "segment_hand_contacts": true,
+      "feedback": {
+        "source": "output/bilateral_segment_contact_hold_20261108",
+        "checkpoint": "output/bilateral_segment_contact_hold_20261108/checkpoint.npz",
+        "nominal": "output/bilateral_segment_contact_hold_20261108/checkpoint.npz",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 45.2,
+        "end": 47.2,
+        "max_joint_speed_rad_s": 0.2,
+        "margin_m": 0.0045,
+        "prediction_frames": 0.2,
+        "contact_weight": 40.0,
+        "pose_weight": 0.0002,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "pickup_sides": [
+          "left",
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "left": [
+            "far_indices",
+            "old_loop_indices"
+          ],
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "left": 0.0002,
+          "right": 0.0002
+        },
+        "seated_strands_by_side": {
+          "left": "far_indices",
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [],
+        "seat_depth_m": 0.004,
+        "scripted_wrist_spread_m": 0.003,
+        "scripted_right_wrist_offset_m": [
+          0,
+          0,
+          0
+        ],
+        "spread_duration_s": 1.5,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "segment_hand_contacts",
+          "previous_value": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "run": "bilateral_spread10_20261108",
+      "end_s": 48.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000328305,
+          "near_indices": 0.000974425,
+          "old_loop_indices": -8.185e-06
+        },
+        "right": {
+          "far_indices": 0.002031142,
+          "near_indices": 0.000781181,
+          "old_loop_indices": -1.4491e-05
+        }
+      },
+      "full_peak_stretch": 1.1921819555594775,
+      "checkpoint_sha256": "75e0530d3b19a87648927da0905ce3d6103ed3985b7ea6e9a589a3d993ee52fd",
+      "segment_hand_contacts": false,
+      "feedback": {
+        "source": "output/opening23_both_pickup_spread",
+        "checkpoint": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "nominal": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 44.0,
+        "end": 48.0,
+        "max_joint_speed_rad_s": 0.4,
+        "margin_m": 0.0045,
+        "prediction_frames": 0.25,
+        "contact_weight": 40.0,
+        "pose_weight": 0.0002,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "pickup_sides": [
+          "left",
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "left": [
+            "far_indices",
+            "old_loop_indices"
+          ],
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "left": 0.0002,
+          "right": 0.0002
+        },
+        "seated_strands_by_side": {
+          "left": "far_indices",
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [],
+        "seat_depth_m": 0.004,
+        "scripted_wrist_spread_m": 0.01,
+        "scripted_right_wrist_offset_m": [
+          0,
+          0,
+          0
+        ],
+        "spread_duration_s": 3.0,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "bilateral_wrist_raise15_20261108",
+      "end_s": 47.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000669963,
+          "near_indices": 0.000667633,
+          "old_loop_indices": -6.312e-06
+        },
+        "right": {
+          "far_indices": 0.001120663,
+          "near_indices": 0.001159372,
+          "old_loop_indices": -1.4488e-05
+        }
+      },
+      "full_peak_stretch": 1.3193074249342676,
+      "checkpoint_sha256": "b427b7cb3f2bb0097b40691a51e545f1e01738ce95b17827c29d0731648a47b4",
+      "segment_hand_contacts": false,
+      "feedback": {
+        "source": "output/opening23_both_pickup_spread",
+        "checkpoint": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "nominal": "output/opening23_both_pickup_spread/checkpoint.npz",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 44.0,
+        "end": 47.0,
+        "max_joint_speed_rad_s": 0.4,
+        "margin_m": 0.0045,
+        "prediction_frames": 0.25,
+        "contact_weight": 40.0,
+        "pose_weight": 0.0002,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "pickup_sides": [
+          "left",
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "left": [
+            "far_indices",
+            "old_loop_indices"
+          ],
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "left": 0.0002,
+          "right": 0.0002
+        },
+        "seated_strands_by_side": {
+          "left": "far_indices",
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [],
+        "seat_depth_m": 0.004,
+        "scripted_wrist_spread_m": 0,
+        "scripted_right_wrist_offset_m": [
+          0.0,
+          0.0,
+          0.015
+        ],
+        "spread_duration_s": 2.0,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": []
+    },
+    {
+      "run": "right_segment_seat8_20261108",
+      "end_s": 48.0,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.00101083,
+          "near_indices": 0.002695517,
+          "old_loop_indices": 8.3891e-05
+        },
+        "right": {
+          "far_indices": 0.000614614,
+          "near_indices": 0.001558792,
+          "old_loop_indices": 3.4611e-05
+        }
+      },
+      "full_peak_stretch": 1.1681221947844076,
+      "checkpoint_sha256": "3c38a582ab77c578ae59f502f225d0bbfcbc5ba70433ac0dfb989e1bb0dd857e",
+      "segment_hand_contacts": true,
+      "feedback": {
+        "source": "output/bilateral_segment_contact_settle_20261108",
+        "checkpoint": "output/bilateral_segment_contact_settle_20261108/checkpoint.npz",
+        "nominal": "output/bilateral_segment_contact_settle_20261108/checkpoint.npz",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 47.2,
+        "end": 48.0,
+        "max_joint_speed_rad_s": 0.4,
+        "margin_m": 0.0045,
+        "prediction_frames": 0.2,
+        "contact_weight": 40.0,
+        "pose_weight": 0.0002,
+        "active_sides": [
+          "right"
+        ],
+        "pickup_sides": [
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "right": 0.0002
+        },
+        "seated_strands_by_side": {
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [],
+        "seat_depth_m": 0.008,
+        "scripted_wrist_spread_m": 0,
+        "scripted_right_wrist_offset_m": [
+          0,
+          0,
+          0
+        ],
+        "spread_duration_s": 2,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "segment_hand_contacts",
+          "previous_value": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "run": "right_segment_spread6_20261108",
+      "end_s": 49.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.000927197,
+          "near_indices": 0.002590483,
+          "old_loop_indices": 8.6658e-05
+        },
+        "right": {
+          "far_indices": 0.000314548,
+          "near_indices": 0.001523611,
+          "old_loop_indices": 8.895e-05
+        }
+      },
+      "full_peak_stretch": 1.1681221947844076,
+      "checkpoint_sha256": "e7d74b7e76b7f07ad9f92da78a3a5d9c665302b7091daa55da4ae60b986b253e",
+      "segment_hand_contacts": true,
+      "feedback": {
+        "source": "output/bilateral_segment_contact_settle_20261108",
+        "checkpoint": "output/bilateral_segment_contact_settle_20261108/checkpoint.npz",
+        "nominal": "output/bilateral_segment_contact_settle_20261108/checkpoint.npz",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 47.2,
+        "end": 49.2,
+        "max_joint_speed_rad_s": 0.2,
+        "margin_m": 0.004,
+        "prediction_frames": 0.2,
+        "contact_weight": 40.0,
+        "pose_weight": 0.001,
+        "active_sides": [
+          "right"
+        ],
+        "pickup_sides": [
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "right": 0.001
+        },
+        "seated_strands_by_side": {
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [],
+        "seat_depth_m": null,
+        "scripted_wrist_spread_m": 0,
+        "scripted_right_wrist_offset_m": [
+          0.0,
+          -0.006,
+          0.0
+        ],
+        "spread_duration_s": 1.5,
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      },
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "segment_hand_contacts",
+          "previous_value": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "run": "right_segment_relief_20261108",
+      "end_s": 49.4,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.00096062,
+          "near_indices": 0.002482487,
+          "old_loop_indices": 9.187e-05
+        },
+        "right": {
+          "far_indices": 0.000283639,
+          "near_indices": 0.001622603,
+          "old_loop_indices": 7.9382e-05
+        }
+      },
+      "full_peak_stretch": 1.1681221947844076,
+      "checkpoint_sha256": "019cc78c8cc2940e5af5a5b899bcafa22b2475006d429b010af13a0cb884763d",
+      "segment_hand_contacts": true,
+      "physics_config": {
+        "friction": 1.2,
+        "stretch_stiffness": 1200.0,
+        "stretch_damping": 0.01,
+        "adaptive_length": true,
+        "adaptive_tension_n": 0.025,
+        "substeps": 96,
+        "iterations": 32
+      },
+      "physics_events": [
+        {
+          "time": 44.0,
+          "parameter": "segment_hand_contacts",
+          "previous_value": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "run": "right_index_abduct_20261108",
+      "end_s": 50.2,
+      "last_second_gaps_m": {
+        "left": {
+          "far_indices": 0.001012835,
+          "near_indices": 0.002845785,
+          "old_loop_indices": 6.8598e-05
+        },
+        "right": {
+          "far_indices": 0.000560704,
+          "near_indices": 0.001033751,
+          "old_loop_indices": 9.8592e-05
+        }
+      },
+      "full_peak_stretch": 1.1744858687580138,
+      "checkpoint_sha256": "9c33695ad5d7468e8aa5d03e0f22c4db823d5632fed47ec972f157a6576f11d4",
+      "segment_hand_contacts": true,
+      "feedback": {
+        "source": "output/bilateral_segment_contact_settle_20261108",
+        "checkpoint": "output/bilateral_segment_contact_settle_20261108/checkpoint.npz",
+        "nominal": "output/right_index_abduct_route_20261108.json",
+        "retained_strands": [
+          "far_indices",
+          "old_loop_indices"
+        ],
+        "start": 47.2,
+        "end": 50.2,
+        "max_joint_speed_rad_s": 0.2,
+        "margin_m": 0.0045,
+        "prediction_frames": 0.2,
+        "contact_weight": 40.0,
+        "pose_weight": 0.001,
+        "active_sides": [
+          "right"
+        ],
+        "pickup_sides": [
+          "right"
+        ],
+        "observed_sides": [
+          "left",
+          "right"
+        ],
+        "retained_strands_by_side": {
+          "right": [
+            "far_indices",
+            "old_loop_indices"
+          ]
+        },
+        "pose_weights_by_side": {
+          "right": 0.001
+        },
+        "seated_strands_by_side": {
+          "right": "far_indices"
+        },
+        "scripted_support_joints": [
+          "right_index_MPR_joint"
+        ],
+        "seat_depth_m": null,
+        "scripted_wrist_spread_m": 0,
+        "scripted_right_wrist_offset_m": [
+          0,
+          0,
+          0
+        ],
+        "spread_duration_s": 2,
+        "physics_config": {
+          "pickup_correction": true,
+          "motion_speed": 1.0,
+          "fps": 30,
+          "substeps": 96,
+          "iterations": 32,
+          "contact_relaxation": 0.35,
+          "segment_hand_contacts": true,
+          "friction": 1.2,
+          "radius": 0.001,
+          "spacing": 0.002,
+          "stretch_stiffness": 1200.0,
+          "stretch_damping": 0.01,
+          "rope_linear_density": 0.004,
+          "adaptive_length": true,
+          "adaptive_take_up_m": 0.0,
+          "adaptive_tension_n": 0.025,
+          "rope_length_m": 0.4417950868606567,
+          "bend_stiffness": 0.002,
+          "gravity": -9.81,
+          "device": "cpu"
+        },
+        "scope": "Joint-only feedback experiment; contact does not certify topology"
+      }
+    }
+  ],
+  "finger_contact_audits": [
+    {
+      "run": "opening23_both_pickup_spread",
+      "scope": "Discrete edge/capsule gaps; excludes palm, meshes and swept collisions",
+      "frames": [
+        {
+          "time_s": 44.0,
+          "contacts": [
+            {
+              "finger": "left_little_PIP_link",
+              "edge": 53,
+              "edge_fraction": 0.49951754504730506,
+              "edge_length_m": 0.008156491704998844,
+              "edge_gap_m": -0.0007468184991439144,
+              "minimum_particle_gap_m": -1.9812010229888245e-05
+            },
+            {
+              "finger": "left_thumb_PIP_link",
+              "edge": 502,
+              "edge_fraction": 0.49849470680345553,
+              "edge_length_m": 0.0082186739954006,
+              "edge_gap_m": -0.000706135121895689,
+              "minimum_particle_gap_m": -2.051506470100283e-05
+            },
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 411,
+              "edge_fraction": 0.4999846194212346,
+              "edge_length_m": 0.008116270005490325,
+              "edge_gap_m": -0.0006875808232301864,
+              "minimum_particle_gap_m": -1.8146423094565593e-05
+            },
+            {
+              "finger": "left_little_MCP_link",
+              "edge": 50,
+              "edge_fraction": 0.5022641331669778,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": -0.0006570444411467249,
+              "minimum_particle_gap_m": -1.428973302169869e-05
+            },
+            {
+              "finger": "right_little_MCP_link",
+              "edge": 184,
+              "edge_fraction": 0.5023756130081426,
+              "edge_length_m": 0.00781009613950439,
+              "edge_gap_m": -0.0006021916770534664,
+              "minimum_particle_gap_m": -2.0723883452305504e-05
+            },
+            {
+              "finger": "left_index_MCP_link",
+              "edge": 287,
+              "edge_fraction": 0.38313359448716106,
+              "edge_length_m": 0.007907698077052541,
+              "edge_gap_m": -0.0003175475010930547,
+              "minimum_particle_gap_m": 3.1285909135324134e-05
+            },
+            {
+              "finger": "left_thumb_MCP_link",
+              "edge": 502,
+              "edge_fraction": 0.6607548624779657,
+              "edge_length_m": 0.0082186739954006,
+              "edge_gap_m": -0.00025311772409928896,
+              "minimum_particle_gap_m": -2.8475310972098794e-07
+            },
+            {
+              "finger": "left_thumb_DIP_link",
+              "edge": 284,
+              "edge_fraction": 0.3373680542415577,
+              "edge_length_m": 0.007650082772080475,
+              "edge_gap_m": -0.0001099233962678246,
+              "minimum_particle_gap_m": 0.0001560266161666742
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 612,
+              "edge_fraction": 0.9762857073407544,
+              "edge_length_m": 0.00793416176363622,
+              "edge_gap_m": 0.00014727358677328866,
+              "minimum_particle_gap_m": 0.00014858983246049482
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 615,
+              "edge_fraction": 0.9174778338154178,
+              "edge_length_m": 0.005905664470173219,
+              "edge_gap_m": 0.0005144953454499909,
+              "minimum_particle_gap_m": 0.0005236169088695267
+            },
+            {
+              "finger": "right_ring_MCP_link",
+              "edge": 185,
+              "edge_fraction": 0.16988506997777653,
+              "edge_length_m": 0.007967405492858149,
+              "edge_gap_m": 0.0005928586874329915,
+              "minimum_particle_gap_m": 0.0006586389669877126
+            },
+            {
+              "finger": "right_middle_MCP_link",
+              "edge": 611,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.006294610785453917,
+              "edge_gap_m": 0.004788679408624093,
+              "minimum_particle_gap_m": 0.004788679408624093
+            },
+            {
+              "finger": "left_middle_MCP_link",
+              "edge": 286,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007611601415950162,
+              "edge_gap_m": 0.007117098362078858,
+              "minimum_particle_gap_m": 0.007117098362078858
+            },
+            {
+              "finger": "right_thumb_MCP_link",
+              "edge": 408,
+              "edge_fraction": 0.19719940022018234,
+              "edge_length_m": 0.0049633085572956806,
+              "edge_gap_m": 0.010486127550770264,
+              "minimum_particle_gap_m": 0.010504553430144593
+            },
+            {
+              "finger": "left_little_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": 0.019625801970002174,
+              "minimum_particle_gap_m": 0.019625801970002174
+            },
+            {
+              "finger": "left_ring_MCP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": 0.020088464949738427,
+              "minimum_particle_gap_m": 0.020088464949738427
+            },
+            {
+              "finger": "left_ring_PIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": 0.023772824690326894,
+              "minimum_particle_gap_m": 0.023772824690326894
+            },
+            {
+              "finger": "right_little_PIP_link",
+              "edge": 178,
+              "edge_fraction": 0.8640189727403917,
+              "edge_length_m": 0.007848405516367948,
+              "edge_gap_m": 0.02762569360105258,
+              "minimum_particle_gap_m": 0.0276401357104237
+            },
+            {
+              "finger": "right_ring_PIP_link",
+              "edge": 182,
+              "edge_fraction": 0.8271376865994298,
+              "edge_length_m": 0.007825880257637564,
+              "edge_gap_m": 0.03721198699527985,
+              "minimum_particle_gap_m": 0.03723065302881089
+            },
+            {
+              "finger": "left_index_PIP_link",
+              "edge": 287,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007907698077052541,
+              "edge_gap_m": 0.04079708194875893,
+              "minimum_particle_gap_m": 0.04079708194875893
+            },
+            {
+              "finger": "left_ring_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": 0.042988735630481736,
+              "minimum_particle_gap_m": 0.042988735630481736
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 411,
+              "edge_fraction": 0.3370797002102029,
+              "edge_length_m": 0.008116270005490325,
+              "edge_gap_m": 0.04367923276284144,
+              "minimum_particle_gap_m": 0.04374664736037555
+            },
+            {
+              "finger": "right_middle_PIP_link",
+              "edge": 611,
+              "edge_fraction": 0.5052839823190636,
+              "edge_length_m": 0.006294610785453917,
+              "edge_gap_m": 0.04649986320923023,
+              "minimum_particle_gap_m": 0.04658297119118497
+            },
+            {
+              "finger": "left_middle_PIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": 0.048680924860209945,
+              "minimum_particle_gap_m": 0.048680924860209945
+            },
+            {
+              "finger": "right_little_DIP_link",
+              "edge": 177,
+              "edge_fraction": 0.9531889972962393,
+              "edge_length_m": 0.007909395709627585,
+              "edge_gap_m": 0.055527977243166264,
+              "minimum_particle_gap_m": 0.05552899981322875
+            },
+            {
+              "finger": "right_ring_DIP_link",
+              "edge": 181,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007945427766072556,
+              "edge_gap_m": 0.06374264044815349,
+              "minimum_particle_gap_m": 0.06374264044815349
+            },
+            {
+              "finger": "left_middle_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008201886995974765,
+              "edge_gap_m": 0.06398566864989616,
+              "minimum_particle_gap_m": 0.06398566864989616
+            },
+            {
+              "finger": "left_index_DIP_link",
+              "edge": 287,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007907698077052541,
+              "edge_gap_m": 0.06893009571128539,
+              "minimum_particle_gap_m": 0.06893009571128539
+            },
+            {
+              "finger": "right_index_DIP_link",
+              "edge": 411,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008116270005490325,
+              "edge_gap_m": 0.070140444737446,
+              "minimum_particle_gap_m": 0.070140444737446
+            },
+            {
+              "finger": "right_middle_DIP_link",
+              "edge": 610,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007900837141448406,
+              "edge_gap_m": 0.07502142281143641,
+              "minimum_particle_gap_m": 0.07502142281143641
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": "bilateral_segment_contact_hold_20261108",
+      "scope": "Discrete edge/capsule gaps; excludes palm, meshes and swept collisions",
+      "frames": [
+        {
+          "time_s": 45.2,
+          "contacts": [
+            {
+              "finger": "right_little_MCP_link",
+              "edge": 185,
+              "edge_fraction": 0.451512580230934,
+              "edge_length_m": 0.00798894940763599,
+              "edge_gap_m": -3.349617089267332e-05,
+              "minimum_particle_gap_m": 0.00036705524993413657
+            },
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 411,
+              "edge_fraction": 0.4870848980917437,
+              "edge_length_m": 0.007546548675708279,
+              "edge_gap_m": -1.5203073272442892e-05,
+              "minimum_particle_gap_m": 0.00040360396332073025
+            },
+            {
+              "finger": "left_thumb_PIP_link",
+              "edge": 500,
+              "edge_fraction": 0.5035120271554883,
+              "edge_length_m": 0.0074380167738254555,
+              "edge_gap_m": -1.4866780730740138e-05,
+              "minimum_particle_gap_m": 0.00016210197675409124
+            },
+            {
+              "finger": "left_index_MCP_link",
+              "edge": 287,
+              "edge_fraction": 0.6174225571094362,
+              "edge_length_m": 0.008020928383264509,
+              "edge_gap_m": -1.2381056978334921e-05,
+              "minimum_particle_gap_m": 0.0003373488758927753
+            },
+            {
+              "finger": "left_little_PIP_link",
+              "edge": 54,
+              "edge_fraction": 0.5189823281229976,
+              "edge_length_m": 0.0075087074423782416,
+              "edge_gap_m": -8.627404462118078e-06,
+              "minimum_particle_gap_m": 0.0005225433488979013
+            },
+            {
+              "finger": "left_little_MCP_link",
+              "edge": 50,
+              "edge_fraction": 0.5200868736077474,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": -6.4491000113199234e-06,
+              "minimum_particle_gap_m": 0.0004819253005716945
+            },
+            {
+              "finger": "left_thumb_MCP_link",
+              "edge": 502,
+              "edge_fraction": 0.6855182775639941,
+              "edge_length_m": 0.007639129583146125,
+              "edge_gap_m": -1.9436900719821057e-06,
+              "minimum_particle_gap_m": 0.00018314747768724462
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 612,
+              "edge_fraction": 0.953502681003487,
+              "edge_length_m": 0.0077867398913862,
+              "edge_gap_m": 0.00029273840356085646,
+              "minimum_particle_gap_m": 0.00029755958186272833
+            },
+            {
+              "finger": "left_thumb_DIP_link",
+              "edge": 284,
+              "edge_fraction": 0.5196498275311024,
+              "edge_length_m": 0.0076226055017606055,
+              "edge_gap_m": 0.00032060592705565,
+              "minimum_particle_gap_m": 0.0008332165690227043
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 615,
+              "edge_fraction": 0.45846671466801947,
+              "edge_length_m": 0.0074661176837569985,
+              "edge_gap_m": 0.0003836611643358483,
+              "minimum_particle_gap_m": 0.0008306198012870735
+            },
+            {
+              "finger": "right_ring_MCP_link",
+              "edge": 185,
+              "edge_fraction": 0.12111817710113894,
+              "edge_length_m": 0.00798894940763599,
+              "edge_gap_m": 0.000554213723096361,
+              "minimum_particle_gap_m": 0.0005879624556949332
+            },
+            {
+              "finger": "right_middle_MCP_link",
+              "edge": 611,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007954696608303276,
+              "edge_gap_m": 0.004609694828558902,
+              "minimum_particle_gap_m": 0.004609694828558902
+            },
+            {
+              "finger": "left_middle_MCP_link",
+              "edge": 286,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007556012021504551,
+              "edge_gap_m": 0.006562851865621072,
+              "minimum_particle_gap_m": 0.006562851865621072
+            },
+            {
+              "finger": "right_thumb_MCP_link",
+              "edge": 408,
+              "edge_fraction": 0.5783750097884576,
+              "edge_length_m": 0.006784793690646816,
+              "edge_gap_m": 0.010164646794466155,
+              "minimum_particle_gap_m": 0.010323581241422766
+            },
+            {
+              "finger": "left_ring_MCP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": 0.019649100128223608,
+              "minimum_particle_gap_m": 0.019649100128223608
+            },
+            {
+              "finger": "left_little_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": 0.019762414045162574,
+              "minimum_particle_gap_m": 0.019762414045162574
+            },
+            {
+              "finger": "left_ring_PIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": 0.02313349636610602,
+              "minimum_particle_gap_m": 0.02313349636610602
+            },
+            {
+              "finger": "right_little_PIP_link",
+              "edge": 178,
+              "edge_fraction": 0.6735841354781654,
+              "edge_length_m": 0.007411940984401616,
+              "edge_gap_m": 0.027611958387266277,
+              "minimum_particle_gap_m": 0.027686147443264784
+            },
+            {
+              "finger": "right_ring_PIP_link",
+              "edge": 182,
+              "edge_fraction": 0.9664447431522937,
+              "edge_length_m": 0.007407457888653722,
+              "edge_gap_m": 0.03745360065462315,
+              "minimum_particle_gap_m": 0.03745422782967121
+            },
+            {
+              "finger": "left_index_PIP_link",
+              "edge": 287,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008020928383264509,
+              "edge_gap_m": 0.040977199764301336,
+              "minimum_particle_gap_m": 0.040977199764301336
+            },
+            {
+              "finger": "left_ring_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": 0.042248812215668195,
+              "minimum_particle_gap_m": 0.042248812215668195
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 609,
+              "edge_fraction": 0.39554089145105825,
+              "edge_length_m": 0.007955786373212526,
+              "edge_gap_m": 0.04382830856725742,
+              "minimum_particle_gap_m": 0.04391724426694825
+            },
+            {
+              "finger": "right_middle_PIP_link",
+              "edge": 611,
+              "edge_fraction": 0.6493926745091693,
+              "edge_length_m": 0.007954696608303276,
+              "edge_gap_m": 0.04650836550205428,
+              "minimum_particle_gap_m": 0.046575027781837655
+            },
+            {
+              "finger": "left_middle_PIP_link",
+              "edge": 50,
+              "edge_fraction": 0.50864585813458,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": 0.04827499986665057,
+              "minimum_particle_gap_m": 0.048392303320065305
+            },
+            {
+              "finger": "right_little_DIP_link",
+              "edge": 177,
+              "edge_fraction": 0.7288550465878685,
+              "edge_length_m": 0.007405627842762658,
+              "edge_gap_m": 0.05548323487798822,
+              "minimum_particle_gap_m": 0.05551332563873588
+            },
+            {
+              "finger": "left_middle_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007644244404511893,
+              "edge_gap_m": 0.06352662857228436,
+              "minimum_particle_gap_m": 0.06352662857228436
+            },
+            {
+              "finger": "right_ring_DIP_link",
+              "edge": 181,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.00792780760575572,
+              "edge_gap_m": 0.06397580018473824,
+              "minimum_particle_gap_m": 0.06397580018473824
+            },
+            {
+              "finger": "left_index_DIP_link",
+              "edge": 287,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008020928383264509,
+              "edge_gap_m": 0.06921581169120355,
+              "minimum_particle_gap_m": 0.06921581169120355
+            },
+            {
+              "finger": "right_index_DIP_link",
+              "edge": 411,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007546548675708279,
+              "edge_gap_m": 0.07093472615162831,
+              "minimum_particle_gap_m": 0.07093472615162831
+            },
+            {
+              "finger": "right_middle_DIP_link",
+              "edge": 610,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007732188578971654,
+              "edge_gap_m": 0.07504886146255747,
+              "minimum_particle_gap_m": 0.07504886146255747
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": "bilateral_segment_contact_settle_20261108",
+      "scope": "Discrete edge/capsule gaps; excludes palm, meshes and swept collisions",
+      "frames": [
+        {
+          "time_s": 47.2,
+          "contacts": [
+            {
+              "finger": "right_little_MCP_link",
+              "edge": 185,
+              "edge_fraction": 0.4042852817877315,
+              "edge_length_m": 0.00797683399068852,
+              "edge_gap_m": -2.7238075440682956e-05,
+              "minimum_particle_gap_m": 0.00019257587249506183
+            },
+            {
+              "finger": "left_thumb_PIP_link",
+              "edge": 500,
+              "edge_fraction": 0.4983427415071294,
+              "edge_length_m": 0.0065641588934963625,
+              "edge_gap_m": -1.3601389324257966e-05,
+              "minimum_particle_gap_m": 7.676157395391462e-05
+            },
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 411,
+              "edge_fraction": 0.483894423201006,
+              "edge_length_m": 0.006662010969167495,
+              "edge_gap_m": -1.326401896468727e-05,
+              "minimum_particle_gap_m": 1.0915293786105916e-05
+            },
+            {
+              "finger": "left_little_PIP_link",
+              "edge": 54,
+              "edge_fraction": 0.5401951318191616,
+              "edge_length_m": 0.0066256326293914125,
+              "edge_gap_m": -1.0855645449490449e-05,
+              "minimum_particle_gap_m": 0.00037641472338546204
+            },
+            {
+              "finger": "left_little_MCP_link",
+              "edge": 50,
+              "edge_fraction": 0.4928557467764017,
+              "edge_length_m": 0.006745317183425599,
+              "edge_gap_m": -8.766017230594884e-06,
+              "minimum_particle_gap_m": 0.00036240564952285444
+            },
+            {
+              "finger": "left_thumb_MCP_link",
+              "edge": 503,
+              "edge_fraction": 0.49234489966759887,
+              "edge_length_m": 0.004745451590113557,
+              "edge_gap_m": -2.1372940671735355e-06,
+              "minimum_particle_gap_m": 0.00017298657599035868
+            },
+            {
+              "finger": "left_index_MCP_link",
+              "edge": 287,
+              "edge_fraction": 0.6263308407072593,
+              "edge_length_m": 0.007943258961529667,
+              "edge_gap_m": 5.821816283493528e-07,
+              "minimum_particle_gap_m": 0.000327743985147763
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 616,
+              "edge_fraction": 0.4350889340006728,
+              "edge_length_m": 0.006839703775998046,
+              "edge_gap_m": 0.00018029345986632968,
+              "minimum_particle_gap_m": 0.0005248109613596305
+            },
+            {
+              "finger": "left_thumb_DIP_link",
+              "edge": 284,
+              "edge_fraction": 0.5298064722833667,
+              "edge_length_m": 0.007637901159400207,
+              "edge_gap_m": 0.00040186630927957576,
+              "minimum_particle_gap_m": 0.0008923683592074643
+            },
+            {
+              "finger": "right_ring_MCP_link",
+              "edge": 185,
+              "edge_fraction": 0.1047180929336852,
+              "edge_length_m": 0.00797683399068852,
+              "edge_gap_m": 0.0006380182920527255,
+              "minimum_particle_gap_m": 0.0006630265873600527
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 613,
+              "edge_fraction": 0.8324329701485795,
+              "edge_length_m": 0.007928798224658048,
+              "edge_gap_m": 0.0007402467112516643,
+              "minimum_particle_gap_m": 0.0008029684608371621
+            },
+            {
+              "finger": "right_middle_MCP_link",
+              "edge": 612,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007057559467692201,
+              "edge_gap_m": 0.004482090970444756,
+              "minimum_particle_gap_m": 0.004482090970444756
+            },
+            {
+              "finger": "left_middle_MCP_link",
+              "edge": 286,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007596984890571416,
+              "edge_gap_m": 0.0065248562445829284,
+              "minimum_particle_gap_m": 0.0065248562445829284
+            },
+            {
+              "finger": "right_thumb_MCP_link",
+              "edge": 408,
+              "edge_fraction": 0.5701827335546982,
+              "edge_length_m": 0.006345505333305249,
+              "edge_gap_m": 0.009710521415661828,
+              "minimum_particle_gap_m": 0.009857624950301853
+            },
+            {
+              "finger": "left_little_DIP_link",
+              "edge": 50,
+              "edge_fraction": 0.8595880467039381,
+              "edge_length_m": 0.006745317183425599,
+              "edge_gap_m": 0.019783435868766644,
+              "minimum_particle_gap_m": 0.01979776992116141
+            },
+            {
+              "finger": "left_ring_MCP_link",
+              "edge": 50,
+              "edge_fraction": 0.8077834038696841,
+              "edge_length_m": 0.006745317183425599,
+              "edge_gap_m": 0.019850071994906446,
+              "minimum_particle_gap_m": 0.019873366806922657
+            },
+            {
+              "finger": "left_ring_PIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.006745317183425599,
+              "edge_gap_m": 0.02329907537252487,
+              "minimum_particle_gap_m": 0.02329907537252487
+            },
+            {
+              "finger": "right_little_PIP_link",
+              "edge": 178,
+              "edge_fraction": 0.26057734854247394,
+              "edge_length_m": 0.006542642678854194,
+              "edge_gap_m": 0.027724315477669927,
+              "minimum_particle_gap_m": 0.02776106769134774
+            },
+            {
+              "finger": "right_ring_PIP_link",
+              "edge": 182,
+              "edge_fraction": 0.6332476458277877,
+              "edge_length_m": 0.0065351278801420885,
+              "edge_gap_m": 0.0375481397808481,
+              "minimum_particle_gap_m": 0.03760630954855383
+            },
+            {
+              "finger": "left_index_PIP_link",
+              "edge": 287,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007943258961529667,
+              "edge_gap_m": 0.04098017801991981,
+              "minimum_particle_gap_m": 0.04098017801991981
+            },
+            {
+              "finger": "left_ring_DIP_link",
+              "edge": 50,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.006745317183425599,
+              "edge_gap_m": 0.0422944978675854,
+              "minimum_particle_gap_m": 0.0422944978675854
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 610,
+              "edge_fraction": 0.152217272821878,
+              "edge_length_m": 0.007024829939644364,
+              "edge_gap_m": 0.0438146865289835,
+              "minimum_particle_gap_m": 0.04382496526903297
+            },
+            {
+              "finger": "right_middle_PIP_link",
+              "edge": 612,
+              "edge_fraction": 0.3097098621040539,
+              "edge_length_m": 0.007057559467692201,
+              "edge_gap_m": 0.04648162301223846,
+              "minimum_particle_gap_m": 0.04652259668504806
+            },
+            {
+              "finger": "left_middle_PIP_link",
+              "edge": 49,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.0069274919544215835,
+              "edge_gap_m": 0.048174542894885736,
+              "minimum_particle_gap_m": 0.048174542894885736
+            },
+            {
+              "finger": "right_little_DIP_link",
+              "edge": 177,
+              "edge_fraction": 0.24622194914039044,
+              "edge_length_m": 0.00665618385848346,
+              "edge_gap_m": 0.05566152189920814,
+              "minimum_particle_gap_m": 0.05568151540653996
+            },
+            {
+              "finger": "left_middle_DIP_link",
+              "edge": 50,
+              "edge_fraction": 0.9384872624283442,
+              "edge_length_m": 0.006745317183425599,
+              "edge_gap_m": 0.0638273353554185,
+              "minimum_particle_gap_m": 0.06382847809946773
+            },
+            {
+              "finger": "right_ring_DIP_link",
+              "edge": 181,
+              "edge_fraction": 0.7197442268253316,
+              "edge_length_m": 0.007927136737059852,
+              "edge_gap_m": 0.0640774979903196,
+              "minimum_particle_gap_m": 0.06411014365697808
+            },
+            {
+              "finger": "left_index_DIP_link",
+              "edge": 287,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.007943258961529667,
+              "edge_gap_m": 0.06922331198528375,
+              "minimum_particle_gap_m": 0.06922331198528375
+            },
+            {
+              "finger": "right_index_DIP_link",
+              "edge": 411,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.006662010969167495,
+              "edge_gap_m": 0.07162461103618788,
+              "minimum_particle_gap_m": 0.07162461103618788
+            },
+            {
+              "finger": "right_middle_DIP_link",
+              "edge": 611,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.008042553557282001,
+              "edge_gap_m": 0.07505644002012547,
+              "minimum_particle_gap_m": 0.07505644002012547
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "joint_routes": {
+    "right_segment_relief_route_20261108.json": [
+      {
+        "duration": 1.0,
+        "joints": [
+          0.0,
+          0.0,
+          0.0,
+          0.432788443094404,
+          -1.004554130403253,
+          -0.29391457014847844,
+          -1.799197231195142,
+          0.2797885886192388,
+          -0.46215742203768734,
+          1.4289895448722465,
+          0.6907966720752495,
+          -1.0910091281321728,
+          -0.5421692983805189,
+          -1.7820958970833798,
+          0.4062817758613536,
+          -0.5460422617506938,
+          1.2603547199644698,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.12511453444780488,
+          1.1872922591078343,
+          0.8346121876348394,
+          1.071384606972382,
+          1.3889085976061948,
+          0.0,
+          -0.08,
+          -0.1,
+          -0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.1284021608219213,
+          1.2067640707227518,
+          0.833273209324639,
+          0.828183613932418,
+          1.4817933536829064,
+          0.35,
+          -0.08,
+          -0.1,
+          -0.2,
+          -0.4,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0
+        ],
+        "phase": "Adjust right thumb while retaining both loops"
+      }
+    ],
+    "right_index_abduct_route_20261108.json": [
+      {
+        "duration": 1.5,
+        "joints": [
+          0.0,
+          0.0,
+          0.0,
+          0.432788443094404,
+          -1.004554130403253,
+          -0.29391457014847844,
+          -1.799197231195142,
+          0.2797885886192388,
+          -0.46215742203768734,
+          1.4289895448722465,
+          0.6907966720752495,
+          -1.0910091281321728,
+          -0.5421692983805189,
+          -1.7820958970833798,
+          0.4062817758613536,
+          -0.5460422617506938,
+          1.2603547199644698,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.12511453444780488,
+          1.1872922591078343,
+          0.8346121876348394,
+          1.071384606972382,
+          1.3889085976061948,
+          0.0,
+          -0.08,
+          -0.1,
+          -0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.12939827499459378,
+          1.211662664562334,
+          0.8481007710781138,
+          0.8213348519792871,
+          1.4705676157959269,
+          0.48,
+          -0.08,
+          -0.1,
+          -0.2,
+          -0.4,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "duration": 1.5,
+        "joints": [
+          0.0,
+          0.0,
+          0.0,
+          0.432788443094404,
+          -1.004554130403253,
+          -0.29391457014847844,
+          -1.799197231195142,
+          0.2797885886192388,
+          -0.46215742203768734,
+          1.4289895448722465,
+          0.6907966720752495,
+          -1.0910091281321728,
+          -0.5421692983805189,
+          -1.7820958970833798,
+          0.4062817758613536,
+          -0.5460422617506938,
+          1.2603547199644698,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.12511453444780488,
+          1.1872922591078343,
+          0.8346121876348394,
+          1.071384606972382,
+          1.3889085976061948,
+          0.0,
+          -0.08,
+          -0.1,
+          -0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.12939827499459378,
+          1.211662664562334,
+          0.8481007710781138,
+          0.8213348519792871,
+          1.4705676157959269,
+          0.48,
+          -0.08,
+          -0.1,
+          -0.2,
+          -0.4,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "right_index_relief_route_20261108.json": [
+      {
+        "joints": [
+          0.0,
+          0.0,
+          0.0,
+          0.432788443094404,
+          -1.004554130403253,
+          -0.29391457014847844,
+          -1.799197231195142,
+          0.2797885886192388,
+          -0.46215742203768734,
+          1.4289895448722465,
+          0.6907966720752495,
+          -1.0910091281321728,
+          -0.5421692983805189,
+          -1.7820958970833798,
+          0.4062817758613536,
+          -0.5460422617506938,
+          1.2603547199644698,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.12511453444780488,
+          1.1872922591078343,
+          0.8346121876348394,
+          1.071384606972382,
+          1.3889085976061948,
+          0.0,
+          -0.08,
+          -0.1,
+          -0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.12939827499459378,
+          1.211662664562334,
+          0.8481007710781138,
+          0.8213348519792871,
+          1.4705676157959269,
+          0.35,
+          0.15,
+          0.15,
+          0.0,
+          -0.4,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0
+        ],
+        "duration": 1.5,
+        "phase": "Curl right index to separate its two strings"
+      },
+      {
+        "joints": [
+          0.0,
+          0.0,
+          0.0,
+          0.432788443094404,
+          -1.004554130403253,
+          -0.29391457014847844,
+          -1.799197231195142,
+          0.2797885886192388,
+          -0.46215742203768734,
+          1.4289895448722465,
+          0.6907966720752495,
+          -1.0910091281321728,
+          -0.5421692983805189,
+          -1.7820958970833798,
+          0.4062817758613536,
+          -0.5460422617506938,
+          1.2603547199644698,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.12511453444780488,
+          1.1872922591078343,
+          0.8346121876348394,
+          1.071384606972382,
+          1.3889085976061948,
+          0.0,
+          -0.08,
+          -0.1,
+          -0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.12939827499459378,
+          1.211662664562334,
+          0.8481007710781138,
+          0.8213348519792871,
+          1.4705676157959269,
+          0.35,
+          0.15,
+          0.15,
+          0.0,
+          -0.4,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.4,
+          0.0,
+          0.0
+        ],
+        "duration": 1.0,
+        "phase": "Observe index-supported pickup"
+      }
+    ]
+  }
+}

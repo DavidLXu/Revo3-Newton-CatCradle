@@ -358,6 +358,7 @@ class BimanualSimulation(Simulation):
         self.model.particle_mu = 0.25
         self.solver = SegmentRopeSolverXPBD(
             self.model,
+            segment_hand_contacts=c.segment_hand_contacts,
             iterations=c.iterations,
             soft_body_relaxation=0.65,
             soft_contact_relaxation=c.contact_relaxation,
@@ -371,6 +372,10 @@ class BimanualSimulation(Simulation):
         self.next = self.model.state()
         self.control = self.model.control()
         self.contact_peak = 0
+
+    def set_segment_hand_contacts(self, enabled):
+        self.solver.segment_hand_contacts = bool(enabled)
+        self.config.segment_hand_contacts = bool(enabled)
 
     def update_rest_lengths(self, dt):
         c = self.config
@@ -444,7 +449,9 @@ def export_bimanual(sim, frames, metrics, out, meshes=False):
         length_control=sim.length_control,
         rest_length_max_scale=sim.rest_length_max_scale,
         collision_geometry=dict(
-            fingers="capsules", palm=sim.palm_geometry, knuckles=sim.knuckle_geometry
+            fingers="capsules", palm=sim.palm_geometry, knuckles=sim.knuckle_geometry,
+            rope_finger_contact="particles_and_segments"
+            if sim.config.segment_hand_contacts else "particles",
         ),
         robot="revotron",
         validation=validation,

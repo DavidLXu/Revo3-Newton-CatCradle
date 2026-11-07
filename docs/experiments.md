@@ -175,6 +175,22 @@ placed Opening A and therefore do not prove a successful Position 1 transition.
 
 ## Rejected approaches and remaining work
 
+The November 8 continuation adds an optional rope-edge contact model for the
+finger capsules. At the 44 s boundary, an 8.16 mm rope edge cut 0.747 mm into
+the little-finger capsule even though particle penetration was only 0.020 mm.
+After enabling edge contacts and holding the same joints for 1.2 s,
+the worst sampled edge penetration was 0.034 mm. The correction is solved inside
+each XPBD iteration with contact friction; all particles remain dynamic.
+
+A 3.2 s static continuation with this model retained both new bights, both old
+thumb loops and the index/little supports. It passed the strain, self-contact
+and completed-hold checks. Right near-strand clearance still reached only
+1.559 mm in the final second, so the bilateral pickup remains unaccepted.
+The full-history peak stretch was 1.168, versus 1.237 for the corresponding
+particle-only hold. These are single deterministic CPU runs from one checkpoint.
+See [the contact experiment](development/transfers.md#november-8-edge-contact-and-hold-experiments)
+for commands and limits.
+
 Higher friction alone did not solve the transfer: one comparison exceeded the
 1.2 stretch limit. A full thumb return lost the new bight, while a partial return
 provided a usable contact state. Raising the right wrist from a pose with the

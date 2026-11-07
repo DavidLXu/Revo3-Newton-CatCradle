@@ -22,9 +22,17 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--seconds", type=float, default=3)
     parser.add_argument("--label", default="Continue free settling")
+    parser.add_argument("--segment-hand-contacts", action="store_true",
+                        help="Enable interior rope-edge contact with finger capsules after restore")
+    parser.add_argument("--stretch-damping", type=float,
+                        help="Change longitudinal spring damping after exact checkpoint restore")
     args = parser.parse_args()
     if not np.isfinite(args.seconds) or args.seconds <= 0:
         parser.error("Hold duration must be finite and positive")
+    if args.stretch_damping is not None and (
+        not np.isfinite(args.stretch_damping) or args.stretch_damping < 0
+    ):
+        parser.error("Stretch damping must be finite and nonnegative")
     payload = json.loads((args.source / "trajectory.json").read_text())
     commands = json.loads((args.source / "joint_commands.json").read_text())
     saved = np.load(args.source / "checkpoint.npz")
@@ -51,6 +59,19 @@ def main():
         rest_length_max_scale=payload.get("rest_length_max_scale", 2),
     )
     sim.load_checkpoint(args.source / "checkpoint.npz")
+    if args.segment_hand_contacts and not cfg.segment_hand_contacts:
+        motion.metadata.setdefault("initial_segment_hand_contacts", False)
+        motion.metadata.setdefault("physics_events", []).append(dict(
+            time=start, parameter="segment_hand_contacts", previous_value=False, value=True,
+        ))
+        sim.set_segment_hand_contacts(True)
+    if args.stretch_damping is not None:
+        motion.metadata.setdefault("initial_stretch_damping", cfg.stretch_damping)
+        motion.metadata.setdefault("physics_events", []).append(dict(
+            time=start, parameter="stretch_damping",
+            previous_value=cfg.stretch_damping, value=args.stretch_damping,
+        ))
+        sim.set_stretch_damping(args.stretch_damping)
     end = round((start + args.seconds) * cfg.fps) / cfg.fps
     if end <= start + 1e-6:
         raise ValueError("Hold must include at least one output frame")

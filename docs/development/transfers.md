@@ -1813,3 +1813,87 @@ first four frames in joint angles, rope positions and rest lengths. Sampling
 their commands at every original frame time (frame index divided by FPS) has
 zero joint error. The full physical recipes have not been rerun from scratch
 for this packaging change; the left validation file is explicitly historical.
+
+## November 8 edge contact and hold experiments
+
+Continuing the 44 s bilateral attempt exposed a collision-resolution gap.
+The rope particles touched the finger capsules, but the straight edges between
+them cut into the capsules. The deepest edge at 44 s was 0.747 mm inside the
+left little PIP capsule; its length was 8.16 mm. The left and right thumb PIP
+edges penetrated by 0.706 and 0.688 mm. A particle-only audit reported about
+0.02 mm at these contacts.
+
+`BimanualSimulation` reads `Config.segment_hand_contacts` to enable additional
+interior edge/capsule constraints in `SegmentRopeSolverXPBD`. Each XPBD iteration distributes the
+normal and Coulomb friction corrections to the edge endpoints by barycentric
+weight. Relative velocity includes the kinematic body's translation and
+rotation. Endpoint contacts still use Newton's particle solver. This is a
+discrete capsule test; swept collisions and edge/mesh contacts are not covered.
+The default remains off so the published recipes keep their original physics.
+
+The static comparison starts with the same saved positions, velocities,
+rest lengths and robot pose. Switching the model at 44 s is recorded as a
+physics event. After 1.2 s, the worst sampled capsule penetration falls to
+0.034 mm. Holding another 2 s keeps both requested bights and the old loops in
+contact. Full validation at 47.2 s fails only the right near-strand clearance:
+1.559 mm against the existing 2 mm threshold. Its full-history stretch maximum
+is 1.168 and its minimum nonlocal rope-edge separation is 1.968 mm. The
+particle-only static continuation reached 1.237 stretch and lost the right
+bight. Neither branch establishes Cup & Saucer.
+
+Reproduce the new-contact branch from the bundled 44 s attempt:
+
+```bash
+.venv/bin/python scripts/replay_transfer.py examples/transfers/right_pickup_attempt.json \
+  --output output/opening23_both_pickup_spread
+.venv/bin/python scripts/continue_hold.py \
+  --source output/opening23_both_pickup_spread \
+  --output output/bilateral_segment_contact_hold_20261108 \
+  --seconds 1.2 --segment-hand-contacts --label 'Hold new thumb bights'
+.venv/bin/python scripts/continue_hold.py \
+  --source output/bilateral_segment_contact_hold_20261108 \
+  --output output/bilateral_segment_contact_settle_20261108 \
+  --seconds 2 --label 'Hold new thumb bights'
+.venv/bin/python scripts/validate_transfer.py \
+  --output output/bilateral_segment_contact_settle_20261108
+.venv/bin/python scripts/audit_finger_contacts.py \
+  --source output/bilateral_segment_contact_hold_20261108 --time 44 45.2
+```
+
+The validator is expected to exit 1 for this rejected trial. The continuation
+commands were run from the existing 44 s checkpoint; the full initial recipe
+has not been rerun with this patch. Runtime physics events are supported by
+these checkpoint continuations, not by the initial-placement recipe runner.
+
+Other branches tested greater wrist separation, a raised right wrist, right
+index flexion, fixed rest lengths and increased longitudinal spring damping.
+They did not pass the pickup gates. With edge contacts enabled, moving both
+wrists outward by 3 mm also reduced left near-strand clearance below 2 mm.
+These comparisons motivate keeping the left hand fixed during the next right
+pickup adjustment.
+
+The right-only 6 mm wrist translation and 8 mm axial seating target also failed
+the final near-strand margin. A frozen-rope fit suggested a thumb adjustment
+smaller than one degree; dynamic replay reached 2.660 mm clearance at 48 s,
+then fell to 1.623 mm during its static hold. This is another case where the
+frozen geometry does not predict the settled string position.
+The [saved diagnostics](bilateral_contacts_20261108.json) include the completed
+run names, checkpoint hashes, parameters and final-second measurements.
+The subsequent right-index MPR change from 0.35 to 0.48 rad also fails: at
+50.2 s, the final-second right near clearance reaches only 1.034 mm. Both target
+bights remain within the contact threshold, but the near-strand condition is
+still unsatisfied.
+
+The episode runner now calls the same transfer evaluator as the standalone
+validator. It checks the inactive thumb, other supports throughout transfer,
+joint limits, and a full second of unchanged joints with the hold phase.
+Incomplete episodes cannot pass. Logs are written during execution, and the
+result bundle includes the commands and material plan needed for continuation.
+The validator loads each NPZ array once instead of decompressing it per frame.
+
+Verification: 87 non-integration tests passed with the contact change; an
+additional checkpoint test passed afterward. The new tests cover an interior
+edge hit missed by particle spheres, unilateral response, rotation, friction
+against a moving body, XPBD integration and exact checkpoint continuation.
+F-rule lint passes. The existing single-hand integration failure on GitHub
+remains unresolved; these results do not claim a green full CI run.
