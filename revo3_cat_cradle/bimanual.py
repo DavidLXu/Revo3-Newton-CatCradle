@@ -168,10 +168,14 @@ class BimanualSimulation(Simulation):
         length_control="local",
         rest_length_max_scale=2.0,
         knuckle_geometry="none",
+        robot_body_geometry="none",
     ):
         if knuckle_geometry not in ("none", "mesh"):
             raise ValueError(f"Unknown knuckle geometry: {knuckle_geometry}")
         self.knuckle_geometry = knuckle_geometry
+        if robot_body_geometry not in ("none", "hulls"):
+            raise ValueError(f"Unknown robot body geometry: {robot_body_geometry}")
+        self.robot_body_geometry = robot_body_geometry
         self.palm_geometry = palm_geometry
         self.length_control = length_control
         self.rest_length_max_scale = float(rest_length_max_scale)
@@ -330,6 +334,24 @@ class BimanualSimulation(Simulation):
                 )
             else:
                 raise ValueError(f"Unknown palm collision geometry: {palm_geometry}")
+        if robot_body_geometry == "hulls":
+            from .robot_geometry import load_robot_hulls
+
+            for name, hull in load_robot_hulls(robot).items():
+                self.proxy_links.append(name)
+                body = b.add_body(
+                    xform=self.as_warp(self.transforms[name]),
+                    is_kinematic=True,
+                    label=name,
+                )
+                b.add_shape_mesh(
+                    body,
+                    mesh=newton.Mesh(
+                        hull.vertices.astype(np.float32),
+                        hull.faces.astype(np.int32).ravel(),
+                    ),
+                    cfg=cfg,
+                )
         b.add_ground_plane(cfg=cfg)
         masses = c.rope_linear_density * (edges + np.roll(edges, 1)) / 2
         for point, mass in zip(p, masses):
@@ -450,6 +472,7 @@ def export_bimanual(sim, frames, metrics, out, meshes=False):
         rest_length_max_scale=sim.rest_length_max_scale,
         collision_geometry=dict(
             fingers="capsules", palm=sim.palm_geometry, knuckles=sim.knuckle_geometry,
+            robot_body=sim.robot_body_geometry,
             rope_finger_contact="particles_and_segments"
             if sim.config.segment_hand_contacts else "particles",
         ),

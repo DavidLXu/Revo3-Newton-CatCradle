@@ -169,7 +169,13 @@
           "minimum_palm_palm_sphere_lower_bound_m": 0.07010122692515919
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_right_release_20261108",
@@ -342,7 +348,13 @@
         "minimum_separation_time_s": 0.0,
         "interval_minimum_capsule_gap_m": -1.2280491286049099e-05,
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_right_roll_20261108",
@@ -406,7 +418,13 @@
         "minimum_separation_time_s": 18.866667,
         "interval_minimum_capsule_gap_m": -7.251859322303465e-05,
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "distal_little_release_20261108",
@@ -543,7 +561,13 @@
           "minimum_palm_palm_sphere_lower_bound_m": 0.02348533051739607
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_palm_clear_roll_20261108",
@@ -616,7 +640,13 @@
           "minimum_palm_palm_sphere_lower_bound_m": 0.03943930159285866
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_fixed_index_roll_20261108",
@@ -694,7 +724,13 @@
           "minimum_same_hand_finger_margin_m": 0.0007541696774023112
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_deep_index_restore_20261108",
@@ -970,7 +1006,13 @@
             }
           }
         }
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_deep_index_roll_20261108",
@@ -1317,7 +1359,57 @@
         },
         "first_unresolved": null
       },
-      "all_recorded_diagnostics_pass": true
+      "all_recorded_diagnostics_pass": false,
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true,
+      "confirmed_arm_surface_crossings": {
+        "hits": [
+          {
+            "link": "Link6_L",
+            "edge": 134,
+            "triangle": 671,
+            "point": [
+              0.413918541319998,
+              0.07196972928596981,
+              0.9974420143180068
+            ]
+          },
+          {
+            "link": "Link6_L",
+            "edge": 163,
+            "triangle": 563,
+            "point": [
+              0.4015339269383979,
+              0.0752030167661203,
+              1.052088643965333
+            ]
+          },
+          {
+            "link": "Link7_L",
+            "edge": 178,
+            "triangle": 22709,
+            "point": [
+              0.3925940017423227,
+              0.0754677364711729,
+              1.0820453047571301
+            ]
+          },
+          {
+            "link": "Link7_L",
+            "edge": 197,
+            "triangle": 7574,
+            "point": [
+              0.38301671160535566,
+              0.0754911648094226,
+              1.1180495268153516
+            ]
+          }
+        ]
+      }
     },
     {
       "run": "alternative_cup_tilted_ready_20261108",
@@ -1616,7 +1708,97 @@
         },
         "first_unresolved": null
       },
-      "all_recorded_diagnostics_pass": true
+      "all_recorded_diagnostics_pass": false,
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true,
+      "confirmed_arm_surface_crossings": {
+        "hits": [
+          {
+            "link": "Link6_L",
+            "edge": 130,
+            "triangle": 192,
+            "point": [
+              0.3715037056186848,
+              0.10115777061629964,
+              0.9845949157564515
+            ]
+          },
+          {
+            "link": "Link6_L",
+            "edge": 131,
+            "triangle": 5293,
+            "point": [
+              0.3716172110562231,
+              0.10087357636490597,
+              0.9866216007511339
+            ]
+          },
+          {
+            "link": "Link6_L",
+            "edge": 168,
+            "triangle": 5341,
+            "point": [
+              0.37225440596595033,
+              0.09025083155699096,
+              1.058163022704791
+            ]
+          },
+          {
+            "link": "Link6_L",
+            "edge": 169,
+            "triangle": 542,
+            "point": [
+              0.37219307144021824,
+              0.08998941047519653,
+              1.0601906357788122
+            ]
+          },
+          {
+            "link": "Link7_L",
+            "edge": 131,
+            "triangle": 30630,
+            "point": [
+              0.3716166713498071,
+              0.1008749514873262,
+              0.9866120421936159
+            ]
+          },
+          {
+            "link": "Link7_L",
+            "edge": 168,
+            "triangle": 30634,
+            "point": [
+              0.37225369977676587,
+              0.09024778115456132,
+              1.0581866651812706
+            ]
+          },
+          {
+            "link": "Link7_L",
+            "edge": 177,
+            "triangle": 25478,
+            "point": [
+              0.3713384164563975,
+              0.08785027764536761,
+              1.077733724370653
+            ]
+          },
+          {
+            "link": "Link7_L",
+            "edge": 197,
+            "triangle": 7190,
+            "point": [
+              0.36840759738346407,
+              0.08372801937797572,
+              1.1160494179398677
+            ]
+          }
+        ]
+      }
     },
     {
       "run": "alternative_cup_tilted_flick_20261108",
@@ -1872,7 +2054,13 @@
         },
         "first_unresolved": null
       },
-      "all_recorded_diagnostics_pass": false
+      "all_recorded_diagnostics_pass": false,
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_tilted_wrist_flick_20261108",
@@ -2228,7 +2416,13 @@
         },
         "first_unresolved": null
       },
-      "all_recorded_diagnostics_pass": true
+      "all_recorded_diagnostics_pass": false,
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_pump_20261108",
@@ -2662,7 +2856,13 @@
             ]
           }
         ]
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_extended_pump_20261108",
@@ -2943,7 +3143,13 @@
           "unresolved_edge_count": 31
         }
       },
-      "all_recorded_diagnostics_pass": false
+      "all_recorded_diagnostics_pass": false,
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_extended_fixed_pump_20261108",
@@ -3232,7 +3438,13 @@
           "unresolved_edge_count": 31
         }
       },
-      "all_recorded_diagnostics_pass": false
+      "all_recorded_diagnostics_pass": false,
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     },
     {
       "run": "alternative_cup_quick_swing_catch_20261108",
@@ -3454,10 +3666,16 @@
             ]
           }
         ]
-      }
+      },
+      "arm_hull_audit_correction": {
+        "evidence": "arm_collision_correction",
+        "scope": "Exact shared recorded prefix through the first hull intrusion",
+        "first_intrusion_time_s": 10.933333
+      },
+      "rejected_robot_body_clearance": true
     }
   ],
-  "best_release_preparation": "alternative_cup_tilted_ready_20261108",
+  "best_release_preparation": null,
   "completed_cup_boat_or_star": false,
   "runtime_body_guard_smoke": {
     "time_s": 28.3,
@@ -3466,5 +3684,328 @@
     "closest_envelope": "waist_Link",
     "closest_edge": 89,
     "unresolved_edge_count": 31
+  },
+  "arm_collision_correction": {
+    "first_old_hull_intrusion": {
+      "time_s": 10.933333,
+      "links": {
+        "Link7_R": [
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76
+        ]
+      }
+    },
+    "affected_recorded_runs": [
+      "alternative_cup_left_release_20261108",
+      "alternative_cup_right_abduct_20261108",
+      "alternative_cup_right_roll_20261108",
+      "alternative_cup_stagger_roll_20261108",
+      "alternative_cup_palm_clear_roll_20261108",
+      "alternative_cup_fixed_index_roll_20261108",
+      "alternative_cup_deep_index_restore_20261108",
+      "alternative_cup_deep_index_roll_20261108",
+      "alternative_cup_tilted_ready_20261108",
+      "alternative_cup_tilted_flick_20261108",
+      "alternative_cup_tilted_wrist_flick_20261108",
+      "alternative_cup_pump_20261108",
+      "alternative_cup_extended_pump_20261108",
+      "alternative_cup_extended_fixed_pump_20261108",
+      "alternative_cup_quick_swing_catch_20261108"
+    ],
+    "old_collision_bodies": "Hands only; central-body boxes were diagnostics, not physical contacts",
+    "new_collision_geometry": "21 per-link convex hulls for both arms and central body",
+    "completed_cup_boat_or_star": false
+  },
+  "collision_enabled_replay": {
+    "run": "opening24_robot_hulls_fixture_20261108",
+    "recipe": "examples/transfers/global_opening_seed.json",
+    "replay_override": {
+      "robot_body": "hulls"
+    },
+    "checkpoint_sha256": "cf9e409234230af95d4b7392e375fa80052438dd7153a4d322575b2a362698cb",
+    "legacy_comparison": {
+      "time": 0.0,
+      "joints": 0.0,
+      "rope": 0.0,
+      "rest_lengths": 0.0
+    },
+    "robot_hull_audit": {
+      "scope": "Detect rope centerlines entering conservative robot arm/body hulls.\n\nHulls fill cavities. A hit is an intrusion into the simulation proxy, not\nnecessarily the original mesh. No hits do not certify rope-radius clearance,\nrobot self-collisions, swept collisions, contact identity or figure topology.\n",
+      "interval_s": [
+        0.0,
+        6.0
+      ],
+      "inset_m": 1e-07,
+      "frames_checked": 181,
+      "frames_with_intrusions": 0,
+      "centerline_intrusions_absent": true,
+      "hits": []
+    },
+    "opening_support_audit": {
+      "scope": "Contact diagnostics; not a threading, topology or full physics certificate",
+      "interval_s": [
+        5.0,
+        6.0
+      ],
+      "simulated_knuckle_meshes": true,
+      "supports": {
+        "left_thumb": {
+          "final": {
+            "gap_m": 3.363611927015026e-05,
+            "material_indices": [
+              490,
+              491,
+              492,
+              493,
+              494,
+              495,
+              496,
+              497,
+              498,
+              499,
+              500,
+              501,
+              502,
+              503,
+              504,
+              505,
+              506,
+              507,
+              508,
+              509,
+              510,
+              511,
+              512,
+              513,
+              514
+            ]
+          },
+          "worst_hold_gap_m": 3.522954084184387e-05,
+          "first_missing_contact_s": null
+        },
+        "left_index": {
+          "final": {
+            "gap_m": 2.2806201172531106e-05,
+            "material_indices": [
+              285,
+              286,
+              287,
+              288,
+              289,
+              290,
+              291,
+              292,
+              293,
+              294,
+              295,
+              296,
+              297,
+              298,
+              299,
+              300,
+              301,
+              302,
+              303,
+              304,
+              305,
+              306,
+              307,
+              308,
+              309,
+              310,
+              311,
+              312,
+              313
+            ]
+          },
+          "worst_hold_gap_m": 2.295758186177197e-05,
+          "first_missing_contact_s": null
+        },
+        "left_little": {
+          "final": {
+            "gap_m": 1.1267696494460765e-05,
+            "material_indices": [
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61
+            ]
+          },
+          "worst_hold_gap_m": 1.7862137709166552e-05,
+          "first_missing_contact_s": null
+        },
+        "right_thumb": {
+          "final": {
+            "gap_m": 3.3144204907547235e-05,
+            "material_indices": [
+              404,
+              405,
+              406,
+              407,
+              408,
+              409,
+              410,
+              411,
+              412,
+              413,
+              414,
+              415,
+              416,
+              417,
+              418,
+              419,
+              420,
+              421,
+              422,
+              423,
+              424,
+              425,
+              426,
+              427
+            ]
+          },
+          "worst_hold_gap_m": 3.401077327315049e-05,
+          "first_missing_contact_s": null
+        },
+        "right_index": {
+          "final": {
+            "gap_m": -1.318807396896997e-05,
+            "material_indices": [
+              595,
+              596,
+              597,
+              598,
+              599,
+              600,
+              601,
+              602,
+              603,
+              604,
+              605,
+              606,
+              607,
+              608,
+              609,
+              610,
+              611,
+              612,
+              613,
+              614,
+              615,
+              616,
+              617,
+              618,
+              619,
+              620,
+              621,
+              622,
+              623,
+              624,
+              625
+            ]
+          },
+          "worst_hold_gap_m": -1.2969825648753187e-05,
+          "first_missing_contact_s": null
+        },
+        "right_little": {
+          "final": {
+            "gap_m": 1.7293126259670076e-05,
+            "material_indices": [
+              149,
+              150,
+              151,
+              152,
+              153,
+              154,
+              155,
+              156,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166,
+              167,
+              168,
+              169,
+              170,
+              171,
+              172,
+              173,
+              174,
+              175,
+              176
+            ]
+          },
+          "worst_hold_gap_m": 2.265271993815831e-05,
+          "first_missing_contact_s": null
+        }
+      },
+      "all_six_contacts_during_final_second": true,
+      "interval_peak_stretch": 1.0542886002062175,
+      "full_peak_stretch": 1.0871959221152312,
+      "interval_maximum_edge_m": 0.002597981409796001,
+      "self_contact_search_bound_m": 0.016
+    },
+    "completed_cup_boat_or_star": false
   }
 }

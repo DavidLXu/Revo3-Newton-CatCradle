@@ -22,6 +22,7 @@ from revo3_cat_cradle.bimanual_checks import (
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_gap
 from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
 from revo3_cat_cradle.body_envelope import CentralBodyEnvelope
+from revo3_cat_cradle.robot_geometry import RobotHullAudit
 from scripts.audit_finger_contacts import audit_frame
 
 
@@ -105,8 +106,13 @@ def main():
     palm_results = []
     body_envelopes = CentralBodyEnvelope(robot)
     body_results = []
+    robot_hulls = RobotHullAudit(robot)
+    hull_intrusions = []
     for k, pose in enumerate(joints):
         body_results.append(body_envelopes.measure(robot.fk(pose), rope[k], radius))
+        intrusions = robot_hulls.measure(robot.fk(pose), rope[k])
+        if intrusions:
+            hull_intrusions.append(dict(time_s=float(times[k]), links=intrusions))
         key = pose.tobytes()
         if key not in palm_cache:
             transforms = robot.fk(pose)
@@ -150,6 +156,7 @@ def main():
         full_history_central_body_envelopes_clear=bool(
             body_results[worst_body_frame]["minimum_face_margin_m"] >= 0
         ),
+        full_history_robot_hull_centerlines_clear=not hull_intrusions,
         completed_hold=bool(
             phase.startswith("Hold")
             and times[-1] >= payload["motion"]["duration"] - 1e-6
@@ -159,11 +166,13 @@ def main():
     )
     report = dict(
         scope="Necessary release diagnostics only; not a threading or figure certificate. "
-        "Excludes swept collisions, mesh-edge intersections, arm collisions "
-        "and material identity. Central-body clearance uses conservative boxes; "
-        "overlap does not by itself prove mesh penetration.",
+        "Excludes swept collisions, robot self-collisions, rope-radius clearance "
+        "at robot-body meshes and material identity. Central-body boxes and "
+        "complete-edge arm/body hull checks are conservative: overlap does not "
+        "by itself prove penetration of the original mesh.",
         passed_diagnostics=all(checks.values()),
         checks=checks,
+        full_history_robot_hull_intrusions=hull_intrusions,
         released_sides=list(released),
         interval_s=[float(times[selected[0]]), float(times[-1])],
         supports=supports,

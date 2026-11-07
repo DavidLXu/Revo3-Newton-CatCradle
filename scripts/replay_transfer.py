@@ -82,8 +82,14 @@ def main():
     parser.add_argument("recipe", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--duration", type=float, help="Stop early for a smoke run")
+    parser.add_argument(
+        "--robot-body", choices=("none", "hulls"),
+        help="Override arm/central-body contact geometry for a fresh replay",
+    )
     args = parser.parse_args()
     recipe = json.loads(args.recipe.read_text())
+    if args.robot_body is not None:
+        recipe["collision_geometry"]["robot_body"] = args.robot_body
     robot = RevoTron()
     motion = recipe_motion(recipe, robot)
     config = Config(**recipe["config"])
@@ -102,6 +108,7 @@ def main():
         config,
         palm_geometry=recipe["collision_geometry"]["palm"],
         knuckle_geometry=recipe["collision_geometry"]["knuckles"],
+        robot_body_geometry=recipe["collision_geometry"].get("robot_body", "none"),
         length_control=recipe["length_control"],
         rest_length_max_scale=recipe["rest_length_max_scale"],
     )

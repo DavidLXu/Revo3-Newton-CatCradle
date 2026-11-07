@@ -55,6 +55,7 @@ def main():
         cfg,
         palm_geometry=payload["collision_geometry"]["palm"],
         knuckle_geometry=payload["collision_geometry"].get("knuckles", "none"),
+        robot_body_geometry=payload["collision_geometry"].get("robot_body", "none"),
         length_control=payload.get("length_control", "local"),
         rest_length_max_scale=payload.get("rest_length_max_scale", 2),
     )

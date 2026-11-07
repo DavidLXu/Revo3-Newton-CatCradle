@@ -19,6 +19,7 @@ from revo3_cat_cradle.bimanual_checks import gaps, hand_clearance, self_clearanc
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes
 from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
 from revo3_cat_cradle.body_envelope import CentralBodyEnvelope
+from revo3_cat_cradle.robot_geometry import RobotHullAudit
 from revo3_cat_cradle.segment_contacts import MAX_SEGMENT_LENGTH
 
 
@@ -91,6 +92,10 @@ def main():
         "--check-body-envelope", action="store_true",
         help="Stop if a rope edge lacks separation from a conservative central-body box",
     )
+    p.add_argument(
+        "--check-robot-hulls", action="store_true",
+        help="Stop if a complete rope centerline edge enters an arm or body collision hull",
+    )
     p.add_argument("--index-curl", type=float, default=0.0)
     p.add_argument("--index-pip", type=float, default=0.0)
     p.add_argument("--index-dip", type=float, default=0.0)
@@ -153,6 +158,7 @@ def main():
         Config(**json.loads(str(seed["config"]))),
         palm_geometry="hull",
         knuckle_geometry=data.get("collision_geometry", {}).get("knuckles", "none"),
+        robot_body_geometry=data.get("collision_geometry", {}).get("robot_body", "none"),
         length_control=data.get("length_control", "local"),
         rest_length_max_scale=data.get("rest_length_max_scale", 2),
     )
@@ -184,6 +190,7 @@ def main():
     q = sim.q.copy()
     palm_checker = OpposingPalmClearance(r, r.fk(q)) if a.check_self_collision else None
     body_checker = CentralBodyEnvelope(r) if a.check_body_envelope else None
+    hull_checker = RobotHullAudit(r) if a.check_robot_hulls else None
     # Subsequent arm-assisted transfers start in the actual saved wrist frames,
     # including any orientation chosen by the contact-aware search.
     m.rotations = {side: r.wrist(q, side)[:3, :3].copy() for side in ("left", "right")}
@@ -298,6 +305,16 @@ def main():
                 save()
                 raise RuntimeError("Diverged")
             positions = sim.state.particle_q.numpy()
+            if hull_checker is not None:
+                intrusions = hull_checker.measure(sim.transforms, positions)
+                if intrusions:
+                    save()
+                    (out / "robot_hull_stop.json").write_text(json.dumps(dict(
+                        time_s=sim.t,
+                        scope="Rope centerline inside a conservative arm/body hull",
+                        links=intrusions,
+                    ), indent=2))
+                    raise RuntimeError("Rope centerline enters a robot collision hull")
             if body_checker is not None:
                 body_clearance = body_checker.measure(sim.transforms, positions, sim.config.radius)
                 if body_clearance["minimum_face_margin_m"] < 0:

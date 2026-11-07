@@ -5,8 +5,51 @@ gate. A second route follows the alternative method in
 [Neil Parker's Cup and Saucer instructions](https://llx.com/Neil/string/playground/cup_and_saucer.html):
 release the little-finger loops, swing the hanging loop over the other strings,
 then exchange the thumb loops.
-The experiments now reach bilateral release and test the loop throw.
-Cup & Saucer, boat and Star remain incomplete.
+The earlier hand-only checks reported bilateral release, but a subsequent arm
+audit invalidates that chain. Cup & Saucer, boat and Star remain incomplete.
+
+## Correction: missing arm collisions
+
+The old simulation had finger, knuckle and palm contacts but no arm or torso
+contact surfaces. Adding a central-body envelope check caught large swings;
+it did not catch the released loop entering the forearm. The full preparation
+history first enters a conservative right-wrist hull at 10.933333 s. Direct
+triangle checks also confirm actual left-forearm surface crossings at 24.6 s
+and 27.3 s (four and eight intersections, respectively). The old release and
+tilted-preparation checkpoints must not be used as physically valid starts.
+The measurements below are historical diagnostics with this omission.
+
+Fresh replays can now enable `--robot-body hulls`. This adds 21 kinematic
+collision bodies covering both arms, the base, torso, neck and head. Each
+shape is the convex hull of its official URDF link's collision meshes, with
+the mesh scale and collision origin applied. Newton supplies contact and
+friction; no rope anchors, resets or runtime position edits are added. Hulls
+fill mesh cavities, so contact may occur earlier than on the exact surface.
+Rigid robot self-collisions and swept collision checking remain separate gaps.
+
+Continuation and episode tools preserve the geometry selection. Checkpoints
+from scenes without those bodies are rejected; recompute from the original
+placement instead of inserting collision surfaces around an interpenetrating
+rope. `audit_robot_hulls.py` clips complete rope edges against every convex
+solid, including edges whose endpoints both lie outside. This checks centerline
+intrusions at recorded frames, not finite-radius or swept clearance. The release
+audit now includes this check, and `--check-robot-hulls` stops a continuation at
+its first such intrusion.
+
+```bash
+.venv/bin/python scripts/replay_transfer.py examples/transfers/global_opening_seed.json \
+  --robot-body hulls --output output/opening_with_robot_contacts
+.venv/bin/python scripts/audit_robot_hulls.py --source output/opening_with_robot_contacts
+```
+
+The six-second collision-enabled Opening A replay retains all six contacts
+through its final second, has no arm/body hull centerline intrusions, and has
+peak stretch 1.0872. All 181 recorded joint, rope and rest-length arrays exactly
+match the older hand-only fixture: these bodies have not yet contacted the
+rope. Passing this initial placement does not establish a successful later
+release. The new geometry and audit regressions pass with all 101
+non-integration tests. The unrelated single-hand integration failure described
+below remains unresolved.
 
 The new comparison starts from the same independently placed Opening A with
 global rest-length control and interior rope-edge/capsule contacts enabled.

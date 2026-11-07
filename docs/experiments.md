@@ -26,15 +26,15 @@ static hold does not establish a secure bearing for every subsequent motion.
 ## Run a portable experiment
 
 The [November 8 alternative Cup experiments](development/alternate-cup.md)
-test releasing the little loops before exchanging the thumb loops. Bilateral
-release and a tilted preparation now pass the contact and deformation checks,
-with all four original thumb/index material tracks retained. Two subsequent
-throws keep the supports but do not lift the free loop over the thumb bridge.
-An earlier palm-intersecting route and two upright-wrist preparations remain
-explicitly rejected. Larger swings enter conservative torso/head envelopes and
-are rejected by the new body-clearance check. New continuations can stop at
-the first such frame with `--check-body-envelope`. The page includes the
-initial recipe, commands and audits. Cup, boat and Star remain unfinished.
+test releasing the little loops before exchanging the thumb loops. The old
+release and tilted-preparation chain retained the measured hand contacts, but
+the rope crossed the forearm, whose collision geometry was missing. Those
+checkpoints are rejected. Fresh replays now support `--robot-body hulls` for
+physical arm and torso contacts. Complete-edge hull audits and
+`--check-robot-hulls` detect centerline intrusions; `--check-body-envelope`
+remains available as a conservative torso-separation guard. The page includes
+the initial recipe, commands and limits of each audit. Cup, boat and Star
+remain unfinished.
 
 Run the normal setup and `bash scripts/setup_revotron.sh` first. The recipes
 embed the initial rope centerline, ordered joint commands, clipped command

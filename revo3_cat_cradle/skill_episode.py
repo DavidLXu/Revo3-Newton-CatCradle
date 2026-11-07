@@ -87,6 +87,7 @@ class BimanualSkillEpisode:
             self.config,
             palm_geometry=self.recipe["collision_geometry"]["palm"],
             knuckle_geometry=self.recipe["collision_geometry"]["knuckles"],
+            robot_body_geometry=self.recipe["collision_geometry"].get("robot_body", "none"),
             length_control=self.recipe["length_control"],
             rest_length_max_scale=self.recipe["rest_length_max_scale"],
         )

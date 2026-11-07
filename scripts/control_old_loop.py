@@ -199,6 +199,7 @@ def main():
         Config(**json.loads(str(saved["config"]))),
         palm_geometry=payload["collision_geometry"]["palm"],
         knuckle_geometry=payload["collision_geometry"].get("knuckles", "none"),
+        robot_body_geometry=payload["collision_geometry"].get("robot_body", "none"),
         length_control=payload["length_control"],
         rest_length_max_scale=payload["rest_length_max_scale"],
     )

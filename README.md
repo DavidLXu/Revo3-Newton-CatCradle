@@ -6,6 +6,12 @@ The repository includes the original single-hand forward/inverse loop, a RevoTro
 
 The newer [two-hand transfer experiments](docs/experiments.md) add wider hand spacing, longer initial rope, checkpoint continuation, and joint-only thumb feedback. A left-thumb pickup from an independently placed Opening A passed the recorded pickup checks. The right pickup and the full Cup & Saucer → boat → Star sequence remain unfinished. Portable recipes include both that milestone and an unsuccessful right-pickup attempt.
 
+The latest alternative-release trials exposed missing forearm collisions in
+the older hand-only model. Their release/preparation checkpoints are rejected.
+Fresh transfer replays support `--robot-body hulls` to include Newton contacts
+against conservative arm and central-body shapes; see the
+[collision correction and rerun notes](docs/development/alternate-cup.md#correction-missing-arm-collisions).
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
@@ -160,6 +166,7 @@ flowchart LR
 | `scripts/render_stacked.py`, `web/stacked.html` | Synchronized portrait cameras and English-only titles |
 | `scripts/edit_cycle_timing.py`, `web/loop.html` | Final star hold, shorter ending and repeat playback |
 | `revo3_cat_cradle/bimanual.py` | RevoTron kinematics, arm IK and shared dynamic rope |
+| `revo3_cat_cradle/robot_geometry.py`, `scripts/audit_robot_hulls.py` | Optional arm/body collision hulls and complete-edge intrusion checks |
 | `revo3_cat_cradle/single_player.py` | Initial Position 1 and cross-hand fingertip targeting |
 | `revo3_cat_cradle/bimanual_checks.py` | Shared support, material-strand and hand-clearance diagnostics |
 | `scripts/run_single_player.py`, `scripts/continue_opening_a.py` | Two-stage experimental Opening A simulation |
