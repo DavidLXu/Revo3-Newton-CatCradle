@@ -1,0 +1,135 @@
+"""Check necessary contact conditions for releasing Opening A little loops.
+
+This diagnostic does not certify threading, material identity or a finished
+figure. Capsule gaps include rope edges; knuckle meshes are sampled at particles.
+"""
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from revo3_cat_cradle.bimanual import RevoTron
+from revo3_cat_cradle.bimanual_checks import segment_separation
+from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_gap
+from scripts.audit_finger_contacts import audit_frame
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument("--start", type=float, required=True)
+    parser.add_argument("--released", choices=("left", "right", "both"), default="both")
+    args = parser.parse_args()
+    with np.load(args.source / "trajectory.npz") as archive:
+        data = {key: archive[key] for key in archive.files}
+    payload = json.loads((args.source / "trajectory.json").read_text())
+    times, rope, joints = (data[key] for key in ("time", "rope", "joints"))
+    if not np.isfinite(args.start) or args.start < times[0]:
+        parser.error("Start must be finite and inside the recorded interval")
+    selected = np.flatnonzero(times >= args.start - 1e-5)
+    if not len(selected) or times[-1] - args.start < 1 - 1e-5:
+        parser.error("The requested interval must contain at least one second")
+    if abs(times[selected[0]] - args.start) > 1e-5:
+        parser.error("Start must match a recorded frame")
+    if not all(np.isfinite(x).all() for x in (rope, joints, data["rest_lengths"])):
+        parser.error("Nonfinite physical state")
+    if np.any(data["rest_lengths"] <= 0):
+        parser.error("Rest lengths must be positive")
+    robot = RevoTron()
+    meshes = (
+        load_knuckle_meshes(robot)
+        if payload.get("collision_geometry", {}).get("knuckles") == "mesh"
+        else {}
+    )
+    radius = float(payload["config"]["radius"])
+    names = [(s, f) for s in ("left", "right") for f in ("thumb", "index", "little")]
+    contacts = {s + "_" + f: [] for s, f in names}
+    worst_capsule_gap = float("inf")
+    for k in selected:
+        poses = robot.fk(joints[k])
+        rows = audit_frame(robot, joints[k], rope[k], radius)
+        worst_capsule_gap = min(worst_capsule_gap, rows[0]["edge_gap_m"])
+        for side, finger in names:
+            name = side + "_" + finger
+            edge_gap = min(
+                row["edge_gap_m"]
+                for row in rows
+                if row["finger"].startswith(name + "_")
+            )
+            contacts[name].append(
+                min(edge_gap, support_gap(poses, rope[k], side, finger, meshes, radius))
+            )
+    tail = times[selected] >= times[-1] - 1 - 1e-5
+    supports = {
+        name: dict(
+            minimum_hold_gap_m=float(np.asarray(values)[tail].min()),
+            maximum_hold_gap_m=float(np.asarray(values)[tail].max()),
+            maximum_transfer_gap_m=float(max(values)),
+        )
+        for name, values in contacts.items()
+    }
+    released = ("left", "right") if args.released == "both" else (args.released,)
+    checks = {
+        "thumb_and_index_contacts_retained": all(
+            supports[s + "_" + f]["maximum_transfer_gap_m"] < 0.0015
+            for s in ("left", "right")
+            for f in ("thumb", "index")
+        )
+    }
+    for side in ("left", "right"):
+        value = supports[side + "_little"]
+        if side in released:
+            checks[side + "_little_clear"] = value["minimum_hold_gap_m"] > 0.002
+        else:
+            checks[side + "_little_retained"] = value["maximum_transfer_gap_m"] < 0.0015
+    edges = np.linalg.norm(np.roll(rope, -1, axis=1) - rope, axis=2)
+    stretch = float((edges / data["rest_lengths"]).max())
+    separation = np.array(
+        [segment_separation(points, minimum_arc_distance=2 * radius) for points in rope]
+    )
+    held = np.flatnonzero(times > times[-1] - 1 + 1e-6)
+    phase = payload["frames"][-1]["phase"]
+    checks.update(
+        full_history_strain=stretch < 1.2,
+        full_history_sampled_self_contact=bool(separation.min() >= 0.0018),
+        contact_search_bound=bool(edges.max() < payload["self_contact_search_bound_m"]),
+        dynamic_rope=bool(
+            np.all(data["particle_masses"] > 0) and not len(data["anchors"])
+        ),
+        joint_limits=bool(
+            np.all(joints >= robot.limits[:, 0] - 1e-7)
+            and np.all(joints <= robot.limits[:, 1] + 1e-7)
+        ),
+        completed_hold=bool(
+            phase.startswith("Hold")
+            and times[-1] >= payload["motion"]["duration"] - 1e-6
+            and all(payload["frames"][k]["phase"] == phase for k in held)
+            and np.max(np.ptp(joints[selected[tail]], axis=0)) < 1e-8
+        ),
+    )
+    report = dict(
+        scope="Necessary release diagnostics only; not a threading or figure certificate. "
+        "Excludes swept collisions, mesh-edge intersections and material identity.",
+        passed_diagnostics=all(checks.values()),
+        checks=checks,
+        released_sides=list(released),
+        interval_s=[float(times[selected[0]]), float(times[-1])],
+        supports=supports,
+        full_history_peak_stretch=stretch,
+        full_history_minimum_rope_separation_m=float(separation.min()),
+        minimum_separation_time_s=float(times[separation.argmin()]),
+        interval_minimum_capsule_gap_m=worst_capsule_gap,
+        initialization=payload["motion"].get("initialization"),
+    )
+    (args.source / "loop_release_audit.json").write_text(json.dumps(report, indent=2))
+    print(json.dumps(report, indent=2))
+    return 0 if report["passed_diagnostics"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

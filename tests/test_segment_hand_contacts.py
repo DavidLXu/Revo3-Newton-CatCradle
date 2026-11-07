@@ -10,7 +10,14 @@ from revo3_cat_cradle.segment_contacts import (
 )
 
 
-def contact_delta(*, height=0.0105, friction=0.0, body_velocity=0.0, rotation=None):
+def contact_delta(
+    *,
+    height=0.0105,
+    friction=0.0,
+    body_velocity=0.0,
+    body_angular_velocity=0.0,
+    rotation=None,
+):
     builder = newton.ModelBuilder(gravity=(0, 0, 0))
     body = builder.add_body(is_kinematic=True)
     cfg = builder.default_shape_cfg.copy()
@@ -35,7 +42,11 @@ def contact_delta(*, height=0.0105, friction=0.0, body_velocity=0.0, rotation=No
         )
     state.body_qd.assign(
         wp.array(
-            [wp.spatial_vector(body_velocity, 0.0, 0.0, 0.0, 0.0, 0.0)],
+            [
+                wp.spatial_vector(
+                    body_velocity, 0.0, 0.0, 0.0, 0.0, body_angular_velocity
+                )
+            ],
             dtype=wp.spatial_vector,
         )
     )
@@ -102,3 +113,10 @@ def test_solver_applies_edge_contact_inside_xpbd_iterations():
     solver.step(before, after, model.control(), None, 0.001)
     assert after.particle_q.numpy()[:2, 1].mean() > 0.0108
     np.testing.assert_array_equal(after.body_q.numpy(), before.body_q.numpy())
+
+
+def test_rotating_capsule_drags_edge_with_surface_velocity():
+    _, delta, _ = contact_delta(friction=0.5, body_angular_velocity=1.0)
+    # omega x r at the 10 mm radial surface is -10 mm/s in X.
+    np.testing.assert_allclose(delta[:2, 0], -0.0001, atol=1e-8)
+    np.testing.assert_allclose(delta[:2, 1], 0.0005, atol=1e-8)

@@ -25,6 +25,12 @@ static hold does not establish a secure bearing for every subsequent motion.
 
 ## Run a portable experiment
 
+The [November 8 alternative Cup experiments](development/alternate-cup.md)
+test releasing the little loops before exchanging the thumb loops. A left-only
+release passes its necessary contact and deformation checks; the right loop
+still catches. The page includes a compact initial recipe, exact release
+commands and the release audit. It does not claim a completed Cup figure.
+
 Run the normal setup and `bash scripts/setup_revotron.sh` first. The recipes
 embed the initial rope centerline, ordered joint commands, clipped command
 polynomials and material-strand identities. They require no earlier `output/`
