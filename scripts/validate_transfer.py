@@ -25,25 +25,16 @@ def transfer_window(times, metadata):
     return original, transfer, last
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--release-old", action="store_true")
-    parser.add_argument(
-        "--side",
-        choices=["left", "right", "both"],
-        default="both",
-        help="Thumb pickup/release being assessed; inactive thumbs must retain their original loops",
-    )
-    args = parser.parse_args()
-    out = args.output
-    data = np.load(out / "trajectory.npz")
-    plan = json.loads((out / "transfer_plan.json").read_text())
-    active = set(plan) if args.side == "both" else {args.side}
+def evaluate_transfer(
+    data, plan, payload, *, side="both", release_old=False, robot=None
+):
+    """Shared trajectory evaluator; command-line and episode gates stay identical."""
+    if side not in ("left", "right", "both"):
+        raise ValueError("Unknown transfer side")
+    active = {"left", "right"} if side == "both" else {side}
     if not active.issubset(plan):
         raise ValueError("Requested side has no saved material reference")
-    payload = json.loads((out / "trajectory.json").read_text())
-    robot = RevoTron()
+    robot = robot or RevoTron()
     times = data["time"]
     original, transfer, last = transfer_window(times, payload["motion"])
     meshes = (
@@ -53,7 +44,14 @@ def main():
     )
     poses = {int(k): robot.fk(data["joints"][k]) for k in np.union1d(transfer, last)}
     stages = {}
-    checks = {}
+    checks = {
+        "finite": bool(np.isfinite(data["rope"]).all()),
+        "joint_limits": bool(
+            np.isfinite(data["joints"]).all()
+            and np.all(data["joints"] >= robot.limits[:, 0] - 1e-7)
+            and np.all(data["joints"] <= robot.limits[:, 1] + 1e-7)
+        ),
+    }
     for side, p in plan.items():
         result = {
             name: float(
@@ -83,7 +81,7 @@ def main():
         ]
         result["minimum_old_loop_gap_m"] = float(min(old_gaps))
         result["maximum_old_loop_gap_m"] = float(max(old_gaps))
-        if args.release_old and side in active:
+        if release_old and side in active:
             other = "right" if side == "left" else "left"
             bridge = support_arc(
                 robot,
@@ -161,14 +159,19 @@ def main():
     checks["dynamic_rope"] = bool(
         np.all(data["particle_masses"] > 0) and not len(data["anchors"])
     )
+    expected_phase = (
+        "Hold assisted old-loop release" if release_old else "Hold new thumb bights"
+    )
+    held = np.flatnonzero(times > times[-1] - 1 + 1e-6)
     checks["completed_hold"] = (
         payload["frames"][-1]["phase"]
         == (
-            "Hold assisted old-loop release"
-            if args.release_old
-            else "Hold new thumb bights"
+            "Hold assisted old-loop release" if release_old else "Hold new thumb bights"
         )
         and times[-1] >= payload["motion"]["duration"] - 1e-6
+        and times[-1] - times[0] >= 1
+        and all(payload["frames"][k]["phase"] == expected_phase for k in held)
+        and np.max(np.ptp(data["joints"][last], axis=0)) < 1e-8
     )
     report = dict(
         passed=all(checks.values()),
@@ -185,8 +188,26 @@ def main():
             "initialization", "Continuous Opening A history"
         ),
         scope="One-sided old-loop release"
-        if args.release_old
+        if release_old
         else "Thumb pickup only; Cup & Saucer and Star are not yet verified",
+    )
+    return report
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--release-old", action="store_true")
+    parser.add_argument("--side", choices=["left", "right", "both"], default="both")
+    args = parser.parse_args()
+    out = args.output
+    # Each NpzFile access decompresses a member. Load once before frame queries.
+    with np.load(out / "trajectory.npz") as archive:
+        data = {name: archive[name] for name in archive.files}
+    plan = json.loads((out / "transfer_plan.json").read_text())
+    payload = json.loads((out / "trajectory.json").read_text())
+    report = evaluate_transfer(
+        data, plan, payload, side=args.side, release_old=args.release_old
     )
     (out / "transfer_validation.json").write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))

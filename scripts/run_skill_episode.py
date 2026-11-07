@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import math
 from pathlib import Path
 import sys
 
@@ -20,8 +21,8 @@ def main():
         "--active-side", choices=["left", "right", "both"], default="both"
     )
     args = parser.parse_args()
-    if args.step <= 0:
-        parser.error("--step must be positive")
+    if not math.isfinite(args.step) or args.step <= 0:
+        parser.error("--step must be finite and positive")
     active = ("left", "right") if args.active_side == "both" else (args.active_side,)
     episode = BimanualSkillEpisode.from_recipe(
         args.recipe, args.output, active_sides=active
@@ -30,14 +31,16 @@ def main():
     if not 0 < duration <= episode.duration + 1e-8:
         parser.error("--duration must be within the recipe duration")
     fps = episode.config.fps
-    step_frames = max(1, round(args.step * fps))
+    step_frames = round(args.step * fps)
+    if step_frames < 1 or abs(step_frames / fps - args.step) > 1e-8:
+        parser.error("--step must be a whole number of output frames")
     target_frame = round(duration * fps)
     if abs(target_frame / fps - duration) > 1e-8:
         parser.error("--duration must end on an output frame")
     for next_frame in range(step_frames, target_frame + 1, step_frames):
-        episode.step(min(next_frame, target_frame) / fps)
+        print(json.dumps(episode.step(next_frame / fps)), flush=True)
     if episode.sim.t < target_frame / fps - 1e-8:
-        episode.step(target_frame / fps)
+        print(json.dumps(episode.step(target_frame / fps)), flush=True)
     result = episode.finish()
     print(json.dumps(result, indent=2), flush=True)
     if not result["passed"]:

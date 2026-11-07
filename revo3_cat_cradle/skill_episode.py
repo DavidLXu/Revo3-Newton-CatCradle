@@ -19,7 +19,8 @@ from typing import Any, Iterable
 import numpy as np
 
 from .bimanual import BimanualSimulation, RevoTron, export_bimanual
-from .bimanual_checks import gaps, segment_separation
+from .bimanual_checks import gaps
+from .segment_contacts import MAX_SEGMENT_LENGTH
 from .sim import Config
 from .single_player import initial_loop
 
@@ -38,15 +39,19 @@ class BimanualSkillEpisode:
         *,
         active_sides: Iterable[str] = ("left", "right"),
     ) -> None:
-        self.recipe = recipe
+        from copy import deepcopy
+
+        self.recipe = deepcopy(recipe)
         self.output = Path(output) if output is not None else None
+        if self.output is not None and self.output.exists():
+            raise FileExistsError(f"Episode output already exists: {self.output}")
         self.robot = RevoTron()
         self.active_sides = tuple(active_sides)
         if not self.active_sides or not set(self.active_sides).issubset(
             {"left", "right"}
         ):
             raise ValueError("active_sides must contain left and/or right")
-        self.plan = recipe.get("transfer_plan", {})
+        self.plan = self.recipe.get("transfer_plan", {})
         if not set(self.active_sides).issubset(self.plan):
             raise ValueError("recipe has no transfer plan for the active side")
         self.reset()
@@ -88,6 +93,9 @@ class BimanualSkillEpisode:
         self.frames = [self.sim.snapshot()]
         self.metrics = [self.sim.metrics()]
         self.events: list[dict[str, Any]] = []
+        if self.output is not None:
+            self.output.mkdir(parents=True, exist_ok=True)
+            (self.output / "log.jsonl").write_text("", encoding="utf-8")
         self._log_event("reset", {"time_s": 0.0, "recipe_duration_s": self.duration})
         # The command list is retained for exact action replay, but actions
         # advance only to an absolute output-frame time.
@@ -100,7 +108,12 @@ class BimanualSkillEpisode:
         return float(self.recipe["commands"]["times"][-1])
 
     def _log_event(self, kind: str, payload: dict[str, Any]) -> None:
-        self.events.append({"event": kind, **payload})
+        event = {"event": kind, **payload}
+        self.events.append(event)
+        if self.output is not None:
+            self.output.mkdir(parents=True, exist_ok=True)
+            with (self.output / "log.jsonl").open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps(event, ensure_ascii=False) + "\n")
 
     def _side_observation(self, side: str, frame: dict[str, Any]) -> dict[str, float]:
         tf = self.robot.fk(np.asarray(frame["joints"], dtype=float))
@@ -125,8 +138,7 @@ class BimanualSkillEpisode:
             "max_stretch_ratio": float(metric["max_stretch_ratio"]),
             "rope_rest_length_m": float(metric["rope_rest_length_m"]),
             "thumb_contacts": {
-                side: self._side_observation(side, frame)
-                for side in self.active_sides
+                side: self._side_observation(side, frame) for side in self.active_sides
             },
         }
 
@@ -146,6 +158,18 @@ class BimanualSkillEpisode:
             self.sim.advance(i / self.config.fps)
             self.frames.append(self.sim.snapshot())
             self.metrics.append(self.sim.metrics())
+            rope = np.asarray(self.frames[-1]["rope"])
+            if (
+                not np.isfinite(rope).all()
+                or np.linalg.norm(np.roll(rope, -1, axis=0) - rope, axis=1).max()
+                >= MAX_SEGMENT_LENGTH
+            ):
+                self._log_event(
+                    "abort", {"time_s": self.sim.t, "reason": "invalid rope geometry"}
+                )
+                if self.output is not None:
+                    export_bimanual(self.sim, self.frames, self.metrics, self.output)
+                raise RuntimeError("Episode exceeded the rope contact search bound")
         observation = self.observe()
         self._log_event(
             "step",
@@ -158,80 +182,57 @@ class BimanualSkillEpisode:
         return observation
 
     def score(self) -> dict[str, Any]:
-        """Apply the existing contact, dynamic-rope and strain gates."""
-        if not self.frames:
-            raise RuntimeError("episode has no frames")
-        times = np.asarray([f["time"] for f in self.frames], dtype=float)
-        ropes = np.asarray([f["rope"] for f in self.frames], dtype=float)
-        joints = np.asarray([f["joints"] for f in self.frames], dtype=float)
-        last = np.flatnonzero(times >= max(0.0, times[-1] - 1.0))
-        stages: dict[str, dict[str, Any]] = {}
-        checks: dict[str, bool] = {
-            "finite": bool(np.isfinite(ropes).all()),
-            "joint_limits": bool(
-                np.all(joints >= self.robot.limits[:, 0] - 1e-7)
-                and np.all(joints <= self.robot.limits[:, 1] + 1e-7)
-            ),
-            "dynamic_rope": bool(
-                np.all(self.sim.model.particle_mass.numpy() > 0)
-                and not len(self.sim.anchor_indices)
-            ),
-            "completed_hold": bool(times[-1] >= self.duration - 1e-8),
+        """Use the same evaluator as validate_transfer, including other supports."""
+        from scripts.validate_transfer import evaluate_transfer, transfer_window
+
+        data = {
+            "time": np.asarray([f["time"] for f in self.frames]),
+            "joints": np.asarray([f["joints"] for f in self.frames]),
+            "rope": np.asarray([f["rope"] for f in self.frames]),
+            "rest_lengths": np.asarray([f["rest_lengths"] for f in self.frames]),
+            "particle_masses": self.sim.model.particle_mass.numpy(),
+            "anchors": self.sim.anchor_indices,
         }
-        for side in self.active_sides:
-            plan = self.plan[side]
-            far, near, old = (
-                np.asarray(plan[k], dtype=int)
-                for k in ("far_indices", "near_indices", "old_thumb_indices")
-            )
-            # A pickup is a held contact: a single touching frame is not
-            # enough, so use the worst far-gap over the final hold window.
-            far_gap = max(
-                gaps(self.robot.fk(joints[k]), ropes[k, far], side, "thumb").min()
-                for k in last
-            )
-            near_gap = min(
-                gaps(self.robot.fk(joints[k]), ropes[k, near], side, "thumb").min()
-                for k in last
-            )
-            old_gap = max(
-                gaps(self.robot.fk(joints[k]), ropes[k, old], side, "thumb").min()
-                for k in last
-            )
-            stages[side] = {
-                "maximum_far_gap_m": float(far_gap),
-                "minimum_near_gap_m": float(near_gap),
-                "maximum_old_loop_gap_m": float(old_gap),
-                "passed": bool(
-                    far_gap < 0.0015 and near_gap > 0.002 and old_gap < 0.0015
-                ),
+        try:
+            transfer_window(data["time"], self.motion.metadata)
+        except ValueError as error:
+            return {
+                "passed": False,
+                "status": "incomplete",
+                "reason": str(error),
+                "duration_s": float(data["time"][-1]),
+                "checks": {"transfer_history": False},
+                "sides": {},
             }
-            checks[f"{side}_new_far_bight"] = bool(far_gap < 0.0015)
-            checks[f"{side}_near_string_clear"] = bool(near_gap > 0.002)
-            checks[f"{side}_old_loop_retained"] = bool(old_gap < 0.0015)
-        ratios = np.asarray([m["max_stretch_ratio"] for m in self.metrics])
-        checks["strain"] = bool(np.isfinite(ratios).all() and ratios.max() < 1.2)
-        separation = min(
-            segment_separation(rope, minimum_arc_distance=2 * self.config.radius)
-            for rope in ropes
-        )
-        checks["self_contact"] = bool(separation >= 0.0018)
-        return {
-            "passed": bool(all(checks.values())),
-            "checks": checks,
-            "stages": stages,
-            "duration_s": float(times[-1]),
-            "max_stretch_ratio": float(ratios.max()),
-            "minimum_segment_distance_m": float(separation),
-            "active_sides": list(self.active_sides),
+        payload = {
+            "config": self.recipe["config"],
+            "motion": self.motion.metadata,
+            "collision_geometry": self.recipe["collision_geometry"],
+            "self_contact_search_bound_m": float(MAX_SEGMENT_LENGTH),
+            "frames": self.frames,
         }
+        return evaluate_transfer(
+            data,
+            self.plan,
+            payload,
+            side="both"
+            if set(self.active_sides) == {"left", "right"}
+            else self.active_sides[0],
+            robot=self.robot,
+        )
 
     def finish(self) -> dict[str, Any]:
         """Export physics, append persistent logs, and return the score."""
         result = self.score()
         if self.output is not None:
-            self.output.mkdir(parents=True, exist_ok=False)
+            self.output.mkdir(parents=True, exist_ok=True)
             export_bimanual(self.sim, self.frames, self.metrics, self.output)
+            (self.output / "joint_commands.json").write_text(
+                json.dumps(self.recipe["commands"]), encoding="utf-8"
+            )
+            (self.output / "transfer_plan.json").write_text(
+                json.dumps(self.plan), encoding="utf-8"
+            )
             (self.output / "recipe.json").write_text(
                 json.dumps(self.recipe, indent=2), encoding="utf-8"
             )
@@ -263,7 +264,7 @@ class BimanualSkillEpisode:
                         "task": manifest["task"],
                         "passed": result["passed"],
                         "duration_s": result["duration_s"],
-                        "stages": result["stages"],
+                        "sides": result["sides"],
                     },
                     indent=2,
                 ),
