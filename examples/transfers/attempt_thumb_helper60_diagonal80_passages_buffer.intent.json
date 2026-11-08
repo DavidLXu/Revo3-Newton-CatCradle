@@ -1,0 +1,38 @@
+{
+  "source": "output/alternative_cup_right_helper_lift60_adj_20261109",
+  "start_s": 75.23333333333333,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457
+    ],
+    "initial_material_center": 450,
+    "expected_contact_interval_s": [
+      75.23333333333333,
+      82.36666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "declared_far_support_handoff": {
+    "right": 655
+  },
+  "joint_recipe_sha256": "f7b19b099d2c79cbb39994e968ea1438962ed27b7705e61b0ab6a53022af4e88",
+  "scope": "Declared before replay from the valid lift60 source: carry the old-loop little support 80 mm forward and 24 mm upward, with left wrist following 40/12 mm and the right index reference rising 5 mm. Replan all right digits to open the ring/little passage and thumb/index passage. The latter targets 4.5 mm to preserve the earlier 4 mm requirement through interpolation. All surface references affect joint planning only; no rope state or force is prescribed.",
+  "original_declaration_recipe_sha256": "b9a493b6c2945578f647f74258b43fc366ea5adbb965c37e0c7dcc3d517aee1f"
+}

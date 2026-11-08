@@ -1,10 +1,11 @@
-# Coordinated thumb pickup and the remaining right loop
+# Releasing the old thumb loops and unloading the helper
 
-Moving both hands together produces a useful transfer state at 67.366667 s.
-Both new far strands remain at the thumbs throughout the final stationary
-second. The left thumb clears its complete old loop and its near strand;
-the right thumb still carries both unwanted strands. Cup & Saucer, boat and
-Star are not complete.
+At 82.366667 s, both thumbs clear their original old loops throughout the
+final stationary second. Minimum old-loop clearances are 86.265 mm on the
+left and 10.905 mm on the right. Both new far-material tracks and both original
+index tracks remain held. The right little still carries the temporary helper
+loop, the left near strand touches its thumb, and the right middle remains
+within 2 mm of rope. Cup & Saucer, boat and Star are not complete.
 
 This continues the [orbit and middle-clearance experiments](orbit-transfer.md).
 The [numerical record](thumb_exchange_20261109.json) includes the failed
@@ -13,6 +14,10 @@ results come from Newton replays; proposed finger positions are not substituted
 for rope motion.
 
 ## What changed in the motion
+
+The earlier coordinated pickup reaches 67.366667 s with both new far strands
+held, the left old loop clear, and the right old loop still around its thumb.
+The later helper motions below continue from that state.
 
 A fingertip target approached the far strand but left it ahead of the rounded
 end. When that thumb rose, the strand stayed behind and the new contact was
@@ -290,6 +295,34 @@ gaps. It reproduces the two locations above without advancing the simulation:
 The resulting `stretch_diagnostic.json` includes the checkpoint hash and stop
 event. Nearby surfaces help choose the next clearance proposal; the report
 does not measure pinch forces or establish a cause by itself.
+
+## Both old thumb loops clear
+
+The next proposal opens both observed rope passages while preserving the
+helper pull. It raises the right index reference 5 mm, allowing the thumb DIP
+and index MCP/PIP capsules to separate. A 4.5 mm planning target supplies
+interpolation margin for the existing 4 mm passage requirement. The right
+middle and ring also move to clear the near-strand passage. The left wrist
+follows 40 mm forward and 12 mm upward. These references command robot joints;
+the rope remains a freely moving Newton object.
+
+The smooth path takes 5.933333 s under its 2.496 rad/s speed bound, followed
+by a 1.2 s hold. The whole right old-loop arc clears during the motion and
+stays at least 10.905 mm from the thumb during the final held second. Right
+near clearance is 15.646 mm. Physical checks pass except the intentionally
+engaged right little's final-release condition. The original indices, both
+far tracks and the declared helper track all remain continuous.
+
+The recipe is `attempt_thumb_helper60_diagonal80_passages_buffer.json`, with
+its companion intent file. Replay from the validated 60 mm helper state using
+`--source-temporary-helper --far-support-handoff right:655`, alongside the
+existing original-support, far, collision and stretch guards.
+
+This endpoint is accepted only as a temporary-helper source. Left near
+clearance is still approximately zero; right middle clearance reaches only
+1.457 mm, while right ring clearance is 5.960 mm. The next release attempt
+straightens the little tip before folding that helper. Its outcome must be
+measured separately.
 
 ## Reproduce
 
