@@ -42,6 +42,8 @@ def main():
     parser.add_argument("--strokes", type=int, default=5)
     parser.add_argument("--stroke-duration", type=float, default=0.6)
     parser.add_argument("--cartesian-steps", type=int, default=9)
+    parser.add_argument("--continuous-wrist-path", action="store_true",
+                        help="Pass smoothly through the IK knots with one global time envelope")
     parser.add_argument("--probe-step", type=float, default=0.1)
     parser.add_argument("--apex-timeout", type=float, default=2)
     parser.add_argument("--apex-min-offset", type=float, default=0.03)
@@ -99,6 +101,7 @@ def main():
         apex_minimum_offset_m=args.apex_min_offset,
         timing_velocity="Three-frame finite difference of fixed-material relative positions",
         maximum_strokes=args.strokes, cartesian_steps=args.cartesian_steps,
+        continuous_wrist_path=args.continuous_wrist_path,
         fixed_free_material=band.tolist(), fixed_thumb_material=bridge.tolist(),
         events=[], samples=[], retention_errors=[], height_candidates=[],
         require_near_pinch=args.require_near_pinch, near_pinch_errors=[],
@@ -192,7 +195,9 @@ def main():
             direction = 1 if stroke % 2 == 0 else -1
             offset = args.center_offset + direction * args.amplitude
             targets = {s: pose[:3, 3] + [offset, 0, 0] for s, pose in wrists.items()}
-            waypoints, kinematics = common_wrist_translation(robot, q_current, targets, args.stroke_duration, args.cartesian_steps)
+            waypoints, kinematics = common_wrist_translation(
+                robot, q_current, targets, args.stroke_duration, args.cartesian_steps,
+                continuous=args.continuous_wrist_path)
             report["events"].append(dict(kind="stroke", number=stroke + 1, direction=direction, start_s=last_checked, kinematics=kinematics))
             flush()
             first_sample = len(report["samples"])

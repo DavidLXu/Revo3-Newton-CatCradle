@@ -30,6 +30,11 @@ own-palm check after an overfolded little finger passed the opposing-hand
 checks. The revised preparation retains both near strands; the free-loop
 flip remains unfinished.
 
+[Continuous-wrist experiments](docs/development/continuous-swing.md) remove
+the stops between Cartesian IK samples and test timed hand descents from
+exact saved states. The record distinguishes temporary loop elevation from
+a completed flip and retains the rejected trials.
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
@@ -259,6 +264,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 [早期侧向夹持实验](docs/development/side-clamp.md)保留了误夹旧拇指线等失败记录。[碰撞修正说明](docs/development/alternate-cup.md#correction-missing-arm-collisions)解释了为什么旧的无手臂碰撞起点已被弃用。公开配方可以复算各次动作，脱圈前保持和脱圈后的检查分别记录。
 
 [小指避让实验](docs/development/little-clearance.md)补上了小指与自身手掌的碰撞代理检查，撤下了过度弯曲的候选姿态。修正后的准备动作保持住双侧近绳；自由绳环翻越仍未完成。
+
+[连续摆腕实验](docs/development/continuous-swing.md)去掉腕部轨迹采样点之间的停顿，并从保存的完整物理状态尝试定时下移双手。记录区分了绳环短暂抬高与真正翻越，也保留了被拒绝的实验。
 
 ## License and upstream code
 

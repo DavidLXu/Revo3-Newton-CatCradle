@@ -7,6 +7,7 @@ from scipy.spatial import ConvexHull
 from scipy.spatial.transform import Rotation
 from .bimanual import resample_loop
 from .contact_geometry import finger_capsule
+from .joint_path import evaluate_joint_path, validate_joint_path
 
 
 class Motion:
@@ -69,8 +70,13 @@ class Motion:
             )
         self.targets = [q.copy()]
 
-    def append(self, time, q, phase):
+    def append(self, time, q, phase, joint_path=None):
         assert time > self.times[-1]
+        if joint_path is not None:
+            validate_joint_path(joint_path, self.targets[-1], q, time - self.times[-1])
+            self.metadata.setdefault("joint_paths", []).append(dict(
+                start=self.times[-1], end=float(time), stop=float(time),
+                path=deepcopy(joint_path), phase=phase))
         self.times.append(float(time))
         self.targets.append(q.copy())
         self.phases.append(phase)
@@ -99,7 +105,10 @@ class Motion:
         i = int(np.searchsorted(self.times, time + 1e-8, side="right") - 1)
         interior = abs(self.times[i] - time) > 1e-8
         segments = self.metadata.get("interrupted_segments", [])
-        covered = any(s["start"] <= time < s["stop"] for s in segments)
+        paths = self.metadata.get("joint_paths", [])
+        covered = any(s["start"] <= time < s["stop"] for s in [*segments, *paths])
+        self.metadata["joint_paths"] = [dict(s, stop=min(s["stop"], float(time)))
+                                        for s in paths if s["start"] < time]
         segments = [
             dict(s, stop=min(s["stop"], float(time)))
             for s in segments
@@ -127,6 +136,11 @@ class Motion:
             self.metadata["duration"] = self.times[-1]
 
     def sample(self, t):
+        for segment in self.metadata.get("joint_paths", []):
+            if segment["start"] <= t < segment["stop"]:
+                u = (t - segment["start"]) / (segment["end"] - segment["start"])
+                u = u**3 * (10 + u * (-15 + 6 * u))
+                return evaluate_joint_path(segment["path"], u), segment["phase"]
         for segment in self.metadata.get("interrupted_segments", []):
             if segment["start"] <= t < segment["stop"]:
                 u = (t - segment["start"]) / (segment["end"] - segment["start"])

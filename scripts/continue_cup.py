@@ -333,15 +333,25 @@ def main():
         )
         (out / "transfer_audit.json").write_text(json.dumps(audit, indent=2))
 
-    def move(t, q, phase, detect_pinch=False):
+    def move(t, q, phase, detect_pinch=False, joint_path=None):
         if (
             not np.isfinite(q).all()
             or np.any(q < r.limits[:, 0] - 1e-6)
             or np.any(q > r.limits[:, 1] + 1e-6)
         ):
             raise ValueError("Transfer target violates joint limits")
-        for u in np.linspace(0, 1, 21):
-            trial = (1 - u) * sim.q + u * q
+        from revo3_cat_cradle.joint_path import evaluate_joint_path, validate_joint_path
+        samples = 21
+        if joint_path is not None:
+            low, high, speed = validate_joint_path(joint_path, sim.q, q, t - sim.t)
+            if np.any(low < r.limits[:, 0] - 1e-6) or np.any(high > r.limits[:, 1] + 1e-6):
+                raise ValueError("Continuous transfer path violates joint limits")
+            if speed > 3:
+                raise ValueError("Continuous transfer path exceeds 3 rad/s")
+            samples = max(samples, 10 * (len(joint_path["knots"]) - 1) + 1)
+        for u in np.linspace(0, 1, samples):
+            trial = (evaluate_joint_path(joint_path, u) if joint_path is not None
+                     else (1 - u) * sim.q + u * q)
             if hand_clearance(r.fk(trial))[0] < -0.0005:
                 raise ValueError(f"Transfer phase crosses opposing hand: {phase}")
             if a.check_self_collision:
@@ -372,7 +382,7 @@ def main():
                         f"Transfer phase lacks opposing palm clearance: {phase}; "
                         f"{clearance}"
                     )
-        m.append(t, q, phase)
+        m.append(t, q, phase, joint_path=joint_path)
         for i in range(round(sim.t * 30) + 1, round(t * 30) + 1):
             sim.advance(i / 30)
             frames.append(sim.snapshot())
@@ -621,10 +631,12 @@ def main():
         return
     if a.approach_path:
         for j, waypoint in enumerate(json.loads(a.approach_path.read_text())):
+            joint_path = None
             if isinstance(waypoint, dict):
                 q = np.asarray(waypoint["joints"])
                 duration = float(waypoint["duration"])
                 phase = waypoint.get("phase", f"Route thumb around near string {j + 1}")
+                joint_path = waypoint.get("joint_path")
                 if not np.isfinite(duration) or duration <= 0:
                     raise ValueError("Waypoint duration must be finite and positive")
             else:
@@ -633,7 +645,8 @@ def main():
                     1.5,
                     f"Route thumb around near string {j + 1}",
                 )
-            if move(sim.t + duration, q, phase, detect_pinch=bool(a.hold_on_near_pinch)):
+            if move(sim.t + duration, q, phase, detect_pinch=bool(a.hold_on_near_pinch),
+                    joint_path=joint_path):
                 q = sim.q.copy()
                 break
     if a.route_only:

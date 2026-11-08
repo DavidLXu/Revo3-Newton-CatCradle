@@ -165,3 +165,14 @@ def test_cartesian_segments_prevent_observed_two_hand_spacing_drift():
     assert report["maximum_relative_translation_drift_m"] < 0.001
     assert report["maximum_relative_rotation_drift_deg"] < 0.2
     assert report["peak_joint_speed_rad_s"] < 3
+    # The longer cubic overshoots Joint7_L between otherwise valid IK knots.
+    with pytest.raises(ValueError, match="joint limits"):
+        common_wrist_translation(robot, q, backward, .6, 9, continuous=True)
+    route, _ = common_wrist_translation(robot, q, centers, .6, 9)
+    continuous, smooth_report = common_wrist_translation(robot, q, centers, 0.6, 9,
+                                                         continuous=True)
+    assert len(continuous) == 1 and continuous[0]["duration"] == .6
+    assert smooth_report["maximum_relative_translation_drift_m"] < .001
+    assert smooth_report["maximum_relative_rotation_drift_deg"] < .2
+    assert smooth_report["peak_joint_speed_rad_s"] < 3
+    np.testing.assert_allclose(continuous[0]["joints"], route[-1]["joints"], atol=1e-12)

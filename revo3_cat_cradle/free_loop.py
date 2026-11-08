@@ -39,12 +39,13 @@ def validate_bilateral_near_hold(report, checkpoint_time):
         raise ValueError("Source needs a bilateral near-strand edge hold at its checkpoint")
 
 
-def common_wrist_translation(robot, initial, targets, duration, steps):
+def common_wrist_translation(robot, initial, targets, duration, steps, *, continuous=False):
     """Approximate a common Cartesian translation with bounded joint segments.
 
     Joint interpolation alone does not preserve the relative wrist transform.
     Sample that transform within every segment and reject excessive drift.
-    Each segment uses Motion's existing zero-end-speed quintic interpolation.
+    By default each segment stops. Continuous mode fits one C2 joint spline
+    through the IK knots with a single zero-end-speed quintic time envelope.
     """
     from scipy.spatial.transform import Rotation
 
@@ -71,8 +72,25 @@ def common_wrist_translation(robot, initial, targets, duration, steps):
             translation_drift = max(translation_drift, float(np.linalg.norm(relative[:3, 3] - relative0[:3, 3])))
             rotation_drift = max(rotation_drift, float(np.linalg.norm(Rotation.from_matrix(relative[:3, :3] @ relative0[:3, :3].T).as_rotvec())))
         route.append(dict(duration=dt, joints=q.tolist(), phase="Swing the free loop using observed turning points"))
+    if continuous:
+        from .joint_path import make_joint_path, evaluate_joint_path, joint_path_bounds
+
+        path = make_joint_path(np.linspace(0, 1, steps + 1),
+                               np.array([initial, *(row["joints"] for row in route)]))
+        low, high, speed = joint_path_bounds(path, duration)
+        if np.any(low < robot.limits[:, 0] - 1e-6) or np.any(high > robot.limits[:, 1] + 1e-6):
+            raise ValueError("Continuous wrist path violates joint limits")
+        translation_drift = rotation_drift = 0.0
+        for u in np.linspace(0, 1, max(21, steps * 10 + 1)):
+            trial = evaluate_joint_path(path, u)
+            relative = np.linalg.inv(robot.wrist(trial, "left")) @ robot.wrist(trial, "right")
+            translation_drift = max(translation_drift, float(np.linalg.norm(relative[:3, 3] - relative0[:3, 3])))
+            rotation_drift = max(rotation_drift, float(np.linalg.norm(Rotation.from_matrix(relative[:3, :3] @ relative0[:3, :3].T).as_rotvec())))
+        route = [dict(duration=duration, joints=q.tolist(), joint_path=path,
+                      phase="Swing the free loop with a continuous wrist path")]
     report = dict(peak_joint_speed_rad_s=speed, maximum_relative_translation_drift_m=translation_drift,
-                  maximum_relative_rotation_drift_deg=float(np.rad2deg(rotation_drift)), segments=steps)
+                  maximum_relative_rotation_drift_deg=float(np.rad2deg(rotation_drift)), segments=steps,
+                  interpolation="continuous_cubic_global_quintic" if continuous else "stopped_quintic_segments")
     if translation_drift > 0.001 or rotation_drift > np.deg2rad(0.2):
         raise ValueError(f"Joint path fails relative wrist tolerance: {report}")
     if speed > 3:
