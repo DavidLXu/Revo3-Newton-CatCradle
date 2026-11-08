@@ -78,6 +78,7 @@ def main():
         scope=__doc__,
         interval_s=[float(times[selected[0]]), float(times[-1])],
         initial_centers=initial_centers,
+        tracking_method="midpoint_with_retained_material_sample",
         maximum_center_shift_per_frame_particles=8,
         tracking_complete=not errors,
         errors=errors,

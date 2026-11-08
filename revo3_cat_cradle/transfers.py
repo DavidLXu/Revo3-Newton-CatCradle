@@ -101,6 +101,10 @@ def support_contact_patch(indices, count):
 def track_support_patch(indices, count, previous_center, max_shift=8):
     """Follow a support's material patch through sliding, without relabeling jumps.
 
+    Prefer a patch containing the previous representative material sample.
+    When growth/merging moves that patch's midpoint beyond max_shift, retain
+    the still-contacting representative instead of treating midpoint drift as
+    material loss. Otherwise the original midpoint continuity bound applies.
     Other contact patches are returned explicitly. This tracks a known support,
     not a topology certificate; an extra patch can be a new unwanted capture.
     Call sequentially, once per saved frame. Lost or ambiguous tracks fail closed.
@@ -116,6 +120,15 @@ def track_support_patch(indices, count, previous_center, max_shift=8):
         min((c - previous_center) % count, (previous_center - c) % count)
         for c in centers
     ]
+    containing = next((i for i, patch in enumerate(patches)
+                       if previous_center in patch), None)
+    if containing is not None:
+        center = centers[containing] if distances[containing] <= max_shift else previous_center
+        return (
+            center,
+            patches[containing],
+            [patch for i, patch in enumerate(patches) if i != containing],
+        )
     order = np.argsort(distances)
     if distances[order[0]] > max_shift:
         raise ValueError("Tracked support moved beyond continuity bound")

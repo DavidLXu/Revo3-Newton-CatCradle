@@ -31,6 +31,11 @@ now holds the intended material between the left thumb and index for 1.2 s
 while retaining all four original supports. The right closure loses its old
 thumb loop. Runtime contact and material guards record these distinct outcomes;
 the bilateral clamp and subsequent loop throw remain unfinished.
+The [side-clamp comparisons](docs/development/side-clamp.md) identify a separate
+failure: the right grip can trap its old thumb strand before reaching the
+intended near strand. A compensated wrist approach preserves the thumb pose,
+but the full closure still jams. The earlier held pose retains the four
+supports; right clamping and little-finger clearance remain unresolved.
 
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
@@ -262,6 +267,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 中指辅助路线已出现对目标绳段的短暂接触，但尚未稳住新的绳圈。
 
 [近侧绳压线实验](docs/development/near-strand-clamp.md)已让左拇指和食指对同一绳段保持夹持接触 1.2 秒，并保留四处原有支撑。右侧闭合仍会滑掉原拇指绳圈；新增逐帧持绳追踪和接触后停止闭合控制，完整双侧压线和翻环尚未完成。
+
+[后续侧向夹持实验](docs/development/side-clamp.md)发现另一种失败：右手会先夹住旧拇指绳段。补偿转腕后，闭合前的姿态可以保持四处原有支撑，但完整闭合仍会卡住旧线。新增绳段内部接触采样，并修复接触区扩大时追踪器误报脱圈的问题；右侧压线、小指清空和后续翻环仍未完成。
 
 ## License and upstream code
 

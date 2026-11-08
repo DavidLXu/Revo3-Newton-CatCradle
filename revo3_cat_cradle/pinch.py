@@ -1,7 +1,8 @@
 """Sampled thumb/index pinch geometry; not a grip-force or topology certificate.
 
 Both capsule surfaces must approach the same material point from opposing
-directions. Rope-edge-only and knuckle-mesh contacts are outside this diagnostic.
+directions. Point and edge-sample modes use the same geometric thresholds;
+knuckle-mesh contacts are outside these diagnostics.
 """
 
 import numpy as np
@@ -52,3 +53,30 @@ def near_pinch_samples(transforms, rope, side, material_indices, rope_radius=.00
     return [dict(particle=int(i), thumb_gap_m=float(t), index_gap_m=float(n),
                  normal_dot=float(d), paired=bool(p))
             for i, t, n, d, p in zip(ids, thumb, index, dot, paired)]
+
+
+def near_pinch_edge_samples(transforms, rope, side, edge_indices, rope_radius=.001,
+                            samples_per_edge=21):
+    """Check both surfaces at the same fractions of selected closed-loop edges.
+
+    Positive samples locate a shared cross-section between particles. Absence
+    of samples is not an exact continuous-edge exclusion. Contact at separate
+    fractions on the same edge does not constitute a paired sample.
+    """
+    rope = np.asarray(rope, dtype=float)
+    edges = np.asarray(edge_indices)
+    if (rope.ndim != 2 or rope.shape[1] != 3 or edges.ndim != 1
+            or not np.issubdtype(edges.dtype, np.integer) or not len(edges)
+            or np.any(edges < 0) or np.any(edges >= len(rope))
+            or not isinstance(samples_per_edge, int) or samples_per_edge < 2):
+        raise ValueError("Expected valid rope edges and at least two samples per edge")
+    fractions = np.linspace(0, 1, samples_per_edge)
+    points = (rope[edges, None] * (1 - fractions)[None, :, None]
+              + rope[(edges + 1) % len(rope), None] * fractions[None, :, None])
+    points = points.reshape(-1, 3)
+    rows = near_pinch_samples(transforms, points, side, np.arange(len(points)), rope_radius)
+    for row in rows:
+        sample = row.pop("particle")
+        row.update(edge=int(edges[sample // samples_per_edge]),
+                   fraction=float(fractions[sample % samples_per_edge]))
+    return rows

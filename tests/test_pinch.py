@@ -5,7 +5,7 @@ import pytest
 from scipy.spatial.transform import Rotation
 
 from revo3_cat_cradle.contact_geometry import finger_capsule
-from revo3_cat_cradle.pinch import near_pinch_samples
+from revo3_cat_cradle.pinch import near_pinch_samples, near_pinch_edge_samples
 
 
 def fixture(gap=.002, cooriented=False):
@@ -44,3 +44,22 @@ def test_separate_material_contacts_do_not_count_as_a_pinch():
 @pytest.mark.parametrize("transforms", [fixture(cooriented=True), fixture(gap=.001)])
 def test_same_side_contact_and_excess_penetration_are_rejected(transforms):
     assert not near_pinch_samples(transforms, np.zeros((1, 3)), "left", [0])[0]["paired"]
+
+
+@pytest.mark.parametrize("edge", [0, 1])
+def test_edge_midpoint_can_be_pinched_when_both_particle_samples_miss(edge):
+    rope = np.array([[0, -.002, 0], [0, .002, 0]])
+    assert not any(row["paired"] for row in near_pinch_samples(fixture(), rope, "left", [0, 1]))
+    rows = near_pinch_edge_samples(fixture(), rope, "left", [edge])
+    middle = next(row for row in rows if row["fraction"] == .5)
+    assert middle["paired"] and middle["edge"] == edge
+    assert middle["thumb_gap_m"] == pytest.approx(0, abs=1e-12)
+    assert middle["index_gap_m"] == pytest.approx(0, abs=1e-12)
+
+
+def test_separate_contacts_on_one_edge_do_not_pin_a_common_cross_section():
+    rope = np.array([[-.002, 0, 0], [.002, 0, 0]])
+    rows = near_pinch_edge_samples(fixture(gap=.006), rope, "left", [0])
+    assert rows[0]["thumb_gap_m"] == pytest.approx(0)
+    assert rows[-1]["index_gap_m"] == pytest.approx(0)
+    assert not any(row["paired"] for row in rows)

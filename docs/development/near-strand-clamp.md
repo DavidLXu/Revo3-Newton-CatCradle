@@ -5,6 +5,9 @@ material through a 1.2-second hold. Right-hand clamping remains unresolved;
 the attempted closure loses the original right-thumb loop. Cup & Saucer, boat
 and Star are still incomplete.
 
+The later [side-clamp comparison](side-clamp.md) distinguishes a wrong-strand
+grip from a lost support and adds a wrist-compensated approach at 240 mm spacing.
+
 The [Dressing a Pelt instructions](https://www.alysion.org/figures/introkids1.htm)
 describe pressing the near index strings against the indices before releasing
 the little loops and throwing the hanging loop. The present experiment adds
@@ -74,7 +77,8 @@ its existence does not certify a stable grip.
 
 The sampled gate requires each surface gap to lie between −0.3 and +0.1 mm
 and the normal dot product to be at most −0.8. Knuckle meshes and edge-only
-contacts are outside this pinch diagnostic. `audit_near_pinch.py` additionally
+contacts are outside the runtime trigger. The audit now has an optional
+`--sampling edges` mode, described in the side-clamp notes. `audit_near_pinch.py` additionally
 requires stationary joints for a full final second and at least one persistent
 material sample per requested hand. Run the physical audit and original-patch
 tracker separately.

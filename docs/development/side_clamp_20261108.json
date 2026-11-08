@@ -1,0 +1,2342 @@
+{
+  "scope": "Side-clamp preparation only. Cup, boat and Star remain incomplete. All actions change robot joints; no runtime rope edits or attachments.",
+  "physics": {
+    "particles": 689,
+    "radius_m": 0.001,
+    "friction": 1.2,
+    "fixed_rest_length_m": 1.363453388
+  },
+  "runs": [
+    {
+      "run": "alternative_cup_side_clamp_right_20261108",
+      "start_s": 35.766666666666666,
+      "end_s": 38.63333333333333,
+      "checkpoint_sha256": "7a38032276c6ccb90b4db0478c5245e157dd70c5bba28e947bb5a871394456d7",
+      "joint_commands_sha256": "c623a41d728aa257c5277a11f168b0cfff4525382145cc80398cbbf43ee7a2a8",
+      "full_history_peak_stretch": 1.1313056945800781,
+      "stops": {},
+      "material_support_tracking.json": {
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 38.633333,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                487,
+                488,
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513,
+                514
+              ],
+              "extras": [
+                [
+                  311,
+                  312,
+                  313,
+                  314,
+                  315
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 308,
+              "patch": [
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318,
+                319
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 427,
+              "patch": [
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441,
+                442,
+                443
+              ],
+              "extras": [
+                [
+                  588,
+                  589,
+                  590,
+                  591,
+                  592
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 598,
+              "patch": [
+                583,
+                584,
+                585,
+                586,
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614
+              ],
+              "extras": [
+                [
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406,
+                  407,
+                  408,
+                  409
+                ],
+                [
+                  412,
+                  413,
+                  414,
+                  415,
+                  416,
+                  417
+                ],
+                [
+                  547,
+                  548,
+                  549,
+                  550,
+                  551,
+                  552,
+                  553,
+                  554,
+                  555,
+                  556,
+                  557
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "loop_release_audit.json": {
+        "passed_diagnostics": true,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "interval_s": [
+          35.766667,
+          38.633333
+        ],
+        "full_history_peak_stretch": 1.1313055913121397,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068
+      },
+      "near_pinch_audit.json": {
+        "passed_diagnostics": false,
+        "checks": {
+          "completed_stationary_hold": true,
+          "left_same_material_pinch": false,
+          "right_same_material_pinch": false
+        },
+        "interval_s": [
+          37.633333,
+          38.633333
+        ],
+        "persistent_material": {
+          "left": [],
+          "right": []
+        }
+      },
+      "pinch_trigger.json": {
+        "time_s": 37.43333333333333,
+        "sides": [
+          "right"
+        ],
+        "commanded_phase_end_s": 37.56666666666666,
+        "samples": {
+          "right": [
+            {
+              "particle": 590,
+              "thumb_gap_m": 2.38964071378649e-05,
+              "index_gap_m": 3.889298812163964e-05,
+              "normal_dot": -0.9926787087892643,
+              "paired": true
+            }
+          ]
+        }
+      },
+      "source_checkpoint": "output/alternative_cup_near_clamp_left_hold_20261108/checkpoint.npz",
+      "source_checkpoint_sha256": "ec03c0ae55265a9365cdb9b11232e240db8ab0b86574282634d21e0cef13c956"
+    },
+    {
+      "run": "alternative_cup_side_clamp_indices_20261108",
+      "start_s": 38.63333333333333,
+      "end_s": 40.43333333333333,
+      "checkpoint_sha256": "ced842affdd7ca8314865bbc448a814cffff4e34ed8f0e878127c687241d1d60",
+      "joint_commands_sha256": "70feef83b6aa103038b93165fb69861a00f7c9c61ff26296ea38e7929e066760",
+      "full_history_peak_stretch": 1.1992762088775635,
+      "stops": {},
+      "material_support_tracking.json": {
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 40.433333,
+          "supports": {
+            "left_thumb": {
+              "center": 499,
+              "patch": [
+                486,
+                487,
+                488,
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512
+              ],
+              "extras": [
+                [
+                  312,
+                  313,
+                  314,
+                  315
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 309,
+              "patch": [
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318,
+                319,
+                320,
+                321
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 426,
+              "patch": [
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441,
+                442,
+                443
+              ],
+              "extras": [
+                [
+                  587,
+                  588,
+                  589,
+                  590,
+                  591
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 597,
+              "patch": [
+                582,
+                583,
+                584,
+                585,
+                586,
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613
+              ],
+              "extras": [
+                [
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406,
+                  407,
+                  408
+                ],
+                [
+                  411,
+                  412,
+                  413,
+                  414,
+                  415,
+                  416,
+                  417,
+                  418
+                ],
+                [
+                  546,
+                  547,
+                  548,
+                  549,
+                  550,
+                  551,
+                  552,
+                  553,
+                  554,
+                  555,
+                  556
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "loop_release_audit.json": {
+        "passed_diagnostics": true,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "interval_s": [
+          38.633333,
+          40.433333
+        ],
+        "full_history_peak_stretch": 1.1992762814537992,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068
+      },
+      "near_pinch_edge_audit.json": {
+        "sampling": "edges",
+        "passed_diagnostics": false,
+        "checks": {
+          "completed_stationary_hold": true,
+          "left_same_material_pinch": true,
+          "right_same_material_pinch": false
+        },
+        "interval_s": [
+          39.433333,
+          40.433333
+        ],
+        "persistent_material": {
+          "left": [
+            313
+          ],
+          "right": []
+        }
+      },
+      "near_pinch_audit.json": {
+        "passed_diagnostics": false,
+        "checks": {
+          "completed_stationary_hold": true,
+          "left_same_material_pinch": false,
+          "right_same_material_pinch": false
+        },
+        "interval_s": [
+          39.433333,
+          40.433333
+        ],
+        "persistent_material": {
+          "left": [],
+          "right": []
+        }
+      },
+      "old_grip_observation": {
+        "scope": "Pinch geometry on original right-thumb material versus intended right near-index material. No figure certificate.",
+        "time_s": 40.43333333333333,
+        "old_paired": [
+          {
+            "particle": 413,
+            "thumb_gap_m": -9.65230663881305e-06,
+            "index_gap_m": -2.0272578165837253e-05,
+            "normal_dot": -0.9765616377879395,
+            "paired": true
+          },
+          {
+            "particle": 414,
+            "thumb_gap_m": -2.094601007442739e-05,
+            "index_gap_m": -1.605044424926507e-05,
+            "normal_dot": -0.9821463059430262,
+            "paired": true
+          }
+        ],
+        "near_paired": [],
+        "worst_edge": 413,
+        "stretch_ratio": 1.0471711158752441
+      },
+      "source_checkpoint": "output/alternative_cup_side_clamp_right_20261108/checkpoint.npz",
+      "source_checkpoint_sha256": "7a38032276c6ccb90b4db0478c5245e157dd70c5bba28e947bb5a871394456d7"
+    },
+    {
+      "run": "alternative_cup_free_ring_20261108",
+      "start_s": 40.43333333333333,
+      "end_s": 41.4,
+      "checkpoint_sha256": "c3a49eecea134f42ec69ebe97b8605b315e2388af292dffb479cdc3edb33b670",
+      "joint_commands_sha256": "8609f215548b2200ea3ad1829e17950dca392cafdc02223d4e4828cb64abd78c",
+      "full_history_peak_stretch": 1.254237174987793,
+      "stops": {
+        "stretch_stop.json": {
+          "time_s": 41.4,
+          "ratio": 1.254237174987793,
+          "threshold": 1.2
+        }
+      },
+      "old_grip_observation": {
+        "scope": "Pinch geometry on original right-thumb material versus intended right near-index material. No figure certificate.",
+        "time_s": 41.4,
+        "old_paired": [
+          {
+            "particle": 414,
+            "thumb_gap_m": 3.314166223331288e-05,
+            "index_gap_m": 7.910529280278321e-06,
+            "normal_dot": -0.9372212129720561,
+            "paired": true
+          },
+          {
+            "particle": 415,
+            "thumb_gap_m": -7.865891718111893e-05,
+            "index_gap_m": -0.00011142410754884629,
+            "normal_dot": -0.9909777079496196,
+            "paired": true
+          },
+          {
+            "particle": 416,
+            "thumb_gap_m": -6.344521017055769e-05,
+            "index_gap_m": -0.00011393314224515932,
+            "normal_dot": -0.9761037294056708,
+            "paired": true
+          }
+        ],
+        "near_paired": [],
+        "worst_edge": 416,
+        "stretch_ratio": 1.254237174987793
+      },
+      "source_checkpoint": "output/alternative_cup_side_clamp_indices_20261108/checkpoint.npz",
+      "source_checkpoint_sha256": "ced842affdd7ca8314865bbc448a814cffff4e34ed8f0e878127c687241d1d60"
+    },
+    {
+      "run": "alternative_cup_wide_left_clamp_20261108",
+      "start_s": 35.5,
+      "end_s": 38.233333333333334,
+      "checkpoint_sha256": "3a35e2b07c522dd1db03e4f20dca5d1a18b0317ca424c86de465754aae925f4e",
+      "joint_commands_sha256": "d766decd8d6b7d63040221f2cb0842e0c13cf310ff5245e3a462327605728cd9",
+      "full_history_peak_stretch": 1.191848635673523,
+      "stops": {},
+      "material_support_tracking.json": {
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 38.233333,
+          "supports": {
+            "left_thumb": {
+              "center": 506,
+              "patch": [
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513,
+                514,
+                515,
+                516,
+                517,
+                518,
+                519,
+                520
+              ],
+              "extras": [
+                [
+                  307,
+                  308,
+                  309,
+                  310,
+                  311
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 304,
+              "patch": [
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 427,
+              "patch": [
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 606,
+              "patch": [
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "loop_release_audit.json": {
+        "passed_diagnostics": true,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "interval_s": [
+          35.5,
+          38.233333
+        ],
+        "full_history_peak_stretch": 1.1918485374635797,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068
+      },
+      "near_pinch_edge_audit.json": {
+        "sampling": "edges",
+        "passed_diagnostics": true,
+        "checks": {
+          "completed_stationary_hold": true,
+          "left_same_material_pinch": true
+        },
+        "interval_s": [
+          37.233333,
+          38.233333
+        ],
+        "persistent_material": {
+          "left": [
+            308,
+            309
+          ]
+        }
+      },
+      "pinch_trigger.json": {
+        "time_s": 37.03333333333333,
+        "sides": [
+          "left"
+        ],
+        "commanded_phase_end_s": 37.9,
+        "samples": {
+          "left": [
+            {
+              "particle": 309,
+              "thumb_gap_m": -1.4003102240473311e-06,
+              "index_gap_m": 3.5072640972323536e-05,
+              "normal_dot": -0.934817787625868,
+              "paired": true
+            }
+          ]
+        }
+      },
+      "source_checkpoint": "output/alternative_cup_raised_thumb_widen_20261108/checkpoint.npz",
+      "source_checkpoint_sha256": "339af3b585916e68104c8e59f0a147801ef53c6e28c174b7904ee44a39802e45"
+    },
+    {
+      "run": "alternative_cup_wide_right_compensated_20261108",
+      "start_s": 38.233333333333334,
+      "end_s": 39.96666666666667,
+      "checkpoint_sha256": "b45ba2faf145a31464e52c30da2c131d83b4f81fd944faa4d7d2dcfec05c0fad",
+      "joint_commands_sha256": "8980eae0200de7a15e6ea67ab1f58cbafe521303860552a791cb76ea3a5035cf",
+      "full_history_peak_stretch": 1.191848635673523,
+      "stops": {
+        "support_stop.json": {
+          "time_s": 39.96666666666667,
+          "support": "right_index",
+          "previous_center": 599,
+          "reason": "Tracked support moved beyond continuity bound",
+          "contacts": [
+            388,
+            389,
+            390,
+            391,
+            392,
+            393,
+            394,
+            395,
+            396,
+            397,
+            398,
+            399,
+            400,
+            401,
+            402,
+            568,
+            569,
+            570,
+            571,
+            572,
+            573,
+            574,
+            575,
+            576,
+            577,
+            578,
+            579,
+            580,
+            581,
+            582,
+            583,
+            584,
+            585,
+            586,
+            587,
+            588,
+            589,
+            590,
+            591,
+            592,
+            593,
+            594,
+            595,
+            596,
+            597,
+            598,
+            599,
+            600,
+            601,
+            602,
+            603,
+            604,
+            605,
+            606,
+            607,
+            608,
+            609,
+            610,
+            611
+          ]
+        }
+      },
+      "material_support_tracking.json": {
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 39.966667,
+          "supports": {
+            "left_thumb": {
+              "center": 504,
+              "patch": [
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513,
+                514,
+                515,
+                516,
+                517
+              ],
+              "extras": [
+                [
+                  307,
+                  308,
+                  309,
+                  310,
+                  311
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 304,
+              "patch": [
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 426,
+              "patch": [
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 599,
+              "patch": [
+                568,
+                569,
+                570,
+                571,
+                572,
+                573,
+                574,
+                575,
+                576,
+                577,
+                578,
+                579,
+                580,
+                581,
+                582,
+                583,
+                584,
+                585,
+                586,
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611
+              ],
+              "extras": [
+                [
+                  388,
+                  389,
+                  390,
+                  391,
+                  392,
+                  393,
+                  394,
+                  395,
+                  396,
+                  397,
+                  398,
+                  399,
+                  400,
+                  401,
+                  402
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "loop_release_audit.json": {
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": false
+        },
+        "interval_s": [
+          38.233333,
+          39.966667
+        ],
+        "full_history_peak_stretch": 1.1918485374635797,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068
+      },
+      "source_checkpoint": "output/alternative_cup_wide_left_clamp_20261108/checkpoint.npz",
+      "source_checkpoint_sha256": "3a35e2b07c522dd1db03e4f20dca5d1a18b0317ca424c86de465754aae925f4e"
+    },
+    {
+      "run": "alternative_cup_wide_right_compensated_finish_20261108",
+      "start_s": 39.833333333333336,
+      "end_s": 40.6,
+      "checkpoint_sha256": "a6aca87495e5160740be359c83d5ff5a42bee85536257d8a976eeaa10202ecf4",
+      "joint_commands_sha256": "9699fd54b89ec28f43998984979ae962f833a0591c9da08e5d360efaa1622a65",
+      "full_history_peak_stretch": 1.3161592483520508,
+      "stops": {
+        "stretch_stop.json": {
+          "time_s": 40.6,
+          "ratio": 1.3161592483520508,
+          "threshold": 1.2
+        }
+      },
+      "material_support_tracking.json": {
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 40.6,
+          "supports": {
+            "left_thumb": {
+              "center": 504,
+              "patch": [
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513,
+                514,
+                515,
+                516
+              ],
+              "extras": [
+                [
+                  308,
+                  309,
+                  310,
+                  311,
+                  312,
+                  313
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 303,
+              "patch": [
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 421,
+              "patch": [
+                401,
+                402,
+                403,
+                404,
+                405,
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 593,
+              "patch": [
+                580,
+                581,
+                582,
+                583,
+                584,
+                585,
+                586,
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607
+              ],
+              "extras": [
+                [
+                  387,
+                  388,
+                  389,
+                  390,
+                  391,
+                  392,
+                  393,
+                  394,
+                  395,
+                  396,
+                  397,
+                  398,
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "closure_diagnosis": [
+        {
+          "time_s": 40.46666666666667,
+          "worst_edge": 405,
+          "stretch": 1.010727882385254,
+          "contacts": [
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 405,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.001955264713615179,
+              "edge_gap_m": 0.0001408582929974941,
+              "minimum_particle_gap_m": 0.0001408582929974941,
+              "rope_axial_m": 0.009428333954232027,
+              "capsule_half_length_m": 0.012,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 405,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.001955264713615179,
+              "edge_gap_m": 0.00232181159474447,
+              "minimum_particle_gap_m": 0.00232181159474447,
+              "rope_axial_m": 0.002921405227293589,
+              "capsule_half_length_m": 0.0191,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 405,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.001955264713615179,
+              "edge_gap_m": 0.004820130791411877,
+              "minimum_particle_gap_m": 0.004820130791411877,
+              "rope_axial_m": -0.019177254308401257,
+              "capsule_half_length_m": 0.009,
+              "closest_region": "negative_cap"
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 405,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.001955264713615179,
+              "edge_gap_m": 0.015498406798409973,
+              "minimum_particle_gap_m": 0.015498406798409973,
+              "rope_axial_m": -0.03090897285727407,
+              "capsule_half_length_m": 0.0113,
+              "closest_region": "negative_cap"
+            }
+          ],
+          "pinches": {
+            "near_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 593,
+                "thumb_gap_m": 0.0026207079027282506,
+                "index_gap_m": 1.694478186460048e-06,
+                "normal_dot": -0.9967314471485527,
+                "paired": false
+              }
+            },
+            "old_thumb_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.0008909775121604306,
+                "index_gap_m": 0.0016567738010168026,
+                "normal_dot": -0.9997708315867835,
+                "paired": false
+              }
+            },
+            "old_loop_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.0008909775121604306,
+                "index_gap_m": 0.0016567738010168026,
+                "normal_dot": -0.9997708315867835,
+                "paired": false
+              }
+            }
+          }
+        },
+        {
+          "time_s": 40.5,
+          "worst_edge": 593,
+          "stretch": 1.024076223373413,
+          "contacts": [
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 593,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.0020239430014044046,
+              "edge_gap_m": -2.3410327516235237e-05,
+              "minimum_particle_gap_m": -2.3410327516235237e-05,
+              "rope_axial_m": 0.0027879521713143583,
+              "capsule_half_length_m": 0.0191,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 593,
+              "edge_fraction": 0.5293874832959922,
+              "edge_length_m": 0.0020239430014044046,
+              "edge_gap_m": 0.00208839903216763,
+              "minimum_particle_gap_m": 0.0021184600929614215,
+              "rope_axial_m": 0.0074815536234142345,
+              "capsule_half_length_m": 0.012,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 593,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.0020239430014044046,
+              "edge_gap_m": 0.007542038405448416,
+              "minimum_particle_gap_m": 0.007542038405448416,
+              "rope_axial_m": -0.02082977361465464,
+              "capsule_half_length_m": 0.009,
+              "closest_region": "negative_cap"
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 593,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.0020239430014044046,
+              "edge_gap_m": 0.012757848768907645,
+              "minimum_particle_gap_m": 0.012757848768907645,
+              "rope_axial_m": -0.029122691756331854,
+              "capsule_half_length_m": 0.0113,
+              "closest_region": "negative_cap"
+            }
+          ],
+          "pinches": {
+            "near_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 594,
+                "thumb_gap_m": 0.0021184600929614735,
+                "index_gap_m": -2.341032751631677e-05,
+                "normal_dot": -0.9900954461799507,
+                "paired": false
+              }
+            },
+            "old_thumb_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.00036913074654896984,
+                "index_gap_m": 0.0016238553253173004,
+                "normal_dot": -0.9993734233090201,
+                "paired": false
+              }
+            },
+            "old_loop_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 403,
+                "thumb_gap_m": 0.0013034896695731215,
+                "index_gap_m": 0.0008501248848804812,
+                "normal_dot": -0.9829771733413424,
+                "paired": false
+              }
+            }
+          }
+        },
+        {
+          "time_s": 40.53333333333333,
+          "worst_edge": 406,
+          "stretch": 1.049004316329956,
+          "contacts": [
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 406,
+              "edge_fraction": 0.26795116375510125,
+              "edge_length_m": 0.0020731838885694742,
+              "edge_gap_m": -1.7192241981931096e-05,
+              "minimum_particle_gap_m": -1.200194221900961e-05,
+              "rope_axial_m": 0.009211435990567219,
+              "capsule_half_length_m": 0.012,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 406,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.0020731838885694742,
+              "edge_gap_m": 0.001899132269937505,
+              "minimum_particle_gap_m": 0.001899132269937505,
+              "rope_axial_m": 0.0011475899245572017,
+              "capsule_half_length_m": 0.0191,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 406,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.0020731838885694742,
+              "edge_gap_m": 0.0040985655293643815,
+              "minimum_particle_gap_m": 0.0040985655293643815,
+              "rope_axial_m": -0.01825624631490531,
+              "capsule_half_length_m": 0.009,
+              "closest_region": "negative_cap"
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 406,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.0020731838885694742,
+              "edge_gap_m": 0.017234134708469656,
+              "minimum_particle_gap_m": 0.017234134708469656,
+              "rope_axial_m": -0.03418571017055209,
+              "capsule_half_length_m": 0.0113,
+              "closest_region": "negative_cap"
+            }
+          ],
+          "pinches": {
+            "near_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 593,
+                "thumb_gap_m": 0.0015796293093697554,
+                "index_gap_m": -2.7223756006011096e-07,
+                "normal_dot": -0.9634152758525394,
+                "paired": false
+              }
+            },
+            "old_thumb_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.000479364320471797,
+                "index_gap_m": 0.0006225129638245284,
+                "normal_dot": -0.9984304240845094,
+                "paired": false
+              }
+            },
+            "old_loop_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.000479364320471797,
+                "index_gap_m": 0.0006225129638245284,
+                "normal_dot": -0.9984304240845094,
+                "paired": false
+              }
+            }
+          }
+        },
+        {
+          "time_s": 40.56666666666667,
+          "worst_edge": 404,
+          "stretch": 1.042364478111267,
+          "contacts": [
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 404,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.002060037339106202,
+              "edge_gap_m": 2.5533231645376818e-05,
+              "minimum_particle_gap_m": 2.5533231645376818e-05,
+              "rope_axial_m": 0.006804333738600276,
+              "capsule_half_length_m": 0.012,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 404,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.002060037339106202,
+              "edge_gap_m": 0.00011896181014038696,
+              "minimum_particle_gap_m": 0.00011896181014038696,
+              "rope_axial_m": 0.0019092156073958547,
+              "capsule_half_length_m": 0.0191,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 404,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.002060037339106202,
+              "edge_gap_m": 0.006614306458870498,
+              "minimum_particle_gap_m": 0.006614306458870498,
+              "rope_axial_m": -0.021820625758082343,
+              "capsule_half_length_m": 0.009,
+              "closest_region": "negative_cap"
+            },
+            {
+              "finger": "right_index_PIP_link",
+              "edge": 404,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.002060037339106202,
+              "edge_gap_m": 0.015385039984922695,
+              "minimum_particle_gap_m": 0.015385039984922695,
+              "rope_axial_m": -0.031120169336748417,
+              "capsule_half_length_m": 0.0113,
+              "closest_region": "negative_cap"
+            }
+          ],
+          "pinches": {
+            "near_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 593,
+                "thumb_gap_m": 0.0013711504772172195,
+                "index_gap_m": 2.174690264802534e-07,
+                "normal_dot": -0.9137765486598245,
+                "paired": false
+              }
+            },
+            "old_thumb_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.00013045410649344547,
+                "index_gap_m": 0.00011896181014029502,
+                "normal_dot": -0.9967101381093375,
+                "paired": false
+              }
+            },
+            "old_loop_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": 0.00013045410649344547,
+                "index_gap_m": 0.00011896181014029502,
+                "normal_dot": -0.9967101381093375,
+                "paired": false
+              }
+            }
+          }
+        },
+        {
+          "time_s": 40.6,
+          "worst_edge": 404,
+          "stretch": 1.3161592483520508,
+          "contacts": [
+            {
+              "finger": "right_thumb_PIP_link",
+              "edge": 404,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.002601141110062599,
+              "edge_gap_m": -0.00016902671931861343,
+              "minimum_particle_gap_m": -0.00016902671931861343,
+              "rope_axial_m": 0.004777828904595068,
+              "capsule_half_length_m": 0.012,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_index_MCP_link",
+              "edge": 404,
+              "edge_fraction": 0.330985445365359,
+              "edge_length_m": 0.002601141110062599,
+              "edge_gap_m": -5.468470057445451e-05,
+              "minimum_particle_gap_m": -3.312369670227782e-05,
+              "rope_axial_m": 0.0017381635243303552,
+              "capsule_half_length_m": 0.0191,
+              "closest_region": "shaft"
+            },
+            {
+              "finger": "right_thumb_DIP_link",
+              "edge": 404,
+              "edge_fraction": 1.0,
+              "edge_length_m": 0.002601141110062599,
+              "edge_gap_m": 0.006740783003471908,
+              "minimum_particle_gap_m": 0.006740783003471908,
+              "rope_axial_m": -0.02202453461867808,
+              "capsule_half_length_m": 0.009,
+              "closest_region": "negative_cap"
+            },
+            {
+              "finger": "right_thumb_MCP_link",
+              "edge": 404,
+              "edge_fraction": 0.0,
+              "edge_length_m": 0.002601141110062599,
+              "edge_gap_m": 0.014861978038456063,
+              "minimum_particle_gap_m": 0.014861978038456063,
+              "rope_axial_m": 0.039803862326636984,
+              "capsule_half_length_m": 0.014,
+              "closest_region": "positive_cap"
+            }
+          ],
+          "pinches": {
+            "near_indices": {
+              "paired": [],
+              "edge_paired": [],
+              "nearest": {
+                "particle": 592,
+                "thumb_gap_m": 0.0026463190691414706,
+                "index_gap_m": 6.082569810053444e-06,
+                "normal_dot": -0.7920410322845035,
+                "paired": false
+              }
+            },
+            "old_thumb_indices": {
+              "paired": [
+                {
+                  "particle": 404,
+                  "thumb_gap_m": -0.0001690267193185874,
+                  "index_gap_m": -3.312369670227782e-05,
+                  "normal_dot": -0.9919647844831497,
+                  "paired": true
+                },
+                {
+                  "particle": 405,
+                  "thumb_gap_m": -8.881514439384834e-06,
+                  "index_gap_m": 3.318466945782892e-05,
+                  "normal_dot": -0.9723358849802131,
+                  "paired": true
+                }
+              ],
+              "edge_paired": [
+                404,
+                405
+              ],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": -0.0001690267193185874,
+                "index_gap_m": -3.312369670227782e-05,
+                "normal_dot": -0.9919647844831497,
+                "paired": true
+              }
+            },
+            "old_loop_indices": {
+              "paired": [
+                {
+                  "particle": 403,
+                  "thumb_gap_m": -2.9295027629256017e-05,
+                  "index_gap_m": 2.8953531633635517e-05,
+                  "normal_dot": -0.9709549159010059,
+                  "paired": true
+                },
+                {
+                  "particle": 404,
+                  "thumb_gap_m": -0.0001690267193185874,
+                  "index_gap_m": -3.312369670227782e-05,
+                  "normal_dot": -0.9919647844831497,
+                  "paired": true
+                },
+                {
+                  "particle": 405,
+                  "thumb_gap_m": -8.881514439384834e-06,
+                  "index_gap_m": 3.318466945782892e-05,
+                  "normal_dot": -0.9723358849802131,
+                  "paired": true
+                }
+              ],
+              "edge_paired": [
+                402,
+                403,
+                404,
+                405
+              ],
+              "nearest": {
+                "particle": 404,
+                "thumb_gap_m": -0.0001690267193185874,
+                "index_gap_m": -3.312369670227782e-05,
+                "normal_dot": -0.9919647844831497,
+                "paired": true
+              }
+            }
+          }
+        }
+      ],
+      "source_checkpoint": "output/alternative_cup_wide_right_compensated_20261108/state_1195.npz",
+      "source_checkpoint_sha256": "bba920c5df0f55572b6c0cbb0bd5f3b5b7c7a7cbde9934a8c59279fbf0fd2cd3"
+    },
+    {
+      "run": "alternative_cup_wide_right_gap_hold_20261108",
+      "start_s": 40.43333333333333,
+      "end_s": 41.63333333333333,
+      "checkpoint_sha256": "0967375a5336d00d857184c4623d5b7237eeb615c0b331a2a5f780b40abcbb2d",
+      "joint_commands_sha256": "97b71689e989d729a327db9c1461c0d4a5b7a7ba15a355aafc7f07f05aada3b9",
+      "full_history_peak_stretch": 1.191848635673523,
+      "stops": {},
+      "material_support_tracking.json": {
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 41.633333,
+          "supports": {
+            "left_thumb": {
+              "center": 504,
+              "patch": [
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511,
+                512,
+                513,
+                514,
+                515,
+                516,
+                517
+              ],
+              "extras": [
+                [
+                  308,
+                  309,
+                  310,
+                  311,
+                  312
+                ]
+              ]
+            },
+            "left_index": {
+              "center": 305,
+              "patch": [
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 423,
+              "patch": [
+                405,
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441
+              ],
+              "extras": []
+            },
+            "right_index": {
+              "center": 592,
+              "patch": [
+                574,
+                575,
+                576,
+                577,
+                578,
+                579,
+                580,
+                581,
+                582,
+                583,
+                584,
+                585,
+                586,
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610
+              ],
+              "extras": [
+                [
+                  388,
+                  389,
+                  390,
+                  391,
+                  392,
+                  393,
+                  394,
+                  395,
+                  396,
+                  397,
+                  398,
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "loop_release_audit.json": {
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": false,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "interval_s": [
+          38.233333,
+          41.633333
+        ],
+        "full_history_peak_stretch": 1.1918485374635797,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068
+      },
+      "near_pinch_edge_audit.json": {
+        "sampling": "edges",
+        "passed_diagnostics": false,
+        "checks": {
+          "completed_stationary_hold": true,
+          "left_same_material_pinch": true,
+          "right_same_material_pinch": false
+        },
+        "interval_s": [
+          40.633333,
+          41.633333
+        ],
+        "persistent_material": {
+          "left": [
+            309,
+            310
+          ],
+          "right": []
+        }
+      },
+      "old_grip_observation": {
+        "time_s": 41.63333333333333,
+        "pinches": {
+          "near_indices": {
+            "paired": [],
+            "closest": {
+              "particle": 592,
+              "thumb_gap_m": 0.0033690719647368203,
+              "index_gap_m": 5.884608507845078e-06,
+              "normal_dot": -0.9670141594770496,
+              "paired": false
+            }
+          },
+          "old_thumb_indices": {
+            "paired": [],
+            "closest": {
+              "particle": 405,
+              "thumb_gap_m": 0.0011851598928466376,
+              "index_gap_m": 0.0016819503702082622,
+              "normal_dot": -0.9796615519133695,
+              "paired": false
+            }
+          },
+          "old_loop_indices": {
+            "paired": [],
+            "closest": {
+              "particle": 405,
+              "thumb_gap_m": 0.0011851598928466376,
+              "index_gap_m": 0.0016819503702082622,
+              "normal_dot": -0.9796615519133695,
+              "paired": false
+            }
+          }
+        }
+      },
+      "source_checkpoint": "output/alternative_cup_wide_right_compensated_finish_20261108/state_1213.npz",
+      "source_checkpoint_sha256": "edf843d338824bc3df6445b0613852bce3d316218d7b24523ebd30998fc4905f"
+    }
+  ],
+  "recipes": {
+    "attempt_wide_left_clamp.json": "257276f3995e255afc9fd9eb1786cfc52b55715dc40e0f0b6b259c07f8506d61",
+    "rejected_wide_right_full_clamp.json": "8706282e5494ced60ff035391c9ab534c80260719df393b8f7e6f3143541be31",
+    "attempt_wide_right_preclamp.json": "d7c66dafaae0399eb50cfd158f30dbe004bc8bcc75a3db3465b1249c6ee2e63c",
+    "attempt_side_clamp_right.json": "dd402c21799c89ff91840c4f30b65fd1a4d060beb9d5b490db28bc51b9689785",
+    "attempt_side_clamp_indices.json": "1ddc041046e4e03e76168fd8e431bfa2bed23b9875d12a680558ef4ba6aafbcd",
+    "rejected_side_clamp_ring_release.json": "15132982887939a101eae83cd199d2c8222852b5632551e2824de5fc6eb5b74d"
+  },
+  "wrist_compensation_preflight": {
+    "passed": true,
+    "maxima": {
+      "thumb_position_error_m": 0.00021257170225779358,
+      "thumb_rotation_error_rad": 0.0011212981146339843,
+      "peak_joint_speed_rad_s": 1.1713420971626285
+    },
+    "minima": {
+      "old_index_gap_m": 0.0016696943414642304,
+      "self_margin_m": 0.002565737960689881,
+      "opposing_gap_m": 0.020700675674567216,
+      "palm_gap_m": 0.07922399725459202,
+      "palm_sphere_gap_m": 0.06139172511298732
+    }
+  },
+  "tracking_correction": {
+    "first_false_stop_s": 39.96666666666667,
+    "previous_representative": 599,
+    "previous_patch": [
+      587,
+      588,
+      589,
+      590,
+      591,
+      592,
+      593,
+      594,
+      595,
+      596,
+      597,
+      598,
+      599,
+      600,
+      601,
+      602,
+      603,
+      604,
+      605,
+      606,
+      607,
+      608,
+      609,
+      610,
+      611
+    ],
+    "merged_patch": [
+      568,
+      569,
+      570,
+      571,
+      572,
+      573,
+      574,
+      575,
+      576,
+      577,
+      578,
+      579,
+      580,
+      581,
+      582,
+      583,
+      584,
+      585,
+      586,
+      587,
+      588,
+      589,
+      590,
+      591,
+      592,
+      593,
+      594,
+      595,
+      596,
+      597,
+      598,
+      599,
+      600,
+      601,
+      602,
+      603,
+      604,
+      605,
+      606,
+      607,
+      608,
+      609,
+      610,
+      611
+    ],
+    "old_midpoint": 599,
+    "new_midpoint": 589,
+    "new_representative": 599,
+    "original_gate_particles": 8,
+    "scope": "A still-contacting material sample is not lost when its patch midpoint shifts through growth or merging. Extra material and patches remain observable; topology is unverified."
+  },
+  "checks": {
+    "nonintegration_tests_passed": 128,
+    "integration_tests_deselected": 2,
+    "static_check": "uvx ruff==0.14.0 check --select F revo3_cat_cradle scripts tests",
+    "prior_right_thumb_loss_still_rejected_s": 37.766667
+  },
+  "shared_replay_prefix": {
+    "scope": "Exact shared replay prefix after the midpoint-tracker correction; compares robot joints and full rope dynamic state.",
+    "samples": [
+      {
+        "frame": 1196,
+        "time_s": 39.86666666666667,
+        "fields": {
+          "joints": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_q": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_qd": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "rest_lengths": {
+            "equal": true,
+            "max_error": 0.0
+          }
+        }
+      },
+      {
+        "frame": 1197,
+        "time_s": 39.9,
+        "fields": {
+          "joints": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_q": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_qd": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "rest_lengths": {
+            "equal": true,
+            "max_error": 0.0
+          }
+        }
+      },
+      {
+        "frame": 1198,
+        "time_s": 39.93333333333333,
+        "fields": {
+          "joints": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_q": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_qd": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "rest_lengths": {
+            "equal": true,
+            "max_error": 0.0
+          }
+        }
+      },
+      {
+        "frame": 1199,
+        "time_s": 39.96666666666667,
+        "fields": {
+          "joints": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_q": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "particle_qd": {
+            "equal": true,
+            "max_error": 0.0
+          },
+          "rest_lengths": {
+            "equal": true,
+            "max_error": 0.0
+          }
+        }
+      }
+    ],
+    "all_equal": true
+  },
+  "unexecuted_proposals": [
+    {
+      "name": "wide_right_old_loop_594.goal",
+      "particle": 594,
+      "passed": false,
+      "gap_m": 0.009273456415576552,
+      "normal_dot": -0.6191564441852622
+    },
+    {
+      "name": "wide_right_old_loop_594_seed1.goal",
+      "particle": 594,
+      "passed": false,
+      "gap_m": 0.009982122288499568,
+      "normal_dot": -0.6989959295191961
+    },
+    {
+      "name": "wide_right_old_loop_594_seed3.goal",
+      "particle": 594,
+      "passed": false,
+      "gap_m": 0.00998096243560536,
+      "normal_dot": -0.698817452300815
+    },
+    {
+      "name": "wide_right_old_loop_591.goal",
+      "particle": 591,
+      "passed": false,
+      "gap_m": 0.0067546411906935855,
+      "normal_dot": -0.9250024617688588
+    },
+    {
+      "name": "wide_right_old_loop_597.goal",
+      "particle": 597,
+      "passed": false,
+      "gap_m": 0.014290198164169637,
+      "normal_dot": -0.2579414860992718
+    },
+    {
+      "name": "distal_pick_588",
+      "particle": 588,
+      "passed": false,
+      "gap_m": 0.0035188575789666015,
+      "normal_dot": -0.9626605331961736
+    },
+    {
+      "name": "distal_pick_591",
+      "particle": 591,
+      "passed": false,
+      "gap_m": 0.0035296148919289,
+      "normal_dot": -0.9835320931178262
+    },
+    {
+      "name": "distal_pick_594",
+      "particle": 594,
+      "passed": false,
+      "gap_m": 0.0052959253652899935,
+      "normal_dot": -0.8147935461459566
+    }
+  ]
+}
