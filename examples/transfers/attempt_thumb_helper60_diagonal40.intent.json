@@ -1,0 +1,38 @@
+{
+  "source": "output/alternative_cup_right_helper_lift60_adj_20261109",
+  "start_s": 75.23333333333333,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457
+    ],
+    "initial_material_center": 450,
+    "expected_contact_interval_s": [
+      75.23333333333333,
+      78.93333333333334
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "declared_far_support_handoff": {
+    "right": 655
+  },
+  "joint_recipe_sha256": "3e8fe593f8c963596ec42a4e0d84b1dd751b330cd1c9a2c46abff7de32243983",
+  "scope": "Declared before replay: shift the old-loop little support 40 mm in world +X and 12 mm in world +Z while preserving planned thumb and index references. Transfer right far tracking to already held sample 655 before moving. Rope remains dynamic and free to slide.",
+  "original_declaration_recipe_sha256": "eb0eaef6abb565dae20c248e45730fd9de96d419cc7e7c23e5f3f7207c004ca4"
+}

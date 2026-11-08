@@ -1,0 +1,38 @@
+{
+  "source": "output/alternative_cup_right_helper_lift60_adj_20261109",
+  "start_s": 75.23333333333333,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457
+    ],
+    "initial_material_center": 450,
+    "expected_contact_interval_s": [
+      75.23333333333333,
+      81.43333333333334
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "declared_far_support_handoff": {
+    "right": 655
+  },
+  "joint_recipe_sha256": "d31d73fda9d707e761807c42fd4842ac3278618c9d41d08600317c5c401fd898",
+  "scope": "Declared before replay: repeat the exact 80 mm forward / 24 mm upward spatial helper path over 5 s instead of 2.5 s, then hold 1.2 s. This distinguishes timing-sensitive near-strand wedging from an unreachable release. Start from the valid lift60 source with far-patch handoff right:655.",
+  "original_declaration_recipe_sha256": "ad104979fad7d479eedb317780da59281fa1aaff98c93e7177fb21f02b48da6e"
+}

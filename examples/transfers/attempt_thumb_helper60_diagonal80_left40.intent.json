@@ -1,0 +1,38 @@
+{
+  "source": "output/alternative_cup_right_helper_lift60_adj_20261109",
+  "start_s": 75.23333333333333,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457
+    ],
+    "initial_material_center": 450,
+    "expected_contact_interval_s": [
+      75.23333333333333,
+      78.93333333333334
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "declared_far_support_handoff": {
+    "right": 655
+  },
+  "joint_recipe_sha256": "d1eff85a02812cff35330cd9ead24ffdfea92b697f36fe3a89a0689a5695eb14",
+  "scope": "Declared before replay: right old-loop helper advances 80 mm and rises 24 mm; left wrist simultaneously advances 40 mm and rises 12 mm with unchanged finger angles and orientation. Start from the valid lift60 state, with a predeclared transfer to already held right far sample 655. This tests whether opposite-hand following relieves near-strand tension and carries the old loop over the thumb.",
+  "original_declaration_recipe_sha256": "60fda4d9df608f33aa04d861238c887ca35c0cf63db88e8d072707f191a513f4"
+}

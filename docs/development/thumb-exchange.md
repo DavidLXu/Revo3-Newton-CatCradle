@@ -246,6 +246,39 @@ source, the wrong strand, stale reports and invalid declarations. The full
 186-test suite passes. A fresh replay must still pass its physical and helper
 audits; changing the tracked patch does not establish old-loop release.
 
+That replay completes at 78.933333 s with both far tracks and the temporary
+helper retained. Its right near clearance is at least 4.214 mm during the held
+second. At the original stop time, 78.233333 s, particle positions, particle
+velocities, joints and rest lengths match the stopped replay exactly. The
+handoff changes which already held patch is required, without changing motion
+or physics. The right old loop and unused middle/ring/little contacts remain.
+
+A diagonal pull of 40 mm forward and 12 mm upward also completes its hold.
+Right near clearance reaches 7.535 mm; left near clearance narrows to 2.226 mm.
+Old-loop sample 415 moves from −2.190 mm to +8.281 mm along the thumb's distal
+axis. The rounded fingertip ends at +20.5 mm. This is measurable sliding toward
+the tip, with the old noose still around the thumb.
+
+![Projected old-noose motion in the thumb frame](thumb_noose_progress_20261109.png)
+
+Doubling that displacement to 80 mm forward and 24 mm upward over 2.5 s reaches
+the unchanged stretch limit at 76.3 s: the maximum segment ratio is 1.200799.
+Near-strand edge 551 lies between the right ring and little MCP capsules at
+that stop. Simultaneously moving the left wrist 40 mm forward and 12 mm up
+still stops on stretch, at 76.333333 s with ratio 1.204007. Both stopped states
+remain rejected. These observations motivate separate slower-motion and
+finger-spacing probes; they do not establish a completed Cup figure.
+
+The slower 5 s replay still jams the near strand, reaching ratio 1.316773 at
+edge 550 and stopping at 77.666667 s. Opening only the ring finger cannot meet
+the planned clearance without approaching its neighboring middle finger. A
+joint adjustment of both fingers clears the observed near-strand passage in
+planning and reduces edge 551's ratio to 1.005688 in Newton. That replay reaches
+a different jam at 76.9 s: old-loop edge 411 is between the thumb DIP and index
+MCP capsules, with ratio 1.228630. It is rejected too. The next planning task
+is to keep both passages wide enough for the 2 mm rope while preserving the
+required material contacts.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

@@ -1,0 +1,38 @@
+{
+  "source": "output/alternative_cup_right_helper_lift60_adj_20261109",
+  "start_s": 75.23333333333333,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457
+    ],
+    "initial_material_center": 450,
+    "expected_contact_interval_s": [
+      75.23333333333333,
+      78.93333333333334
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "declared_far_support_handoff": {
+    "right": 655
+  },
+  "joint_recipe_sha256": "94315708686f3c878944c3bba6551c6781cda5636a2c3eeecdff8c5eddae36a3",
+  "scope": "Declared before replay: preserve the validated bilateral helper/left-wrist path, while opening right middle/ring spacing to keep the observed near-strand wedge region at least 3 mm from the ring. The failed diagonal80 state is a planning observation only; Newton resumes the valid lift60 state. No rope point is attached or prescribed.",
+  "original_declaration_recipe_sha256": "50b18e52690a8546d264499baa0663ad69e5647a8d262e4c1223926fc8906756"
+}
