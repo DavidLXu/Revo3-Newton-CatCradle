@@ -14,13 +14,15 @@ from revo3_cat_cradle.transfers import (
     fingertip,
     support_arc,
     original_thumb_loop,
+    track_support_patch,
 )
 from revo3_cat_cradle.bimanual_checks import gaps, hand_clearance, self_clearance_margin
-from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes
+from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
 from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
 from revo3_cat_cradle.body_envelope import CentralBodyEnvelope
 from revo3_cat_cradle.robot_geometry import RobotHullAudit
 from revo3_cat_cradle.segment_contacts import MAX_SEGMENT_LENGTH
+from revo3_cat_cradle.pinch import near_pinch_samples
 
 
 def main():
@@ -41,6 +43,16 @@ def main():
     p.add_argument("--hold-only", action="store_true")
     p.add_argument("--hold-duration", type=float, default=2)
     p.add_argument("--hold-label", default="Hold transfer pose")
+    p.add_argument(
+        "--stop-on-support-loss", action="store_true",
+        help="Track all four original thumb/index patches at every output frame; "
+             "requires a source material_support_tracking.json matching the checkpoint",
+    )
+    p.add_argument(
+        "--hold-on-near-pinch", choices=("left", "right", "both"),
+        help="During a route, stop closing at opposing thumb/index contact on the "
+             "same near-strand sample, then hold the measured joint pose",
+    )
     p.add_argument(
         "--stop-on-near-contact",
         action="store_true",
@@ -126,6 +138,12 @@ def main():
         "--target-index", type=int, help="Material point on the intended far strand"
     )
     a = p.parse_args()
+    if a.hold_on_near_pinch and (
+        not a.route_only or not a.approach_path or a.hold_only
+        or a.stop_on_near_contact or a.side not in ("both", a.hold_on_near_pinch)
+    ):
+        p.error("--hold-on-near-pinch requires a matching --side, --route-only and "
+                "--approach-path, without --hold-only or --stop-on-near-contact")
     if a.max_stretch_ratio is not None and (
         not np.isfinite(a.max_stretch_ratio) or a.max_stretch_ratio <= 1
     ):
@@ -171,6 +189,17 @@ def main():
         rest_length_max_scale=data.get("rest_length_max_scale", 2),
     )
     sim.load_checkpoint(checkpoint)
+    support_centers = {}
+    if a.stop_on_support_loss:
+        if abs(sim.config.radius - .001) > 1e-10:
+            raise ValueError("Original material tracking requires a 1 mm rope radius")
+        tracking = json.loads((a.source / "material_support_tracking.json").read_text())
+        samples = [row for row in tracking["samples"]
+                   if abs(row["time"] - float(seed["time"])) < 1e-5]
+        names = {f"{s}_{f}" for s in ("left", "right") for f in ("thumb", "index")}
+        if len(samples) != 1 or set(samples[0]["supports"]) != names:
+            raise ValueError("Source needs four original material tracks at the checkpoint")
+        support_centers = {name: row["center"] for name, row in samples[0]["supports"].items()}
     if a.friction is not None:
         m.metadata.setdefault("initial_friction", data["config"]["friction"])
         m.metadata.setdefault("physics_events", []).append(
@@ -275,7 +304,7 @@ def main():
         )
         (out / "transfer_audit.json").write_text(json.dumps(audit, indent=2))
 
-    def move(t, q, phase):
+    def move(t, q, phase, detect_pinch=False):
         if (
             not np.isfinite(q).all()
             or np.any(q < r.limits[:, 0] - 1e-6)
@@ -365,6 +394,42 @@ def main():
                     raise RuntimeError("Transfer contacted the forbidden near strand")
             if a.checkpoint_every_frame:
                 sim.save_checkpoint(out / f"state_{i:04d}.npz")
+            for name in support_centers:
+                side, finger = name.split("_")
+                contacts = support_contact_indices(sim.transforms, positions, side,
+                                                   finger, meshes or {})
+                try:
+                    support_centers[name], _, _ = track_support_patch(
+                        contacts, len(positions), support_centers[name])
+                except ValueError as exc:
+                    save()
+                    sim.save_checkpoint(out / f"state_{i:04d}.npz")
+                    (out / "support_stop.json").write_text(json.dumps(dict(
+                        time_s=sim.t, support=name, previous_center=support_centers[name],
+                        reason=str(exc), contacts=contacts.tolist(),
+                    ), indent=2) + "\n")
+                    raise RuntimeError("Original support material tracking failed") from exc
+            if detect_pinch:
+                pinch_sides = (("left", "right") if a.hold_on_near_pinch == "both"
+                               else (a.hold_on_near_pinch,))
+                paired = {side: [row for row in near_pinch_samples(
+                    sim.transforms, positions, side, plan[side]["near_indices"],
+                    sim.config.radius,
+                ) if row["paired"]] for side in pinch_sides}
+                if all(paired.values()):
+                    # Clip the current quintic without rewriting its executed
+                    # prefix. Only the robot command changes; rope state is kept.
+                    m.resume_at(dict(times=m.times, targets=m.targets, phases=m.phases),
+                                m.metadata, sim.t, sim.q)
+                    (out / "pinch_trigger.json").write_text(json.dumps(dict(
+                        time_s=sim.t, sides=list(pinch_sides), commanded_phase_end_s=t,
+                        samples=paired,
+                        scope="Sampled capsule pinch geometry; validate the subsequent "
+                              "hold, original supports and physical gates separately.",
+                    ), indent=2) + "\n")
+                    save()
+                    sim.save_checkpoint(out / f"state_{i:04d}.npz")
+                    return True
             if i % 30 == 0:
                 rope = sim.state.particle_q.numpy()
                 record = dict(
@@ -509,7 +574,9 @@ def main():
                     1.5,
                     f"Route thumb around near string {j + 1}",
                 )
-            move(sim.t + duration, q, phase)
+            if move(sim.t + duration, q, phase, detect_pinch=bool(a.hold_on_near_pinch)):
+                q = sim.q.copy()
+                break
     if a.route_only:
         if not a.approach_path:
             raise ValueError("--route-only requires --approach-path")

@@ -26,6 +26,11 @@ The [middle-finger underpass trials](docs/development/middle-underpass.md)
 now compare lateral passage routes and distinguish tip contact from shaft
 contact. The first route retains the original supports while moving, but
 fails its subsequent hold; no completed transfer is claimed.
+The [near-strand clamp preparation](docs/development/near-strand-clamp.md)
+now holds the intended material between the left thumb and index for 1.2 s
+while retaining all four original supports. The right closure loses its old
+thumb loop. Runtime contact and material guards record these distinct outcomes;
+the bilateral clamp and subsequent loop throw remain unfinished.
 
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
@@ -255,6 +260,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 
 [后续协同挑绳实验](docs/development/supported-thumb.md)加入腕部、拇指和食指的联合规划，并保存了可复算的动作与失败检查。两步接近动作保留了原有支撑，但随后的保持仍会误碰邻线；这一姿态的小指脱离和新绳圈接取尚未完成。
 中指辅助路线已出现对目标绳段的短暂接触，但尚未稳住新的绳圈。
+
+[近侧绳压线实验](docs/development/near-strand-clamp.md)已让左拇指和食指对同一绳段保持夹持接触 1.2 秒，并保留四处原有支撑。右侧闭合仍会滑掉原拇指绳圈；新增逐帧持绳追踪和接触后停止闭合控制，完整双侧压线和翻环尚未完成。
 
 ## License and upstream code
 
