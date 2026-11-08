@@ -23,6 +23,7 @@ from revo3_cat_cradle.free_loop import (
     ApexDetector, BottomCrossingDetector, free_loop_material,
     common_wrist_translation, validate_bilateral_release,
     validate_bilateral_near_hold, observed_phase_time,
+    projected_overpass,
 )
 from revo3_cat_cradle.pinch import bilateral_grip_observation
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
@@ -44,6 +45,9 @@ def main():
     parser.add_argument("--cartesian-steps", type=int, default=9)
     parser.add_argument("--continuous-wrist-path", action="store_true",
                         help="Pass smoothly through the IK knots with one global time envelope")
+    parser.add_argument("--stop-cue", choices=("elevation", "overpass"), default="elevation",
+                        help="Candidate cue only: height above the bridge, or a forward-to-body "
+                             "centroid crossing with both samples above it")
     parser.add_argument("--probe-step", type=float, default=0.1)
     parser.add_argument("--apex-timeout", type=float, default=2)
     parser.add_argument("--apex-min-offset", type=float, default=0.03)
@@ -108,6 +112,7 @@ def main():
         old_pinch_errors=[],
         near_pinch_maximum_gap_m=.0001,
         completed_figure=False, status="running",
+        stop_cue=args.stop_cue, overpass_candidates=[], final_hold_completed=False,
     )
     current_source = source
     history = []
@@ -119,6 +124,11 @@ def main():
         pending = out / "swing_control.pending.json"
         pending.write_text(json.dumps(report, indent=2) + "\n")
         pending.replace(out / "swing_control.json")
+
+    def candidate_status():
+        if args.stop_cue == "overpass":
+            return "projected_overpass_candidate" if report["overpass_candidates"] else None
+        return "elevated_band_candidate" if report["height_candidates"] else None
 
     def advance(waypoints=None, duration=None, phase=None):
         nonlocal current_source, last_checked, q_current
@@ -171,6 +181,9 @@ def main():
                     report["strain_stop"] = dict(time_s=time, ratio=strain)
                     raise RuntimeError("Rope stretch reached the unchanged 1.2 gate")
                 relative = rope[band].mean(axis=0) - rope[bridge].mean(axis=0)
+                crossing = projected_overpass(history[-1], (time, relative))
+                if crossing is not None:
+                    report["overpass_candidates"].append(crossing)
                 history.append((time, relative.copy()))
                 del history[:-3]
                 estimated_velocity = (history[-1][1] - history[0][1]) / (history[-1][0] - history[0][0])
@@ -203,8 +216,8 @@ def main():
             first_sample = len(report["samples"])
             moving_until = last_checked + args.stroke_duration
             samples = advance(waypoints=waypoints)
-            if report["height_candidates"]:
-                report["status"] = "elevated_band_candidate"
+            if candidate_status():
+                report["status"] = candidate_status()
                 break
             if stroke + 1 == args.strokes:
                 report["status"] = "stroke_limit"
@@ -219,8 +232,8 @@ def main():
                     report["status"] = "apex_timeout" if args.timing == "apex" else "crossing_timeout"
                     break
                 samples = advance()
-                if report["height_candidates"]:
-                    report["status"] = "elevated_band_candidate"
+                if candidate_status():
+                    report["status"] = candidate_status()
                     break
                 apex = observed_phase_time(detector, samples)
             if report["status"] != "running":
@@ -229,8 +242,10 @@ def main():
                                               else "observed_center_crossing"), direction=direction,
                                          observed_time_s=apex, reversal_time_s=last_checked))
         advance(duration=args.hold_duration, phase="Hold after the measured-phase loop swings")
-        if report["height_candidates"]:
-            report["status"] = "elevated_band_candidate"
+        report["final_hold_completed"] = True
+        report["completed_time_s"] = last_checked
+        if candidate_status():
+            report["status"] = candidate_status()
     except Exception as exc:
         report["status"] = "rejected"
         report["error"] = str(exc)

@@ -35,6 +35,11 @@ the stops between Cartesian IK samples and test timed hand descents from
 exact saved states. The record distinguishes temporary loop elevation from
 a completed flip and retains the rejected trials.
 
+[Palm-orientation trials](docs/development/palm-clearance.md) clear the unused
+right fingers by turning the right hand 30° around its near-grip reference.
+The held preparation retains both grips and the original supports. Subsequent
+swings remain experiments toward the unfinished loop flip.
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
@@ -266,6 +271,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 [小指避让实验](docs/development/little-clearance.md)补上了小指与自身手掌的碰撞代理检查，撤下了过度弯曲的候选姿态。修正后的准备动作保持住双侧近绳；自由绳环翻越仍未完成。
 
 [连续摆腕实验](docs/development/continuous-swing.md)去掉腕部轨迹采样点之间的停顿，并从保存的完整物理状态尝试定时下移双手。记录区分了绳环短暂抬高与真正翻越，也保留了被拒绝的实验。
+
+[手掌朝向实验](docs/development/palm-clearance.md)让右手绕近绳夹持处转动 30°，使右中指、无名指和小指在保持阶段离开绳子，同时保留双侧夹持和原有搭挂。后续甩绳仍在验证，自由绳环翻越尚未完成。
 
 ## License and upstream code
 

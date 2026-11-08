@@ -5,6 +5,7 @@ from revo3_cat_cradle.free_loop import (
     ApexDetector, BottomCrossingDetector, free_loop_material,
     common_wrist_translation, validate_bilateral_release,
     validate_bilateral_near_hold, observed_phase_time,
+    projected_overpass,
 )
 
 
@@ -128,6 +129,31 @@ def test_observed_phase_state_survives_a_separate_probe():
                                          phase_sample(.1, -.01, .3)],
                                not_before=.1) is None
     assert observed_phase_time(detector, [phase_sample(.2, .01, .3)]) == .2
+
+
+def test_projected_overpass_requires_the_return_direction_and_elevated_bracket():
+    event = projected_overpass((1, [.03, .01, .05]), (1.1, [-.01, .03, .07]))
+    assert event["time_s"] == pytest.approx(1.075)
+    np.testing.assert_allclose(event["relative_position_m"], [0, .025, .065])
+    assert event["bracket_minimum_height_m"] == .05
+    assert projected_overpass((1, [-.03, 0, .1]), (1.1, [.01, 0, .1])) is None
+    assert projected_overpass((1, [.03, 0, -.3]), (1.1, [-.01, 0, -.3])) is None
+    assert projected_overpass((1, [.03, 0, .01]), (1.1, [-.01, 0, .1])) is None
+
+
+def test_elevation_on_one_side_does_not_stop_an_overpass_trial():
+    # The earlier direct descent reaches positive height while still behind
+    # the thumb bridge. It is an elevated side swing, not an upper crossing.
+    assert projected_overpass((47.6, [-.18, 0, .015]),
+                              (47.633333, [-.1697, .0072, .0187])) is None
+    assert projected_overpass((1, [.3, 0, .15]), (1.1, [.2, 0, .2])) is None
+
+
+@pytest.mark.parametrize("before,after", [((1, [1, 0, .1]), (1, [-1, 0, .1])),
+                                         ((1, [1, 0, .1]), (2, [-1, 0, np.nan]))])
+def test_projected_overpass_rejects_invalid_time_or_position(before, after):
+    with pytest.raises(ValueError, match="overpass observations"):
+        projected_overpass(before, after)
 
 
 def test_free_material_wraps_without_using_a_thumb_arc():

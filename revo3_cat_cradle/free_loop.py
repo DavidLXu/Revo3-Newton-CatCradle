@@ -192,3 +192,26 @@ def observed_phase_time(detector, samples, *, not_before=-np.inf):
         if triggered and sample["time_s"] >= not_before - 1e-5:
             return sample["time_s"]
     return None
+
+
+def projected_overpass(previous, current, minimum_height=.02):
+    """Observe a forward-to-body centroid crossing above the thumb bridge.
+
+    Both bracket samples must exceed the height gate. The linearly interpolated
+    event is a 30 Hz projection cue, not proof that the complete loop passed
+    every held string or formed the intended topology.
+    """
+    t0, p0 = previous
+    t1, p1 = current
+    p0, p1 = np.asarray(p0, dtype=float), np.asarray(p1, dtype=float)
+    if (p0.shape != (3,) or p1.shape != (3,)
+            or not np.isfinite([t0, t1, minimum_height, *p0, *p1]).all()
+            or t1 <= t0 or minimum_height <= 0):
+        raise ValueError("Invalid projected overpass observations")
+    if not (p0[0] > 0 >= p1[0] and min(p0[2], p1[2]) > minimum_height):
+        return None
+    u = p0[0] / (p0[0] - p1[0])
+    return dict(time_s=float(t0 + u * (t1 - t0)),
+                bracket_s=[float(t0), float(t1)],
+                relative_position_m=((1 - u) * p0 + u * p1).tolist(),
+                bracket_minimum_height_m=float(min(p0[2], p1[2])))
