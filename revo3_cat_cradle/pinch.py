@@ -30,10 +30,13 @@ def capsule_surface_samples(transforms, points, side, finger, rope_radius):
     return best, normals
 
 
-def near_pinch_samples(transforms, rope, side, material_indices, rope_radius=.001):
+def near_pinch_samples(transforms, rope, side, material_indices, rope_radius=.001,
+                       *, max_gap_m=.0001):
     """Find opposing contact-compatible samples on the specified strand only.
 
-    The 0.1 mm gap tolerance admits solver contact error. More than 0.3 mm of
+    The default 0.1 mm tolerance admits proximity without compressive contact.
+    Use max_gap_m=0 to require nonpositive gaps on both capsule surfaces; this
+    still does not measure contact force. More than 0.3 mm of
     penetration is rejected, as is a normal dot product above -0.8. Persistent
     candidates still require a dynamic hold, support tracking and strain checks.
     """
@@ -43,12 +46,13 @@ def near_pinch_samples(transforms, rope, side, material_indices, rope_radius=.00
             or not np.isfinite(rope).all() or ids.ndim != 1
             or not np.issubdtype(ids.dtype, np.integer)
             or not len(ids) or np.any(ids < 0) or np.any(ids >= len(rope))
-            or not np.isfinite(rope_radius) or rope_radius <= 0):
+            or not np.isfinite(rope_radius) or rope_radius <= 0
+            or not np.isfinite(max_gap_m) or not 0 <= max_gap_m <= .0001):
         raise ValueError("Expected finite rope points, valid material indices and radius")
     thumb, tn = capsule_surface_samples(transforms, rope[ids], side, "thumb", rope_radius)
     index, inn = capsule_surface_samples(transforms, rope[ids], side, "index", rope_radius)
     dot = np.einsum("ij,ij->i", tn, inn)
-    paired = ((np.maximum(thumb, index) <= .0001)
+    paired = ((np.maximum(thumb, index) <= max_gap_m)
               & (np.minimum(thumb, index) >= -.0003) & (dot <= -.8))
     return [dict(particle=int(i), thumb_gap_m=float(t), index_gap_m=float(n),
                  normal_dot=float(d), paired=bool(p))
@@ -56,7 +60,7 @@ def near_pinch_samples(transforms, rope, side, material_indices, rope_radius=.00
 
 
 def near_pinch_edge_samples(transforms, rope, side, edge_indices, rope_radius=.001,
-                            samples_per_edge=21):
+                            samples_per_edge=21, *, max_gap_m=.0001):
     """Check both surfaces at the same fractions of selected closed-loop edges.
 
     Positive samples locate a shared cross-section between particles. Absence
@@ -74,7 +78,8 @@ def near_pinch_edge_samples(transforms, rope, side, edge_indices, rope_radius=.0
     points = (rope[edges, None] * (1 - fractions)[None, :, None]
               + rope[(edges + 1) % len(rope), None] * fractions[None, :, None])
     points = points.reshape(-1, 3)
-    rows = near_pinch_samples(transforms, points, side, np.arange(len(points)), rope_radius)
+    rows = near_pinch_samples(transforms, points, side, np.arange(len(points)),
+                              rope_radius, max_gap_m=max_gap_m)
     for row in rows:
         sample = row.pop("particle")
         row.update(edge=int(edges[sample // samples_per_edge]),

@@ -53,6 +53,9 @@ def main():
         help="During a route, stop closing at opposing thumb/index contact on the "
              "same near-strand sample, then hold the measured joint pose",
     )
+    p.add_argument("--pinch-max-gap", type=float, default=.0001,
+                   help="Maximum gap to each pinch surface in metres (0 to 0.0001); "
+                        "zero requires nonpositive gaps, not merely proximity")
     p.add_argument(
         "--stop-on-near-contact",
         action="store_true",
@@ -138,6 +141,10 @@ def main():
         "--target-index", type=int, help="Material point on the intended far strand"
     )
     a = p.parse_args()
+    if not np.isfinite(a.pinch_max_gap) or not 0 <= a.pinch_max_gap <= .0001:
+        p.error("--pinch-max-gap must be finite and in [0, 0.0001] metres")
+    if a.pinch_max_gap != .0001 and not a.hold_on_near_pinch:
+        p.error("--pinch-max-gap requires --hold-on-near-pinch")
     if a.hold_on_near_pinch and (
         not a.route_only or not a.approach_path or a.hold_only
         or a.stop_on_near_contact or a.side not in ("both", a.hold_on_near_pinch)
@@ -414,7 +421,7 @@ def main():
                                else (a.hold_on_near_pinch,))
                 paired = {side: [row for row in near_pinch_samples(
                     sim.transforms, positions, side, plan[side]["near_indices"],
-                    sim.config.radius,
+                    sim.config.radius, max_gap_m=a.pinch_max_gap,
                 ) if row["paired"]] for side in pinch_sides}
                 if all(paired.values()):
                     # Clip the current quintic without rewriting its executed
@@ -423,6 +430,7 @@ def main():
                                 m.metadata, sim.t, sim.q)
                     (out / "pinch_trigger.json").write_text(json.dumps(dict(
                         time_s=sim.t, sides=list(pinch_sides), commanded_phase_end_s=t,
+                        maximum_surface_gap_m=a.pinch_max_gap,
                         samples=paired,
                         scope="Sampled capsule pinch geometry; validate the subsequent "
                               "hold, original supports and physical gates separately.",

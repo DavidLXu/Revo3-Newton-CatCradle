@@ -63,3 +63,28 @@ def test_separate_contacts_on_one_edge_do_not_pin_a_common_cross_section():
     assert rows[0]["thumb_gap_m"] == pytest.approx(0)
     assert rows[-1]["index_gap_m"] == pytest.approx(0)
     assert not any(row["paired"] for row in rows)
+
+
+def test_proximity_is_not_two_sided_nonpositive_surface_contact():
+    point = np.zeros((1, 3))
+    loose = fixture(gap=.0021)
+    assert near_pinch_samples(loose, point, "left", [0])[0]["paired"]
+    assert not near_pinch_samples(loose, point, "left", [0], max_gap_m=0)[0]["paired"]
+    compressed = near_pinch_samples(fixture(gap=.00196), point, "left", [0], max_gap_m=0)[0]
+    assert compressed["paired"]
+    assert compressed["thumb_gap_m"] < 0 and compressed["index_gap_m"] < 0
+
+
+def test_edge_sampling_uses_the_same_strict_contact_threshold():
+    rope = np.array([[0, -.002, 0], [0, .002, 0]])
+    assert any(row["paired"] for row in near_pinch_edge_samples(fixture(gap=.0021), rope, "left", [0]))
+    assert not any(row["paired"] for row in near_pinch_edge_samples(
+        fixture(gap=.0021), rope, "left", [0], max_gap_m=0))
+    assert any(row["paired"] for row in near_pinch_edge_samples(
+        fixture(gap=.00196), rope, "left", [0], max_gap_m=0))
+
+
+@pytest.mark.parametrize("gap", [float("nan"), -.0001, .0002])
+def test_contact_threshold_cannot_weaken_the_existing_proximity_gate(gap):
+    with pytest.raises(ValueError):
+        near_pinch_samples(fixture(), np.zeros((1, 3)), "left", [0], max_gap_m=gap)

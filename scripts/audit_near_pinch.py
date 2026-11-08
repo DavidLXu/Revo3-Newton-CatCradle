@@ -26,7 +26,11 @@ def main():
     parser.add_argument("--side", choices=("left", "right", "both"), required=True)
     parser.add_argument("--sampling", choices=("points", "edges"), default="points",
                         help="Edges test 21 common fractions per near-strand edge")
+    parser.add_argument("--max-gap", type=float, default=.0001,
+                        help="Maximum surface gap in metres; zero excludes positive gaps")
     args = parser.parse_args()
+    if not np.isfinite(args.max_gap) or not 0 <= args.max_gap <= .0001:
+        parser.error("--max-gap must be finite and in [0, 0.0001] metres")
     with np.load(args.source / "trajectory.npz") as archive:
         times, joints, rope = (archive[name] for name in ("time", "joints", "rope"))
     payload = json.loads((args.source / "trajectory.json").read_text())
@@ -45,10 +49,12 @@ def main():
             if args.sampling == "edges":
                 ids = ids[np.isin((ids + 1) % len(rope[k]), ids)]
                 samples = near_pinch_edge_samples(tf, rope[k], side, ids,
-                                                  payload["config"]["radius"])
+                                                  payload["config"]["radius"],
+                                                  max_gap_m=args.max_gap)
             else:
                 samples = near_pinch_samples(tf, rope[k], side, ids,
-                                             payload["config"]["radius"])
+                                             payload["config"]["radius"],
+                                             max_gap_m=args.max_gap)
             paired = [sample for sample in samples if sample["paired"]]
             common[side].intersection_update(sample[material_key] for sample in paired)
             row["sides"][side] = paired
@@ -57,11 +63,14 @@ def main():
         times, joints, payload["motion"]["duration"]))
     checks.update({side + "_same_material_pinch": bool(common[side]) for side in sides})
     report = dict(scope=__doc__, sampling=args.sampling, checks=checks,
+                  maximum_surface_gap_m=args.max_gap,
                   passed_diagnostics=all(checks.values()),
                   interval_s=[float(times[selected[0]]), float(times[-1])],
                   persistent_material={side: sorted(ids) for side, ids in common.items()},
                   samples=rows)
-    name = "near_pinch_edge_audit.json" if args.sampling == "edges" else "near_pinch_audit.json"
+    strict = "_strict" if args.max_gap != .0001 else ""
+    edge = "_edge" if args.sampling == "edges" else ""
+    name = f"near_pinch{strict}{edge}_audit.json"
     (args.source / name).write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({key: value for key, value in report.items() if key != "samples"},
                      indent=2))
