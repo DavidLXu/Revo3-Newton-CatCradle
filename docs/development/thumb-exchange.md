@@ -43,7 +43,7 @@ its 1.2 s hold without a runtime stop.
 The complete physical audit passes its stretch, sampled rope self-contact,
 finger clearance, opposing-palm, arm/body hull, little-release and stationary
 hold checks. Both original index tracks pass. The exchange audit still fails
-the two right-side clearance conditions. These observations establish retained
+right near/old-loop clearance and unused right-finger clearance. These observations establish retained
 material contacts and left-side clearance, not a threading or force-closure
 certificate.
 
@@ -88,7 +88,8 @@ release.
 `audit_retained_supports.py --indices-only` writes a separate index report.
 `audit_thumb_exchange.py` combines the physical audit, index continuity,
 nondeparting original supports, stationary hold, persistent new far material,
-near clearance and the complete old-loop clearance. It always reports
+near clearance, complete old-loop clearance and all unused fingers' held
+clearance. It always reports
 `completed_figure: false`: these are necessary conditions rather than a figure
 recognizer. The opened-clamp negative control fails the capture and release
 conditions as expected.
@@ -99,6 +100,28 @@ a matching physical audit and held far-material report, together with the
 original-support guard. A new patch elsewhere on the thumb cannot silently
 replace a lost material track. The guard stops the experiment; it applies no
 force or constraint to the rope.
+
+If an already tracked strand develops another contact patch, the next phase
+uses its previous material center to continue the same track. Without that
+history, multiple extended patches remain ambiguous and are rejected.
+
+## Right-hand reorientation follow-up
+
+A 2.5 s right-hand rotation keeps the measured index support point approximately
+fixed while directing the thumb upward. Its proposed point drift is at most
+0.743 mm and joint-speed bound is 1.975 rad/s. The Newton replay and 1.2 s hold
+finish at 71.066667 s. Both new far-material tracks survive, and left-side
+clearance remains. However, the right little finger meets the loose old arc:
+its first gap below 2 mm occurs at 68.6 s, and capsule-edge contact starts at
+68.833333 s. The physical release audit rejects this continuation state.
+
+The recipe is `attempt_thumb_right_contact_pivot.json`, starting from
+`output/thumb_bilateral` with both retention guards enabled. It is a rejected
+follow-up, not the starting state for further physics. The held 67.366667 s
+state also has an extra right middle MCP contact near far-strand edge 627;
+clearing unused right fingers remains part of the task. Subsequent planning
+uses the rejected replay only to observe where the rope swept past those
+fingers, then returns to the earlier validated checkpoint for any new replay.
 
 ## Reproduce
 
@@ -136,7 +159,8 @@ First reproduce the cleared orbit follow-up at 61.166667 s using
 
 The four-original-support audit is expected to fail after intentional left
 thumb release. The index-only and physical audits pass; the exchange audit is
-expected to fail the two right-side clearance checks. Do not ignore any other
+expected to fail right near/old-loop clearance and right middle/ring clearance.
+Do not ignore any other
 new failure in a fresh replay.
 
 To reproduce the extra stationary hold:

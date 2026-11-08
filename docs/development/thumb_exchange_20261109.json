@@ -1165,7 +1165,13 @@
           "left_new_far_contact_held": false,
           "left_same_far_material": false,
           "left_near_strand_clear": true,
-          "left_old_loop_clear": false
+          "left_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": true,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -1182,6 +1188,14 @@
             "minimum_old_loop_gap_m": -7.305319002599495e-07,
             "persistent_far_particles": []
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.027132746038583642,
+          "left_ring": 0.03943062773540225,
+          "left_little": 0.05700116183176946,
+          "right_middle": -1.6141238311463343e-06,
+          "right_ring": 0.0033994998358053063,
+          "right_little": 0.025150835483106697
         }
       },
       "preflight": {
@@ -1473,7 +1487,13 @@
           "left_new_far_contact_held": false,
           "left_same_far_material": false,
           "left_near_strand_clear": false,
-          "left_old_loop_clear": false
+          "left_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": true,
+          "right_ring_clear": true,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -1490,6 +1510,14 @@
             "minimum_old_loop_gap_m": -1.0630677025639731e-06,
             "persistent_far_particles": []
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.027943540217612882,
+          "left_ring": 0.04074226136537257,
+          "left_little": 0.054897144245108165,
+          "right_middle": 0.004916757139907747,
+          "right_ring": 0.022650250541595307,
+          "right_little": 0.026790372398832363
         }
       },
       "preflight": {
@@ -1781,7 +1809,13 @@
           "left_new_far_contact_held": true,
           "left_same_far_material": true,
           "left_near_strand_clear": false,
-          "left_old_loop_clear": false
+          "left_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": true,
+          "right_ring_clear": true,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -1806,6 +1840,14 @@
               215
             ]
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.02869315628068629,
+          "left_ring": 0.031174593047432565,
+          "left_little": 0.020342716455524282,
+          "right_middle": 0.004952643637889846,
+          "right_ring": 0.022567187415243502,
+          "right_little": 0.024435338278266383
         }
       },
       "preflight": {
@@ -2084,7 +2126,13 @@
           "right_new_far_contact_held": false,
           "right_same_far_material": false,
           "right_near_strand_clear": false,
-          "right_old_loop_clear": false
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": true,
+          "right_ring_clear": true,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -2101,6 +2149,14 @@
             "minimum_old_loop_gap_m": -0.00023441543759080644,
             "persistent_far_particles": []
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.027262509093467252,
+          "left_ring": 0.04018251673352155,
+          "left_little": 0.05711512478686094,
+          "right_middle": 0.004315042626654071,
+          "right_ring": 0.02210631358707191,
+          "right_little": 0.017049184319115618
         }
       },
       "preflight": {
@@ -2399,7 +2455,13 @@
           "right_new_far_contact_held": false,
           "right_same_far_material": false,
           "right_near_strand_clear": false,
-          "right_old_loop_clear": false
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": true,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -2416,6 +2478,14 @@
             "minimum_old_loop_gap_m": -1.8939869668175083e-06,
             "persistent_far_particles": []
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.02834684927156423,
+          "left_ring": 0.04074213744038332,
+          "left_little": 0.05328168072497805,
+          "right_middle": -3.729973304779713e-07,
+          "right_ring": 0.004271427595069433,
+          "right_little": 0.002927254518980655
         }
       },
       "preflight": {
@@ -2695,7 +2765,13 @@
           "right_new_far_contact_held": true,
           "right_same_far_material": true,
           "right_near_strand_clear": false,
-          "right_old_loop_clear": false
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": false,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -2741,6 +2817,14 @@
               637
             ]
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03260521906914753,
+          "left_ring": 0.03951139127823698,
+          "left_little": 0.0362585026820738,
+          "right_middle": -2.9828732794456164e-07,
+          "right_ring": -6.224919328256737e-07,
+          "right_little": 0.01413286283131257
         }
       },
       "preflight": {
@@ -2973,7 +3057,13 @@
           "right_new_far_contact_held": true,
           "right_same_far_material": true,
           "right_near_strand_clear": false,
-          "right_old_loop_clear": false
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": false,
+          "right_little_clear": true
         },
         "completed_figure": false,
         "active_sides": [
@@ -3020,6 +3110,14 @@
               637
             ]
           }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03287709185377338,
+          "left_ring": 0.03955973108380669,
+          "left_little": 0.03584519066258972,
+          "right_middle": -3.2320027454433436e-07,
+          "right_ring": -4.4341919381522127e-07,
+          "right_little": 0.016198912758529593
         }
       },
       "far_support_guard": {
@@ -3041,6 +3139,529 @@
       "preflight": {
         "scope": "Stationary hold; no new joint path.",
         "sampled_clearance_minima": {}
+      }
+    },
+    {
+      "name": "right_contact_pivot",
+      "source": "alternative_cup_bilateral_pivot_20261109",
+      "interval_s": [
+        67.366667,
+        71.066667
+      ],
+      "source_checkpoint_sha256": "1bd69aaf8886a88d8f30d66b2c71fc45302f336cab0fd6920c4e80545d0d558b",
+      "checkpoint_sha256": "87013439dc0d312796ab6cbf29493a811d2ca2a74e72a09e2ade892fca11f35f",
+      "joint_commands_sha256": "202a460662b4c16fd30a64ee75b613abebb50f476c91d527458752a09051c3a8",
+      "recipe": "attempt_thumb_right_contact_pivot.json",
+      "recipe_sha256": "57a51516e7565003df87c42df2a4da535aff1aac639909e2e6f52fa15e93c3e6",
+      "declared_departing_thumbs": "both",
+      "stops": [],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "Both far tracks survive, but the right little finger recaptures the original free arc.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 67.36666666666666,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 295,
+          "right_index": 608
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          71.066667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_thumb",
+          "left_index",
+          "right_thumb",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "left_thumb": {
+            "time_s": 64.433333,
+            "reason": "Tracked support moved beyond continuity bound"
+          }
+        }
+      },
+      "index_material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          71.066667
+        ],
+        "initial_centers": {
+          "left_index": 299,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {}
+      },
+      "loop_release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, full robot self-collision checks, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": false,
+          "interval_little_own_palm_clearance": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          71.066667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.2131209694348985e-06,
+            "maximum_hold_gap_m": -7.450451851185799e-07,
+            "maximum_transfer_gap_m": -3.7758838179139526e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.0275919472444925e-06,
+            "maximum_hold_gap_m": -5.190812810600479e-07,
+            "maximum_transfer_gap_m": -5.128123083822725e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.036121309198298826,
+            "maximum_hold_gap_m": 0.040951318842946324,
+            "maximum_transfer_gap_m": 0.04323617448499899
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -6.045451724090954e-06,
+            "maximum_hold_gap_m": -1.91396723151719e-06,
+            "maximum_transfer_gap_m": -6.578734204039718e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -9.558770588417517e-07,
+            "maximum_hold_gap_m": -6.251210675827998e-07,
+            "maximum_transfer_gap_m": -4.6295335094734963e-07
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -8.389019018799695e-07,
+            "maximum_hold_gap_m": -4.4524675220456583e-07,
+            "maximum_transfer_gap_m": 0.017691048639323078
+          }
+        },
+        "interval_little_rope": {
+          "left": {
+            "minimum_gap_m": 0.03609495470858966,
+            "first_within_2mm_s": null,
+            "first_nonpositive_gap_s": null
+          },
+          "right": {
+            "minimum_gap_m": -1.6007642629827998e-06,
+            "first_within_2mm_s": 68.6,
+            "first_nonpositive_gap_s": 68.833333
+          }
+        },
+        "full_history_peak_stretch": 1.1992730249949428,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -6.340122321678038e-05,
+        "interval_little_own_palm": {
+          "scope": "PIP/DIP capsules against their own convex palm; adjoining MCP excluded. Sampled poses, not full robot self-collision certification.",
+          "time_s": 67.966667,
+          "link": "left_little_DIP_link",
+          "lower_bound_m": 0.0011441432407388319,
+          "sampled_gap_m": 0.0013941432407388321
+        },
+        "full_history_palm_clearance": {
+          "time_s": 59.1,
+          "finger_palm_lower_bound_m": 0.09130183862138282,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.06442595853014488,
+          "opposing_finger_gap_m": 0.05873424858928628,
+          "same_hand_finger_margin_m": 0.00028833068926680406,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.0598115977379059,
+          "minimum_opposing_finger_gap_m": 0.009658457725487598,
+          "minimum_same_hand_finger_margin_m": 0.00028833068926643977
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "thumb_exchange_audit": {
+        "scope": "Check necessary material/contact conditions after intentional thumb exchange.\n\nPassing these conditions does not certify a threaded bight, Cup, or any other\nfigure. The original index tracks, new far strands and complete old-loop arcs\nare inspected separately; captions and generic thumb contact are insufficient.\n",
+        "passed_diagnostics": false,
+        "checks": {
+          "physics_completed_hold": true,
+          "physics_contact_search_bound": true,
+          "physics_dynamic_rope": true,
+          "physics_full_history_central_body_envelopes_clear": true,
+          "physics_full_history_finger_clearance": true,
+          "physics_full_history_opposing_palm_clearance": true,
+          "physics_full_history_robot_hull_centerlines_clear": true,
+          "physics_full_history_sampled_self_contact": true,
+          "physics_full_history_strain": true,
+          "physics_interval_little_own_palm_clearance": true,
+          "physics_joint_limits": true,
+          "physics_left_little_clear": true,
+          "physics_right_little_clear": false,
+          "original_indices_tracked": true,
+          "intentional_phase_declared": true,
+          "nondeparting_original_supports_tracked": true,
+          "stationary_hold": true,
+          "left_new_far_contact_held": true,
+          "left_same_far_material": true,
+          "left_near_strand_clear": true,
+          "left_old_loop_clear": true,
+          "right_new_far_contact_held": true,
+          "right_same_far_material": true,
+          "right_near_strand_clear": false,
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": true,
+          "right_little_clear": false
+        },
+        "completed_figure": false,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          71.066667
+        ],
+        "summary": {
+          "left": {
+            "maximum_far_gap_m": -7.450451851185799e-07,
+            "minimum_near_gap_m": 0.008110592324252607,
+            "minimum_old_loop_gap_m": 0.08086960799208227,
+            "persistent_far_particles": [
+              213,
+              214,
+              215,
+              216,
+              217,
+              218,
+              219,
+              220,
+              221,
+              222,
+              223,
+              224,
+              225,
+              226,
+              227
+            ]
+          },
+          "right": {
+            "maximum_far_gap_m": -1.91396723151719e-06,
+            "minimum_near_gap_m": -6.045451724090954e-06,
+            "minimum_old_loop_gap_m": -7.099682798701254e-07,
+            "persistent_far_particles": [
+              634,
+              635,
+              636,
+              637,
+              638,
+              643,
+              644,
+              645,
+              646,
+              647,
+              648,
+              649
+            ]
+          }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03371541621152462,
+          "left_ring": 0.04076011150591536,
+          "left_little": 0.036121309198298826,
+          "right_middle": -6.345430712469645e-06,
+          "right_ring": 0.003848454629909231,
+          "right_little": -8.389019018799695e-07
+        }
+      },
+      "far_support_guard": {
+        "source_time_s": 67.36666666666666,
+        "initial_material_centers": {
+          "left": 217,
+          "right": 636
+        },
+        "scope": "Track newly captured far material; no rope constraint is added."
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          67.36666666666666,
+          71.06666666666666
+        ],
+        "tracking_complete": true,
+        "errors": {},
+        "first_and_last_samples": [
+          {
+            "time": 67.36666666666666,
+            "centers": {
+              "left": 217,
+              "right": 636
+            }
+          },
+          {
+            "time": 71.06666666666666,
+            "centers": {
+              "left": 220,
+              "right": 636
+            }
+          }
+        ]
+      },
+      "preflight": {
+        "source": "output/alternative_cup_bilateral_pivot_20261109",
+        "source_time_s": 67.36666666666666,
+        "passed": true,
+        "scope": "The index support point is a planning reference, never a rope attachment.",
+        "index_material": 608,
+        "index_link": "right_index_MCP_link",
+        "index_reference_local": [
+          -0.007104203023390454,
+          0.011437976249149572,
+          0.01582706941329404
+        ],
+        "far_material": 636,
+        "desired_thumb_axis": [
+          0.5999999999999999,
+          0.0,
+          0.8
+        ],
+        "fits": [
+          {
+            "progress": 0.013888888888888888,
+            "center_error_m": 3.733071497769203e-08,
+            "index_error_m": 5.7650618241001846e-08,
+            "axis_error_rad": 2.313282295504221e-07,
+            "nfev": 9
+          },
+          {
+            "progress": 0.041666666666666664,
+            "center_error_m": 1.4754056645217726e-07,
+            "index_error_m": 1.872796854556304e-07,
+            "axis_error_rad": 5.331201499700108e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.08333333333333333,
+            "center_error_m": 2.9416599499912892e-08,
+            "index_error_m": 4.1947684145361764e-08,
+            "axis_error_rad": 2.149076029934881e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.125,
+            "center_error_m": 1.4315224273328353e-07,
+            "index_error_m": 1.9870829092683735e-07,
+            "axis_error_rad": 5.458789790873059e-07,
+            "nfev": 14
+          },
+          {
+            "progress": 0.16666666666666666,
+            "center_error_m": 2.5220996628949115e-08,
+            "index_error_m": 3.1717639258736485e-08,
+            "axis_error_rad": 1.9599417504617463e-07,
+            "nfev": 9
+          },
+          {
+            "progress": 0.20833333333333334,
+            "center_error_m": 1.2891106578983028e-07,
+            "index_error_m": 1.5463826276531656e-07,
+            "axis_error_rad": 5.7034668949261e-07,
+            "nfev": 8
+          },
+          {
+            "progress": 0.25,
+            "center_error_m": 1.8983717679455223e-08,
+            "index_error_m": 1.6167190083595766e-08,
+            "axis_error_rad": 1.3160349229466696e-07,
+            "nfev": 12
+          },
+          {
+            "progress": 0.2916666666666667,
+            "center_error_m": 1.4939157112843578e-08,
+            "index_error_m": 1.1271715476723025e-08,
+            "axis_error_rad": 1.1733186057227575e-07,
+            "nfev": 21
+          },
+          {
+            "progress": 0.3333333333333333,
+            "center_error_m": 4.458698923931549e-08,
+            "index_error_m": 5.15686462648906e-08,
+            "axis_error_rad": 6.185328239356753e-07,
+            "nfev": 9
+          },
+          {
+            "progress": 0.375,
+            "center_error_m": 4.247307326095432e-08,
+            "index_error_m": 5.4637491766960874e-08,
+            "axis_error_rad": 6.536159574825078e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.4166666666666667,
+            "center_error_m": 6.222263284444935e-08,
+            "index_error_m": 7.53565637344106e-08,
+            "axis_error_rad": 7.533564960816405e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.4583333333333333,
+            "center_error_m": 7.834379292230186e-08,
+            "index_error_m": 1.004289141022192e-07,
+            "axis_error_rad": 8.240220882117082e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.5,
+            "center_error_m": 1.0279290372271555e-07,
+            "index_error_m": 1.337134791155001e-07,
+            "axis_error_rad": 9.068920644941009e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.5416666666666666,
+            "center_error_m": 1.2817773986799763e-07,
+            "index_error_m": 1.7220605103644346e-07,
+            "axis_error_rad": 9.279488013351455e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.5833333333333334,
+            "center_error_m": 2.1145258370414904e-08,
+            "index_error_m": 1.7440871317208388e-08,
+            "axis_error_rad": 1.6526187220825896e-07,
+            "nfev": 13
+          },
+          {
+            "progress": 0.625,
+            "center_error_m": 5.2820316592298805e-09,
+            "index_error_m": 1.756241482905612e-09,
+            "axis_error_rad": 1.698993779866605e-07,
+            "nfev": 10
+          },
+          {
+            "progress": 0.6666666666666666,
+            "center_error_m": 4.540022128000999e-08,
+            "index_error_m": 5.897593477262632e-08,
+            "axis_error_rad": 7.300048299977716e-08,
+            "nfev": 14
+          },
+          {
+            "progress": 0.7083333333333334,
+            "center_error_m": 8.123827185398446e-08,
+            "index_error_m": 9.981586031143003e-08,
+            "axis_error_rad": 3.332000937312528e-08,
+            "nfev": 13
+          },
+          {
+            "progress": 0.75,
+            "center_error_m": 5.346550738127074e-08,
+            "index_error_m": 4.580200054470684e-08,
+            "axis_error_rad": 1.5203566480500624e-06,
+            "nfev": 8
+          },
+          {
+            "progress": 0.7916666666666666,
+            "center_error_m": 5.1696077034611894e-08,
+            "index_error_m": 5.15486358689864e-08,
+            "axis_error_rad": 1.4166294996620565e-06,
+            "nfev": 8
+          },
+          {
+            "progress": 0.8333333333333334,
+            "center_error_m": 8.516565522134646e-06,
+            "index_error_m": 4.862884863710194e-06,
+            "axis_error_rad": 6.671940304608209e-05,
+            "nfev": 13
+          },
+          {
+            "progress": 0.875,
+            "center_error_m": 2.5373234282212887e-06,
+            "index_error_m": 2.466915757504274e-06,
+            "axis_error_rad": 8.950426847017258e-06,
+            "nfev": 21
+          },
+          {
+            "progress": 0.9166666666666666,
+            "center_error_m": 8.455589708563871e-07,
+            "index_error_m": 3.552338085521936e-07,
+            "axis_error_rad": 1.8640107870930092e-05,
+            "nfev": 21
+          },
+          {
+            "progress": 0.9583333333333334,
+            "center_error_m": 5.231060273614241e-08,
+            "index_error_m": 1.6300922262510595e-08,
+            "axis_error_rad": 9.730355571100206e-07,
+            "nfev": 21
+          },
+          {
+            "progress": 0.986111111111111,
+            "center_error_m": 2.598841492147628e-07,
+            "index_error_m": 3.5028212196857074e-07,
+            "axis_error_rad": 9.464173137753606e-06,
+            "nfev": 19
+          },
+          {
+            "progress": 1.0,
+            "center_error_m": 6.908588340995317e-07,
+            "index_error_m": 3.2076854948498566e-07,
+            "axis_error_rad": 1.606828907814092e-05,
+            "nfev": 16
+          }
+        ],
+        "maximum_index_reference_error_m": 0.0007425523813701184,
+        "maximum_joint_speed_bound_rad_s": 1.9742944193590257
       }
     }
   ],
@@ -3587,7 +4208,7 @@
     "The original Opening A is independently placed."
   ],
   "validation": {
-    "nonintegration_tests_passed": 162,
+    "nonintegration_tests_passed": 163,
     "integration_tests_deselected": 2,
     "ruff_f_checks_passed": true,
     "published_recipes": [
@@ -3645,7 +4266,26 @@
         "recipe": "attempt_thumb_bilateral_pivot.json",
         "exact_executed_recipe": true,
         "peak_joint_speed_bound_rad_s": 2.2214071545947958
+      },
+      {
+        "recipe": "attempt_thumb_right_contact_pivot.json",
+        "exact_executed_recipe": true,
+        "peak_joint_speed_bound_rad_s": 1.9742944193590257
       }
     ]
+  },
+  "additional_contact_observation": {
+    "scope": "Capsule-edge audit at the bilateral held endpoint, 67.366667 s.",
+    "right_middle": {
+      "link": "right_middle_MCP_link",
+      "edge": 627,
+      "surface_gap_m": 0.0,
+      "status": "Additional support; not cleared"
+    },
+    "right_ring": {
+      "link": "right_ring_MCP_link",
+      "edge": 559,
+      "surface_gap_m": 0.000436
+    }
   }
 }

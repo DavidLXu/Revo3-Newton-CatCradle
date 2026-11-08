@@ -161,7 +161,7 @@ def retained_support_centers(report, checkpoint_time, released_thumbs=()):
     return {name: rows[0]["supports"][name]["center"] for name in sorted(names)}
 
 
-def captured_far_centers(report, checkpoint_time, plan, particle_count):
+def captured_far_centers(report, checkpoint_time, plan, particle_count, previous_centers=None):
     """Seed new support tracks from a matching held far-material observation.
 
     Old loops may still be present: their release is a separate task. The
@@ -176,6 +176,8 @@ def captured_far_centers(report, checkpoint_time, plan, particle_count):
             or not checks.get("original_indices_tracked")):
         raise ValueError("Source needs a matching held far-material report")
     centers = {}
+    if previous_centers is not None and set(previous_centers) != {"left", "right"}:
+        raise ValueError("Previous far tracks must name both hands")
     for side in ("left", "right"):
         ids = np.asarray(report.get("summary", {}).get(side, {}).get(
             "persistent_far_particles", []), dtype=int)
@@ -184,8 +186,15 @@ def captured_far_centers(report, checkpoint_time, plan, particle_count):
                 or not len(ids) or np.any(ids < 0) or np.any(ids >= particle_count)
                 or not np.isin(ids, plan[side]["far_indices"]).all()):
             raise ValueError("Both captured far strands need persistent material")
-        patch = support_contact_patch(np.sort(np.unique(ids)), particle_count)
-        centers[side] = int(patch[(len(patch) - 1) // 2])
+        ids = np.sort(np.unique(ids))
+        if previous_centers is None:
+            patch = support_contact_patch(ids, particle_count)
+            centers[side] = int(patch[(len(patch) - 1) // 2])
+        else:
+            previous = previous_centers[side]
+            if previous not in plan[side]["far_indices"]:
+                raise ValueError("Previous far track is outside its original strand")
+            centers[side], _, _ = track_support_patch(ids, particle_count, previous)
     return centers
 
 

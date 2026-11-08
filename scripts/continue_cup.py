@@ -344,8 +344,19 @@ def main():
         from revo3_cat_cradle.free_loop import validate_bilateral_release
         validate_bilateral_release(json.loads(
             (a.source / "loop_release_audit.json").read_text()), sim.t)
+        previous_far = None
+        prior_path = a.source / "far_material_support_tracking.json"
+        if prior_path.exists():
+            prior = json.loads(prior_path.read_text())
+            rows = prior.get("samples", [])
+            if (not prior.get("tracking_complete") or not rows
+                    or not np.isfinite(rows[-1]["time"])
+                    or abs(rows[-1]["time"] - sim.t) > 1e-5):
+                raise ValueError("Prior far-material track is incomplete or stale")
+            previous_far = rows[-1]["centers"]
         far_centers = captured_far_centers(json.loads(
-            (a.source / "thumb_exchange_audit.json").read_text()), sim.t, plan, len(rope))
+            (a.source / "thumb_exchange_audit.json").read_text()), sim.t, plan, len(rope),
+            previous_centers=previous_far)
         far_rows.append(dict(time=sim.t, centers=far_centers.copy()))
         far_guard = dict(source_time_s=sim.t, initial_material_centers=far_centers.copy(),
                          scope="Track newly captured far material; no rope constraint is added.")

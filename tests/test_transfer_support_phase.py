@@ -86,3 +86,19 @@ def test_captured_far_guard_requires_both_held_material_tracks():
     report["checks"]["left_new_far_contact_held"] = False
     with pytest.raises(ValueError, match="Both captured"):
         captured_far_centers(report, 4., plan, 10)
+
+
+def test_existing_far_track_is_kept_when_a_second_contact_patch_appears():
+    plan = {"left": {"far_indices": [7, 8, 12, 13]}, "right": {"far_indices": [1, 2]}}
+    report = dict(interval_s=[3., 4.], checks=dict(
+        stationary_hold=True, original_indices_tracked=True,
+        left_new_far_contact_held=True, left_same_far_material=True,
+        right_new_far_contact_held=True, right_same_far_material=True),
+        summary={"left": {"persistent_far_particles": [7, 8, 12, 13]},
+                 "right": {"persistent_far_particles": [1, 2]}})
+    with pytest.raises(ValueError, match="Ambiguous"):
+        captured_far_centers(report, 4., plan, 20)
+    assert captured_far_centers(report, 4., plan, 20,
+                                {"left": 12, "right": 2}) == {"left": 12, "right": 1}
+    with pytest.raises(ValueError, match="outside"):
+        captured_far_centers(report, 4., plan, 20, {"left": 19, "right": 2})

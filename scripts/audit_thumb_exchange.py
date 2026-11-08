@@ -90,7 +90,17 @@ def main():
     persistent = {side: set(plan[side]["far_indices"]) for side in active}
     for k in held:
         transforms = robot.fk(joints[k])
-        row = dict(time_s=float(times[k]), sides={})
+        all_contacts = audit_frame(robot, joints[k], rope[k], radius)
+        row = dict(time_s=float(times[k]), sides={}, unused_fingers={})
+        for side in ("left", "right"):
+            for finger in ("middle", "ring", "little"):
+                name = side + "_" + finger
+                nearest = min((v for v in all_contacts if v["finger"].startswith(name + "_")),
+                              key=lambda v: v["edge_gap_m"])
+                row["unused_fingers"][name] = dict(
+                    gap_m=min(nearest["edge_gap_m"], support_gap(
+                        transforms, rope[k], side, finger, meshes, radius)),
+                    nearest_capsule=nearest["finger"], nearest_edge=nearest["edge"])
         for side in active:
             values = {}
             for strand in ("far_indices", "near_indices", "old_loop_indices"):
@@ -121,9 +131,13 @@ def main():
             side + "_near_strand_clear": summary[side]["minimum_near_gap_m"] > .002,
             side + "_old_loop_clear": summary[side]["minimum_old_loop_gap_m"] > .004,
         })
+    unused = {name: min(row["unused_fingers"][name]["gap_m"] for row in observations)
+              for name in observations[0]["unused_fingers"]}
+    checks.update({name + "_clear": gap > .002 for name, gap in unused.items()})
     report = dict(scope=__doc__, passed_diagnostics=all(checks.values()), checks=checks,
                   completed_figure=False, active_sides=list(active),
-                  interval_s=[args.start, float(times[-1])], summary=summary, samples=observations)
+                  interval_s=[args.start, float(times[-1])], summary=summary,
+                  unused_finger_minimum_held_gaps_m=unused, samples=observations)
     (source / "thumb_exchange_audit.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k != "samples"}, indent=2))
     return 0 if report["passed_diagnostics"] else 1
