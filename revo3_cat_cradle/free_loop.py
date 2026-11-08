@@ -1,4 +1,4 @@
-"""Fixed-material free-loop measurements and a turning-point timing cue.
+"""Fixed-material free-loop measurements and projected motion timing cues.
 
 These signals guide joint motion; they neither move the rope nor certify a
 crossing, a retained loop, or a completed figure.
@@ -19,6 +19,22 @@ def validate_bilateral_release(report, checkpoint_time):
             or not interval or not np.isfinite([interval[-1], checkpoint_time]).all()
             or abs(interval[-1] - checkpoint_time) > 1e-5):
         raise ValueError("Source needs completed bilateral little-loop release at its checkpoint")
+
+
+def validate_bilateral_near_hold(report, checkpoint_time):
+    """Require a matching held proximity report before a clamped-loop swing."""
+    interval = report.get("interval_s", [])
+    checks = report.get("checks", {})
+    gap = report.get("maximum_surface_gap_m", .0001)
+    if (not report.get("passed_diagnostics") or report.get("sampling") != "edges"
+            or not checks.get("completed_stationary_hold")
+            or not all(checks.get(side + "_same_material_pinch")
+                       and report.get("persistent_material", {}).get(side)
+                       for side in ("left", "right"))
+            or not np.isfinite(gap) or not 0 <= gap <= .0001
+            or not interval or not np.isfinite([interval[-1], checkpoint_time]).all()
+            or abs(interval[-1] - checkpoint_time) > 1e-5):
+        raise ValueError("Source needs a bilateral near-strand edge hold at its checkpoint")
 
 
 def common_wrist_translation(robot, initial, targets, duration, steps):
@@ -107,3 +123,37 @@ class ApexDetector:
         if v >= self.minimum_speed:
             self.armed = True
         return self.armed and v <= 0
+
+
+@dataclass
+class BottomCrossingDetector:
+    """Observe a directed X=0 crossing after approaching from the other side.
+
+    The reference is the original thumb bridge. This is a projected timing
+    cue, not a statement that the complete deformable loop is at its nadir.
+    """
+
+    direction: int
+    minimum_offset: float = .03
+    minimum_speed: float = .03
+    armed: bool = False
+    previous_x: float | None = None
+
+    def __post_init__(self):
+        if self.direction not in (-1, 1) or not np.isfinite(
+            [self.minimum_offset, self.minimum_speed]
+        ).all() or min(self.minimum_offset, self.minimum_speed) <= 0:
+            raise ValueError("Invalid crossing detector")
+
+    def update(self, position_x, velocity_x):
+        if not np.isfinite([position_x, velocity_x]).all():
+            raise ValueError("Nonfinite free-loop observation")
+        x, v = self.direction * position_x, self.direction * velocity_x
+        if x <= -self.minimum_offset:
+            self.armed = True
+        crossed = (self.armed and self.previous_x is not None
+                   and self.previous_x < 0 <= x and v >= self.minimum_speed)
+        if x >= 0:
+            self.armed = False
+        self.previous_x = x
+        return bool(crossed)

@@ -1,8 +1,10 @@
-"""Time common-wrist reversals from the released loop's measured X turning points.
+"""Time common-wrist reversals from measured free-loop turning points or crossings.
 
 This experimental controller reuses continue_cup's exact-state continuation and
 collision guards. It observes privileged simulated rope state and commands only
 robot joints. An elevated free band is a timing candidate, not a successful Cup.
+Optional near-strand checks inspect every recorded frame after each stroke or
+probe, before issuing another command; they are not substep contact feedback.
 """
 
 import argparse
@@ -18,8 +20,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from revo3_cat_cradle.bimanual import RevoTron
 from revo3_cat_cradle.free_loop import (
-    ApexDetector, free_loop_material, common_wrist_translation, validate_bilateral_release,
+    ApexDetector, BottomCrossingDetector, free_loop_material,
+    common_wrist_translation, validate_bilateral_release,
+    validate_bilateral_near_hold,
 )
+from revo3_cat_cradle.pinch import near_pinch_edge_samples
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
 from revo3_cat_cradle.transfers import track_support_patch
 
@@ -29,6 +34,11 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--amplitude", type=float, default=0.08)
+    parser.add_argument("--center-offset", type=float, default=0,
+                        help="Forward offset of the stroke center from the initial wrists")
+    parser.add_argument("--timing", choices=("apex", "bottom"), default="apex",
+                        help="Reverse at an X turning point or a directed X=0 crossing; "
+                             "both are measured relative to the original thumb bridge")
     parser.add_argument("--strokes", type=int, default=5)
     parser.add_argument("--stroke-duration", type=float, default=0.6)
     parser.add_argument("--cartesian-steps", type=int, default=9)
@@ -36,10 +46,15 @@ def main():
     parser.add_argument("--apex-timeout", type=float, default=2)
     parser.add_argument("--apex-min-offset", type=float, default=0.03)
     parser.add_argument("--hold-duration", type=float, default=1.2)
+    parser.add_argument("--require-near-pinch", action="store_true",
+                        help="Require a held bilateral near-strand proximity source and "
+                             "reject lost proximity or accidental old-loop pairing")
     args = parser.parse_args()
     durations = [args.stroke_duration, args.probe_step, args.apex_timeout, args.hold_duration]
-    if not np.isfinite([args.amplitude, *durations]).all() or not 0 < args.amplitude <= 0.12:
-        parser.error("Amplitude must be finite and in (0, 0.12] m")
+    if (not np.isfinite([args.amplitude, args.center_offset, *durations]).all()
+            or not 0 < args.amplitude <= .12
+            or abs(args.center_offset) + args.amplitude > .12):
+        parser.error("Amplitude must be positive and both stroke targets within 0.12 m of the initial wrists")
     if args.strokes < 1 or min(durations) <= 0 or any(abs(t * 30 - round(t * 30)) > 1e-7 for t in durations):
         parser.error("Use positive durations on the 30 Hz grid and at least one stroke")
     if args.cartesian_steps < 1 or abs(args.stroke_duration / args.cartesian_steps * 30 - round(args.stroke_duration / args.cartesian_steps * 30)) > 1e-7:
@@ -54,6 +69,9 @@ def main():
     if not tracking["tracking_complete"] or abs(tracking["final"]["time"] - float(saved["time"])) > 1e-5:
         raise ValueError("Source needs completed material tracking through its checkpoint")
     validate_bilateral_release(release, float(saved["time"]))
+    if args.require_near_pinch:
+        near_hold = json.loads((source / "near_pinch_edge_audit.json").read_text())
+        validate_bilateral_near_hold(near_hold, float(saved["time"]))
     if payload["config"]["fps"] != 30 or payload["config"]["adaptive_length"]:
         raise ValueError("Controller expects a passive rope at 30 Hz")
     if abs(payload["config"]["radius"] - 0.001) > 1e-10:
@@ -74,12 +92,17 @@ def main():
         scope=__doc__, source=str(source),
         source_checkpoint_sha256=hashlib.sha256((source / "checkpoint.npz").read_bytes()).hexdigest(),
         amplitude_m=args.amplitude, stroke_duration_s=args.stroke_duration,
+        center_offset_m=args.center_offset,
+        timing_trigger=args.timing,
         probe_step_s=args.probe_step, apex_timeout_s=args.apex_timeout,
         apex_minimum_offset_m=args.apex_min_offset,
         timing_velocity="Three-frame finite difference of fixed-material relative positions",
         maximum_strokes=args.strokes, cartesian_steps=args.cartesian_steps,
         fixed_free_material=band.tolist(), fixed_thumb_material=bridge.tolist(),
         events=[], samples=[], retention_errors=[], height_candidates=[],
+        require_near_pinch=args.require_near_pinch, near_pinch_errors=[],
+        old_pinch_errors=[],
+        near_pinch_maximum_gap_m=.0001,
         completed_figure=False, status="running",
     )
     current_source = source
@@ -93,8 +116,10 @@ def main():
         pending.write_text(json.dumps(report, indent=2) + "\n")
         pending.replace(out / "swing_control.json")
 
-    def advance(waypoints=None, duration=None, phase="Hold for the free-loop turning point"):
+    def advance(waypoints=None, duration=None, phase=None):
         nonlocal current_source, last_checked, q_current
+        phase = phase or ("Hold for the free-loop turning point" if args.timing == "apex"
+                          else "Hold for the directed free-loop center crossing")
         moving_until = last_checked + sum(row["duration"] for row in waypoints) if waypoints else last_checked
         feedback = []
         command = [sys.executable, str(ROOT / "scripts/continue_cup.py"),
@@ -117,6 +142,23 @@ def main():
                 time = float(trajectory["time"][k])
                 rope = trajectory["rope"][k]
                 transforms = robot.fk(trajectory["joints"][k])
+                if args.require_near_pinch:
+                    pairs, old_pairs = {}, {}
+                    for side in ("left", "right"):
+                        ids = np.asarray(plan[side]["near_indices"])
+                        edges = ids[np.isin((ids + 1) % len(rope), ids)]
+                        pairs[side] = sorted({v["edge"] for v in near_pinch_edge_samples(
+                            transforms, rope, side, edges) if v["paired"]})
+                        old_ids = np.asarray(plan[side]["old_loop_indices"])
+                        old_edges = old_ids[np.isin((old_ids + 1) % len(rope), old_ids)]
+                        old_pairs[side] = sorted({v["edge"] for v in near_pinch_edge_samples(
+                            transforms, rope, side, old_edges) if v["paired"]})
+                    if any(old_pairs.values()):
+                        report["old_pinch_errors"].append(dict(time_s=time, paired_edges=old_pairs))
+                        raise RuntimeError("An old loop entered the near-strand grip during the stroke")
+                    if not all(pairs.values()):
+                        report["near_pinch_errors"].append(dict(time_s=time, paired_edges=pairs))
+                        raise RuntimeError("Near-strand proximity was lost during the stroke")
                 for name in centers:
                     side, finger = name.split("_")
                     contacts = support_contact_indices(transforms, rope, side, finger, meshes)
@@ -158,7 +200,8 @@ def main():
     try:
         for stroke in range(args.strokes):
             direction = 1 if stroke % 2 == 0 else -1
-            targets = {s: pose[:3, 3] + [direction * args.amplitude, 0, 0] for s, pose in wrists.items()}
+            offset = args.center_offset + direction * args.amplitude
+            targets = {s: pose[:3, 3] + [offset, 0, 0] for s, pose in wrists.items()}
             waypoints, kinematics = common_wrist_translation(robot, q_current, targets, args.stroke_duration, args.cartesian_steps)
             report["events"].append(dict(kind="stroke", number=stroke + 1, direction=direction, start_s=last_checked, kinematics=kinematics))
             flush()
@@ -169,12 +212,13 @@ def main():
             if stroke + 1 == args.strokes:
                 report["status"] = "stroke_limit"
                 break
-            detector = ApexDetector(direction, minimum_offset=args.apex_min_offset)
+            detector_type = ApexDetector if args.timing == "apex" else BottomCrossingDetector
+            detector = detector_type(direction, minimum_offset=args.apex_min_offset)
             until = last_checked + args.apex_timeout
             apex = turning_time(detector, samples)
             while apex is None:
                 if last_checked >= until - 1e-5:
-                    report["status"] = "apex_timeout"
+                    report["status"] = "apex_timeout" if args.timing == "apex" else "crossing_timeout"
                     break
                 samples = advance()
                 if report["height_candidates"]:
@@ -183,7 +227,8 @@ def main():
                 apex = turning_time(detector, samples)
             if report["status"] != "running":
                 break
-            report["events"].append(dict(kind="observed_apex", direction=direction,
+            report["events"].append(dict(kind=("observed_apex" if args.timing == "apex"
+                                              else "observed_center_crossing"), direction=direction,
                                          observed_time_s=apex, reversal_time_s=last_checked))
         advance(duration=args.hold_duration, phase="Hold after the measured-phase loop swings")
         if report["height_candidates"]:

@@ -7,13 +7,13 @@ The repository includes the original single-hand forward/inverse loop, a RevoTro
 The newer [two-hand transfer experiments](docs/experiments.md) add wider hand spacing, longer initial rope, checkpoint continuation, and joint-only thumb feedback. A left-thumb pickup from an independently placed Opening A passed the recorded pickup checks. The right pickup and the full Cup & Saucer → boat → Star sequence remain unfinished. Portable recipes include both that milestone and an unsuccessful right-pickup attempt.
 
 The latest [pre-release clamp experiments](docs/development/pre-release-clamp.md)
-retain both near strands within a 0.1 mm proximity tolerance during downward
-preparations. A subsequent little-loop release retains all four original
-thumb/index material tracks through a hold, but loses the intended near-strand
-pinch. The short swing comparison has not carried the hanging loop over the
-thumb bridge. A new zero-gap option distinguishes sampled surface contact from
-proximity; neither test measures grip force. Full Cup, boat and Star remain
-unfinished, with the same 1.2 stretch rejection gate and arm/body contacts.
+tuck the unused right middle finger before releasing the little loops, then
+slightly close the right grip. Both intended near strands pass a held,
+same-material edge test with **nonpositive gaps to both surfaces**. Four original
+thumb/index supports and the physical bilateral-release checks also pass.
+This is a sampled contact result, not a force measurement or a completed Cup.
+The loop flip and full Cup → boat → Star sequence remain unfinished; the 1.2
+stretch rejection gate and arm/body contacts stay enabled.
 
 Earlier [post-release clamp comparisons](docs/development/side-clamp.md) document
 wrong-strand grips and rejected closures. The [collision correction notes](docs/development/alternate-cup.md#correction-missing-arm-collisions)
@@ -244,7 +244,7 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 
 后续加长绳子、增大手距和挑绳切换的代码见[双手实验指南](docs/experiments.md)。已保存一条通过左拇指挑绳检查的记录，起点是独立搭好的 Opening A；右拇指挑绳及 Cup & Saucer、船形、Star 的连续切换仍在调试。仓库提供初始绳形和关节指令配方，可以重新计算物理，不依赖开发机器的中间文件。
 
-最新的[脱圈前压线实验](docs/development/pre-release-clamp.md)已完成保留四处原有持绳位置的双小指脱圈，但保持时目标近侧线会松开；短暂的连续摆绳也未把自由绳环翻过。原有“夹持”检查允许 0.1 mm 正间隙，只能说明接近。现在增加双侧非正间隙的停止与复核选项，明确区分接近、表面接触和夹持力；完整 Cup、船形和 Star 仍未完成，拉伸与碰撞限制没有放宽。
+最新的[脱圈前压线实验](docs/development/pre-release-clamp.md)先收起右手中指，再释放双小指绳圈，并微调右侧闭合。双侧目标近绳已通过保持阶段的“同一绳段、双面非正间隙”检查，四处原有拇指／食指搭挂及物理脱圈检查也通过。这是采样接触结果，尚未测量夹持力；自由绳环翻转以及完整 Cup → 船形 → Star 仍未完成，拉伸与碰撞限制没有放宽。
 
 [早期侧向夹持实验](docs/development/side-clamp.md)保留了误夹旧拇指线等失败记录。[碰撞修正说明](docs/development/alternate-cup.md#correction-missing-arm-collisions)解释了为什么旧的无手臂碰撞起点已被弃用。公开配方可以复算各次动作，脱圈前保持和脱圈后的检查分别记录。
 

@@ -2,8 +2,27 @@ import numpy as np
 import pytest
 
 from revo3_cat_cradle.free_loop import (
-    ApexDetector, free_loop_material, common_wrist_translation, validate_bilateral_release,
+    ApexDetector, BottomCrossingDetector, free_loop_material,
+    common_wrist_translation, validate_bilateral_release,
+    validate_bilateral_near_hold,
 )
+
+
+def test_clamped_swing_requires_current_bilateral_held_edge_evidence():
+    report = dict(passed_diagnostics=True, sampling="edges", interval_s=[11, 12],
+                  maximum_surface_gap_m=.0001, persistent_material=dict(left=[3], right=[17]),
+                  checks=dict(completed_stationary_hold=True, left_same_material_pinch=True,
+                              right_same_material_pinch=True))
+    validate_bilateral_near_hold(report, 12)
+    with pytest.raises(ValueError, match="checkpoint"):
+        validate_bilateral_near_hold(report, 12.1)
+    report["persistent_material"]["right"] = []
+    with pytest.raises(ValueError, match="bilateral"):
+        validate_bilateral_near_hold(report, 12)
+    report["persistent_material"]["right"] = [17]
+    report["maximum_surface_gap_m"] = .001
+    with pytest.raises(ValueError, match="bilateral"):
+        validate_bilateral_near_hold(report, 12)
 
 
 @pytest.mark.parametrize("released", [[], ["left"], ["right"]])
@@ -46,6 +65,31 @@ def test_apex_rejects_invalid_or_nonfinite_observations():
         ApexDetector(1, minimum_speed=np.nan)
     with pytest.raises(ValueError):
         ApexDetector(1).update(np.nan, 0)
+
+
+@pytest.mark.parametrize("direction", [-1, 1])
+def test_center_crossing_requires_a_directed_approach_and_cannot_repeat(direction):
+    detector = BottomCrossingDetector(direction)
+    cue = lambda x, v: detector.update(direction * x, direction * v)
+    assert not cue(.1, .2)  # Already past the center: no observed approach.
+    assert not cue(-.01, .2)  # Small noise cannot arm the trigger.
+    assert not cue(.01, .2)
+    assert not cue(-.1, .3)
+    assert not cue(-.01, .2)
+    assert cue(.01, .2)
+    assert not cue(.02, .2)
+    assert not cue(-.1, -.3)
+    assert not cue(.01, -.2)  # Wrong measured velocity rejects a jump.
+    assert not cue(.02, .2)  # Cannot turn that rejected jump into a late event.
+
+
+def test_center_crossing_rejects_invalid_detector_or_observation():
+    with pytest.raises(ValueError):
+        BottomCrossingDetector(0)
+    with pytest.raises(ValueError):
+        BottomCrossingDetector(1, minimum_offset=np.nan)
+    with pytest.raises(ValueError):
+        BottomCrossingDetector(1).update(0, np.nan)
 
 
 def test_free_material_wraps_without_using_a_thumb_arc():
