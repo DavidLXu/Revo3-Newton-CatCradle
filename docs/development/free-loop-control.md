@@ -7,6 +7,12 @@ survive the hold. The next operation is to bring the free loop over the other
 strings before exchanging the thumb loops. Cup, boat and Star are not yet
 complete.
 
+The latest stable intermediate clears a distal little-finger snag and holds
+at 47.866667 s with peak stretch 1.16251. The left little MCP still touches the
+rope. A subsequent left-thumb reach only produces intermittent proximal
+contact; it has not captured a new bight. The 35.5 s preparation above remains
+the latest verified state with both little fingers clear.
+
 ## A joint path can change the hand spacing
 
 The first turning-point trial moved both wrists 80 mm forward, waited for the
@@ -158,3 +164,160 @@ Reproduce the upright and knuckle-clearance comparisons from the accepted
   --start 33.1 --released both
 .venv/bin/python scripts/audit_retained_supports.py --source output/upright_left_roll --start 6
 ```
+
+## A target-strand contact on the right thumb
+
+From the earlier upright state, a common translation moves the wrists 240 mm
+up and 100 mm back over 3.6 s. A further 58.125° rotation about world Y takes
+3.1 s, followed by a 1.2 s hold. This reaches 46.466667 s without losing the
+four original material tracks. The physical checks pass, with full-history
+peak stretch 1.19968, just below the unchanged 1.2 gate, and minimum sampled
+rope separation 1.934 mm.
+
+The right thumb has a new contact patch on particles 643–654, which belong to
+its target free strand. The left thumb instead has an additional patch on
+particles 336–349 of its old near strand. The left little also remains in
+contact, so the release diagnostic still fails. This is an intermediate
+contact result: neither the new thumb bight nor a completed Cup is established.
+The highest fixed free-band point remains 137.0 mm below the original thumb
+bridge; that world-height measurement alone cannot decide the figure's topology.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/upright_return \
+  --output output/raised_gravity_turn --side both --route-only \
+  --approach-path examples/transfers/attempt_raised_gravity_turn.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame \
+  --hold-duration 1.2 --hold-label 'Hold the raised figure after the gravity-assisted turn'
+.venv/bin/python scripts/audit_loop_release.py --source output/raised_gravity_turn \
+  --start 33.1 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/raised_gravity_turn --start 6
+```
+
+## Coordinating the left thumb with the wrist turn
+
+Withdrawing the left thumb after the raised turn is too late: reducing MCP
+from 1.1 toward 0.9 rad stops at 46.866667 s with stretch 1.20577. The worst
+edge is 209, against the left little **DIP**, not its PIP. The PIP capsule is
+about 14.9 mm from the rope in that stopped frame.
+
+Restoring the exact 42.166667 s checkpoint, before rotation, allows that
+0.8 s thumb adjustment and a 0.2 s observation. All four original material
+tracks remain present. Holding MCP at 0.9 rad during the subsequent wrist turn
+still contacts the forbidden near strand: the guard stops at 44.4 s with a
+0.864 mm gap, below the 1.5 mm requirement.
+
+Counter-rotating left thumb MCP from 0.9 to 0.35 rad throughout the 3.1 s wrist
+turn avoids that near-strand contact. The moving prefix ends at 46.266667 s
+with peak stretch 1.16251. However, the unchanged pose then jams the free strand
+against the left little DIP: at 46.966667 s, stretch reaches 1.25222 on edge
+209. The original four support tracks survive, and the right thumb has an
+additional target-strand patch, but the failed hold rejects this continuation.
+
+These branches resume complete checkpoints, including rope velocities. In
+particular, `state_1388.npz` is the end of the valid moving prefix; the later
+failed `checkpoint.npz` must not be used as a valid starting state. This prefix
+is not a stable hold or a completed figure. A near-avoiding search for direct
+left-thumb pickup from it found no feasible path among the 18 sampled target
+positions.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/raised_gravity_turn \
+  --checkpoint output/raised_gravity_turn/state_1265.npz \
+  --output output/early_thumb_clear --side both --route-only \
+  --approach-path examples/transfers/attempt_early_thumb_clear.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame --hold-duration 0.2
+.venv/bin/python scripts/continue_cup.py --source output/early_thumb_clear \
+  --output output/coordinated_thumb_turn --side both --route-only \
+  --approach-path examples/transfers/attempt_coordinated_thumb_turn.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame --stop-on-near-contact \
+  --hold-duration 1.2
+# The second command is expected to stop during its hold with a strain error.
+```
+
+## Clearing the distal little-finger snag
+
+From the 46.266667 s moving checkpoint, a 0.4 s adjustment moves left little
+MPR to 0.174, PIP to 1.3 and DIP to 0.6 rad, while leaving MCP at 1.583 rad.
+This extends the distal links away from the rope instead of curling them
+farther into it. The ensuing 1.2 s hold completes at 47.866667 s. Full-history
+peak stretch stays at 1.16251, sampled minimum rope separation is 1.934 mm,
+and all four original material tracks remain continuous. The distal capsule
+is 24.34 mm clear of the rope in the final frame.
+
+The complete physical and retention audits pass except for left-little
+release: the free strand still touches its MCP. The right thumb retains its
+new free-strand patch at particles 647–658; it also has a separate contact
+patch at 389–406 on old material. This is a stable intermediate state with
+unresolved little-finger contact, not a completed Cup or a verified pair of
+new thumb loops.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/coordinated_thumb_turn \
+  --checkpoint output/coordinated_thumb_turn/state_1388.npz \
+  --output output/little_unhook --side both --route-only \
+  --approach-path examples/transfers/attempt_little_unhook.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame --stop-on-near-contact \
+  --hold-duration 1.2
+.venv/bin/python scripts/audit_loop_release.py --source output/little_unhook \
+  --start 33.1 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/little_unhook --start 6
+# Release audit exits nonzero because the left little MCP remains in contact.
+```
+
+## A proximal touch is not a new thumb loop
+
+From that stable intermediate, `feedback_target` proposes a 0.4 s left-thumb
+adjustment using the current free strand and original thumb patch. It uses
+speed 1.5 rad/s, near-strand margin 3 mm, no velocity prediction and the
+current pose as its nominal target. `continue_cup.py` executes the resulting
+joint route with the same runtime guards. A 1.2 s hold ends at 49.466667 s with
+an extra left-thumb patch on free particles 174–184 and the four original
+material tracks intact.
+
+This contact is on the **proximal MCP surface**: particle 180 has axial
+coordinate +13.13 mm in a capsule with half-length 14 mm. The left thumb
+extends in the negative axial direction. The free strand is still 17.51 mm
+from its PIP capsule and 44.42 mm from its DIP capsule. Counting this as a
+distal pickup would misidentify a touch at the thumb base.
+
+The next feedback proposal requests no joint change because its instantaneous
+contact objective is already satisfied. An additional 1.6 s at that pose
+exposes the limitation: left target gap ranges from 0.002 to 9.005 mm, so the
+new contact is intermittent. The right target gap stays below 0.033 mm, and
+the left forbidden near strand remains at least 2.855 mm clear. Full-history
+physical checks and the four original material tracks pass through 51.066667 s;
+left-little release still fails. No thumb-loop exchange has been attempted
+from this unverified capture.
+
+A further fixed-wrist search aimed the left thumb tip at five lower free-loop
+particles, 130–170. With near-strand avoidance enabled, all five local IK solves
+missed their target by 24.8–45.8 mm. This search did not find a reachable tip
+path; it does not prove that one cannot exist. The next planning problem is
+to bring the free strand to the distal thumb while preserving the original
+supports, rather than optimizing only the minimum thumb-to-strand distance.
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/little_unhook \
+  --output output/left_free_contact --side both --route-only \
+  --approach-path examples/transfers/attempt_left_free_contact.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame --stop-on-near-contact \
+  --hold-duration 1.2
+.venv/bin/python scripts/continue_cup.py --source output/left_free_contact \
+  --output output/left_contact_observation --side both --route-only \
+  --approach-path examples/transfers/observe_left_free_contact.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame --stop-on-near-contact \
+  --hold-duration 1.2
+# The second route keeps identical joints for 0.4 s, then holds for 1.2 s.
+```
+
+The controller changes pass all 106 non-integration tests locally and in
+[CI for 9ec1610](https://github.com/DavidLXu/Revo3-Newton-CatCradle/actions/runs/42428070305).
+That run still fails the previously recorded single-hand integration check:
+the specified-strand lift is 23.876 mm against a 25 mm requirement. Its threshold
+has not been changed; the full CI run is not green.
