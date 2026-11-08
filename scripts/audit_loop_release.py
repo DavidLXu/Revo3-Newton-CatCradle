@@ -47,7 +47,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--start", type=float, required=True)
-    parser.add_argument("--released", choices=("left", "right", "both"), default="both")
+    parser.add_argument("--released", choices=("none", "left", "right", "both"), default="both",
+                        help="Use none before release to require both little contacts")
     args = parser.parse_args()
     with np.load(args.source / "trajectory.npz") as archive:
         data = {key: archive[key] for key in archive.files}
@@ -97,7 +98,8 @@ def main():
         )
         for name, values in contacts.items()
     }
-    released = ("left", "right") if args.released == "both" else (args.released,)
+    released = (() if args.released == "none" else
+                ("left", "right") if args.released == "both" else (args.released,))
     checks = {
         "thumb_and_index_contacts_retained": all(
             supports[s + "_" + f]["maximum_transfer_gap_m"] < 0.0015
@@ -202,7 +204,8 @@ def main():
         ),
         initialization=payload["motion"].get("initialization"),
     )
-    (args.source / "loop_release_audit.json").write_text(json.dumps(report, indent=2))
+    filename = "pre_release_audit.json" if args.released == "none" else "loop_release_audit.json"
+    (args.source / filename).write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))
     return 0 if report["passed_diagnostics"] else 1
 

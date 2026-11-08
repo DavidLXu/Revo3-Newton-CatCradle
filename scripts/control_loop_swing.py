@@ -17,7 +17,9 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from revo3_cat_cradle.bimanual import RevoTron
-from revo3_cat_cradle.free_loop import ApexDetector, free_loop_material, common_wrist_translation
+from revo3_cat_cradle.free_loop import (
+    ApexDetector, free_loop_material, common_wrist_translation, validate_bilateral_release,
+)
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
 from revo3_cat_cradle.transfers import track_support_patch
 
@@ -51,8 +53,7 @@ def main():
     release = json.loads((source / "loop_release_audit.json").read_text())
     if not tracking["tracking_complete"] or abs(tracking["final"]["time"] - float(saved["time"])) > 1e-5:
         raise ValueError("Source needs completed material tracking through its checkpoint")
-    if not release["passed_diagnostics"] or abs(release["interval_s"][-1] - float(saved["time"])) > 1e-5:
-        raise ValueError("Source needs passing release diagnostics through its checkpoint")
+    validate_bilateral_release(release, float(saved["time"]))
     if payload["config"]["fps"] != 30 or payload["config"]["adaptive_length"]:
         raise ValueError("Controller expects a passive rope at 30 Hz")
     if abs(payload["config"]["radius"] - 0.001) > 1e-10:

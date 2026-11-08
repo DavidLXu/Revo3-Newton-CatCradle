@@ -6,36 +6,18 @@ The repository includes the original single-hand forward/inverse loop, a RevoTro
 
 The newer [two-hand transfer experiments](docs/experiments.md) add wider hand spacing, longer initial rope, checkpoint continuation, and joint-only thumb feedback. A left-thumb pickup from an independently placed Opening A passed the recorded pickup checks. The right pickup and the full Cup & Saucer → boat → Star sequence remain unfinished. Portable recipes include both that milestone and an unsuccessful right-pickup attempt.
 
-The latest alternative-release trials exposed missing forearm collisions in
-the older hand-only model. Their release/preparation checkpoints are rejected.
-Fresh transfer replays support `--robot-body hulls` to include Newton contacts
-against conservative arm and central-body shapes; see the
-[collision correction and rerun notes](docs/development/alternate-cup.md#correction-missing-arm-collisions).
-The new downward-facing preparation releases both little loops through a full
-hold while retaining the four original thumb/index contact tracks. This is a
-local release milestone; the hanging-loop throw and thumb exchange remain.
-Raising the right thumb then permits widening the wrists from 200 to 240 mm
-lateral spacing while preserving those supports through a 1.2-second hold.
-The [supported-thumb trials](docs/development/supported-thumb.md) coordinate
-wrist, thumb and index motion to approach the next strand. The saved comparisons
-retain the original supports during two short steps, but fail the subsequent
-hold. Little-finger release and the new bight remain unresolved at that pose.
-Middle-finger assistance produces intermittent fingertip contact with the target
-strand; a stable new bight remains unverified.
-The [middle-finger underpass trials](docs/development/middle-underpass.md)
-now compare lateral passage routes and distinguish tip contact from shaft
-contact. The first route retains the original supports while moving, but
-fails its subsequent hold; no completed transfer is claimed.
-The [near-strand clamp preparation](docs/development/near-strand-clamp.md)
-now holds the intended material between the left thumb and index for 1.2 s
-while retaining all four original supports. The right closure loses its old
-thumb loop. Runtime contact and material guards record these distinct outcomes;
-the bilateral clamp and subsequent loop throw remain unfinished.
-The [side-clamp comparisons](docs/development/side-clamp.md) identify a separate
-failure: the right grip can trap its old thumb strand before reaching the
-intended near strand. A compensated wrist approach preserves the thumb pose,
-but the full closure still jams. The earlier held pose retains the four
-supports; right clamping and little-finger clearance remain unresolved.
+The latest [pre-release clamp experiment](docs/development/pre-release-clamp.md)
+presses both intended near-index strands before releasing the little loops.
+Both grips persist through a 1.2 s stationary-joint hold, with all six original
+material support tracks retained and arm/body contacts enabled. Peak stretch is
+1.19927 against an unchanged 1.2 rejection threshold, so the strain margin is
+small. Little-loop release from this clamped pose, the loop throw and thumb
+exchange remain unfinished; the held preparation is not a completed Cup.
+
+Earlier [post-release clamp comparisons](docs/development/side-clamp.md) document
+wrong-strand grips and rejected closures. The [collision correction notes](docs/development/alternate-cup.md#correction-missing-arm-collisions)
+explain why old hand-only release checkpoints are invalid. Published recipes
+and phase-specific audits preserve both the measured progress and failures.
 
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
@@ -261,14 +243,9 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 
 后续加长绳子、增大手距和挑绳切换的代码见[双手实验指南](docs/experiments.md)。已保存一条通过左拇指挑绳检查的记录，起点是独立搭好的 Opening A；右拇指挑绳及 Cup & Saucer、船形、Star 的连续切换仍在调试。仓库提供初始绳形和关节指令配方，可以重新计算物理，不依赖开发机器的中间文件。
 
-最新的[脱圈实验](docs/development/alternate-cup.md)加入了手臂、躯干碰撞：双侧小指脱圈后，先抬高右拇指，再将腕部横向间距从 20 cm 增至 24 cm，四处原有拇指／食指搭挂通过了 1.2 秒保持及连续追踪检查。自由绳环还未翻过，完整 Cup、船形和 Star 仍未完成。
+最新的[脱圈前压线实验](docs/development/pre-release-clamp.md)调整了动作顺序：先由双手拇指／食指压住各自的近侧线，再准备放开小指。双侧目标绳段已通过 1.2 秒保持检查，六处原有搭挂的材料追踪及手臂／躯干碰撞检查均通过。最大拉伸比 1.19927，接近未放宽的 1.2 上限，因此仍需改善余量；这一夹持姿态之后的小指脱圈、翻环和完整 Cup、船形、Star 尚未完成。
 
-[后续协同挑绳实验](docs/development/supported-thumb.md)加入腕部、拇指和食指的联合规划，并保存了可复算的动作与失败检查。两步接近动作保留了原有支撑，但随后的保持仍会误碰邻线；这一姿态的小指脱离和新绳圈接取尚未完成。
-中指辅助路线已出现对目标绳段的短暂接触，但尚未稳住新的绳圈。
-
-[近侧绳压线实验](docs/development/near-strand-clamp.md)已让左拇指和食指对同一绳段保持夹持接触 1.2 秒，并保留四处原有支撑。右侧闭合仍会滑掉原拇指绳圈；新增逐帧持绳追踪和接触后停止闭合控制，完整双侧压线和翻环尚未完成。
-
-[后续侧向夹持实验](docs/development/side-clamp.md)发现另一种失败：右手会先夹住旧拇指绳段。补偿转腕后，闭合前的姿态可以保持四处原有支撑，但完整闭合仍会卡住旧线。新增绳段内部接触采样，并修复接触区扩大时追踪器误报脱圈的问题；右侧压线、小指清空和后续翻环仍未完成。
+[早期侧向夹持实验](docs/development/side-clamp.md)保留了误夹旧拇指线等失败记录。[碰撞修正说明](docs/development/alternate-cup.md#correction-missing-arm-collisions)解释了为什么旧的无手臂碰撞起点已被弃用。公开配方可以复算各次动作，脱圈前保持和脱圈后的检查分别记录。
 
 ## License and upstream code
 

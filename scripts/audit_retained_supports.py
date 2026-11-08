@@ -1,8 +1,10 @@
-"""Follow the four original thumb/index contacts through little-loop release.
+"""Follow original material supports through clamping and little-loop release.
 
 This is a material-continuity diagnostic, not a threading certificate. Extra
 contact patches remain in the report. Particle samples and enabled knuckle
 meshes are checked; rope-edge contact alone cannot establish a material track.
+The optional six-support audit also follows the original little loops before
+their intended release and writes a separate report.
 """
 
 import argparse
@@ -22,6 +24,9 @@ from revo3_cat_cradle.transfers import track_support_patch
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument("--include-little", action="store_true",
+                        help="Before release, also track original little-loop material; "
+                             "writes a separate six_material_support_tracking.json")
     parser.add_argument(
         "--start", type=float, required=True,
         help="Recorded reference frame whose original supports match transfer_plan.json",
@@ -44,6 +49,10 @@ def main():
         old = plan[side]["old_thumb_indices"]
         centers[side + "_thumb"] = int(old[(len(old) - 1) // 2])
         centers[side + "_index"] = int(plan[side]["far_indices"][0])
+        if args.include_little:
+            other = "right" if side == "left" else "left"
+            # The far index string ends on the opposite hand's little finger.
+            centers[side + "_little"] = int(plan[other]["far_indices"][-1])
     initial_centers = centers.copy()
     robot = RevoTron()
     meshes = (
@@ -79,13 +88,16 @@ def main():
         interval_s=[float(times[selected[0]]), float(times[-1])],
         initial_centers=initial_centers,
         tracking_method="midpoint_with_retained_material_sample",
+        tracked_supports=list(initial_centers),
         maximum_center_shift_per_frame_particles=8,
         tracking_complete=not errors,
         errors=errors,
         final=rows[-1],
         samples=rows,
     )
-    (args.source / "material_support_tracking.json").write_text(
+    filename = ("six_material_support_tracking.json" if args.include_little
+                else "material_support_tracking.json")
+    (args.source / filename).write_text(
         json.dumps(report, indent=2) + "\n"
     )
     print(json.dumps({k: v for k, v in report.items() if k != "samples"}, indent=2))

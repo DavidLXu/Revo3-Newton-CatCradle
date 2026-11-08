@@ -1,7 +1,28 @@
 import numpy as np
 import pytest
 
-from revo3_cat_cradle.free_loop import ApexDetector, free_loop_material, common_wrist_translation
+from revo3_cat_cradle.free_loop import (
+    ApexDetector, free_loop_material, common_wrist_translation, validate_bilateral_release,
+)
+
+
+@pytest.mark.parametrize("released", [[], ["left"], ["right"]])
+def test_a_passing_retention_or_one_sided_release_cannot_start_a_free_loop_swing(released):
+    report = dict(passed_diagnostics=True, released_sides=released, interval_s=[6, 12],
+                  checks={side + "_little_clear": side in released for side in ("left", "right")})
+    with pytest.raises(ValueError, match="bilateral"):
+        validate_bilateral_release(report, 12)
+
+
+def test_bilateral_release_must_describe_the_current_checkpoint_and_clear_both_littles():
+    report = dict(passed_diagnostics=True, released_sides=["left", "right"],
+                  interval_s=[6, 12], checks=dict(left_little_clear=True, right_little_clear=True))
+    validate_bilateral_release(report, 12)
+    with pytest.raises(ValueError, match="checkpoint"):
+        validate_bilateral_release(report, 12.1)
+    report["checks"]["right_little_clear"] = False
+    with pytest.raises(ValueError, match="bilateral"):
+        validate_bilateral_release(report, 12)
 
 
 @pytest.mark.parametrize("direction", [-1, 1])

@@ -9,6 +9,18 @@ from dataclasses import dataclass
 import numpy as np
 
 
+def validate_bilateral_release(report, checkpoint_time):
+    """Reject retained/one-sided little-loop phases before a free-loop swing."""
+    interval = report.get("interval_s", [])
+    checks = report.get("checks", {})
+    if (not report.get("passed_diagnostics")
+            or set(report.get("released_sides", [])) != {"left", "right"}
+            or not all(checks.get(side + "_little_clear") for side in ("left", "right"))
+            or not interval or not np.isfinite([interval[-1], checkpoint_time]).all()
+            or abs(interval[-1] - checkpoint_time) > 1e-5):
+        raise ValueError("Source needs completed bilateral little-loop release at its checkpoint")
+
+
 def common_wrist_translation(robot, initial, targets, duration, steps):
     """Approximate a common Cartesian translation with bounded joint segments.
 
