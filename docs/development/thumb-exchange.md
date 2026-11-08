@@ -123,6 +123,20 @@ clearing unused right fingers remains part of the task. Subsequent planning
 uses the rejected replay only to observe where the rope swept past those
 fingers, then returns to the earlier validated checkpoint for any new replay.
 
+The next proposal reduces the target thumb tilt to 30 degrees and adjusts all
+unused right fingers against that observed rope path. Its 11.333333 s motion
+and 1.2 s hold finish at 79.9 s. The ring clears by at least 5.335 mm in the held
+second, but the middle and little still touch. Both new far-material tracks and
+the original indices survive; left near and old-loop clearances reach 9.190 mm
+and 79.593 mm. The physical audit again rejects the endpoint for continued
+released-loop motion because the right little has not cleared. The recipe is
+`attempt_thumb_right_unload30.json`, with the same bilateral source and guards.
+
+This exposes a limitation of the planner's frozen rope observations: a finger
+can move away from the recorded path while the live rope follows it. A further
+5 mm clearance proposal against this newer observation misses its index
+reference tolerance and is rejected before physics.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

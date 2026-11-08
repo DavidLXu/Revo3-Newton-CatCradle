@@ -73,6 +73,31 @@ def test_serialized_discontinuity_and_wrong_endpoint_are_rejected():
         validate_joint_path(path, [0, 0], [1, 1], 1)
 
 
+def test_speed_bound_uses_slow_endpoint_envelope_without_missing_middle_peak():
+    from scipy.interpolate import BSpline
+    from math import factorial
+
+    breaks = np.linspace(0, 1, 25)
+    knots = np.r_[np.zeros(3), breaks, np.ones(3)]
+    # A steep endpoint change, then a straight second coordinate. The old
+    # global product incorrectly pairs the endpoint slope with mid-motion speed.
+    targets = np.zeros((len(knots) - 4, 2))
+    targets[1:, 0] = .1
+    targets[:, 1] = [np.mean(knots[i + 1:i + 4]) for i in range(len(targets))]
+    spline = BSpline(knots, targets, 3)
+    path = dict(knots=breaks.tolist(), coefficients=np.stack([
+        spline(breaks[:-1], nu=k) / factorial(k) for k in (3, 2, 1, 0)
+    ]).tolist())
+    for duration in (.4, 2):
+        _, _, bound = validate_joint_path(path, targets[0], targets[-1], duration)
+        t = np.linspace(0, 1, 100001)
+        u = t**3 * (10 + t * (-15 + 6 * t))
+        velocity = spline(u, nu=1) * (30 * t**2 * (1 - t)**2 / duration)[:, None]
+        assert np.max(abs(velocity)) <= bound
+        assert bound >= 1.875 / duration
+        assert bound < 7.2 * 1.875 / duration / 2
+
+
 def test_newton_checkpoint_continuation_preserves_continuous_path_and_rope(tmp_path):
     from revo3_cat_cradle.bimanual import RevoTron, BimanualSimulation, ROBOT_URDF
     from revo3_cat_cradle.single_player import initial_loop
