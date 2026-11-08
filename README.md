@@ -20,6 +20,8 @@ The [supported-thumb trials](docs/development/supported-thumb.md) coordinate
 wrist, thumb and index motion to approach the next strand. The saved comparisons
 retain the original supports during two short steps, but fail the subsequent
 hold. Little-finger release and the new bight remain unresolved at that pose.
+Middle-finger assistance produces intermittent fingertip contact with the target
+strand; a stable new bight remains unverified.
 
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
@@ -248,6 +250,7 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 最新的[脱圈实验](docs/development/alternate-cup.md)加入了手臂、躯干碰撞：双侧小指脱圈后，先抬高右拇指，再将腕部横向间距从 20 cm 增至 24 cm，四处原有拇指／食指搭挂通过了 1.2 秒保持及连续追踪检查。自由绳环还未翻过，完整 Cup、船形和 Star 仍未完成。
 
 [后续协同挑绳实验](docs/development/supported-thumb.md)加入腕部、拇指和食指的联合规划，并保存了可复算的动作与失败检查。两步接近动作保留了原有支撑，但随后的保持仍会误碰邻线；这一姿态的小指脱离和新绳圈接取尚未完成。
+中指辅助路线已出现对目标绳段的短暂接触，但尚未稳住新的绳圈。
 
 ## License and upstream code
 

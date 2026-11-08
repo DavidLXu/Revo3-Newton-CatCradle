@@ -154,6 +154,54 @@ pass, with peak stretch 1.16251. The left little still contacts its strand.
 The middle finger still touches the existing span near particles 263–281;
 this preparation has not captured a new bight.
 
+From that 51.7 s state, `attempt_middle_helper_supported.json` moves the left
+wrist, thumb, index and middle joints for 1.2 s while compensating the original
+thumb/index surface references. Its sampled reference drift is below 0.069 mm.
+The following 1.2 s physical hold ends at 54.1 s with all four original tracks
+and the physical diagnostics intact. The middle finger's minimum particle gap
+to target material 180–220 is 1.626 mm at the end of the hold. It is close to
+the strand but has not captured a new bight; the left little remains in contact.
+
+`attempt_middle_helper_supported2.json` replans from 54.1 s with a deeper
+lateral approach, using another 1.2 s move and 1.2 s hold. Its reference drift
+is below 0.299 mm in the sampled path. The closest target-span particle gap is
+1.060 mm at 55.366667 s, then grows to 2.038 mm at the 56.5 s endpoint. All
+four original tracks and the other physical diagnostics pass, but this remains
+an intermittent approach, not a captured middle-finger bight. The recorded
+gap history is included in the numerical report.
+
+`attempt_middle_helper_surface.json` instead aims the nearest middle-finger
+surface at material 200, with 0.2 mm planned compression against the 1 mm
+rope radius. This is a joint-space objective; Newton still decides the actual
+contact. The 0.1 s move has peak joint speed 0.983 rad/s and sampled reference
+drift below 0.063 mm. After a 1.2 s hold, the run ends at 57.8 s with the
+original tracks and physical diagnostics intact. The nearest target-span gap
+reaches 0.188 mm at 56.566667 s, but the final gap is 0.986 mm. This is still
+an approach, not a secured bight.
+
+At the closest approach, a separate branch resumes the surface trial's exact
+`state_1697.npz` checkpoint at 56.566667 s. It increases left middle MPR by
+0.3 rad over 0.4 s, then holds for 1.2 s. The recipe is
+`attempt_middle_helper_hook.json`. New target contacts appear around particles
+203–208, distinct from the pre-existing middle support near 266–284. The final
+target-span gap at 58.166667 s is 4.125 mm, so this has not secured the strand.
+
+An additional three-second observation with unchanged joint targets ends at
+61.166667 s. The four original tracks and physical checks still pass; peak
+stretch remains 1.16251 and the left little remains in contact. During the
+last second, the new middle target-span gap ranges from 0.027 to 6.495 mm.
+Extra settling does not produce persistent contact. Reproduce the observation
+with `--hold-only --hold-duration 3` and the same continuation guards, starting
+from the completed middle-hook branch.
+
+The actual rope edge 205 touches the middle DIP's distal cap at 57.866667 s.
+Its closest centerline point is 19.407 mm along the capsule axis; the cylindrical
+half-length is 8 mm and the tip's centerline contact limit is 19.5 mm. Thus the
+contact is almost at the fingertip's axial end, rather than against the shaft.
+This explains why small gap values have not established a hooked bight. A next
+trial should plan passage around the strand and seating on the finger, while
+retaining the original supports; that path has not yet been executed.
+
 ## Stopped states and validation
 
 `continue_cup.py --stop-on-near-contact` now writes `near_stop.json` with the
@@ -166,6 +214,19 @@ not change its physics.
 [The numerical report](supported_thumb_20261108.json) includes source checkpoint
 hashes, outcomes, support tracking and completed audits. The planner's source
 checks have five regression tests, including rejection at a phase endpoint.
-All 111 non-integration tests pass; the previously recorded single-hand
+All 114 non-integration tests pass; the previously recorded single-hand
 integration failure remains outside these experiments. Full Cup, boat and
 Star validation is still pending.
+
+The extended observation also exposed a caption-dependent audit check: its
+phase name began with `Observe`, so it failed `completed_hold` despite constant
+joint targets. The audit now checks the actual completed trajectory and a full
+stationary second, retaining the 1e-8 rad tolerance. Three regressions cover a
+valid hold, intervening motion with equal endpoints, and short/interrupted
+observations. Re-auditing the same saved physics changes only `completed_hold`
+from false to true; every other report value remains identical. The overall
+release diagnostic still fails because the left little is not clear.
+
+The [CI run for `47a94e9`](https://github.com/DavidLXu/Revo3-Newton-CatCradle/actions/runs/42437742826)
+passes the non-integration checks and fails the same single-hand pickup test:
+the measured lift is 24.576 mm against its unchanged 25 mm requirement.

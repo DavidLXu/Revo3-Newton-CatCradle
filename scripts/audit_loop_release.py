@@ -26,6 +26,23 @@ from revo3_cat_cradle.robot_geometry import RobotHullAudit
 from scripts.audit_finger_contacts import audit_frame
 
 
+def completed_stationary_hold(times, joints, duration):
+    """Check one recorded second of stationary joints, independently of captions."""
+    times, joints = np.asarray(times), np.asarray(joints)
+    if (times.ndim != 1 or len(times) < 2 or joints.ndim != 2
+            or joints.shape[0] != len(times) or not joints.shape[1]
+            or not np.isfinite(times).all() or not np.isfinite(joints).all()
+            or not np.isfinite(duration) or np.any(np.diff(times) <= 0)
+            or abs(times[-1] - duration) > 1e-6
+            or times[-1] - times[0] < 1 - 1e-5):
+        return False
+    held = times >= times[-1] - 1 - 1e-5
+    return bool(
+        times[held][0] <= times[-1] - 1 + 1e-5
+        and np.max(np.ptp(joints[held], axis=0)) < 1e-8
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
@@ -135,8 +152,6 @@ def main():
     worst_body_frame = min(
         range(len(times)), key=lambda k: body_results[k]["minimum_face_margin_m"]
     )
-    held = np.flatnonzero(times > times[-1] - 1 + 1e-6)
-    phase = payload["frames"][-1]["phase"]
     checks.update(
         full_history_strain=stretch < 1.2,
         full_history_sampled_self_contact=bool(separation.min() >= 0.0018),
@@ -157,12 +172,7 @@ def main():
             body_results[worst_body_frame]["minimum_face_margin_m"] >= 0
         ),
         full_history_robot_hull_centerlines_clear=not hull_intrusions,
-        completed_hold=bool(
-            phase.startswith("Hold")
-            and times[-1] >= payload["motion"]["duration"] - 1e-6
-            and all(payload["frames"][k]["phase"] == phase for k in held)
-            and np.max(np.ptp(joints[selected[tail]], axis=0)) < 1e-8
-        ),
+        completed_hold=completed_stationary_hold(times, joints, payload["motion"]["duration"]),
     )
     report = dict(
         scope="Necessary release diagnostics only; not a threading or figure certificate. "

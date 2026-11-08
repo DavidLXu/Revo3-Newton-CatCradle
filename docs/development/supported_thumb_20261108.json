@@ -204,6 +204,7 @@
         "ratio": 1.2084647417068481,
         "threshold": 1.2
       },
+      "middle_target_span_particle_gap_m": 0.049195165395284984,
       "other_digit_contacts": {
         "left_middle": [
           268,
@@ -464,6 +465,7 @@
           }
         }
       },
+      "middle_target_span_particle_gap_m": 0.04964914262078738,
       "other_digit_contacts": {
         "left_middle": [
           269,
@@ -691,6 +693,7 @@
           }
         }
       },
+      "middle_target_span_particle_gap_m": 0.050832990864119486,
       "other_digit_contacts": {
         "left_middle": [
           271,
@@ -952,6 +955,7 @@
         "ratio": 1.2015730142593384,
         "threshold": 1.2
       },
+      "middle_target_span_particle_gap_m": 0.05051328865895611,
       "other_digit_contacts": {
         "left_middle": [],
         "left_ring": [],
@@ -1190,6 +1194,7 @@
           }
         }
       },
+      "middle_target_span_particle_gap_m": 0.050274795228777515,
       "other_digit_contacts": {
         "left_middle": [],
         "left_ring": [],
@@ -1249,6 +1254,7 @@
         "left": 2.6921897341300287e-05,
         "right": 0.06398002038567158
       },
+      "middle_target_span_particle_gap_m": 0.05020774177905297,
       "other_digit_contacts": {
         "left_middle": [],
         "left_ring": [],
@@ -1308,6 +1314,7 @@
         "left": 2.0185465496935957e-05,
         "right": 0.0641483388739126
       },
+      "middle_target_span_particle_gap_m": 0.052445066589879095,
       "other_digit_contacts": {
         "left_middle": [],
         "left_ring": [],
@@ -1438,6 +1445,7 @@
         },
         "scope": "Joint-only feedback experiment; contact does not certify topology"
       },
+      "middle_target_span_particle_gap_m": 0.052249978920447464,
       "other_digit_contacts": {
         "left_middle": [],
         "left_ring": [],
@@ -1769,6 +1777,7 @@
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       },
+      "middle_target_span_particle_gap_m": 0.05343247741285007,
       "other_digit_contacts": {
         "left_middle": [
           270,
@@ -2102,6 +2111,7 @@
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       },
+      "middle_target_span_particle_gap_m": 0.0576633194918627,
       "other_digit_contacts": {
         "left_middle": [
           269,
@@ -2436,6 +2446,7 @@
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       },
+      "middle_target_span_particle_gap_m": 0.051012537843376095,
       "other_digit_contacts": {
         "left_middle": [
           269,
@@ -2778,6 +2789,7 @@
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       },
+      "middle_target_span_particle_gap_m": 0.04227439127439534,
       "other_digit_contacts": {
         "left_middle": [
           277,
@@ -3139,6 +3151,7 @@
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       },
+      "middle_target_span_particle_gap_m": 0.04882842936824335,
       "other_digit_contacts": {
         "left_middle": [
           269,
@@ -3467,6 +3480,7 @@
         },
         "initialization": "Independent placement, not replay of Position 1 or source dynamics"
       },
+      "middle_target_span_particle_gap_m": 0.006351898259259205,
       "other_digit_contacts": {
         "left_middle": [
           263,
@@ -3524,6 +3538,1660 @@
       }
     },
     {
+      "run": "alternative_cup_middle_helper_supported_20261108",
+      "source": "alternative_cup_middle_helper_staged_20261108",
+      "source_checkpoint": "checkpoint.npz",
+      "source_checkpoint_sha256": "8e192a5484c511150aad976e7bb6f3710e2d4eb4a2b54b784dab9404e26984ce",
+      "checkpoint_sha256": "ab17dd434dc659caf1b170a1aa61f85acbdabb8d50e692d14268b43c2933c5de",
+      "recipe": "attempt_middle_helper_supported.json",
+      "outcome": "physical and retention checks pass; target-span gap 1.626 mm after hold, no captured bight",
+      "end_s": 54.1,
+      "recorded_full_history_peak_stretch": 1.1625137329101562,
+      "rest_length_m": 1.3634533882141113,
+      "final_thumb_near_gap_m": {
+        "left": 0.013465488951299395,
+        "right": 0.028261808448597717
+      },
+      "final_little_particle_gap_m": {
+        "left": 3.4644057281021413e-05,
+        "right": 0.06345990028447537
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          54.1
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 54.1,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 301,
+              "patch": [
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 425,
+              "patch": [
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438
+              ],
+              "extras": [
+                [
+                  397,
+                  398,
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404
+                ],
+                [
+                  650,
+                  651,
+                  652,
+                  653,
+                  654,
+                  655,
+                  656,
+                  657,
+                  658,
+                  659,
+                  660,
+                  661,
+                  662
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 601,
+              "patch": [
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          33.1,
+          54.1
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.3490226061117425e-06,
+            "maximum_hold_gap_m": -7.865621929241742e-07,
+            "maximum_transfer_gap_m": -5.819547595460953e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.122925183169761e-06,
+            "maximum_hold_gap_m": -6.582042305558131e-07,
+            "maximum_transfer_gap_m": -6.305703819263139e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -1.7997751663350117e-06,
+            "maximum_hold_gap_m": -1.0136812491909689e-06,
+            "maximum_transfer_gap_m": 0.04109950417119119
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.4591765366807688e-06,
+            "maximum_hold_gap_m": -1.0968483971215623e-06,
+            "maximum_transfer_gap_m": -4.040636400253969e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -9.281215138806165e-06,
+            "maximum_hold_gap_m": -8.184964883449887e-06,
+            "maximum_transfer_gap_m": -1.8589836839968694e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": 0.06250623698977208,
+            "maximum_hold_gap_m": 0.06253578119189554,
+            "maximum_transfer_gap_m": 0.06253578119189554
+          }
+        },
+        "full_history_peak_stretch": 1.1625137796753529,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -7.281328833993583e-05,
+        "full_history_palm_clearance": {
+          "time_s": 20.4,
+          "finger_palm_lower_bound_m": 0.0019598769594707955,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794266778379536,
+          "opposing_finger_gap_m": 0.00420073332629098,
+          "same_hand_finger_margin_m": 0.00276851456895054,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.023562550350130218,
+          "minimum_opposing_finger_gap_m": 0.004099916988441957,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 46.233333,
+          "minimum_face_margin_m": 0.033356016039848335,
+          "closest_envelope": "head_Link",
+          "closest_edge": 299,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "middle_target_span_particle_gap_m": 0.0016257273249170407,
+      "other_digit_contacts": {
+        "left_middle": [
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281
+        ],
+        "left_ring": [],
+        "left_little": [
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249
+        ],
+        "right_middle": [
+          606,
+          607
+        ],
+        "right_ring": [],
+        "right_little": []
+      }
+    },
+    {
+      "run": "alternative_cup_middle_helper_supported2_20261108",
+      "source": "alternative_cup_middle_helper_supported_20261108",
+      "source_checkpoint": "checkpoint.npz",
+      "source_checkpoint_sha256": "ab17dd434dc659caf1b170a1aa61f85acbdabb8d50e692d14268b43c2933c5de",
+      "checkpoint_sha256": "61b8623357037cd049bc10b5b69262db1a286f769102c38254eb5f2cbb846fcb",
+      "recipe": "attempt_middle_helper_supported2.json",
+      "outcome": "physical and retention checks pass; target-span approach remains intermittent, no captured bight",
+      "end_s": 56.5,
+      "recorded_full_history_peak_stretch": 1.1625137329101562,
+      "rest_length_m": 1.3634533882141113,
+      "final_thumb_near_gap_m": {
+        "left": 0.010515116345033104,
+        "right": 0.027280169406526587
+      },
+      "final_little_particle_gap_m": {
+        "left": 2.9730699272131032e-05,
+        "right": 0.06376112537261819
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          56.5
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 56.5,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 301,
+              "patch": [
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 424,
+              "patch": [
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437
+              ],
+              "extras": [
+                [
+                  397,
+                  398,
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406,
+                  407,
+                  408
+                ],
+                [
+                  651,
+                  652,
+                  653,
+                  654,
+                  655,
+                  656,
+                  657,
+                  658,
+                  659,
+                  660,
+                  661,
+                  662,
+                  663
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 601,
+              "patch": [
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          33.1,
+          56.5
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.290876894690686e-06,
+            "maximum_hold_gap_m": -6.331515143226732e-07,
+            "maximum_transfer_gap_m": -5.819547595460953e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -9.27650978127699e-07,
+            "maximum_hold_gap_m": -5.637236726871789e-07,
+            "maximum_transfer_gap_m": -5.637236726871789e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -1.8386174539608904e-06,
+            "maximum_hold_gap_m": -1.0828884809957126e-06,
+            "maximum_transfer_gap_m": 0.04109950417119119
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.3807682547701747e-06,
+            "maximum_hold_gap_m": -1.1185386577751075e-06,
+            "maximum_transfer_gap_m": -4.040636400253969e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -8.78270241512426e-06,
+            "maximum_hold_gap_m": -7.798686078209919e-06,
+            "maximum_transfer_gap_m": -1.8589836839968694e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": 0.0626011561620382,
+            "maximum_hold_gap_m": 0.06267874688281096,
+            "maximum_transfer_gap_m": 0.06267874688281096
+          }
+        },
+        "full_history_peak_stretch": 1.1625137796753529,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -7.281328833993583e-05,
+        "full_history_palm_clearance": {
+          "time_s": 20.4,
+          "finger_palm_lower_bound_m": 0.0019598769594707955,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794266778379536,
+          "opposing_finger_gap_m": 0.00420073332629098,
+          "same_hand_finger_margin_m": 0.00276851456895054,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.023562550350130218,
+          "minimum_opposing_finger_gap_m": 0.004099916988441957,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 46.233333,
+          "minimum_face_margin_m": 0.033356016039848335,
+          "closest_envelope": "head_Link",
+          "closest_edge": 299,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "middle_target_span_particle_gap_m": 0.002038390494220786,
+      "other_digit_contacts": {
+        "left_middle": [
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280
+        ],
+        "left_ring": [],
+        "left_little": [
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249
+        ],
+        "right_middle": [
+          605,
+          606,
+          607,
+          608
+        ],
+        "right_ring": [],
+        "right_little": []
+      }
+    },
+    {
+      "run": "alternative_cup_middle_helper_surface_20261108",
+      "source": "alternative_cup_middle_helper_supported2_20261108",
+      "source_checkpoint": "checkpoint.npz",
+      "source_checkpoint_sha256": "61b8623357037cd049bc10b5b69262db1a286f769102c38254eb5f2cbb846fcb",
+      "checkpoint_sha256": "00f36853e1c58ff2830ac27afeb18127b611115408361f8dae7ec67646da1a4d",
+      "recipe": "attempt_middle_helper_surface.json",
+      "outcome": "physical and retention checks pass; brief surface approach without a retained new bight",
+      "end_s": 57.8,
+      "recorded_full_history_peak_stretch": 1.1625137329101562,
+      "rest_length_m": 1.3634533882141113,
+      "final_thumb_near_gap_m": {
+        "left": 0.008812842719679657,
+        "right": 0.026873426739898194
+      },
+      "final_little_particle_gap_m": {
+        "left": 3.0379686794093468e-05,
+        "right": 0.06380552725947089
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          57.8
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 57.8,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 301,
+              "patch": [
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 424,
+              "patch": [
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436
+              ],
+              "extras": [
+                [
+                  398,
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406,
+                  407,
+                  408
+                ],
+                [
+                  651,
+                  652,
+                  653,
+                  654,
+                  655,
+                  656,
+                  657,
+                  658,
+                  659,
+                  660,
+                  661,
+                  662,
+                  663
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 601,
+              "patch": [
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          33.1,
+          57.8
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.1970085784492393e-06,
+            "maximum_hold_gap_m": -7.926399953330984e-07,
+            "maximum_transfer_gap_m": -5.819547595460953e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.0321017199039703e-06,
+            "maximum_hold_gap_m": -6.583821550295785e-07,
+            "maximum_transfer_gap_m": -5.637236726871789e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -1.8817595666990525e-06,
+            "maximum_hold_gap_m": -1.0720365831743892e-06,
+            "maximum_transfer_gap_m": 0.04109950417119119
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.4056513015026431e-06,
+            "maximum_hold_gap_m": -1.137343098566064e-06,
+            "maximum_transfer_gap_m": -4.040636400253969e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -8.121281654135384e-06,
+            "maximum_hold_gap_m": -7.2410400762655015e-06,
+            "maximum_transfer_gap_m": -1.8589836839968694e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": 0.06269543865712257,
+            "maximum_hold_gap_m": 0.0627392559974191,
+            "maximum_transfer_gap_m": 0.0627392559974191
+          }
+        },
+        "full_history_peak_stretch": 1.1625137796753529,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -7.281328833993583e-05,
+        "full_history_palm_clearance": {
+          "time_s": 20.4,
+          "finger_palm_lower_bound_m": 0.0019598769594707955,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794266778379536,
+          "opposing_finger_gap_m": 0.00420073332629098,
+          "same_hand_finger_margin_m": 0.00276851456895054,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.023562550350130218,
+          "minimum_opposing_finger_gap_m": 0.004099916988441957,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 46.233333,
+          "minimum_face_margin_m": 0.033356016039848335,
+          "closest_envelope": "head_Link",
+          "closest_edge": 299,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "middle_target_span_particle_gap_m": 0.0009864152536689886,
+      "other_digit_contacts": {
+        "left_middle": [
+          201,
+          202,
+          203,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280
+        ],
+        "left_ring": [],
+        "left_little": [
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249
+        ],
+        "right_middle": [
+          605,
+          606,
+          607,
+          608
+        ],
+        "right_ring": [],
+        "right_little": []
+      }
+    },
+    {
+      "run": "alternative_cup_middle_helper_hook_20261108",
+      "source": "alternative_cup_middle_helper_surface_20261108",
+      "source_checkpoint": "state_1697.npz",
+      "source_checkpoint_sha256": "5444dfd9d155cf52c73ef76aef891668f4667aa0332c7b767bfddcb734ef6f9a",
+      "checkpoint_sha256": "644af4acb3c840fcab2a7df3e44139f485a0feea7cf31dec68d44b7c6ef67bd3",
+      "recipe": "attempt_middle_helper_hook.json",
+      "outcome": "new distal-cap contact is intermittent; original tracks retained; physical-history coverage in subsequent hook_hold audit",
+      "end_s": 58.166666666666664,
+      "recorded_full_history_peak_stretch": 1.1625137329101562,
+      "rest_length_m": 1.3634533882141113,
+      "final_thumb_near_gap_m": {
+        "left": 0.00819970240635113,
+        "right": 0.02705607126725559
+      },
+      "final_little_particle_gap_m": {
+        "left": 3.4573188470501774e-05,
+        "right": 0.0638093448788927
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          58.166667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 58.166667,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 298,
+              "patch": [
+                281,
+                282,
+                283,
+                284,
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 424,
+              "patch": [
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436
+              ],
+              "extras": [
+                [
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406,
+                  407
+                ],
+                [
+                  651,
+                  652,
+                  653,
+                  654,
+                  655,
+                  656,
+                  657,
+                  658,
+                  659,
+                  660,
+                  661,
+                  662,
+                  663
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 602,
+              "patch": [
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "middle_target_span_particle_gap_m": 0.004124597318383056,
+      "other_digit_contacts": {
+        "left_middle": [
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284
+        ],
+        "left_ring": [],
+        "left_little": [
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249
+        ],
+        "right_middle": [
+          605,
+          606,
+          607,
+          608
+        ],
+        "right_ring": [],
+        "right_little": []
+      },
+      "physical_history_audited_by": "alternative_cup_middle_helper_hook_hold_20261108/loop_release_audit.json"
+    },
+    {
+      "run": "alternative_cup_middle_helper_hook_hold_20261108",
+      "source": "alternative_cup_middle_helper_hook_20261108",
+      "source_checkpoint": "checkpoint.npz",
+      "source_checkpoint_sha256": "644af4acb3c840fcab2a7df3e44139f485a0feea7cf31dec68d44b7c6ef67bd3",
+      "checkpoint_sha256": "82628853a0886ae786530960ae2fa0b550099f7851b017762b6ca3fbcc6367d5",
+      "recipe": null,
+      "outcome": "physical and original-retention checks pass; extended hold still does not secure the new middle bight",
+      "end_s": 61.166666666666664,
+      "recorded_full_history_peak_stretch": 1.1625137329101562,
+      "rest_length_m": 1.3634533882141113,
+      "final_thumb_near_gap_m": {
+        "left": 0.003952585720787703,
+        "right": 0.026529147623308044
+      },
+      "final_little_particle_gap_m": {
+        "left": 3.176733342481145e-05,
+        "right": 0.06389821869926363
+      },
+      "material_tracking": {
+        "scope": "Follow the four original thumb/index contacts through little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\n",
+        "interval_s": [
+          6.0,
+          61.166667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {},
+        "final": {
+          "time": 61.166667,
+          "supports": {
+            "left_thumb": {
+              "center": 500,
+              "patch": [
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                507,
+                508,
+                509,
+                510,
+                511
+              ],
+              "extras": []
+            },
+            "left_index": {
+              "center": 297,
+              "patch": [
+                280,
+                281,
+                282,
+                283,
+                284,
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315
+              ],
+              "extras": []
+            },
+            "right_thumb": {
+              "center": 424,
+              "patch": [
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436
+              ],
+              "extras": [
+                [
+                  399,
+                  400,
+                  401,
+                  402,
+                  403,
+                  404,
+                  405,
+                  406,
+                  407,
+                  408,
+                  409
+                ],
+                [
+                  652,
+                  653,
+                  654,
+                  655,
+                  656,
+                  657,
+                  658,
+                  659,
+                  660,
+                  661,
+                  662,
+                  663,
+                  664
+                ]
+              ]
+            },
+            "right_index": {
+              "center": 602,
+              "patch": [
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616
+              ],
+              "extras": []
+            }
+          }
+        }
+      },
+      "release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, robot self-collisions, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          33.1,
+          61.166667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.2026661470607505e-06,
+            "maximum_hold_gap_m": -6.994370939294656e-07,
+            "maximum_transfer_gap_m": -5.637688193409554e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -9.72270482935654e-07,
+            "maximum_hold_gap_m": -5.803141219446264e-07,
+            "maximum_transfer_gap_m": -5.486839766725635e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -1.7513083729577342e-06,
+            "maximum_hold_gap_m": -1.099205105621788e-06,
+            "maximum_transfer_gap_m": 0.04109950417119119
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.4346480911560724e-06,
+            "maximum_hold_gap_m": -1.007732011262287e-06,
+            "maximum_transfer_gap_m": -4.040636400253969e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -7.636575738991522e-06,
+            "maximum_hold_gap_m": -6.623579851388782e-06,
+            "maximum_transfer_gap_m": -1.8589836839968694e-06
+          },
+          "right_little": {
+            "minimum_hold_gap_m": 0.06277870938957587,
+            "maximum_hold_gap_m": 0.06284355464850772,
+            "maximum_transfer_gap_m": 0.06284355464850772
+          }
+        },
+        "full_history_peak_stretch": 1.1625137796753529,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -7.281328833993583e-05,
+        "full_history_palm_clearance": {
+          "time_s": 20.4,
+          "finger_palm_lower_bound_m": 0.0019598769594707955,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.023794266778379536,
+          "opposing_finger_gap_m": 0.00420073332629098,
+          "same_hand_finger_margin_m": 0.00276851456895054,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.023562550350130218,
+          "minimum_opposing_finger_gap_m": 0.004099916988441957,
+          "minimum_same_hand_finger_margin_m": 0.0007541696774020544
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 46.233333,
+          "minimum_face_margin_m": 0.033356016039848335,
+          "closest_envelope": "head_Link",
+          "closest_edge": 299,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "middle_target_span_particle_gap_m": 0.00021010920415421002,
+      "other_digit_contacts": {
+        "left_middle": [
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285
+        ],
+        "left_ring": [],
+        "left_little": [
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249
+        ],
+        "right_middle": [
+          605,
+          606,
+          607,
+          608
+        ],
+        "right_ring": [],
+        "right_little": []
+      }
+    },
+    {
       "run": "alternative_cup_right_inward_down_20261108",
       "source": "alternative_cup_supported_thumb_retained_relief2_20261108",
       "source_checkpoint": "state_1472.npz",
@@ -3542,6 +5210,7 @@
         "left": 1.9909933250120658e-05,
         "right": 0.06384418409410167
       },
+      "middle_target_span_particle_gap_m": 0.05126793665618116,
       "other_digit_contacts": {
         "left_middle": [],
         "left_ring": [],
@@ -3610,5 +5279,1289 @@
       "initial_rest_lengths": true,
       "springs": true
     }
+  },
+  "ci_check": {
+    "commit": "47a94e9845f5dec7a3347626340fbe1b34042cc0",
+    "run": "https://github.com/DavidLXu/Revo3-Newton-CatCradle/actions/runs/42437742826",
+    "non_integration_tests": 111,
+    "integration_failure": "test_full_export_little_finger_picks_middle_to_thumb_strand",
+    "observed_lift_m": 0.024576209485530853,
+    "required_lift_m": 0.025
+  },
+  "middle_helper_surface_particle_gap_history": [
+    {
+      "time_s": 56.53333333333333,
+      "gap_m": 0.0011823202019287634,
+      "material": 202
+    },
+    {
+      "time_s": 56.56666666666667,
+      "gap_m": 0.0001876371050660965,
+      "material": 202
+    },
+    {
+      "time_s": 56.6,
+      "gap_m": 0.0018648989571479627,
+      "material": 202
+    },
+    {
+      "time_s": 56.63333333333333,
+      "gap_m": 0.0032532778727123136,
+      "material": 202
+    },
+    {
+      "time_s": 56.666666666666664,
+      "gap_m": 0.0036963804595452716,
+      "material": 202
+    },
+    {
+      "time_s": 56.7,
+      "gap_m": 0.004182967864542783,
+      "material": 202
+    },
+    {
+      "time_s": 56.733333333333334,
+      "gap_m": 0.004753212724999105,
+      "material": 202
+    },
+    {
+      "time_s": 56.766666666666666,
+      "gap_m": 0.005412601609818916,
+      "material": 202
+    },
+    {
+      "time_s": 56.8,
+      "gap_m": 0.005983973051020461,
+      "material": 203
+    },
+    {
+      "time_s": 56.833333333333336,
+      "gap_m": 0.006541667061441411,
+      "material": 203
+    },
+    {
+      "time_s": 56.86666666666667,
+      "gap_m": 0.0069812891413197934,
+      "material": 203
+    },
+    {
+      "time_s": 56.9,
+      "gap_m": 0.007122740641219589,
+      "material": 203
+    },
+    {
+      "time_s": 56.93333333333333,
+      "gap_m": 0.007209547275896947,
+      "material": 203
+    },
+    {
+      "time_s": 56.96666666666667,
+      "gap_m": 0.007249491400783694,
+      "material": 203
+    },
+    {
+      "time_s": 57.0,
+      "gap_m": 0.0074121695823308525,
+      "material": 203
+    },
+    {
+      "time_s": 57.03333333333333,
+      "gap_m": 0.007916773508530327,
+      "material": 203
+    },
+    {
+      "time_s": 57.06666666666667,
+      "gap_m": 0.008616742079381096,
+      "material": 203
+    },
+    {
+      "time_s": 57.1,
+      "gap_m": 0.009095258471556018,
+      "material": 203
+    },
+    {
+      "time_s": 57.13333333333333,
+      "gap_m": 0.009471768191772253,
+      "material": 203
+    },
+    {
+      "time_s": 57.166666666666664,
+      "gap_m": 0.00956702279339109,
+      "material": 203
+    },
+    {
+      "time_s": 57.2,
+      "gap_m": 0.009481772064692827,
+      "material": 203
+    },
+    {
+      "time_s": 57.233333333333334,
+      "gap_m": 0.009127532504354937,
+      "material": 203
+    },
+    {
+      "time_s": 57.266666666666666,
+      "gap_m": 0.008803434633459336,
+      "material": 203
+    },
+    {
+      "time_s": 57.3,
+      "gap_m": 0.008530318664059566,
+      "material": 203
+    },
+    {
+      "time_s": 57.333333333333336,
+      "gap_m": 0.008298376242876427,
+      "material": 203
+    },
+    {
+      "time_s": 57.36666666666667,
+      "gap_m": 0.008038752849416173,
+      "material": 203
+    },
+    {
+      "time_s": 57.4,
+      "gap_m": 0.007522363546183799,
+      "material": 203
+    },
+    {
+      "time_s": 57.43333333333333,
+      "gap_m": 0.006892962877006986,
+      "material": 203
+    },
+    {
+      "time_s": 57.46666666666667,
+      "gap_m": 0.0064150638766073435,
+      "material": 203
+    },
+    {
+      "time_s": 57.5,
+      "gap_m": 0.005514237578205016,
+      "material": 203
+    },
+    {
+      "time_s": 57.53333333333333,
+      "gap_m": 0.004305086194785856,
+      "material": 202
+    },
+    {
+      "time_s": 57.56666666666667,
+      "gap_m": 0.0035970744529975765,
+      "material": 202
+    },
+    {
+      "time_s": 57.6,
+      "gap_m": 0.003377780826027149,
+      "material": 202
+    },
+    {
+      "time_s": 57.63333333333333,
+      "gap_m": 0.0035089977601958306,
+      "material": 202
+    },
+    {
+      "time_s": 57.666666666666664,
+      "gap_m": 0.0034685466934767364,
+      "material": 202
+    },
+    {
+      "time_s": 57.7,
+      "gap_m": 0.002710726775625615,
+      "material": 202
+    },
+    {
+      "time_s": 57.733333333333334,
+      "gap_m": 0.001669702914081716,
+      "material": 202
+    },
+    {
+      "time_s": 57.766666666666666,
+      "gap_m": 0.0009102426229686206,
+      "material": 202
+    },
+    {
+      "time_s": 57.8,
+      "gap_m": 0.0009864152536689886,
+      "material": 202
+    }
+  ],
+  "middle_helper_second_step_particle_gap_history": [
+    {
+      "time_s": 54.13333333333333,
+      "gap_m": 0.0019255379110269316,
+      "material": 201
+    },
+    {
+      "time_s": 54.166666666666664,
+      "gap_m": 0.0024518720681654957,
+      "material": 201
+    },
+    {
+      "time_s": 54.2,
+      "gap_m": 0.002829101228847446,
+      "material": 201
+    },
+    {
+      "time_s": 54.233333333333334,
+      "gap_m": 0.0029650793901926124,
+      "material": 201
+    },
+    {
+      "time_s": 54.266666666666666,
+      "gap_m": 0.0027708836084247733,
+      "material": 201
+    },
+    {
+      "time_s": 54.3,
+      "gap_m": 0.002755794278403746,
+      "material": 201
+    },
+    {
+      "time_s": 54.333333333333336,
+      "gap_m": 0.002913009328132804,
+      "material": 201
+    },
+    {
+      "time_s": 54.36666666666667,
+      "gap_m": 0.002952940493047001,
+      "material": 201
+    },
+    {
+      "time_s": 54.4,
+      "gap_m": 0.003177159665893935,
+      "material": 201
+    },
+    {
+      "time_s": 54.43333333333333,
+      "gap_m": 0.0035489561236679247,
+      "material": 201
+    },
+    {
+      "time_s": 54.46666666666667,
+      "gap_m": 0.0041662629116175935,
+      "material": 202
+    },
+    {
+      "time_s": 54.5,
+      "gap_m": 0.00472540851770024,
+      "material": 202
+    },
+    {
+      "time_s": 54.53333333333333,
+      "gap_m": 0.0052930207352459005,
+      "material": 202
+    },
+    {
+      "time_s": 54.56666666666667,
+      "gap_m": 0.0059682752536627135,
+      "material": 202
+    },
+    {
+      "time_s": 54.6,
+      "gap_m": 0.0064272274524485125,
+      "material": 202
+    },
+    {
+      "time_s": 54.63333333333333,
+      "gap_m": 0.006527064321356932,
+      "material": 202
+    },
+    {
+      "time_s": 54.666666666666664,
+      "gap_m": 0.006313417546482981,
+      "material": 202
+    },
+    {
+      "time_s": 54.7,
+      "gap_m": 0.006104970665295201,
+      "material": 202
+    },
+    {
+      "time_s": 54.733333333333334,
+      "gap_m": 0.005914460803115223,
+      "material": 202
+    },
+    {
+      "time_s": 54.766666666666666,
+      "gap_m": 0.00580655969716701,
+      "material": 202
+    },
+    {
+      "time_s": 54.8,
+      "gap_m": 0.005568729502021508,
+      "material": 202
+    },
+    {
+      "time_s": 54.833333333333336,
+      "gap_m": 0.005312045138204556,
+      "material": 202
+    },
+    {
+      "time_s": 54.86666666666667,
+      "gap_m": 0.005466314996198761,
+      "material": 202
+    },
+    {
+      "time_s": 54.9,
+      "gap_m": 0.0057809980888574196,
+      "material": 202
+    },
+    {
+      "time_s": 54.93333333333333,
+      "gap_m": 0.005992128919114831,
+      "material": 202
+    },
+    {
+      "time_s": 54.96666666666667,
+      "gap_m": 0.0059836623979688,
+      "material": 202
+    },
+    {
+      "time_s": 55.0,
+      "gap_m": 0.005906398494232769,
+      "material": 202
+    },
+    {
+      "time_s": 55.03333333333333,
+      "gap_m": 0.006031388561775509,
+      "material": 202
+    },
+    {
+      "time_s": 55.06666666666667,
+      "gap_m": 0.00579369988412166,
+      "material": 202
+    },
+    {
+      "time_s": 55.1,
+      "gap_m": 0.005326523284418009,
+      "material": 202
+    },
+    {
+      "time_s": 55.13333333333333,
+      "gap_m": 0.005263444002461068,
+      "material": 202
+    },
+    {
+      "time_s": 55.166666666666664,
+      "gap_m": 0.005324039188840521,
+      "material": 202
+    },
+    {
+      "time_s": 55.2,
+      "gap_m": 0.005482498012650191,
+      "material": 202
+    },
+    {
+      "time_s": 55.233333333333334,
+      "gap_m": 0.005615919123898651,
+      "material": 202
+    },
+    {
+      "time_s": 55.266666666666666,
+      "gap_m": 0.005024803185882091,
+      "material": 202
+    },
+    {
+      "time_s": 55.3,
+      "gap_m": 0.003313799715456963,
+      "material": 202
+    },
+    {
+      "time_s": 55.333333333333336,
+      "gap_m": 0.0017062777890788144,
+      "material": 202
+    },
+    {
+      "time_s": 55.36666666666667,
+      "gap_m": 0.0010597763733480809,
+      "material": 202
+    },
+    {
+      "time_s": 55.4,
+      "gap_m": 0.0016477064492987229,
+      "material": 202
+    },
+    {
+      "time_s": 55.43333333333333,
+      "gap_m": 0.002270288429391033,
+      "material": 202
+    },
+    {
+      "time_s": 55.46666666666667,
+      "gap_m": 0.002792685162910106,
+      "material": 202
+    },
+    {
+      "time_s": 55.5,
+      "gap_m": 0.0034205979801432964,
+      "material": 202
+    },
+    {
+      "time_s": 55.53333333333333,
+      "gap_m": 0.0039390566403766725,
+      "material": 202
+    },
+    {
+      "time_s": 55.56666666666667,
+      "gap_m": 0.004348606387132882,
+      "material": 202
+    },
+    {
+      "time_s": 55.6,
+      "gap_m": 0.00473185834097171,
+      "material": 202
+    },
+    {
+      "time_s": 55.63333333333333,
+      "gap_m": 0.005228341491776724,
+      "material": 202
+    },
+    {
+      "time_s": 55.666666666666664,
+      "gap_m": 0.005662135375202558,
+      "material": 202
+    },
+    {
+      "time_s": 55.7,
+      "gap_m": 0.005926005646649138,
+      "material": 202
+    },
+    {
+      "time_s": 55.733333333333334,
+      "gap_m": 0.006287989891550975,
+      "material": 202
+    },
+    {
+      "time_s": 55.766666666666666,
+      "gap_m": 0.006714503864625284,
+      "material": 202
+    },
+    {
+      "time_s": 55.8,
+      "gap_m": 0.007149459142067475,
+      "material": 203
+    },
+    {
+      "time_s": 55.833333333333336,
+      "gap_m": 0.0074276448965237265,
+      "material": 203
+    },
+    {
+      "time_s": 55.86666666666667,
+      "gap_m": 0.00753900045689642,
+      "material": 203
+    },
+    {
+      "time_s": 55.9,
+      "gap_m": 0.00782519619091765,
+      "material": 203
+    },
+    {
+      "time_s": 55.93333333333333,
+      "gap_m": 0.008136262516599938,
+      "material": 203
+    },
+    {
+      "time_s": 55.96666666666667,
+      "gap_m": 0.008373244199814573,
+      "material": 203
+    },
+    {
+      "time_s": 56.0,
+      "gap_m": 0.008297176738300695,
+      "material": 203
+    },
+    {
+      "time_s": 56.03333333333333,
+      "gap_m": 0.008237482897364264,
+      "material": 203
+    },
+    {
+      "time_s": 56.06666666666667,
+      "gap_m": 0.008096387935896784,
+      "material": 203
+    },
+    {
+      "time_s": 56.1,
+      "gap_m": 0.007765165605818586,
+      "material": 203
+    },
+    {
+      "time_s": 56.13333333333333,
+      "gap_m": 0.00707638352713355,
+      "material": 203
+    },
+    {
+      "time_s": 56.166666666666664,
+      "gap_m": 0.006458583261120326,
+      "material": 203
+    },
+    {
+      "time_s": 56.2,
+      "gap_m": 0.005886284973198894,
+      "material": 202
+    },
+    {
+      "time_s": 56.233333333333334,
+      "gap_m": 0.005523436368728845,
+      "material": 202
+    },
+    {
+      "time_s": 56.266666666666666,
+      "gap_m": 0.005328955237401674,
+      "material": 202
+    },
+    {
+      "time_s": 56.3,
+      "gap_m": 0.0049055759659282555,
+      "material": 202
+    },
+    {
+      "time_s": 56.333333333333336,
+      "gap_m": 0.004419593241979796,
+      "material": 202
+    },
+    {
+      "time_s": 56.36666666666667,
+      "gap_m": 0.003989073460257409,
+      "material": 202
+    },
+    {
+      "time_s": 56.4,
+      "gap_m": 0.003684967366242387,
+      "material": 202
+    },
+    {
+      "time_s": 56.43333333333333,
+      "gap_m": 0.003259023339684115,
+      "material": 202
+    },
+    {
+      "time_s": 56.46666666666667,
+      "gap_m": 0.0026593400362458315,
+      "material": 202
+    },
+    {
+      "time_s": 56.5,
+      "gap_m": 0.002038390494220786,
+      "material": 202
+    }
+  ],
+  "middle_helper_hook_particle_gap_history": [
+    {
+      "time_s": 56.6,
+      "gap_m": 0.002305451919288162,
+      "material": 202
+    },
+    {
+      "time_s": 56.63333333333333,
+      "gap_m": 0.0025228658969125963,
+      "material": 202
+    },
+    {
+      "time_s": 56.666666666666664,
+      "gap_m": 0.0027020571271087262,
+      "material": 202
+    },
+    {
+      "time_s": 56.7,
+      "gap_m": 0.002803172573883561,
+      "material": 203
+    },
+    {
+      "time_s": 56.733333333333334,
+      "gap_m": 0.0030222009410136403,
+      "material": 204
+    },
+    {
+      "time_s": 56.766666666666666,
+      "gap_m": 0.0032018487896113184,
+      "material": 204
+    },
+    {
+      "time_s": 56.8,
+      "gap_m": 0.0032310852075998512,
+      "material": 205
+    },
+    {
+      "time_s": 56.833333333333336,
+      "gap_m": 0.003342336801081311,
+      "material": 206
+    },
+    {
+      "time_s": 56.86666666666667,
+      "gap_m": 0.0033617147581323703,
+      "material": 206
+    },
+    {
+      "time_s": 56.9,
+      "gap_m": 0.0033816473645391825,
+      "material": 206
+    },
+    {
+      "time_s": 56.93333333333333,
+      "gap_m": 0.0032860933668391367,
+      "material": 207
+    },
+    {
+      "time_s": 56.96666666666667,
+      "gap_m": 0.0032006319456323326,
+      "material": 207
+    },
+    {
+      "time_s": 57.0,
+      "gap_m": 0.0034489159771101214,
+      "material": 207
+    },
+    {
+      "time_s": 57.03333333333333,
+      "gap_m": 0.0037763310029232918,
+      "material": 207
+    },
+    {
+      "time_s": 57.06666666666667,
+      "gap_m": 0.004229611168849841,
+      "material": 207
+    },
+    {
+      "time_s": 57.1,
+      "gap_m": 0.004531497735621402,
+      "material": 207
+    },
+    {
+      "time_s": 57.13333333333333,
+      "gap_m": 0.0048148548530901536,
+      "material": 207
+    },
+    {
+      "time_s": 57.166666666666664,
+      "gap_m": 0.005024103909138727,
+      "material": 207
+    },
+    {
+      "time_s": 57.2,
+      "gap_m": 0.005084953586430497,
+      "material": 207
+    },
+    {
+      "time_s": 57.233333333333334,
+      "gap_m": 0.005102437207324675,
+      "material": 207
+    },
+    {
+      "time_s": 57.266666666666666,
+      "gap_m": 0.004899150436367453,
+      "material": 207
+    },
+    {
+      "time_s": 57.3,
+      "gap_m": 0.004703366572419653,
+      "material": 207
+    },
+    {
+      "time_s": 57.333333333333336,
+      "gap_m": 0.004504771062622331,
+      "material": 207
+    },
+    {
+      "time_s": 57.36666666666667,
+      "gap_m": 0.004069420791510926,
+      "material": 207
+    },
+    {
+      "time_s": 57.4,
+      "gap_m": 0.0035240990065338136,
+      "material": 206
+    },
+    {
+      "time_s": 57.43333333333333,
+      "gap_m": 0.0031395682230376193,
+      "material": 206
+    },
+    {
+      "time_s": 57.46666666666667,
+      "gap_m": 0.002661275733662492,
+      "material": 206
+    },
+    {
+      "time_s": 57.5,
+      "gap_m": 0.0018618417253980718,
+      "material": 206
+    },
+    {
+      "time_s": 57.53333333333333,
+      "gap_m": 0.0007216223899695487,
+      "material": 206
+    },
+    {
+      "time_s": 57.56666666666667,
+      "gap_m": 6.444817426727416e-06,
+      "material": 206
+    },
+    {
+      "time_s": 57.6,
+      "gap_m": 5.817162749321807e-06,
+      "material": 206
+    },
+    {
+      "time_s": 57.63333333333333,
+      "gap_m": 0.0003583641015955071,
+      "material": 206
+    },
+    {
+      "time_s": 57.666666666666664,
+      "gap_m": 0.0006225646717192045,
+      "material": 206
+    },
+    {
+      "time_s": 57.7,
+      "gap_m": 0.0002743452237653791,
+      "material": 206
+    },
+    {
+      "time_s": 57.733333333333334,
+      "gap_m": 1.314531428172911e-05,
+      "material": 206
+    },
+    {
+      "time_s": 57.766666666666666,
+      "gap_m": 1.6590033390196345e-05,
+      "material": 206
+    },
+    {
+      "time_s": 57.8,
+      "gap_m": 1.0282388256143728e-05,
+      "material": 206
+    },
+    {
+      "time_s": 57.833333333333336,
+      "gap_m": 1.2055355903401767e-05,
+      "material": 206
+    },
+    {
+      "time_s": 57.86666666666667,
+      "gap_m": 3.819097716369242e-06,
+      "material": 206
+    },
+    {
+      "time_s": 57.9,
+      "gap_m": 7.777057975859748e-05,
+      "material": 206
+    },
+    {
+      "time_s": 57.93333333333333,
+      "gap_m": 0.0005731838115703722,
+      "material": 206
+    },
+    {
+      "time_s": 57.96666666666667,
+      "gap_m": 0.0011635890468979183,
+      "material": 206
+    },
+    {
+      "time_s": 58.0,
+      "gap_m": 0.0017290122912450448,
+      "material": 206
+    },
+    {
+      "time_s": 58.03333333333333,
+      "gap_m": 0.0024217216060400905,
+      "material": 206
+    },
+    {
+      "time_s": 58.06666666666667,
+      "gap_m": 0.0029668778238561783,
+      "material": 206
+    },
+    {
+      "time_s": 58.1,
+      "gap_m": 0.0033563601524438927,
+      "material": 206
+    },
+    {
+      "time_s": 58.13333333333333,
+      "gap_m": 0.003721380353359946,
+      "material": 207
+    },
+    {
+      "time_s": 58.166666666666664,
+      "gap_m": 0.004124597318383056,
+      "material": 207
+    }
+  ],
+  "middle_helper_extended_hold_particle_gap_history": [
+    {
+      "time_s": 58.2,
+      "gap_m": 0.005075062509559909,
+      "material": 207
+    },
+    {
+      "time_s": 58.233333333333334,
+      "gap_m": 0.006227147104652614,
+      "material": 207
+    },
+    {
+      "time_s": 58.266666666666666,
+      "gap_m": 0.00679070677339031,
+      "material": 207
+    },
+    {
+      "time_s": 58.3,
+      "gap_m": 0.006582259299355144,
+      "material": 207
+    },
+    {
+      "time_s": 58.333333333333336,
+      "gap_m": 0.0060609172127143235,
+      "material": 207
+    },
+    {
+      "time_s": 58.36666666666667,
+      "gap_m": 0.0056288897297346345,
+      "material": 207
+    },
+    {
+      "time_s": 58.4,
+      "gap_m": 0.005068870469181918,
+      "material": 207
+    },
+    {
+      "time_s": 58.43333333333333,
+      "gap_m": 0.004402445636227786,
+      "material": 207
+    },
+    {
+      "time_s": 58.46666666666667,
+      "gap_m": 0.0035848748275878932,
+      "material": 207
+    },
+    {
+      "time_s": 58.5,
+      "gap_m": 0.0026849144281385793,
+      "material": 206
+    },
+    {
+      "time_s": 58.53333333333333,
+      "gap_m": 0.0016310063852120393,
+      "material": 206
+    },
+    {
+      "time_s": 58.56666666666667,
+      "gap_m": 0.0008685553639953209,
+      "material": 206
+    },
+    {
+      "time_s": 58.6,
+      "gap_m": 0.00027853558204453486,
+      "material": 206
+    },
+    {
+      "time_s": 58.63333333333333,
+      "gap_m": 7.439577663212113e-07,
+      "material": 206
+    },
+    {
+      "time_s": 58.666666666666664,
+      "gap_m": 7.710000019213112e-07,
+      "material": 206
+    },
+    {
+      "time_s": 58.7,
+      "gap_m": 1.0395845318226724e-06,
+      "material": 206
+    },
+    {
+      "time_s": 58.733333333333334,
+      "gap_m": 1.4018935710720035e-06,
+      "material": 206
+    },
+    {
+      "time_s": 58.766666666666666,
+      "gap_m": 1.959530264780164e-06,
+      "material": 206
+    },
+    {
+      "time_s": 58.8,
+      "gap_m": 1.4791238966147327e-06,
+      "material": 206
+    },
+    {
+      "time_s": 58.833333333333336,
+      "gap_m": 5.217710151413438e-07,
+      "material": 206
+    },
+    {
+      "time_s": 58.86666666666667,
+      "gap_m": 5.477719257568694e-07,
+      "material": 206
+    },
+    {
+      "time_s": 58.9,
+      "gap_m": 1.1977619981439272e-06,
+      "material": 206
+    },
+    {
+      "time_s": 58.93333333333333,
+      "gap_m": 0.0001267622113958469,
+      "material": 206
+    },
+    {
+      "time_s": 58.96666666666667,
+      "gap_m": 0.0004575378188441644,
+      "material": 206
+    },
+    {
+      "time_s": 59.0,
+      "gap_m": 0.0006104256470912525,
+      "material": 206
+    },
+    {
+      "time_s": 59.03333333333333,
+      "gap_m": 0.0006943994089340265,
+      "material": 206
+    },
+    {
+      "time_s": 59.06666666666667,
+      "gap_m": 0.0010577933903946459,
+      "material": 206
+    },
+    {
+      "time_s": 59.1,
+      "gap_m": 0.001484931768576332,
+      "material": 206
+    },
+    {
+      "time_s": 59.13333333333333,
+      "gap_m": 0.0019725061060568263,
+      "material": 206
+    },
+    {
+      "time_s": 59.166666666666664,
+      "gap_m": 0.002368963068439342,
+      "material": 207
+    },
+    {
+      "time_s": 59.2,
+      "gap_m": 0.002952364896109173,
+      "material": 207
+    },
+    {
+      "time_s": 59.233333333333334,
+      "gap_m": 0.0037247527305455013,
+      "material": 207
+    },
+    {
+      "time_s": 59.266666666666666,
+      "gap_m": 0.004667697906364131,
+      "material": 207
+    },
+    {
+      "time_s": 59.3,
+      "gap_m": 0.0061089961950191824,
+      "material": 207
+    },
+    {
+      "time_s": 59.333333333333336,
+      "gap_m": 0.006816884044864936,
+      "material": 207
+    },
+    {
+      "time_s": 59.36666666666667,
+      "gap_m": 0.00622175174748013,
+      "material": 207
+    },
+    {
+      "time_s": 59.4,
+      "gap_m": 0.005392065719048394,
+      "material": 207
+    },
+    {
+      "time_s": 59.43333333333333,
+      "gap_m": 0.004724020245096264,
+      "material": 207
+    },
+    {
+      "time_s": 59.46666666666667,
+      "gap_m": 0.004030022440768495,
+      "material": 207
+    },
+    {
+      "time_s": 59.5,
+      "gap_m": 0.0033905612269689725,
+      "material": 207
+    },
+    {
+      "time_s": 59.53333333333333,
+      "gap_m": 0.0026984565387065283,
+      "material": 207
+    },
+    {
+      "time_s": 59.56666666666667,
+      "gap_m": 0.0019421384473726775,
+      "material": 206
+    },
+    {
+      "time_s": 59.6,
+      "gap_m": 0.0012911248381708177,
+      "material": 206
+    },
+    {
+      "time_s": 59.63333333333333,
+      "gap_m": 0.0007389521200646754,
+      "material": 206
+    },
+    {
+      "time_s": 59.666666666666664,
+      "gap_m": 0.00031026471894420645,
+      "material": 206
+    },
+    {
+      "time_s": 59.7,
+      "gap_m": 1.1266185047847065e-05,
+      "material": 206
+    },
+    {
+      "time_s": 59.733333333333334,
+      "gap_m": 9.690879167040083e-06,
+      "material": 206
+    },
+    {
+      "time_s": 59.766666666666666,
+      "gap_m": 8.489556372863211e-05,
+      "material": 206
+    },
+    {
+      "time_s": 59.8,
+      "gap_m": 0.00014876093706306642,
+      "material": 206
+    },
+    {
+      "time_s": 59.833333333333336,
+      "gap_m": 8.093858795971652e-06,
+      "material": 206
+    },
+    {
+      "time_s": 59.86666666666667,
+      "gap_m": 5.538872519844813e-06,
+      "material": 206
+    },
+    {
+      "time_s": 59.9,
+      "gap_m": 1.1933767260469998e-05,
+      "material": 206
+    },
+    {
+      "time_s": 59.93333333333333,
+      "gap_m": 9.128330403024125e-06,
+      "material": 206
+    },
+    {
+      "time_s": 59.96666666666667,
+      "gap_m": 1.775268519979816e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.0,
+      "gap_m": 1.610722001124578e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.03333333333333,
+      "gap_m": 0.0003434634398635306,
+      "material": 206
+    },
+    {
+      "time_s": 60.06666666666667,
+      "gap_m": 0.0007004336468010254,
+      "material": 206
+    },
+    {
+      "time_s": 60.1,
+      "gap_m": 0.001001623642185717,
+      "material": 206
+    },
+    {
+      "time_s": 60.13333333333333,
+      "gap_m": 0.0015572131340637124,
+      "material": 207
+    },
+    {
+      "time_s": 60.166666666666664,
+      "gap_m": 0.0022161095293695256,
+      "material": 207
+    },
+    {
+      "time_s": 60.2,
+      "gap_m": 0.002890353092237694,
+      "material": 207
+    },
+    {
+      "time_s": 60.233333333333334,
+      "gap_m": 0.0034385749744070054,
+      "material": 207
+    },
+    {
+      "time_s": 60.266666666666666,
+      "gap_m": 0.003962392519656134,
+      "material": 207
+    },
+    {
+      "time_s": 60.3,
+      "gap_m": 0.004810852608678188,
+      "material": 207
+    },
+    {
+      "time_s": 60.333333333333336,
+      "gap_m": 0.005876981503757472,
+      "material": 207
+    },
+    {
+      "time_s": 60.36666666666667,
+      "gap_m": 0.006495473591986339,
+      "material": 208
+    },
+    {
+      "time_s": 60.4,
+      "gap_m": 0.006215712346236998,
+      "material": 207
+    },
+    {
+      "time_s": 60.43333333333333,
+      "gap_m": 0.005434626622924532,
+      "material": 207
+    },
+    {
+      "time_s": 60.46666666666667,
+      "gap_m": 0.004749971483405154,
+      "material": 207
+    },
+    {
+      "time_s": 60.5,
+      "gap_m": 0.004396038819199504,
+      "material": 207
+    },
+    {
+      "time_s": 60.53333333333333,
+      "gap_m": 0.003992317767479298,
+      "material": 207
+    },
+    {
+      "time_s": 60.56666666666667,
+      "gap_m": 0.0033494145256031246,
+      "material": 207
+    },
+    {
+      "time_s": 60.6,
+      "gap_m": 0.0027178215741812664,
+      "material": 207
+    },
+    {
+      "time_s": 60.63333333333333,
+      "gap_m": 0.00206457036582505,
+      "material": 207
+    },
+    {
+      "time_s": 60.666666666666664,
+      "gap_m": 0.0015491207391406326,
+      "material": 207
+    },
+    {
+      "time_s": 60.7,
+      "gap_m": 0.0009426782046750857,
+      "material": 207
+    },
+    {
+      "time_s": 60.733333333333334,
+      "gap_m": 0.000266239523131386,
+      "material": 206
+    },
+    {
+      "time_s": 60.766666666666666,
+      "gap_m": 3.590325514479711e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.8,
+      "gap_m": 4.2307868288435184e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.833333333333336,
+      "gap_m": 3.569691965663816e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.86666666666667,
+      "gap_m": 3.2068645199642525e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.9,
+      "gap_m": 2.6685104263085395e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.93333333333333,
+      "gap_m": 3.4070409028763744e-05,
+      "material": 206
+    },
+    {
+      "time_s": 60.96666666666667,
+      "gap_m": 3.137395339822529e-05,
+      "material": 206
+    },
+    {
+      "time_s": 61.0,
+      "gap_m": 2.9713953627390384e-05,
+      "material": 206
+    },
+    {
+      "time_s": 61.03333333333333,
+      "gap_m": 4.2521943842442796e-05,
+      "material": 206
+    },
+    {
+      "time_s": 61.06666666666667,
+      "gap_m": 4.180926835064148e-05,
+      "material": 206
+    },
+    {
+      "time_s": 61.1,
+      "gap_m": 3.9511510806149e-05,
+      "material": 207
+    },
+    {
+      "time_s": 61.13333333333333,
+      "gap_m": 3.8839401779123574e-05,
+      "material": 207
+    },
+    {
+      "time_s": 61.166666666666664,
+      "gap_m": 0.00021010920415421002,
+      "material": 207
+    }
+  ],
+  "middle_helper_tip_contact_location": {
+    "checkpoint": "state_1736.npz",
+    "run": "alternative_cup_middle_helper_hook_20261108",
+    "checkpoint_sha256": "bcb609f2f5e9001af55ac8896d0d5a8ac25e8844c9610ee1401a1c2ba54d0337",
+    "time_s": 57.86666666666667,
+    "rope_edge": 205,
+    "edge_fraction": 0.8488020683437807,
+    "distal_cap_edge_gap_m": -9.862650253347066e-08,
+    "local_axial_m": 0.019406597285752312,
+    "cylinder_half_length_m": 0.008,
+    "finger_radius_m": 0.0105,
+    "rope_radius_m": 0.001,
+    "axial_centerline_tip_limit_m": 0.019500000000000003,
+    "interpretation": "The free span touches the distal cap near its axial tip; it has not reached the cylindrical finger shaft. This geometric observation does not certify a bight."
+  },
+  "stationary_hold_audit_correction": {
+    "run": "alternative_cup_middle_helper_hook_hold_20261108",
+    "only_changed_check": "completed_hold",
+    "before": false,
+    "after": true,
+    "other_report_fields_identical": true,
+    "latest_local_non_integration_tests_passed": 114
   }
 }
