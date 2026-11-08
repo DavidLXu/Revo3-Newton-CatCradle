@@ -1,0 +1,35 @@
+{
+  "source": "output/alternative_cup_right_helper_lift60_adj_20261109",
+  "start_s": 75.23333333333333,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457
+    ],
+    "initial_material_center": 450,
+    "expected_contact_interval_s": [
+      75.23333333333333,
+      78.93333333333334
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "e21379017dc64a7e2e9c2c32bc9c048feb2b974f2a1288c90762e46aecc15c55",
+  "scope": "Declared before replay: move the intentional right little old-loop helper 20 mm across the vertical old strand in world +X while preserving the planned thumb and index references. Material may slide; contact is not a pin. Final release remains a separate requirement.",
+  "original_declaration_recipe_sha256": "f43e0543c07ec1af381ea63b85d3c930adb4478bc273ab978d384512262f31bb"
+}

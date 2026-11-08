@@ -102,3 +102,58 @@ def test_existing_far_track_is_kept_when_a_second_contact_patch_appears():
                                 {"left": 12, "right": 2}) == {"left": 12, "right": 1}
     with pytest.raises(ValueError, match="outside"):
         captured_far_centers(report, 4., plan, 20, {"left": 19, "right": 2})
+
+
+def handoff_fixture():
+    plan = {"left": {"far_indices": list(range(70, 85))},
+            "right": {"far_indices": list(range(10, 55))}}
+    report = dict(interval_s=[3., 4.], checks=dict(
+        stationary_hold=True, original_indices_tracked=True,
+        left_new_far_contact_held=True, left_same_far_material=True,
+        right_new_far_contact_held=True, right_same_far_material=True),
+        summary={"left": {"persistent_far_particles": [75, 76, 77]},
+                 "right": {"persistent_far_particles": [11, 12, 13, 41, 42, 43]}})
+    return report, plan, {"left": 76, "right": 12}
+
+
+def test_explicit_handoff_retains_a_patch_already_held_before_the_other_leaves():
+    from revo3_cat_cradle.transfers import handoff_far_centers, track_support_patch
+
+    report, plan, previous = handoff_fixture()
+    centers, declaration = handoff_far_centers(
+        report, 4., plan, 100, previous, {"right": 42})
+    assert centers == {"left": 76, "right": 42}
+    assert declaration["right"]["departing_held_patch"] == [11, 12, 13]
+    assert declaration["right"]["receiving_held_patch"] == [41, 42, 43]
+    assert previous["right"] == 12
+    # Without the advance declaration the ordinary tracker still rejects this
+    # disappearance. The receiver was in contact throughout the earlier hold.
+    with pytest.raises(ValueError, match="continuity"):
+        track_support_patch([41, 42, 43], 100, previous["right"])
+    assert track_support_patch([41, 42, 43], 100, centers["right"])[0] == 42
+
+
+@pytest.mark.parametrize("handoff", [
+    {}, {"other": 42}, {"right": 42.5}, {"right": True},
+    {"right": 12}, {"right": 13}, {"right": 40}, {"right": 75},
+])
+def test_handoff_rejects_unheld_wrong_strand_and_same_patch_requests(handoff):
+    from revo3_cat_cradle.transfers import handoff_far_centers
+
+    report, plan, previous = handoff_fixture()
+    with pytest.raises(ValueError):
+        handoff_far_centers(report, 4., plan, 100, previous, handoff)
+
+
+def test_handoff_does_not_recover_an_already_lost_or_unheld_source():
+    from revo3_cat_cradle.transfers import handoff_far_centers
+
+    report, plan, previous = handoff_fixture()
+    with pytest.raises(ValueError, match="matching held"):
+        handoff_far_centers(report, 4.1, plan, 100, previous, {"right": 42})
+    report["summary"]["right"]["persistent_far_particles"] = [11, 41, 42, 43]
+    with pytest.raises(ValueError, match="simultaneously"):
+        handoff_far_centers(report, 4., plan, 100, previous, {"right": 42})
+    report["summary"]["right"]["persistent_far_particles"] = [41, 42, 43]
+    with pytest.raises(ValueError, match="continuity"):
+        handoff_far_centers(report, 4., plan, 100, previous, {"right": 42})

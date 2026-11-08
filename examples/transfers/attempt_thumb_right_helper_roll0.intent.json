@@ -1,0 +1,29 @@
+{
+  "source": "output/alternative_cup_right_helper_lift30_adj_20261109",
+  "start_s": 74.76666666666667,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      440,
+      441,
+      442,
+      443,
+      444,
+      445,
+      446,
+      447,
+      448
+    ],
+    "initial_material_center": 444,
+    "expected_contact_interval_s": [
+      74.76666666666667,
+      78.46666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "c0db85865ddf59dca44c85b57080a7f8253ef7349def7a2c58b1655f1b31fd39",
+  "scope": "Declared before replay from an audited temporary helper phase. Replan the local reference from the currently contacting old-loop material; roll the thumb down while lifting the helper 15 mm and withdrawing the thumb 12 mm. Final helper release is not completed.",
+  "original_declaration_recipe_sha256": "80c4d0fa3a80baa270f6ac958429c749ffca027b300a1ad4c3cb919e2c442348"
+}

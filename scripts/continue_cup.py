@@ -17,6 +17,7 @@ from revo3_cat_cradle.transfers import (
     track_support_patch,
     retained_support_centers,
     captured_far_centers,
+    handoff_far_centers,
 )
 from revo3_cat_cradle.bimanual_checks import gaps, hand_clearance, self_clearance_margin
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
@@ -69,6 +70,11 @@ def main():
     p.add_argument("--source-temporary-helper", action="store_true",
                    help="Resume a declared, audited little-helper phase before its final "
                         "release; requires both far guards and intentional thumb exchange")
+    p.add_argument("--far-support-handoff", action="append", default=[],
+                   metavar="SIDE:MATERIAL",
+                   help="Declare a switch to a second far-contact patch already held "
+                        "alongside the old patch throughout the source hold; requires "
+                        "--stop-on-far-loss. Does not restore a lost track")
     p.add_argument(
         "--hold-on-near-pinch", choices=("left", "right", "both"),
         help="During a route, stop closing at opposing thumb/index contact on the "
@@ -185,6 +191,18 @@ def main():
                                       or a.release_thumb_supports != "both"):
         p.error("--source-temporary-helper requires --stop-on-far-loss and "
                 "--release-thumb-supports both")
+    requested_handoffs = {}
+    if a.far_support_handoff and not a.stop_on_far_loss:
+        p.error("--far-support-handoff requires --stop-on-far-loss")
+    for item in a.far_support_handoff:
+        try:
+            side, material = item.split(":")
+            material = int(material)
+        except ValueError:
+            p.error("--far-support-handoff must use SIDE:MATERIAL")
+        if side not in ("left", "right") or side in requested_handoffs or material < 0:
+            p.error("Each handoff must name one distinct hand and a nonnegative sample")
+        requested_handoffs[side] = material
     if a.hold_on_near_pinch and (
         not a.route_only or not a.approach_path or a.hold_only
         or a.stop_on_near_contact or a.side not in ("both", a.hold_on_near_pinch)
@@ -367,12 +385,20 @@ def main():
                     or abs(rows[-1]["time"] - sim.t) > 1e-5):
                 raise ValueError("Prior far-material track is incomplete or stale")
             previous_far = rows[-1]["centers"]
-        far_centers = captured_far_centers(json.loads(
-            (a.source / "thumb_exchange_audit.json").read_text()), sim.t, plan, len(rope),
+        exchange_report = json.loads((a.source / "thumb_exchange_audit.json").read_text())
+        far_centers = captured_far_centers(exchange_report, sim.t, plan, len(rope),
             previous_centers=previous_far)
+        handoffs = {}
+        if requested_handoffs:
+            if previous_far is None:
+                raise ValueError("Handoff requires the complete previous far-track history")
+            far_centers, handoffs = handoff_far_centers(
+                exchange_report, sim.t, plan, len(rope), previous_far, requested_handoffs)
         far_rows.append(dict(time=sim.t, centers=far_centers.copy()))
         far_guard = dict(source_time_s=sim.t, initial_material_centers=far_centers.copy(),
                          scope="Track newly captured far material; no rope constraint is added.")
+        if handoffs:
+            far_guard["declared_source_handoffs"] = handoffs
         if source_helper is not None:
             far_guard.update(source_contact_phase="temporary_helper",
                              declared_helper=source_helper,

@@ -198,6 +198,42 @@ def captured_far_centers(report, checkpoint_time, plan, particle_count, previous
     return centers
 
 
+def handoff_far_centers(report, checkpoint_time, plan, particle_count,
+                        previous_centers, requested):
+    """Declare a transfer between two simultaneously held far-contact patches.
+
+    Both the departing representative and the receiving material must have
+    remained in contact throughout the source's stationary audit window. This
+    cannot recover an already lost track or select a newly observed graze.
+    The caller still validates physical state and tracks the receiver on every
+    subsequent frame. No force, material position or contact threshold changes.
+    """
+    if (not requested or not set(requested).issubset({"left", "right"})
+            or any(type(material) is not int for material in requested.values())):
+        raise ValueError("Handoff must name a hand and an integer material sample")
+    centers = captured_far_centers(report, checkpoint_time, plan, particle_count,
+                                   previous_centers)
+    declarations = {}
+    for side, material in requested.items():
+        held = report["summary"][side]["persistent_far_particles"]
+        previous = previous_centers[side]
+        if previous not in held or material not in held:
+            raise ValueError("Both handoff representatives must be held simultaneously")
+        if previous == material:
+            raise ValueError("Handoff must select a different material sample")
+        _, old_patch, _ = track_support_patch(held, particle_count, previous)
+        _, new_patch, _ = track_support_patch(held, particle_count, material)
+        if np.intersect1d(old_patch, new_patch).size:
+            raise ValueError("Handoff requires two distinct held contact patches")
+        centers[side] = material
+        declarations[side] = dict(
+            departing_center=previous, receiving_center=material,
+            departing_held_patch=old_patch.tolist(),
+            receiving_held_patch=new_patch.tolist(),
+        )
+    return centers, declarations
+
+
 def directed_support_arc(start, end, count, direction):
     """Keep the original cyclic orientation as the supporting contacts slide."""
     if direction not in (-1, 1):

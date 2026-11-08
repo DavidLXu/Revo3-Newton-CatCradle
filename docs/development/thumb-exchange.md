@@ -203,6 +203,49 @@ quintic time envelope. Position extrema and the 3 rad/s limit are unchanged.
 This avoids combining a large endpoint slope with a mid-motion speed that does
 not occur there. Dense derivative checks and the full 176-test suite pass.
 
+## Continuing the temporary helper
+
+Raising the helper 60 mm from the same bilateral preparation retains its old
+material track and both new far tracks. The right near strand clears by
+2.007 mm during the held second, barely above the 2 mm threshold. The old loop
+still surrounds the thumb, and the right middle and little still touch rope.
+This state at 75.233333 s passes the temporary-helper source check. It fails
+the final-release check.
+
+Three follow-ups show why that distinction matters:
+
+| Motion | Source | Result |
+| --- | --- | --- |
+| Roll the thumb axis down to horizontal | 30 mm helper lift | Near clearance reaches 4.506 mm, but the old helper track is lost at 76.933333 s. Rejected as a helper source. |
+| Move the little away from the recorded near strand | 30 mm helper lift | The live near strand follows the finger. Helper and far tracks survive, but near/old release fails. |
+| Separate the wrists another 50 mm in total | 60 mm helper lift | Helper and far tracks survive. Both near-clearance checks fail and the right old loop remains. |
+
+Their recipes use the suffixes `right_helper_roll0`, `right_helper_clear_near`
+and `helper60_spread50`. Each has a companion intent file. Continued contact
+with the little is allowed only during its declared helper phase; the final
+figure still requires that finger to release.
+
+The next 20 mm transverse helper motion stops at 78.233333 s when its tracked
+right far patch, near sample 639, disappears. A separate far patch remains at
+samples 650–660. The stopped run stays rejected. At its valid 75.233333 s
+source, however, both patches had already persisted throughout the stationary
+hold: samples 636–638 and 645–662.
+
+`--far-support-handoff right:655` explicitly transfers the next phase's
+retention requirement to that already held receiving patch. It requires the
+old and new representatives to occur in distinct persistent patches of the
+same original far arc, a matching stationary report, and complete previous
+tracking. It cannot recover an already lost track, select another strand, or
+accept a contact that appears only at the final frame. The other hand and both
+original index guards remain active. The declaration is saved in
+`far_support_guard.json`; the ordinary frame-by-frame continuity check then
+follows the receiver. Neither the joint path nor Newton forces change.
+
+Tests cover a valid overlapping handoff, an absent receiver, an already lost
+source, the wrong strand, stale reports and invalid declarations. The full
+186-test suite passes. A fresh replay must still pass its physical and helper
+audits; changing the tracked patch does not establish old-loop release.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using
