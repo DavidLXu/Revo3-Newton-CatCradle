@@ -137,6 +137,72 @@ can move away from the recorded path while the live rope follows it. A further
 5 mm clearance proposal against this newer observation misses its index
 reference tolerance and is rejected before physics.
 
+The same spatial path also runs in 3 s, followed by a 1.2 s hold. Its interval
+speed bound is 2.465 rad/s. This faster replay still retains both far tracks
+and leaves the right old loop, middle and little contacts in place. The recipe
+is `attempt_thumb_right_unload30_fast.json`.
+
+## Temporary helper and thumb withdrawal
+
+The next probe deliberately uses the right little contact as a temporary
+old-loop support. It replays the 53-degree turn from the validated bilateral
+source, holds for 1.2 s, then withdraws the thumb 12 mm over 2.6 s. The index
+and little surface references guide joint planning. The physical rope remains
+free to slide. At 71.066667 s, the replayed positions, velocities, joints and
+rest lengths exactly match the earlier turn observation; its rejected endpoint
+was not loaded into the simulator.
+
+The temporary old-loop track survives all 115 withdrawal and hold frames,
+moving from representative sample 447 to 445. Both new far tracks survive too.
+The old thumb loop remains: sample 415 retreats 13.895 mm along the initial
+thumb axis while the thumb retreats 12 mm. At the little finger, sample 448
+moves 19.859 mm despite the approximately stationary planning reference.
+Retained contact therefore does not establish a fixed material grasp. The
+little also retains near-strand samples 549–562.
+
+![Material motion during temporary helper withdrawal](thumb_helper_sliding_20261109.png)
+
+Use `attempt_thumb_right_helper_plane12_fast.json` with the same bilateral
+source and both retention guards. The temporary-helper audit is separate from
+the unchanged final-release audit, which rejects this endpoint:
+
+```bash
+.venv/bin/python scripts/audit_temporary_helper.py --source output/helper_probe \
+  --intent examples/transfers/attempt_thumb_right_helper_plane12_fast.intent.json
+```
+
+The declared helper track passes; a negative control requesting old-loop
+sample 299 fails at acquisition. This audit checks every recorded frame and
+reports other material contacts. It cannot turn an unfinished release into an
+accepted Cup figure. The [human Cup instructions](https://www.alysion.org/figures/introkids1.htm)
+specify lifting the lower old thumb string over the thumb while retaining the
+upper noose; the next proposal pairs helper lift with thumb withdrawal.
+
+A 30 mm lift paired with 12 mm withdrawal completes at 74.766667 s, retaining
+the helper and both far tracks. It still fails final right old-loop release.
+The little finger gains another old-loop contact patch, samples 370–380,
+alongside the tracked patch 440–448 and near material 552–566. This is an
+intermediate helper state, with unresolved extra contacts.
+
+`--source-temporary-helper` permits continuation from such a declared helper
+phase when its complete material audit matches the checkpoint. Both original
+index and new far-material guards remain required. Every physical gate and
+the opposite little-release check must pass; only the declared helper's final
+release condition is deferred. The normal free-loop source validator still
+rejects this state. Failed strain, hull contact, own-palm clearance, stale
+reports, dropped observations and a relabelled helper all fail the new gate.
+This option does not mark the helper released or a figure completed.
+
+The recipe is `attempt_thumb_right_helper_lift30_adj.json`; its adjacent intent
+file supplies the temporary-helper audit. The planning objective uses the
+existing 3 mm adjoining-MCP proxy tolerance only for the ring/little overlap
+already accepted at the source. The full path's original clearance checks pass.
+
+The spline speed check now bounds each spatial interval using that interval's
+quintic time envelope. Position extrema and the 3 rad/s limit are unchanged.
+This avoids combining a large endpoint slope with a mid-motion speed that does
+not occur there. Dense derivative checks and the full 176-test suite pass.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

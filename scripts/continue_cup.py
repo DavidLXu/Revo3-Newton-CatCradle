@@ -66,6 +66,9 @@ def main():
     p.add_argument("--stop-on-far-loss", action="store_true",
                    help="Track both newly captured far strands from a matching held "
                         "exchange report; requires original-support guarding")
+    p.add_argument("--source-temporary-helper", action="store_true",
+                   help="Resume a declared, audited little-helper phase before its final "
+                        "release; requires both far guards and intentional thumb exchange")
     p.add_argument(
         "--hold-on-near-pinch", choices=("left", "right", "both"),
         help="During a route, stop closing at opposing thumb/index contact on the "
@@ -178,6 +181,10 @@ def main():
     if a.stop_on_far_loss and (not a.stop_on_support_loss
                               or not (a.route_only or a.hold_only)):
         p.error("--stop-on-far-loss requires a guarded route or hold")
+    if a.source_temporary_helper and (not a.stop_on_far_loss
+                                      or a.release_thumb_supports != "both"):
+        p.error("--source-temporary-helper requires --stop-on-far-loss and "
+                "--release-thumb-supports both")
     if a.hold_on_near_pinch and (
         not a.route_only or not a.approach_path or a.hold_only
         or a.stop_on_near_contact or a.side not in ("both", a.hold_on_near_pinch)
@@ -342,8 +349,14 @@ def main():
     far_centers, far_rows, far_errors = {}, [], {}
     if a.stop_on_far_loss:
         from revo3_cat_cradle.free_loop import validate_bilateral_release
-        validate_bilateral_release(json.loads(
-            (a.source / "loop_release_audit.json").read_text()), sim.t)
+        physical = json.loads((a.source / "loop_release_audit.json").read_text())
+        source_helper = None
+        if a.source_temporary_helper:
+            from revo3_cat_cradle.helper_phase import validate_temporary_helper_source
+            source_helper = validate_temporary_helper_source(physical, json.loads(
+                (a.source / "temporary_helper_audit.json").read_text()), sim.t)
+        else:
+            validate_bilateral_release(physical, sim.t)
         previous_far = None
         prior_path = a.source / "far_material_support_tracking.json"
         if prior_path.exists():
@@ -360,6 +373,10 @@ def main():
         far_rows.append(dict(time=sim.t, centers=far_centers.copy()))
         far_guard = dict(source_time_s=sim.t, initial_material_centers=far_centers.copy(),
                          scope="Track newly captured far material; no rope constraint is added.")
+        if source_helper is not None:
+            far_guard.update(source_contact_phase="temporary_helper",
+                             declared_helper=source_helper,
+                             final_helper_release_completed=False)
         (out / "far_support_guard.json").write_text(json.dumps(far_guard, indent=2) + "\n")
         m.metadata.setdefault("far_support_guard_events", []).append(far_guard)
     if a.stop_on_grip_loss:

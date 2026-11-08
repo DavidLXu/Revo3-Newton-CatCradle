@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_bilateral_pivot_20261109",
+  "start_s": 67.36666666666666,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      442,
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452
+    ],
+    "expected_contact_interval_s": [
+      71.06666666666666,
+      74.86666666666666
+    ],
+    "also_observed_near_material_window": [
+      551,
+      552,
+      553,
+      554,
+      555,
+      556,
+      557,
+      558,
+      559,
+      560,
+      561,
+      562
+    ],
+    "initial_material_center": 448
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "d2e699fc01c24a7986203d7de1a8e3ee3e48ff7dddb0eeb9f9ce19c50f0047da",
+  "scope": "Intent recorded before the helper withdrawal begins. The right little may temporarily carry the original old arc and an observed near-strand patch; both must ultimately leave. This probe does not complete release.",
+  "original_declaration_recipe_sha256": "4c9e02f0aa2089cfb5e14d6e47766759159ea653338e30db8701c993e1e9c668"
+}

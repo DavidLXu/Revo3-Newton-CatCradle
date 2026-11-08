@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_bilateral_pivot_20261109",
+  "start_s": 67.36666666666666,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      442,
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452
+    ],
+    "expected_contact_interval_s": [
+      71.06666666666666,
+      74.76666666666667
+    ],
+    "also_observed_near_material_window": [
+      551,
+      552,
+      553,
+      554,
+      555,
+      556,
+      557,
+      558,
+      559,
+      560,
+      561,
+      562
+    ],
+    "initial_material_center": 448
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "56328ce8fa5a0ad911a6154e2ff504ae4a27467ca5f37cb65e8fa45d9a852b09",
+  "scope": "Declared before replay: the right little raises its temporary old-loop support by 30 mm while the thumb retreats 12 mm. Final helper release is a separate unresolved action.",
+  "original_declaration_recipe_sha256": "3937ef7a9e01d0d56b403881881f92bdf1241f03414c554ae9f58651ef868320"
+}

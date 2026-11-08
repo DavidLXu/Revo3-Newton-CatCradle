@@ -4617,6 +4617,2644 @@
         "minimum_speed_bound_rad_s": 2.497271627714999,
         "maximum_speed_bound_rad_s": 2.497271627714999
       }
+    },
+    {
+      "name": "right_unload30_fast",
+      "source": "alternative_cup_bilateral_pivot_20261109",
+      "interval_s": [
+        67.366667,
+        71.566667
+      ],
+      "source_checkpoint_sha256": "1bd69aaf8886a88d8f30d66b2c71fc45302f336cab0fd6920c4e80545d0d558b",
+      "checkpoint_sha256": "782c91202166a7b046d8e062aee385e96dc1b5b107aca0e8bdb0cbb6b32916b0",
+      "joint_commands_sha256": "33d2150f138a694799d083249a740000837a71fc859d75ed0e322f2187f0f5b9",
+      "recipe": "attempt_thumb_right_unload30_fast.json",
+      "recipe_sha256": "9427e0b94fd12b3a50d763defba3611497d3d546d5c06f1bbabcd120fc24f2c1",
+      "declared_departing_thumbs": "both",
+      "stops": [],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "Retiming the same spatial path to 3 seconds retains both new far tracks but does not clear right middle/little or right near/old thumb strands.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 67.36666666666666,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 295,
+          "right_index": 608
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          71.566667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_thumb",
+          "left_index",
+          "right_thumb",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "left_thumb": {
+            "time_s": 64.433333,
+            "reason": "Tracked support moved beyond continuity bound"
+          }
+        }
+      },
+      "index_material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          71.566667
+        ],
+        "initial_centers": {
+          "left_index": 299,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {}
+      },
+      "loop_release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, full robot self-collision checks, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": false,
+          "interval_little_own_palm_clearance": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          71.566667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.1103182457469427e-06,
+            "maximum_hold_gap_m": -7.427974994854772e-07,
+            "maximum_transfer_gap_m": -3.7758838179139526e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.0407791902191862e-06,
+            "maximum_hold_gap_m": -7.334261316023841e-07,
+            "maximum_transfer_gap_m": -5.286554342143548e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.034557863110370374,
+            "maximum_hold_gap_m": 0.0404765862393751,
+            "maximum_transfer_gap_m": 0.042043447000010586
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.439643435049813e-06,
+            "maximum_hold_gap_m": -8.254385475163148e-07,
+            "maximum_transfer_gap_m": -6.935020667895794e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -8.51487679690531e-07,
+            "maximum_hold_gap_m": -6.005032460168133e-07,
+            "maximum_transfer_gap_m": -5.014038737703383e-07
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -6.731933029002421e-07,
+            "maximum_hold_gap_m": -3.5238300057516964e-07,
+            "maximum_transfer_gap_m": 0.0181147824693593
+          }
+        },
+        "interval_little_rope": {
+          "left": {
+            "minimum_gap_m": 0.034557863110370374,
+            "first_within_2mm_s": null,
+            "first_nonpositive_gap_s": null
+          },
+          "right": {
+            "minimum_gap_m": -9.13231898270507e-07,
+            "first_within_2mm_s": 69.066667,
+            "first_nonpositive_gap_s": 69.066667
+          }
+        },
+        "full_history_peak_stretch": 1.1992730249949428,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -1.1866872987935546e-05,
+        "interval_little_own_palm": {
+          "scope": "PIP/DIP capsules against their own convex palm; adjoining MCP excluded. Sampled poses, not full robot self-collision certification.",
+          "time_s": 68.866667,
+          "link": "left_little_DIP_link",
+          "lower_bound_m": 0.0011441432407388182,
+          "sampled_gap_m": 0.0013941432407388182
+        },
+        "full_history_palm_clearance": {
+          "time_s": 59.1,
+          "finger_palm_lower_bound_m": 0.09130183862138282,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.06442595853014488,
+          "opposing_finger_gap_m": 0.05873424858928628,
+          "same_hand_finger_margin_m": 0.00028833068926680406,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.0598115977379059,
+          "minimum_opposing_finger_gap_m": 0.009658457725487598,
+          "minimum_same_hand_finger_margin_m": 0.0002883306892664467
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "thumb_exchange_audit": {
+        "scope": "Check necessary material/contact conditions after intentional thumb exchange.\n\nPassing these conditions does not certify a threaded bight, Cup, or any other\nfigure. The original index tracks, new far strands and complete old-loop arcs\nare inspected separately; captions and generic thumb contact are insufficient.\n",
+        "passed_diagnostics": false,
+        "checks": {
+          "physics_completed_hold": true,
+          "physics_contact_search_bound": true,
+          "physics_dynamic_rope": true,
+          "physics_full_history_central_body_envelopes_clear": true,
+          "physics_full_history_finger_clearance": true,
+          "physics_full_history_opposing_palm_clearance": true,
+          "physics_full_history_robot_hull_centerlines_clear": true,
+          "physics_full_history_sampled_self_contact": true,
+          "physics_full_history_strain": true,
+          "physics_interval_little_own_palm_clearance": true,
+          "physics_joint_limits": true,
+          "physics_left_little_clear": true,
+          "physics_right_little_clear": false,
+          "original_indices_tracked": true,
+          "intentional_phase_declared": true,
+          "nondeparting_original_supports_tracked": true,
+          "stationary_hold": true,
+          "left_new_far_contact_held": true,
+          "left_same_far_material": true,
+          "left_near_strand_clear": true,
+          "left_old_loop_clear": true,
+          "right_new_far_contact_held": true,
+          "right_same_far_material": true,
+          "right_near_strand_clear": false,
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": true,
+          "right_little_clear": false
+        },
+        "completed_figure": false,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          71.566667
+        ],
+        "summary": {
+          "left": {
+            "maximum_far_gap_m": -7.427974994854772e-07,
+            "minimum_near_gap_m": 0.008533191031905151,
+            "minimum_old_loop_gap_m": 0.07935262776437957,
+            "persistent_far_particles": [
+              212,
+              213,
+              214,
+              215,
+              216,
+              217,
+              218,
+              219,
+              220,
+              221,
+              222,
+              223,
+              224
+            ]
+          },
+          "right": {
+            "maximum_far_gap_m": -3.955885858860156e-07,
+            "minimum_near_gap_m": -1.439643435049813e-06,
+            "minimum_old_loop_gap_m": -9.364720771768212e-07,
+            "persistent_far_particles": [
+              633,
+              634,
+              635,
+              642,
+              643,
+              644,
+              645,
+              646,
+              647,
+              648,
+              649,
+              650,
+              651,
+              652
+            ]
+          }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03267059712252938,
+          "left_ring": 0.03991405458446032,
+          "left_little": 0.034557863110370374,
+          "right_middle": -2.890069905761919e-07,
+          "right_ring": 0.00486087600296527,
+          "right_little": -6.731933029002421e-07
+        }
+      },
+      "far_support_guard": {
+        "source_time_s": 67.36666666666666,
+        "initial_material_centers": {
+          "left": 217,
+          "right": 636
+        },
+        "scope": "Track newly captured far material; no rope constraint is added."
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          67.36666666666666,
+          71.56666666666666
+        ],
+        "tracking_complete": true,
+        "errors": {},
+        "first_and_last_samples": [
+          {
+            "time": 67.36666666666666,
+            "centers": {
+              "left": 217,
+              "right": 636
+            }
+          },
+          {
+            "time": 71.56666666666666,
+            "centers": {
+              "left": 218,
+              "right": 634
+            }
+          }
+        ]
+      },
+      "preflight": {
+        "source": "output/alternative_cup_bilateral_pivot_20261109",
+        "source_time_s": 67.36666666666666,
+        "passed": true,
+        "scope": "Index support is a planning reference. The previously contacting middle may touch during unloading; initially clear unused fingers must stay 2 mm clear, and all unused fingers must end at least 2.5 mm clear of the observed replay. No rope state is prescribed. Timing comparison with the same spatial joint path; interval envelope speed bound.",
+        "index_material": 608,
+        "index_link": "right_index_MCP_link",
+        "index_reference_local": [
+          -0.007104203023390454,
+          0.011437976249149572,
+          0.01582706941329404
+        ],
+        "far_material": 636,
+        "desired_thumb_axis": [
+          0.8660254037844386,
+          0.0,
+          0.5
+        ],
+        "fits": [
+          {
+            "progress": 0.006944444444444444,
+            "center_error_m": 2.565666534353266e-08,
+            "index_error_m": 2.190885030851859e-08,
+            "axis_error_rad": 2.516752749098486e-06,
+            "nfev": 26,
+            "unused_rope_gaps_m": {
+              "middle": 4.8466659302001495e-05,
+              "ring": 0.00051231820413859,
+              "little": 0.019068601362462145
+            }
+          },
+          {
+            "progress": 0.020833333333333332,
+            "center_error_m": 2.654554489637859e-09,
+            "index_error_m": 2.98032370455798e-09,
+            "axis_error_rad": 8.438584288816564e-07,
+            "nfev": 23,
+            "unused_rope_gaps_m": {
+              "middle": 8.982154182971946e-05,
+              "ring": 0.0011048885058704402,
+              "little": 0.017606765610713577
+            }
+          },
+          {
+            "progress": 0.041666666666666664,
+            "center_error_m": 1.30243064838199e-09,
+            "index_error_m": 2.917381052023501e-09,
+            "axis_error_rad": 1.2711485318560024e-06,
+            "nfev": 23,
+            "unused_rope_gaps_m": {
+              "middle": 0.00015174029208000258,
+              "ring": 0.0009370798085312172,
+              "little": 0.017108235971372666
+            }
+          },
+          {
+            "progress": 0.0625,
+            "center_error_m": 6.175086354204349e-08,
+            "index_error_m": 1.4599922007379943e-07,
+            "axis_error_rad": 3.883689730574069e-06,
+            "nfev": 43,
+            "unused_rope_gaps_m": {
+              "middle": 0.00021345395136599787,
+              "ring": 0.0012086612274147214,
+              "little": 0.015622529283101955
+            }
+          },
+          {
+            "progress": 0.08333333333333333,
+            "center_error_m": 1.6337125319468735e-07,
+            "index_error_m": 1.4928441480425023e-07,
+            "axis_error_rad": 3.977716985051075e-06,
+            "nfev": 9,
+            "unused_rope_gaps_m": {
+              "middle": 0.0002875517499701793,
+              "ring": 0.0006493249416514415,
+              "little": 0.015117446062612203
+            }
+          },
+          {
+            "progress": 0.10416666666666667,
+            "center_error_m": 2.7954026365395344e-09,
+            "index_error_m": 3.25126021876667e-09,
+            "axis_error_rad": 1.0736077235964486e-06,
+            "nfev": 24,
+            "unused_rope_gaps_m": {
+              "middle": 0.0007187288939957152,
+              "ring": 0.0007029144147415794,
+              "little": 0.015487025267323214
+            }
+          },
+          {
+            "progress": 0.125,
+            "center_error_m": 1.667770851515024e-07,
+            "index_error_m": 1.5379597857608006e-07,
+            "axis_error_rad": 2.6262001967824846e-06,
+            "nfev": 7,
+            "unused_rope_gaps_m": {
+              "middle": 0.0007324290135202428,
+              "ring": 0.0020985304757306653,
+              "little": 0.014261102239830521
+            }
+          },
+          {
+            "progress": 0.14583333333333334,
+            "center_error_m": 2.471189508406821e-08,
+            "index_error_m": 3.568672093586783e-08,
+            "axis_error_rad": 2.69529837668052e-06,
+            "nfev": 8,
+            "unused_rope_gaps_m": {
+              "middle": 0.0007734297022737894,
+              "ring": 0.003503457435024583,
+              "little": 0.012761910547384913
+            }
+          },
+          {
+            "progress": 0.16666666666666666,
+            "center_error_m": 7.828553428714371e-07,
+            "index_error_m": 1.1893316559233997e-06,
+            "axis_error_rad": 5.5677685819258726e-05,
+            "nfev": 5,
+            "unused_rope_gaps_m": {
+              "middle": 0.0007448366334426191,
+              "ring": 0.005162134813738498,
+              "little": 0.012139163408400221
+            }
+          },
+          {
+            "progress": 0.1875,
+            "center_error_m": 3.983636200627425e-08,
+            "index_error_m": 3.539155365178784e-08,
+            "axis_error_rad": 1.8796738423375845e-06,
+            "nfev": 10,
+            "unused_rope_gaps_m": {
+              "middle": 0.0007611033060564544,
+              "ring": 0.0064230973626749925,
+              "little": 0.011655063355669654
+            }
+          },
+          {
+            "progress": 0.20833333333333334,
+            "center_error_m": 2.2099343997356347e-07,
+            "index_error_m": 1.6704070207715763e-07,
+            "axis_error_rad": 3.09747079634552e-06,
+            "nfev": 7,
+            "unused_rope_gaps_m": {
+              "middle": 0.0008730752294795136,
+              "ring": 0.007186337269582086,
+              "little": 0.011157327190382284
+            }
+          },
+          {
+            "progress": 0.22916666666666666,
+            "center_error_m": 1.521813097588685e-07,
+            "index_error_m": 2.6179489278441543e-07,
+            "axis_error_rad": 2.086854292085631e-06,
+            "nfev": 7,
+            "unused_rope_gaps_m": {
+              "middle": 0.0009076820847799009,
+              "ring": 0.008066639322478721,
+              "little": 0.010496223775906532
+            }
+          },
+          {
+            "progress": 0.25,
+            "center_error_m": 2.8630603221055734e-07,
+            "index_error_m": 2.8091437958669996e-07,
+            "axis_error_rad": 1.3510020919613836e-06,
+            "nfev": 10,
+            "unused_rope_gaps_m": {
+              "middle": 0.0008790505578682778,
+              "ring": 0.00867920687654209,
+              "little": 0.009871101736309663
+            }
+          },
+          {
+            "progress": 0.2708333333333333,
+            "center_error_m": 1.6497266059028198e-07,
+            "index_error_m": 3.348681342365856e-07,
+            "axis_error_rad": 1.38820932360529e-06,
+            "nfev": 8,
+            "unused_rope_gaps_m": {
+              "middle": 0.000911261844945316,
+              "ring": 0.007745152292394065,
+              "little": 0.010387392572205396
+            }
+          },
+          {
+            "progress": 0.2916666666666667,
+            "center_error_m": 5.8060136491531905e-08,
+            "index_error_m": 8.636195490482912e-08,
+            "axis_error_rad": 4.280084578084047e-06,
+            "nfev": 9,
+            "unused_rope_gaps_m": {
+              "middle": 0.0008947298033046064,
+              "ring": 0.005904382793458638,
+              "little": 0.01042883139764575
+            }
+          },
+          {
+            "progress": 0.3125,
+            "center_error_m": 1.597587871720656e-07,
+            "index_error_m": 1.5789274292824516e-07,
+            "axis_error_rad": 1.5234934378860322e-06,
+            "nfev": 48,
+            "unused_rope_gaps_m": {
+              "middle": 0.000956105892760707,
+              "ring": 0.005060163418225467,
+              "little": 0.010641006659370653
+            }
+          },
+          {
+            "progress": 0.3333333333333333,
+            "center_error_m": 4.446079028741455e-08,
+            "index_error_m": 5.1907977348645544e-08,
+            "axis_error_rad": 1.061858043153328e-06,
+            "nfev": 10,
+            "unused_rope_gaps_m": {
+              "middle": 0.0010185123827719618,
+              "ring": 0.005145538073167893,
+              "little": 0.010553664888895885
+            }
+          },
+          {
+            "progress": 0.3541666666666667,
+            "center_error_m": 4.020300361497948e-06,
+            "index_error_m": 6.794738718553693e-06,
+            "axis_error_rad": 0.0002870414113643266,
+            "nfev": 5,
+            "unused_rope_gaps_m": {
+              "middle": 0.001080748370969181,
+              "ring": 0.0035950075361012293,
+              "little": 0.010366897136912436
+            }
+          },
+          {
+            "progress": 0.375,
+            "center_error_m": 3.5206239643039093e-09,
+            "index_error_m": 4.029428062758e-09,
+            "axis_error_rad": 1.2593024133919475e-06,
+            "nfev": 80,
+            "unused_rope_gaps_m": {
+              "middle": 0.0011424391766086056,
+              "ring": 0.00225191145934188,
+              "little": 0.009482743824537222
+            }
+          },
+          {
+            "progress": 0.3958333333333333,
+            "center_error_m": 6.738219653074183e-08,
+            "index_error_m": 9.360248838763742e-08,
+            "axis_error_rad": 1.3455674299562168e-06,
+            "nfev": 8,
+            "unused_rope_gaps_m": {
+              "middle": 0.0012042465443909871,
+              "ring": 0.0017855491748200994,
+              "little": 0.008492896821377816
+            }
+          },
+          {
+            "progress": 0.4166666666666667,
+            "center_error_m": 2.609220442526893e-06,
+            "index_error_m": 5.2958173027074305e-06,
+            "axis_error_rad": 0.0003180425522534887,
+            "nfev": 5,
+            "unused_rope_gaps_m": {
+              "middle": 0.0012667630077469712,
+              "ring": 0.0016654401890596549,
+              "little": 0.008465428456250246
+            }
+          },
+          {
+            "progress": 0.4375,
+            "center_error_m": 2.8037651697832137e-09,
+            "index_error_m": 3.728752031490598e-09,
+            "axis_error_rad": 1.2474328003202501e-06,
+            "nfev": 20,
+            "unused_rope_gaps_m": {
+              "middle": 0.0013281965985588598,
+              "ring": 0.0016919913907396987,
+              "little": 0.008009844721880582
+            }
+          },
+          {
+            "progress": 0.4583333333333333,
+            "center_error_m": 4.6036894942990486e-09,
+            "index_error_m": 4.546487261951902e-09,
+            "axis_error_rad": 1.2286005145207098e-06,
+            "nfev": 15,
+            "unused_rope_gaps_m": {
+              "middle": 0.0013901117438672788,
+              "ring": 0.0016761147322119545,
+              "little": 0.008486605621151885
+            }
+          },
+          {
+            "progress": 0.4791666666666667,
+            "center_error_m": 1.5412106988194684e-08,
+            "index_error_m": 1.3858067063339018e-08,
+            "axis_error_rad": 1.2126835607109805e-06,
+            "nfev": 16,
+            "unused_rope_gaps_m": {
+              "middle": 0.0014520101778341806,
+              "ring": 0.001739321643819851,
+              "little": 0.008296750910263249
+            }
+          },
+          {
+            "progress": 0.5,
+            "center_error_m": 2.3806163794583903e-09,
+            "index_error_m": 6.183439933265007e-09,
+            "axis_error_rad": 1.516701060533606e-06,
+            "nfev": 8,
+            "unused_rope_gaps_m": {
+              "middle": 0.0015139451965376317,
+              "ring": 0.0017179118892150834,
+              "little": 0.008328311733595228
+            }
+          },
+          {
+            "progress": 0.5208333333333334,
+            "center_error_m": 4.386517306738485e-09,
+            "index_error_m": 5.34131187226825e-09,
+            "axis_error_rad": 1.2127751081810624e-06,
+            "nfev": 13,
+            "unused_rope_gaps_m": {
+              "middle": 0.0016696521050886095,
+              "ring": 0.001771278106097584,
+              "little": 0.00835155651847853
+            }
+          },
+          {
+            "progress": 0.5416666666666666,
+            "center_error_m": 6.222887431912508e-09,
+            "index_error_m": 6.851119498065324e-09,
+            "axis_error_rad": 1.1845251616244532e-06,
+            "nfev": 16,
+            "unused_rope_gaps_m": {
+              "middle": 0.001719171544580741,
+              "ring": 0.0018247157209207677,
+              "little": 0.008284896867364992
+            }
+          },
+          {
+            "progress": 0.5624999999999999,
+            "center_error_m": 1.6979239709472454e-08,
+            "index_error_m": 2.175655687683858e-08,
+            "axis_error_rad": 1.3404420700103463e-06,
+            "nfev": 16,
+            "unused_rope_gaps_m": {
+              "middle": 0.0017175552924791277,
+              "ring": 0.00187814311192168,
+              "little": 0.008139723562845567
+            }
+          },
+          {
+            "progress": 0.5833333333333334,
+            "center_error_m": 1.6522618796047016e-08,
+            "index_error_m": 1.474193726166483e-08,
+            "axis_error_rad": 1.176059456013249e-06,
+            "nfev": 16,
+            "unused_rope_gaps_m": {
+              "middle": 0.0017616012356585888,
+              "ring": 0.0030038973486481426,
+              "little": 0.008104048051018657
+            }
+          },
+          {
+            "progress": 0.6041666666666666,
+            "center_error_m": 1.895142530098545e-08,
+            "index_error_m": 1.1159719298323851e-08,
+            "axis_error_rad": 1.19237225954613e-06,
+            "nfev": 17,
+            "unused_rope_gaps_m": {
+              "middle": 0.0018234813824962682,
+              "ring": 0.004370470480828371,
+              "little": 0.007645286114671054
+            }
+          },
+          {
+            "progress": 0.6249999999999999,
+            "center_error_m": 1.8819285354059963e-08,
+            "index_error_m": 1.0827252019523874e-08,
+            "axis_error_rad": 1.2167051331507427e-06,
+            "nfev": 36,
+            "unused_rope_gaps_m": {
+              "middle": 0.0018853833263064662,
+              "ring": 0.006309557128276125,
+              "little": 0.007621333283559277
+            }
+          },
+          {
+            "progress": 0.6458333333333334,
+            "center_error_m": 7.440313316669161e-08,
+            "index_error_m": 7.261071385106463e-08,
+            "axis_error_rad": 1.677026226980695e-06,
+            "nfev": 27,
+            "unused_rope_gaps_m": {
+              "middle": 0.0019471716427574637,
+              "ring": 0.005829292977434233,
+              "little": 0.007025199933545618
+            }
+          },
+          {
+            "progress": 0.6666666666666666,
+            "center_error_m": 1.1560404364973112e-07,
+            "index_error_m": 9.121866018016192e-08,
+            "axis_error_rad": 2.0303344774776943e-06,
+            "nfev": 41,
+            "unused_rope_gaps_m": {
+              "middle": 0.0020089769341585387,
+              "ring": 0.004808260170541356,
+              "little": 0.006989446090464243
+            }
+          },
+          {
+            "progress": 0.6875,
+            "center_error_m": 2.3806433558302782e-08,
+            "index_error_m": 1.40047108636028e-08,
+            "axis_error_rad": 1.347793349476082e-06,
+            "nfev": 31,
+            "unused_rope_gaps_m": {
+              "middle": 0.002071103139772508,
+              "ring": 0.004099764127959502,
+              "little": 0.007141762876369829
+            }
+          },
+          {
+            "progress": 0.7083333333333334,
+            "center_error_m": 1.7476548972573325e-08,
+            "index_error_m": 9.185821656575282e-09,
+            "axis_error_rad": 1.2733301634543955e-06,
+            "nfev": 24,
+            "unused_rope_gaps_m": {
+              "middle": 0.002133057569389067,
+              "ring": 0.003948929360860587,
+              "little": 0.007205395940083531
+            }
+          },
+          {
+            "progress": 0.7291666666666666,
+            "center_error_m": 1.5660699708030126e-08,
+            "index_error_m": 1.0841700031526261e-08,
+            "axis_error_rad": 1.676231616072792e-06,
+            "nfev": 15,
+            "unused_rope_gaps_m": {
+              "middle": 0.0021950506117516993,
+              "ring": 0.0038777589461329786,
+              "little": 0.006498196274087656
+            }
+          },
+          {
+            "progress": 0.75,
+            "center_error_m": 1.0568904408523053e-07,
+            "index_error_m": 1.0983074262894612e-07,
+            "axis_error_rad": 5.0630190065049055e-06,
+            "nfev": 19,
+            "unused_rope_gaps_m": {
+              "middle": 0.002256953040204777,
+              "ring": 0.004026325718426939,
+              "little": 0.00650786172087377
+            }
+          },
+          {
+            "progress": 0.7708333333333334,
+            "center_error_m": 2.9400583487634607e-08,
+            "index_error_m": 3.7692776260946876e-08,
+            "axis_error_rad": 2.206076528760689e-06,
+            "nfev": 23,
+            "unused_rope_gaps_m": {
+              "middle": 0.0023188807121565487,
+              "ring": 0.004407478616545782,
+              "little": 0.006413342012429465
+            }
+          },
+          {
+            "progress": 0.7916666666666666,
+            "center_error_m": 7.81294722970415e-09,
+            "index_error_m": 3.1239971295845045e-09,
+            "axis_error_rad": 9.578560996048934e-07,
+            "nfev": 30,
+            "unused_rope_gaps_m": {
+              "middle": 0.0023807814845615413,
+              "ring": 0.004412876647868303,
+              "little": 0.006737351050444876
+            }
+          },
+          {
+            "progress": 0.8125,
+            "center_error_m": 3.220316969113848e-08,
+            "index_error_m": 1.5277144399569662e-08,
+            "axis_error_rad": 1.8585876139745757e-06,
+            "nfev": 18,
+            "unused_rope_gaps_m": {
+              "middle": 0.002442585828676294,
+              "ring": 0.003619116655500641,
+              "little": 0.0072966264237934375
+            }
+          },
+          {
+            "progress": 0.8333333333333334,
+            "center_error_m": 6.112800413227847e-07,
+            "index_error_m": 2.3066982254239932e-07,
+            "axis_error_rad": 3.092757454745031e-05,
+            "nfev": 58,
+            "unused_rope_gaps_m": {
+              "middle": 0.002501289941145869,
+              "ring": 0.0028257891425308877,
+              "little": 0.0074833632610213805
+            }
+          },
+          {
+            "progress": 0.8541666666666666,
+            "center_error_m": 7.938392915367766e-06,
+            "index_error_m": 6.982437546964339e-06,
+            "axis_error_rad": 0.0007932525309828849,
+            "nfev": 33,
+            "unused_rope_gaps_m": {
+              "middle": 0.002522057301690475,
+              "ring": 0.006253616553407302,
+              "little": 0.003813593079627634
+            }
+          },
+          {
+            "progress": 0.875,
+            "center_error_m": 1.3586847859975007e-06,
+            "index_error_m": 8.53152168495758e-07,
+            "axis_error_rad": 0.00013027226218592444,
+            "nfev": 80,
+            "unused_rope_gaps_m": {
+              "middle": 0.002622470173687683,
+              "ring": 0.009155574947802995,
+              "little": 0.002999599690536688
+            }
+          },
+          {
+            "progress": 0.8958333333333334,
+            "center_error_m": 1.2959589014350018e-07,
+            "index_error_m": 3.6102116518872903e-07,
+            "axis_error_rad": 2.902056136639576e-06,
+            "nfev": 7,
+            "unused_rope_gaps_m": {
+              "middle": 0.002690277215008286,
+              "ring": 0.00892361213743769,
+              "little": 0.004333604147647867
+            }
+          },
+          {
+            "progress": 0.9166666666666666,
+            "center_error_m": 4.665112401615176e-07,
+            "index_error_m": 8.82813853523825e-07,
+            "axis_error_rad": 2.6193850981067117e-07,
+            "nfev": 5,
+            "unused_rope_gaps_m": {
+              "middle": 0.0029713067084842252,
+              "ring": 0.009020934522057041,
+              "little": 0.00571724426871379
+            }
+          },
+          {
+            "progress": 0.9375,
+            "center_error_m": 9.084936889776161e-08,
+            "index_error_m": 1.6711293850494105e-07,
+            "axis_error_rad": 7.962018255825579e-07,
+            "nfev": 6,
+            "unused_rope_gaps_m": {
+              "middle": 0.0030181267192882317,
+              "ring": 0.009109348403096126,
+              "little": 0.007194415423019319
+            }
+          },
+          {
+            "progress": 0.9583333333333334,
+            "center_error_m": 2.433101804253898e-07,
+            "index_error_m": 3.745269695845377e-07,
+            "axis_error_rad": 5.000222246516553e-07,
+            "nfev": 6,
+            "unused_rope_gaps_m": {
+              "middle": 0.002967274471672352,
+              "ring": 0.008544251759120325,
+              "little": 0.005598575327966601
+            }
+          },
+          {
+            "progress": 0.9791666666666666,
+            "center_error_m": 1.4492108567657102e-06,
+            "index_error_m": 1.3692540719000188e-06,
+            "axis_error_rad": 0.00013224443420859858,
+            "nfev": 21,
+            "unused_rope_gaps_m": {
+              "middle": 0.0029310884880777805,
+              "ring": 0.01052749706704791,
+              "little": 0.006298145865423053
+            }
+          },
+          {
+            "progress": 0.9930555555555555,
+            "center_error_m": 3.94366806901932e-09,
+            "index_error_m": 4.135395399523928e-09,
+            "axis_error_rad": 5.749994928114117e-07,
+            "nfev": 16,
+            "unused_rope_gaps_m": {
+              "middle": 0.0029793531387453344,
+              "ring": 0.010360479061386044,
+              "little": 0.004438968067029662
+            }
+          },
+          {
+            "progress": 1.0,
+            "center_error_m": 5.2133391474130305e-09,
+            "index_error_m": 3.5171180806466866e-09,
+            "axis_error_rad": 3.44020020384051e-07,
+            "nfev": 56,
+            "unused_rope_gaps_m": {
+              "middle": 0.0029999922870956658,
+              "ring": 0.010678062592808197,
+              "little": 0.006106621927298131
+            }
+          }
+        ],
+        "previous_duration_s": 11.333333333333334,
+        "duration_s": 3.0,
+        "minimum_self_margin_m": 0.00028833068926684916,
+        "maximum_self_margin_m": 0.0012447628447436786,
+        "minimum_opposing_gap_m": 0.06828984736391448,
+        "maximum_opposing_gap_m": 0.08007742786544711,
+        "minimum_palm_gap_m": 0.06350471040718783,
+        "maximum_palm_gap_m": 0.08771373571287697,
+        "minimum_own_thumb_bound_m": 0.005128817000875405,
+        "maximum_own_thumb_bound_m": 0.0096033864275483,
+        "minimum_index_error_m": 0.0,
+        "maximum_index_error_m": 0.0008591115093368529,
+        "minimum_speed_bound_rad_s": 2.4654140478905116,
+        "maximum_speed_bound_rad_s": 2.4654140478905116
+      }
+    },
+    {
+      "name": "right_helper_plane12_fast",
+      "source": "alternative_cup_bilateral_pivot_20261109",
+      "interval_s": [
+        67.366667,
+        74.866667
+      ],
+      "source_checkpoint_sha256": "1bd69aaf8886a88d8f30d66b2c71fc45302f336cab0fd6920c4e80545d0d558b",
+      "checkpoint_sha256": "504ebe8b5a1c4756a896afa9678e7635ffcc359b9cb75651cb72b85056093e46",
+      "joint_commands_sha256": "37743be66028f1285957fddb7ce4311956f6b4044616b5b228a2d5ac817a2be2",
+      "recipe": "attempt_thumb_right_helper_plane12_fast.json",
+      "recipe_sha256": "d2e699fc01c24a7986203d7de1a8e3ee3e48ff7dddb0eeb9f9ce19c50f0047da",
+      "declared_departing_thumbs": "both",
+      "stops": [],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "The declared temporary right-little old-loop track survives all 115 withdrawal/hold frames, but 12 mm thumb withdrawal leaves the old loop on the thumb. Near material also remains on the helper.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 67.36666666666666,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 295,
+          "right_index": 608
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          74.866667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_thumb",
+          "left_index",
+          "right_thumb",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "left_thumb": {
+            "time_s": 64.433333,
+            "reason": "Tracked support moved beyond continuity bound"
+          }
+        }
+      },
+      "index_material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          74.866667
+        ],
+        "initial_centers": {
+          "left_index": 299,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {}
+      },
+      "loop_release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, full robot self-collision checks, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": false,
+          "interval_little_own_palm_clearance": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          74.866667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.3393422565967025e-06,
+            "maximum_hold_gap_m": -8.016244683424142e-07,
+            "maximum_transfer_gap_m": -3.7758838179139526e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -1.236632539858111e-06,
+            "maximum_hold_gap_m": -8.484277474211585e-07,
+            "maximum_transfer_gap_m": -5.128123083822725e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.035687510058126315,
+            "maximum_hold_gap_m": 0.03643489230666069,
+            "maximum_transfer_gap_m": 0.04323617448499899
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -2.287289170462871e-06,
+            "maximum_hold_gap_m": -7.191106034974346e-07,
+            "maximum_transfer_gap_m": -6.578734204039718e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -3.0448803270818545e-06,
+            "maximum_hold_gap_m": -7.832232931182306e-07,
+            "maximum_transfer_gap_m": -4.6295335094734963e-07
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -8.278030480786749e-07,
+            "maximum_hold_gap_m": -5.178130564323022e-07,
+            "maximum_transfer_gap_m": 0.017691048639323078
+          }
+        },
+        "interval_little_rope": {
+          "left": {
+            "minimum_gap_m": 0.035687510058126315,
+            "first_within_2mm_s": null,
+            "first_nonpositive_gap_s": null
+          },
+          "right": {
+            "minimum_gap_m": -1.6007642629827998e-06,
+            "first_within_2mm_s": 68.6,
+            "first_nonpositive_gap_s": 68.833333
+          }
+        },
+        "full_history_peak_stretch": 1.1992730249949428,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -6.340122321678038e-05,
+        "interval_little_own_palm": {
+          "scope": "PIP/DIP capsules against their own convex palm; adjoining MCP excluded. Sampled poses, not full robot self-collision certification.",
+          "time_s": 71.733333,
+          "link": "right_little_DIP_link",
+          "lower_bound_m": 0.00029423544291674907,
+          "sampled_gap_m": 0.000544235442916749
+        },
+        "full_history_palm_clearance": {
+          "time_s": 59.1,
+          "finger_palm_lower_bound_m": 0.09130183862138282,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.06442595853014488,
+          "opposing_finger_gap_m": 0.05873424858928628,
+          "same_hand_finger_margin_m": 0.00028833068926680406,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.0598115977379059,
+          "minimum_opposing_finger_gap_m": 0.009658457725487598,
+          "minimum_same_hand_finger_margin_m": 0.00028833068926643977
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "thumb_exchange_audit": {
+        "scope": "Check necessary material/contact conditions after intentional thumb exchange.\n\nPassing these conditions does not certify a threaded bight, Cup, or any other\nfigure. The original index tracks, new far strands and complete old-loop arcs\nare inspected separately; captions and generic thumb contact are insufficient.\n",
+        "passed_diagnostics": false,
+        "checks": {
+          "physics_completed_hold": true,
+          "physics_contact_search_bound": true,
+          "physics_dynamic_rope": true,
+          "physics_full_history_central_body_envelopes_clear": true,
+          "physics_full_history_finger_clearance": true,
+          "physics_full_history_opposing_palm_clearance": true,
+          "physics_full_history_robot_hull_centerlines_clear": true,
+          "physics_full_history_sampled_self_contact": true,
+          "physics_full_history_strain": true,
+          "physics_interval_little_own_palm_clearance": true,
+          "physics_joint_limits": true,
+          "physics_left_little_clear": true,
+          "physics_right_little_clear": false,
+          "original_indices_tracked": true,
+          "intentional_phase_declared": true,
+          "nondeparting_original_supports_tracked": true,
+          "stationary_hold": true,
+          "left_new_far_contact_held": true,
+          "left_same_far_material": true,
+          "left_near_strand_clear": true,
+          "left_old_loop_clear": true,
+          "right_new_far_contact_held": true,
+          "right_same_far_material": true,
+          "right_near_strand_clear": false,
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": true,
+          "right_little_clear": false
+        },
+        "completed_figure": false,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          74.866667
+        ],
+        "summary": {
+          "left": {
+            "maximum_far_gap_m": -8.016244683424142e-07,
+            "minimum_near_gap_m": 0.008193524934784934,
+            "minimum_old_loop_gap_m": 0.08888322412816715,
+            "persistent_far_particles": [
+              215,
+              216,
+              217,
+              218,
+              219,
+              220,
+              221,
+              222,
+              223,
+              224,
+              225,
+              226,
+              227,
+              228
+            ]
+          },
+          "right": {
+            "maximum_far_gap_m": -5.005168120094869e-07,
+            "minimum_near_gap_m": -8.682853924668263e-07,
+            "minimum_old_loop_gap_m": -8.514942652299365e-07,
+            "persistent_far_particles": [
+              637,
+              638,
+              639,
+              640,
+              647,
+              648,
+              649,
+              650,
+              651,
+              652,
+              653,
+              654,
+              655
+            ]
+          }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03401574462214202,
+          "left_ring": 0.04241550257941427,
+          "left_little": 0.035687510058126315,
+          "right_middle": -2.835689746586746e-06,
+          "right_ring": 0.0048625991706875435,
+          "right_little": -8.278030480786749e-07
+        }
+      },
+      "far_support_guard": {
+        "source_time_s": 67.36666666666666,
+        "initial_material_centers": {
+          "left": 217,
+          "right": 636
+        },
+        "scope": "Track newly captured far material; no rope constraint is added."
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          67.36666666666666,
+          74.86666666666666
+        ],
+        "tracking_complete": true,
+        "errors": {},
+        "first_and_last_samples": [
+          {
+            "time": 67.36666666666666,
+            "centers": {
+              "left": 217,
+              "right": 636
+            }
+          },
+          {
+            "time": 74.86666666666666,
+            "centers": {
+              "left": 221,
+              "right": 638
+            }
+          }
+        ]
+      },
+      "temporary_helper_audit": {
+        "scope": "Track declared temporary old-loop contact on an otherwise unused finger.\n\nThis measures material continuity only. A contacting rope point can slide along\nthe finger; the report does not certify a grasp, release, physical validity or\na completed figure. It never changes the rope or robot commands.\n",
+        "intent": {
+          "source": "output/alternative_cup_bilateral_pivot_20261109",
+          "start_s": 67.36666666666666,
+          "temporary_helper": {
+            "side": "right",
+            "finger": "little",
+            "old_loop_material_window": [
+              442,
+              443,
+              444,
+              445,
+              446,
+              447,
+              448,
+              449,
+              450,
+              451,
+              452
+            ],
+            "expected_contact_interval_s": [
+              71.06666666666666,
+              74.86666666666666
+            ],
+            "also_observed_near_material_window": [
+              551,
+              552,
+              553,
+              554,
+              555,
+              556,
+              557,
+              558,
+              559,
+              560,
+              561,
+              562
+            ],
+            "initial_material_center": 448
+          },
+          "release_completed": false,
+          "completed_figure": false,
+          "joint_recipe_sha256": "4c9e02f0aa2089cfb5e14d6e47766759159ea653338e30db8701c993e1e9c668",
+          "scope": "Intent recorded before the helper withdrawal begins. The right little may temporarily carry the original old arc and an observed near-strand patch; both must ultimately leave. This probe does not complete release."
+        },
+        "completed_figure": false,
+        "release_completed": false,
+        "expected_interval_s": [
+          71.06666666666666,
+          74.86666666666666
+        ],
+        "sampling_fps": 30.0,
+        "recorded_end_s": 74.866667,
+        "helper_track_complete": true,
+        "failure": null
+      },
+      "preflight": {
+        "source": "output/alternative_cup_bilateral_pivot_20261109",
+        "source_time_s": 67.36666666666666,
+        "planning_observation": "output/alternative_cup_right_contact_pivot_20261109",
+        "planning_observation_is_not_a_physics_source": true,
+        "passed": true,
+        "scope": "Temporary little contact is intentional during this probe. Final little release and Cup are not claimed. All surface points are joint planning references only. This full replay starts from the valid bilateral source. The helper is intentionally temporary and has not yet been released.",
+        "index_material": 609,
+        "helper_material": 448,
+        "helper_expected_arc": "right old_loop_indices",
+        "far_material": 636,
+        "withdrawal_m": 0.012,
+        "fits": [
+          {
+            "progress": 0.009259259259259259,
+            "center_error_m": 0.0001255268568377233,
+            "axis_error_rad": 0.01606441843567338,
+            "reference_errors_m": {
+              "index": 0.0001301628717596836,
+              "little": 0.00018519285119481153
+            },
+            "nfev": 32
+          },
+          {
+            "progress": 0.027777777777777776,
+            "center_error_m": 0.00023970033054545656,
+            "axis_error_rad": 0.03080463824259797,
+            "reference_errors_m": {
+              "index": 0.00031823309776027005,
+              "little": 0.0004204134015231234
+            },
+            "nfev": 26
+          },
+          {
+            "progress": 0.05555555555555555,
+            "center_error_m": 9.993960172144972e-05,
+            "axis_error_rad": 0.012804185805541584,
+            "reference_errors_m": {
+              "index": 3.175926818588198e-05,
+              "little": 8.241459487226655e-05
+            },
+            "nfev": 27
+          },
+          {
+            "progress": 0.08333333333333333,
+            "center_error_m": 1.9082461834858155e-06,
+            "axis_error_rad": 0.00022961747205556973,
+            "reference_errors_m": {
+              "index": 8.007189581232468e-07,
+              "little": 1.4343195485910333e-06
+            },
+            "nfev": 60
+          },
+          {
+            "progress": 0.1111111111111111,
+            "center_error_m": 1.506094458080147e-07,
+            "axis_error_rad": 7.458682423631868e-06,
+            "reference_errors_m": {
+              "index": 4.6569703001147313e-08,
+              "little": 6.620733851524428e-08
+            },
+            "nfev": 23
+          },
+          {
+            "progress": 0.13888888888888887,
+            "center_error_m": 9.317409165683254e-08,
+            "axis_error_rad": 4.619119622534601e-06,
+            "reference_errors_m": {
+              "index": 8.152985625595445e-08,
+              "little": 2.9780438301713447e-08
+            },
+            "nfev": 11
+          },
+          {
+            "progress": 0.16666666666666666,
+            "center_error_m": 1.0950122900867677e-06,
+            "axis_error_rad": 0.00011141869266015384,
+            "reference_errors_m": {
+              "index": 4.877850032924548e-07,
+              "little": 6.09345775783358e-07
+            },
+            "nfev": 7
+          },
+          {
+            "progress": 0.19444444444444442,
+            "center_error_m": 2.2563383997344895e-07,
+            "axis_error_rad": 6.04517171622717e-06,
+            "reference_errors_m": {
+              "index": 2.44165747852499e-07,
+              "little": 2.7463970549535627e-07
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.2222222222222222,
+            "center_error_m": 6.910359651387605e-08,
+            "axis_error_rad": 7.348282188043811e-06,
+            "reference_errors_m": {
+              "index": 8.036374730829941e-08,
+              "little": 8.737625626657743e-08
+            },
+            "nfev": 13
+          },
+          {
+            "progress": 0.25,
+            "center_error_m": 1.063727883921698e-07,
+            "axis_error_rad": 7.992538928590657e-06,
+            "reference_errors_m": {
+              "index": 1.4871620315657035e-07,
+              "little": 1.6995605066657487e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.27777777777777773,
+            "center_error_m": 9.05948489045215e-08,
+            "axis_error_rad": 7.734406054323169e-06,
+            "reference_errors_m": {
+              "index": 1.314467617012212e-07,
+              "little": 1.4944568434716092e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.3055555555555555,
+            "center_error_m": 8.679816882723258e-08,
+            "axis_error_rad": 7.5356278612864255e-06,
+            "reference_errors_m": {
+              "index": 1.2675341452172475e-07,
+              "little": 1.4416588271733578e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.3333333333333333,
+            "center_error_m": 8.136356262655587e-08,
+            "axis_error_rad": 7.334096623013661e-06,
+            "reference_errors_m": {
+              "index": 1.2007339878980145e-07,
+              "little": 1.3642314580128832e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.3611111111111111,
+            "center_error_m": 7.685240852918491e-08,
+            "axis_error_rad": 7.141434942490035e-06,
+            "reference_errors_m": {
+              "index": 1.1428665329183318e-07,
+              "little": 1.2977256344487897e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.38888888888888884,
+            "center_error_m": 7.275120825799589e-08,
+            "axis_error_rad": 6.955060119964666e-06,
+            "reference_errors_m": {
+              "index": 1.087939805785782e-07,
+              "little": 1.2353261942783946e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.4166666666666667,
+            "center_error_m": 6.901804857574513e-08,
+            "axis_error_rad": 6.774393034854554e-06,
+            "reference_errors_m": {
+              "index": 1.0357047668616962e-07,
+              "little": 1.17580926260707e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.4444444444444444,
+            "center_error_m": 6.564715155816265e-08,
+            "axis_error_rad": 6.5991117657208135e-06,
+            "reference_errors_m": {
+              "index": 9.862148766303e-08,
+              "little": 1.1200380501328516e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.47222222222222215,
+            "center_error_m": 6.268941985693594e-08,
+            "axis_error_rad": 6.430105733922092e-06,
+            "reference_errors_m": {
+              "index": 9.404656682804523e-08,
+              "little": 1.0678350279502289e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.5,
+            "center_error_m": 6.00580248462656e-08,
+            "axis_error_rad": 6.265579474467941e-06,
+            "reference_errors_m": {
+              "index": 8.975956244470076e-08,
+              "little": 1.019889359216733e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.5277777777777778,
+            "center_error_m": 5.7688359385131116e-08,
+            "axis_error_rad": 6.1066223958126325e-06,
+            "reference_errors_m": {
+              "index": 8.563199356091161e-08,
+              "little": 9.740060627581599e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.5555555555555556,
+            "center_error_m": 5.561759505781323e-08,
+            "axis_error_rad": 5.952860034412051e-06,
+            "reference_errors_m": {
+              "index": 8.184131663159736e-08,
+              "little": 9.305549785694847e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.5833333333333334,
+            "center_error_m": 5.377091651082422e-08,
+            "axis_error_rad": 5.803289701788874e-06,
+            "reference_errors_m": {
+              "index": 7.814358201366653e-08,
+              "little": 8.899411219856193e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.611111111111111,
+            "center_error_m": 5.2170024757347594e-08,
+            "axis_error_rad": 5.658793215407673e-06,
+            "reference_errors_m": {
+              "index": 7.471859151906112e-08,
+              "little": 8.522397458869504e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.6388888888888888,
+            "center_error_m": 5.080240859925472e-08,
+            "axis_error_rad": 5.51805914008239e-06,
+            "reference_errors_m": {
+              "index": 7.152942029244812e-08,
+              "little": 8.165889978001174e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.6666666666666666,
+            "center_error_m": 4.9548304469180866e-08,
+            "axis_error_rad": 5.3827235037959725e-06,
+            "reference_errors_m": {
+              "index": 6.856874315226847e-08,
+              "little": 7.838748775569844e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.6944444444444445,
+            "center_error_m": 4.8521265568004786e-08,
+            "axis_error_rad": 5.250201639504592e-06,
+            "reference_errors_m": {
+              "index": 6.563051610481745e-08,
+              "little": 7.51909896113384e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.7222222222222222,
+            "center_error_m": 4.7559037527467835e-08,
+            "axis_error_rad": 5.122706275838708e-06,
+            "reference_errors_m": {
+              "index": 6.290580707048437e-08,
+              "little": 7.222005390666423e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.75,
+            "center_error_m": 4.678956904931175e-08,
+            "axis_error_rad": 4.998845441610013e-06,
+            "reference_errors_m": {
+              "index": 6.03151866657033e-08,
+              "little": 6.938431229736512e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.7777777777777777,
+            "center_error_m": 4.616726688393964e-08,
+            "axis_error_rad": 4.880625075458551e-06,
+            "reference_errors_m": {
+              "index": 5.772567551259575e-08,
+              "little": 6.660007027881372e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.8055555555555554,
+            "center_error_m": 4.566177786512834e-08,
+            "axis_error_rad": 4.766159177671087e-06,
+            "reference_errors_m": {
+              "index": 5.538575523375802e-08,
+              "little": 6.40627564067873e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.8333333333333334,
+            "center_error_m": 4.525923109072387e-08,
+            "axis_error_rad": 4.6554623613086595e-06,
+            "reference_errors_m": {
+              "index": 5.3170212416633855e-08,
+              "little": 6.168151058303392e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.861111111111111,
+            "center_error_m": 4.48517247920188e-08,
+            "axis_error_rad": 4.547955478895123e-06,
+            "reference_errors_m": {
+              "index": 5.110614880490151e-08,
+              "little": 5.9424729951207115e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.8888888888888888,
+            "center_error_m": 4.4612181891489495e-08,
+            "axis_error_rad": 4.442970562863621e-06,
+            "reference_errors_m": {
+              "index": 4.9076503002698005e-08,
+              "little": 5.7318333731330524e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.9166666666666666,
+            "center_error_m": 4.4303825964834006e-08,
+            "axis_error_rad": 4.342097120541413e-06,
+            "reference_errors_m": {
+              "index": 4.729049367046073e-08,
+              "little": 5.5390907186147676e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.9444444444444445,
+            "center_error_m": 4.411556083076699e-08,
+            "axis_error_rad": 4.244529786658272e-06,
+            "reference_errors_m": {
+              "index": 4.556748455563836e-08,
+              "little": 5.3607959816953255e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.9722222222222222,
+            "center_error_m": 4.391208494177102e-08,
+            "axis_error_rad": 4.148682381935687e-06,
+            "reference_errors_m": {
+              "index": 4.39452294936854e-08,
+              "little": 5.189776131508894e-08
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.9907407407407408,
+            "center_error_m": 3.663023735778392e-08,
+            "axis_error_rad": 2.5915171464928138e-06,
+            "reference_errors_m": {
+              "index": 2.075846632071042e-08,
+              "little": 2.5720285650476066e-08
+            },
+            "nfev": 13
+          },
+          {
+            "progress": 1.0,
+            "center_error_m": 2.1536595353911167e-08,
+            "axis_error_rad": 1.4600096599956724e-06,
+            "reference_errors_m": {
+              "index": 1.4309179323736097e-08,
+              "little": 1.0789710268749212e-08
+            },
+            "nfev": 12
+          }
+        ],
+        "previous_duration_s": 9.733333333333333,
+        "duration_s": 2.6,
+        "time_bound": "Per-spatial-interval derivative maximum times the interval quintic-envelope maximum; same 3 rad/s limit.",
+        "minimum_self_margin_m": 0.0002883306892669706,
+        "maximum_self_margin_m": 0.0012447628447436925,
+        "minimum_opposing_gap_m": 0.06012064605533659,
+        "maximum_opposing_gap_m": 0.06676003074948234,
+        "minimum_palm_gap_m": 0.08844607726867318,
+        "maximum_palm_gap_m": 0.09495710757343881,
+        "minimum_own_thumb_bound_m": 0.006981849241670158,
+        "maximum_own_thumb_bound_m": 0.012448047828983656,
+        "minimum_own_little_bound_m": 0.0002933009797138483,
+        "maximum_own_little_bound_m": 0.006838384089600106,
+        "minimum_speed_bound_rad_s": 2.494123083155728,
+        "maximum_speed_bound_rad_s": 2.494123083155728
+      },
+      "intent": {
+        "source": "output/alternative_cup_bilateral_pivot_20261109",
+        "start_s": 67.36666666666666,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            442,
+            443,
+            444,
+            445,
+            446,
+            447,
+            448,
+            449,
+            450,
+            451,
+            452
+          ],
+          "expected_contact_interval_s": [
+            71.06666666666666,
+            74.86666666666666
+          ],
+          "also_observed_near_material_window": [
+            551,
+            552,
+            553,
+            554,
+            555,
+            556,
+            557,
+            558,
+            559,
+            560,
+            561,
+            562
+          ],
+          "initial_material_center": 448
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "4c9e02f0aa2089cfb5e14d6e47766759159ea653338e30db8701c993e1e9c668",
+        "scope": "Intent recorded before the helper withdrawal begins. The right little may temporarily carry the original old arc and an observed near-strand patch; both must ultimately leave. This probe does not complete release."
+      },
+      "prefix_replay_check": {
+        "time_s": 71.06666666666666,
+        "reference": "alternative_cup_right_contact_pivot_20261109",
+        "particle_positions_max_difference_m": 0,
+        "particle_velocities_max_difference_m_s": 0,
+        "joints_max_difference_rad": 0,
+        "rest_lengths_max_difference_m": 0
+      },
+      "helper_sliding_observation": {
+        "scope": "Displacement along the initial right thumb axis, measured in world space; material labels remain fixed.",
+        "material_ids": {
+          "old": 415,
+          "helper": 448,
+          "far": 636
+        },
+        "start_s": 71.066667,
+        "final": {
+          "time_s": 74.866667,
+          "thumb_displacement_m": -0.011999989280443272,
+          "old_material_displacement_m": -0.013894791166348668,
+          "helper_material_displacement_m": -0.01985882485607076,
+          "far_material_displacement_m": -0.007795191929911731
+        }
+      },
+      "accepted_for_temporary_helper_continuation": true,
+      "temporary_source_role": "right_little"
+    },
+    {
+      "name": "right_helper_lift30_adj",
+      "source": "alternative_cup_bilateral_pivot_20261109",
+      "interval_s": [
+        67.366667,
+        74.766667
+      ],
+      "source_checkpoint_sha256": "1bd69aaf8886a88d8f30d66b2c71fc45302f336cab0fd6920c4e80545d0d558b",
+      "checkpoint_sha256": "ce4b307e980dc6dd79cf6a7fe6fba0a62a3473d41c1c3748b73f7ab6a5023f3f",
+      "joint_commands_sha256": "b81ceb79afa5d0ea1fd55df1b63fc24fda5148a3931d9f1b933b0119b72f6e68",
+      "recipe": "attempt_thumb_right_helper_lift30_adj.json",
+      "recipe_sha256": "56328ce8fa5a0ad911a6154e2ff504ae4a27467ca5f37cb65e8fa45d9a852b09",
+      "declared_departing_thumbs": "both",
+      "stops": [],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "The declared helper track and both new far tracks survive the 30 mm lift, but the right old thumb loop is not released. The helper also contacts a second old-loop patch and near material.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 67.36666666666666,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 295,
+          "right_index": 608
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          74.766667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_thumb",
+          "left_index",
+          "right_thumb",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "left_thumb": {
+            "time_s": 64.433333,
+            "reason": "Tracked support moved beyond continuity bound"
+          }
+        }
+      },
+      "index_material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          74.766667
+        ],
+        "initial_centers": {
+          "left_index": 299,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {}
+      },
+      "loop_release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, full robot self-collision checks, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": false,
+          "interval_little_own_palm_clearance": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          74.766667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -1.1636829295126258e-06,
+            "maximum_hold_gap_m": -7.620313621286776e-07,
+            "maximum_transfer_gap_m": -3.7758838179139526e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -9.071251460953875e-07,
+            "maximum_hold_gap_m": -6.300511236666598e-07,
+            "maximum_transfer_gap_m": -5.128123083822725e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.03287066477227987,
+            "maximum_hold_gap_m": 0.03631897660569468,
+            "maximum_transfer_gap_m": 0.04323617448499899
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -1.0758554329576633e-06,
+            "maximum_hold_gap_m": -5.359570514522696e-07,
+            "maximum_transfer_gap_m": -3.576833381676095e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -1.179631227805726e-06,
+            "maximum_hold_gap_m": -5.841545475263402e-07,
+            "maximum_transfer_gap_m": -4.6295335094734963e-07
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -1.628059533087707e-06,
+            "maximum_hold_gap_m": -7.084657948448411e-07,
+            "maximum_transfer_gap_m": 0.017691048639323078
+          }
+        },
+        "interval_little_rope": {
+          "left": {
+            "minimum_gap_m": 0.03287066477227987,
+            "first_within_2mm_s": null,
+            "first_nonpositive_gap_s": null
+          },
+          "right": {
+            "minimum_gap_m": -1.628059533087707e-06,
+            "first_within_2mm_s": 68.6,
+            "first_nonpositive_gap_s": 68.833333
+          }
+        },
+        "full_history_peak_stretch": 1.1992730249949428,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -6.340122321678038e-05,
+        "interval_little_own_palm": {
+          "scope": "PIP/DIP capsules against their own convex palm; adjoining MCP excluded. Sampled poses, not full robot self-collision certification.",
+          "time_s": 72.1,
+          "link": "left_little_DIP_link",
+          "lower_bound_m": 0.0011441432407388215,
+          "sampled_gap_m": 0.0013941432407388217
+        },
+        "full_history_palm_clearance": {
+          "time_s": 59.1,
+          "finger_palm_lower_bound_m": 0.09130183862138282,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_middle_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.06442595853014488,
+          "opposing_finger_gap_m": 0.05873424858928628,
+          "same_hand_finger_margin_m": 0.00028833068926680406,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.0598115977379059,
+          "minimum_opposing_finger_gap_m": 0.009658457725487598,
+          "minimum_same_hand_finger_margin_m": 0.00028833068926643977
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "thumb_exchange_audit": {
+        "scope": "Check necessary material/contact conditions after intentional thumb exchange.\n\nPassing these conditions does not certify a threaded bight, Cup, or any other\nfigure. The original index tracks, new far strands and complete old-loop arcs\nare inspected separately; captions and generic thumb contact are insufficient.\n",
+        "passed_diagnostics": false,
+        "checks": {
+          "physics_completed_hold": true,
+          "physics_contact_search_bound": true,
+          "physics_dynamic_rope": true,
+          "physics_full_history_central_body_envelopes_clear": true,
+          "physics_full_history_finger_clearance": true,
+          "physics_full_history_opposing_palm_clearance": true,
+          "physics_full_history_robot_hull_centerlines_clear": true,
+          "physics_full_history_sampled_self_contact": true,
+          "physics_full_history_strain": true,
+          "physics_interval_little_own_palm_clearance": true,
+          "physics_joint_limits": true,
+          "physics_left_little_clear": true,
+          "physics_right_little_clear": false,
+          "original_indices_tracked": true,
+          "intentional_phase_declared": true,
+          "nondeparting_original_supports_tracked": true,
+          "stationary_hold": true,
+          "left_new_far_contact_held": true,
+          "left_same_far_material": true,
+          "left_near_strand_clear": true,
+          "left_old_loop_clear": true,
+          "right_new_far_contact_held": true,
+          "right_same_far_material": true,
+          "right_near_strand_clear": false,
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": false,
+          "right_ring_clear": true,
+          "right_little_clear": false
+        },
+        "completed_figure": false,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          67.366667,
+          74.766667
+        ],
+        "summary": {
+          "left": {
+            "maximum_far_gap_m": -7.620313621286776e-07,
+            "minimum_near_gap_m": 0.009679444853046903,
+            "minimum_old_loop_gap_m": 0.07511266931460314,
+            "persistent_far_particles": [
+              214,
+              215,
+              216,
+              217,
+              218,
+              219,
+              220,
+              221,
+              222,
+              223,
+              224,
+              225,
+              226,
+              227
+            ]
+          },
+          "right": {
+            "maximum_far_gap_m": -2.1208615182902874e-07,
+            "minimum_near_gap_m": 0.0001622120750068368,
+            "minimum_old_loop_gap_m": -8.397686351293773e-07,
+            "persistent_far_particles": [
+              638,
+              639,
+              640,
+              649,
+              650,
+              651,
+              652,
+              653,
+              654,
+              655,
+              656,
+              657,
+              658
+            ]
+          }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03401532336039324,
+          "left_ring": 0.04189028505735721,
+          "left_little": 0.03287066477227987,
+          "right_middle": -4.145720899637398e-07,
+          "right_ring": 0.00932407670503475,
+          "right_little": -1.628059533087707e-06
+        }
+      },
+      "far_support_guard": {
+        "source_time_s": 67.36666666666666,
+        "initial_material_centers": {
+          "left": 217,
+          "right": 636
+        },
+        "scope": "Track newly captured far material; no rope constraint is added."
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          67.36666666666666,
+          74.76666666666667
+        ],
+        "tracking_complete": true,
+        "errors": {},
+        "first_and_last_samples": [
+          {
+            "time": 67.36666666666666,
+            "centers": {
+              "left": 217,
+              "right": 636
+            }
+          },
+          {
+            "time": 74.76666666666667,
+            "centers": {
+              "left": 221,
+              "right": 639
+            }
+          }
+        ]
+      },
+      "temporary_helper_audit": {
+        "scope": "Track declared temporary old-loop contact on an otherwise unused finger.\n\nThis measures material continuity only. A contacting rope point can slide along\nthe finger; the report does not certify a grasp, release, physical validity or\na completed figure. It never changes the rope or robot commands.\n",
+        "intent": {
+          "source": "output/alternative_cup_bilateral_pivot_20261109",
+          "start_s": 67.36666666666666,
+          "temporary_helper": {
+            "side": "right",
+            "finger": "little",
+            "old_loop_material_window": [
+              442,
+              443,
+              444,
+              445,
+              446,
+              447,
+              448,
+              449,
+              450,
+              451,
+              452
+            ],
+            "expected_contact_interval_s": [
+              71.06666666666666,
+              74.76666666666667
+            ],
+            "also_observed_near_material_window": [
+              551,
+              552,
+              553,
+              554,
+              555,
+              556,
+              557,
+              558,
+              559,
+              560,
+              561,
+              562
+            ],
+            "initial_material_center": 448
+          },
+          "release_completed": false,
+          "completed_figure": false,
+          "joint_recipe_sha256": "3937ef7a9e01d0d56b403881881f92bdf1241f03414c554ae9f58651ef868320",
+          "scope": "Declared before replay: the right little raises its temporary old-loop support by 30 mm while the thumb retreats 12 mm. Final helper release is a separate unresolved action."
+        },
+        "completed_figure": false,
+        "release_completed": false,
+        "expected_interval_s": [
+          71.06666666666666,
+          74.76666666666667
+        ],
+        "sampling_fps": 30.0,
+        "recorded_end_s": 74.766667,
+        "helper_track_complete": true,
+        "failure": null
+      },
+      "preflight": {
+        "source": "output/alternative_cup_bilateral_pivot_20261109",
+        "source_time_s": 67.36666666666666,
+        "planning_observation": "output/alternative_cup_right_contact_pivot_20261109",
+        "planning_observation_is_not_a_physics_source": true,
+        "passed": true,
+        "scope": "Temporary little contact is intentional during this probe. Final little release and Cup are not claimed. All surface points are joint planning references only.",
+        "index_material": 609,
+        "helper_material": 448,
+        "helper_expected_arc": "right old_loop_indices",
+        "far_material": 636,
+        "withdrawal_m": 0.012,
+        "helper_lift_m": 0.03,
+        "adjoining_proxy_scope": "Only already overlapping adjoining MCP proxies use the existing 3 mm fixture tolerance in the planning objective. All final physical audit thresholds are unchanged.",
+        "fits": [
+          {
+            "progress": 0.009259259259259259,
+            "center_error_m": 7.883655608251894e-08,
+            "axis_error_rad": 9.691564486513924e-06,
+            "reference_errors_m": {
+              "index": 7.789708699547564e-08,
+              "little": 1.1335120740267878e-07
+            },
+            "nfev": 13
+          },
+          {
+            "progress": 0.027777777777777776,
+            "center_error_m": 2.514512549603577e-07,
+            "axis_error_rad": 1.9713487245384965e-05,
+            "reference_errors_m": {
+              "index": 4.789153549137511e-07,
+              "little": 1.4781326014372865e-07
+            },
+            "nfev": 11
+          },
+          {
+            "progress": 0.05555555555555555,
+            "center_error_m": 4.815604120797736e-07,
+            "axis_error_rad": 2.5755000787772266e-05,
+            "reference_errors_m": {
+              "index": 4.59491451778865e-07,
+              "little": 2.39493762563621e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.08333333333333333,
+            "center_error_m": 3.290003449674741e-06,
+            "axis_error_rad": 0.00014148013425288014,
+            "reference_errors_m": {
+              "index": 4.056407056841785e-06,
+              "little": 1.299256332779026e-06
+            },
+            "nfev": 9
+          },
+          {
+            "progress": 0.1111111111111111,
+            "center_error_m": 1.0915230090428294e-06,
+            "axis_error_rad": 6.0842227639368216e-05,
+            "reference_errors_m": {
+              "index": 1.2329011442258696e-06,
+              "little": 3.5437783707896223e-07
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.13888888888888887,
+            "center_error_m": 4.552760143968492e-07,
+            "axis_error_rad": 4.6264518055360366e-05,
+            "reference_errors_m": {
+              "index": 8.487740818261385e-07,
+              "little": 2.7485824657466617e-07
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.16666666666666666,
+            "center_error_m": 1.0756669636285493e-06,
+            "axis_error_rad": 5.9000558310963e-05,
+            "reference_errors_m": {
+              "index": 1.4183077455962215e-06,
+              "little": 4.3401176091441006e-07
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.19444444444444442,
+            "center_error_m": 6.07277374975122e-07,
+            "axis_error_rad": 5.6689367879190136e-05,
+            "reference_errors_m": {
+              "index": 9.15345627167285e-07,
+              "little": 2.8869742633101493e-07
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.2222222222222222,
+            "center_error_m": 6.375041936052767e-07,
+            "axis_error_rad": 6.027479918144683e-05,
+            "reference_errors_m": {
+              "index": 8.993819866124498e-07,
+              "little": 3.011846274294913e-07
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.25,
+            "center_error_m": 8.201973161704871e-07,
+            "axis_error_rad": 6.883698951079797e-05,
+            "reference_errors_m": {
+              "index": 9.967555799541556e-07,
+              "little": 3.2816324646447233e-07
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.27777777777777773,
+            "center_error_m": 9.540269319465105e-07,
+            "axis_error_rad": 0.0002709966831537553,
+            "reference_errors_m": {
+              "index": 3.5513858355679453e-06,
+              "little": 1.185207661775504e-06
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.3055555555555555,
+            "center_error_m": 1.245332326669789e-06,
+            "axis_error_rad": 0.00028209593947259526,
+            "reference_errors_m": {
+              "index": 3.5637074855168678e-06,
+              "little": 1.7111079389202755e-06
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.3333333333333333,
+            "center_error_m": 9.77340290677073e-07,
+            "axis_error_rad": 8.191026671034702e-05,
+            "reference_errors_m": {
+              "index": 1.3854843715703366e-06,
+              "little": 3.950265150230049e-07
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.3611111111111111,
+            "center_error_m": 6.473012572668107e-07,
+            "axis_error_rad": 0.00020546162457265132,
+            "reference_errors_m": {
+              "index": 2.8810165176606286e-06,
+              "little": 1.5691270511536974e-06
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.38888888888888884,
+            "center_error_m": 4.547588991910391e-07,
+            "axis_error_rad": 6.299153192707303e-05,
+            "reference_errors_m": {
+              "index": 1.4071475479499051e-06,
+              "little": 5.516016709416824e-07
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.4166666666666667,
+            "center_error_m": 4.749415399372612e-07,
+            "axis_error_rad": 0.00020515984679876333,
+            "reference_errors_m": {
+              "index": 2.6459560976521163e-06,
+              "little": 1.6738788382602143e-06
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.4444444444444444,
+            "center_error_m": 6.312743033615747e-07,
+            "axis_error_rad": 0.0003204299580000541,
+            "reference_errors_m": {
+              "index": 3.049531113976078e-06,
+              "little": 2.118698643313704e-06
+            },
+            "nfev": 10
+          },
+          {
+            "progress": 0.47222222222222215,
+            "center_error_m": 4.975784723928673e-07,
+            "axis_error_rad": 7.248919935783265e-05,
+            "reference_errors_m": {
+              "index": 1.5188130691108487e-06,
+              "little": 5.881793523752664e-07
+            },
+            "nfev": 9
+          },
+          {
+            "progress": 0.5,
+            "center_error_m": 1.1697724825441042e-07,
+            "axis_error_rad": 5.8859239658151146e-05,
+            "reference_errors_m": {
+              "index": 7.426891264349716e-07,
+              "little": 3.3681876919380125e-07
+            },
+            "nfev": 14
+          },
+          {
+            "progress": 0.5277777777777778,
+            "center_error_m": 4.296118204379136e-07,
+            "axis_error_rad": 4.4931409356033656e-05,
+            "reference_errors_m": {
+              "index": 6.780801838857983e-07,
+              "little": 2.87642906704196e-07
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.5555555555555556,
+            "center_error_m": 2.2802189905630634e-07,
+            "axis_error_rad": 2.133085480553087e-05,
+            "reference_errors_m": {
+              "index": 2.1466385175928908e-07,
+              "little": 3.0190495919121204e-07
+            },
+            "nfev": 19
+          },
+          {
+            "progress": 0.5833333333333334,
+            "center_error_m": 2.5529807127679465e-07,
+            "axis_error_rad": 2.3382106175621227e-05,
+            "reference_errors_m": {
+              "index": 2.2683694322995503e-07,
+              "little": 3.1622888541205066e-07
+            },
+            "nfev": 19
+          },
+          {
+            "progress": 0.611111111111111,
+            "center_error_m": 4.228591053069904e-07,
+            "axis_error_rad": 2.8354619282172306e-05,
+            "reference_errors_m": {
+              "index": 3.84696290278483e-07,
+              "little": 3.5936384346987975e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.6388888888888888,
+            "center_error_m": 4.6006171217137787e-07,
+            "axis_error_rad": 2.3940133415259154e-05,
+            "reference_errors_m": {
+              "index": 2.3023278966758962e-07,
+              "little": 5.688916883404316e-07
+            },
+            "nfev": 16
+          },
+          {
+            "progress": 0.6666666666666666,
+            "center_error_m": 5.935848605809252e-07,
+            "axis_error_rad": 1.9459701340899647e-05,
+            "reference_errors_m": {
+              "index": 2.6057415085968024e-07,
+              "little": 3.6667457022486564e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.6944444444444445,
+            "center_error_m": 5.482452850854903e-07,
+            "axis_error_rad": 2.1352454096294368e-05,
+            "reference_errors_m": {
+              "index": 3.2055629446998603e-07,
+              "little": 3.7414180311050515e-07
+            },
+            "nfev": 15
+          },
+          {
+            "progress": 0.7222222222222222,
+            "center_error_m": 6.368892764957615e-07,
+            "axis_error_rad": 3.667193631985582e-05,
+            "reference_errors_m": {
+              "index": 4.53924790189543e-07,
+              "little": 4.166086863904032e-07
+            },
+            "nfev": 13
+          },
+          {
+            "progress": 0.75,
+            "center_error_m": 1.6808135179427615e-06,
+            "axis_error_rad": 0.00023445753105872747,
+            "reference_errors_m": {
+              "index": 2.4482350030334258e-06,
+              "little": 1.3821246269626826e-06
+            },
+            "nfev": 14
+          },
+          {
+            "progress": 0.7777777777777777,
+            "center_error_m": 2.5221794071183464e-07,
+            "axis_error_rad": 2.1133461214341813e-05,
+            "reference_errors_m": {
+              "index": 2.6227098481719537e-07,
+              "little": 3.4108089697489437e-07
+            },
+            "nfev": 17
+          },
+          {
+            "progress": 0.8055555555555554,
+            "center_error_m": 3.030284592627784e-07,
+            "axis_error_rad": 1.990054401090579e-05,
+            "reference_errors_m": {
+              "index": 3.423455692716633e-07,
+              "little": 3.1302545316447105e-07
+            },
+            "nfev": 17
+          },
+          {
+            "progress": 0.8333333333333334,
+            "center_error_m": 4.889783604189145e-07,
+            "axis_error_rad": 2.8448236867704158e-05,
+            "reference_errors_m": {
+              "index": 5.141121455592665e-07,
+              "little": 4.3662734405178337e-07
+            },
+            "nfev": 16
+          },
+          {
+            "progress": 0.861111111111111,
+            "center_error_m": 6.381498008103135e-07,
+            "axis_error_rad": 2.0085720633597556e-05,
+            "reference_errors_m": {
+              "index": 3.5782525401797225e-07,
+              "little": 3.698342684920653e-07
+            },
+            "nfev": 14
+          },
+          {
+            "progress": 0.8888888888888888,
+            "center_error_m": 2.272541239900464e-07,
+            "axis_error_rad": 1.764036947525236e-05,
+            "reference_errors_m": {
+              "index": 2.732946147776847e-07,
+              "little": 3.377016533725418e-07
+            },
+            "nfev": 21
+          },
+          {
+            "progress": 0.9166666666666666,
+            "center_error_m": 7.829990650867621e-07,
+            "axis_error_rad": 7.951641490106003e-05,
+            "reference_errors_m": {
+              "index": 1.8424066446267903e-06,
+              "little": 9.444074570869195e-07
+            },
+            "nfev": 13
+          },
+          {
+            "progress": 0.9444444444444445,
+            "center_error_m": 7.106528239415302e-07,
+            "axis_error_rad": 0.0001991617678035518,
+            "reference_errors_m": {
+              "index": 3.053047291669091e-06,
+              "little": 1.159763261188518e-06
+            },
+            "nfev": 12
+          },
+          {
+            "progress": 0.9722222222222222,
+            "center_error_m": 1.6750955431254586e-06,
+            "axis_error_rad": 0.00012293232034798807,
+            "reference_errors_m": {
+              "index": 1.7788413766135921e-06,
+              "little": 1.5409117536209814e-06
+            },
+            "nfev": 16
+          },
+          {
+            "progress": 0.9907407407407408,
+            "center_error_m": 2.2321148711917937e-06,
+            "axis_error_rad": 4.7070591246760584e-05,
+            "reference_errors_m": {
+              "index": 1.068108511889656e-06,
+              "little": 1.2766651000289533e-06
+            },
+            "nfev": 14
+          },
+          {
+            "progress": 1.0,
+            "center_error_m": 1.247885927700702e-06,
+            "axis_error_rad": 4.4302886407457204e-05,
+            "reference_errors_m": {
+              "index": 9.63037691553701e-07,
+              "little": 8.011275396927387e-07
+            },
+            "nfev": 9
+          }
+        ],
+        "minimum_self_margin_m": 0.0002883306892669706,
+        "maximum_self_margin_m": 0.00029992687231310353,
+        "minimum_opposing_gap_m": 0.043850340944422604,
+        "maximum_opposing_gap_m": 0.07224332138210537,
+        "minimum_palm_gap_m": 0.08844607726867318,
+        "maximum_palm_gap_m": 0.0928551318810445,
+        "minimum_own_thumb_bound_m": 0.006981849241670158,
+        "maximum_own_thumb_bound_m": 0.016504982050435837,
+        "minimum_own_little_bound_m": 0.002409762875275683,
+        "maximum_own_little_bound_m": 0.028128028221049168,
+        "minimum_speed_bound_rad_s": 0.7308906186161129,
+        "maximum_speed_bound_rad_s": 0.7308906186161129
+      },
+      "intent": {
+        "source": "output/alternative_cup_bilateral_pivot_20261109",
+        "start_s": 67.36666666666666,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            442,
+            443,
+            444,
+            445,
+            446,
+            447,
+            448,
+            449,
+            450,
+            451,
+            452
+          ],
+          "expected_contact_interval_s": [
+            71.06666666666666,
+            74.76666666666667
+          ],
+          "also_observed_near_material_window": [
+            551,
+            552,
+            553,
+            554,
+            555,
+            556,
+            557,
+            558,
+            559,
+            560,
+            561,
+            562
+          ],
+          "initial_material_center": 448
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "3937ef7a9e01d0d56b403881881f92bdf1241f03414c554ae9f58651ef868320",
+        "scope": "Declared before replay: the right little raises its temporary old-loop support by 30 mm while the thumb retreats 12 mm. Final helper release is a separate unresolved action."
+      },
+      "accepted_for_temporary_helper_continuation": true,
+      "temporary_source_role": "right_little"
     }
   ],
   "preflight_rejections": [
@@ -5162,10 +7800,11 @@
     "The original Opening A is independently placed."
   ],
   "validation": {
-    "pytest": "166 passed",
-    "pytest_duration_s": 47.41,
+    "pytest": "176 passed",
+    "pytest_duration_s": 49.19,
     "ruff": "F rules passed",
-    "diff_check": "passed"
+    "diff_check": "passed",
+    "temporary_helper_cli": "115-frame positive trace passes; wrong old material sample 299 rejected at acquisition."
   },
   "additional_contact_observation": {
     "scope": "Capsule-edge audit at the bilateral held endpoint, 67.366667 s.",
