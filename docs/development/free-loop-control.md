@@ -108,6 +108,53 @@ the required crossing. The first three 240 mm spacing comparisons all failed:
 The slower-translation replay also verifies the new stretch guard: its time,
 joint, rope and rest-length arrays exactly match the unguarded prefix through
 the first failure at 35.7 s. Its saved checkpoint matches that physical frame.
-The narrower 200 mm preparation at 33.1 s has more strain margin and is the
-next source to test; the accepted 240 mm hold should not be treated as evidence
-that it can safely enter the following motion.
+The accepted 240 mm hold should not be treated as evidence that it can safely
+enter the following motion.
+
+Starting instead from the 200 mm preparation at 33.1 s allows the full 120°
+upright return and a 1.2 s hold. At 38.566667 s, full-history peak stretch is
+1.11409, all four original material tracks remain continuous without extra
+final patches, and the other physical checks pass. However, the free strand
+touches the left little MCP during the hold. The both-little-clear diagnostic
+therefore fails. `attempt_upright_return.json` reproduces this intermediate
+state; it is not a verified free-loop start.
+
+Moving the left little MPR from −0.08729 to +0.174 rad over one second, followed
+by another 1.2 s hold, retains the four original tracks but does not clear the
+free strand. `attempt_upright_little_clear.json` records this comparison.
+
+A further 40° left-wrist roll in eight 0.2 s segments keeps its measured index
+reference within 0.321 mm in the sampled joint path. This is a kinematic
+reference, not a rope constraint. The subsequent 1.2 s hold ends at 43.566667 s
+with all four original material tracks still present, but the free strand now
+also touches the left little PIP. The clearance check still fails, so this
+branch is not used for the next transfer. Further whole-figure rotation starts
+from the earlier 38.566667 s upright state instead. Its remaining little
+contact must still clear before the release stage can be considered complete.
+
+Reproduce the upright and knuckle-clearance comparisons from the accepted
+`output/raised_thumb` state described in `alternate-cup.md` (before widening):
+
+```bash
+.venv/bin/python scripts/continue_cup.py --source output/raised_thumb \
+  --output output/upright_return --side both --route-only \
+  --approach-path examples/transfers/attempt_upright_return.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame \
+  --hold-duration 1.2 --hold-label 'Hold upright before widening the hands'
+.venv/bin/python scripts/continue_cup.py --source output/upright_return \
+  --output output/upright_little_clear --side both --route-only \
+  --approach-path examples/transfers/attempt_upright_little_clear.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame \
+  --hold-duration 1.2 --hold-label 'Hold upright with the left little knuckle withdrawn'
+.venv/bin/python scripts/continue_cup.py --source output/upright_little_clear \
+  --output output/upright_left_roll --side both --route-only \
+  --approach-path examples/transfers/attempt_upright_left_roll.json \
+  --check-self-collision --check-robot-hulls --check-body-envelope \
+  --max-stretch-ratio 1.2 --checkpoint-every-frame \
+  --hold-duration 1.2 --hold-label 'Hold the rolled left hand clear of the hanging loop'
+.venv/bin/python scripts/audit_loop_release.py --source output/upright_left_roll \
+  --start 33.1 --released both
+.venv/bin/python scripts/audit_retained_supports.py --source output/upright_left_roll --start 6
+```
