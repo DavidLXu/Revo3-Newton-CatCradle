@@ -24,9 +24,13 @@ from revo3_cat_cradle.transfers import track_support_patch
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
-    parser.add_argument("--include-little", action="store_true",
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--include-little", action="store_true",
                         help="Before release, also track original little-loop material; "
                              "writes a separate six_material_support_tracking.json")
+    mode.add_argument("--indices-only", action="store_true",
+                      help="During intentional thumb exchange, follow both original indices; "
+                           "writes index_material_support_tracking.json")
     parser.add_argument(
         "--start", type=float, required=True,
         help="Recorded reference frame whose original supports match transfer_plan.json",
@@ -47,7 +51,8 @@ def main():
     centers = {}
     for side in ("left", "right"):
         old = plan[side]["old_thumb_indices"]
-        centers[side + "_thumb"] = int(old[(len(old) - 1) // 2])
+        if not args.indices_only:
+            centers[side + "_thumb"] = int(old[(len(old) - 1) // 2])
         centers[side + "_index"] = int(plan[side]["far_indices"][0])
         if args.include_little:
             other = "right" if side == "left" else "left"
@@ -95,7 +100,8 @@ def main():
         final=rows[-1],
         samples=rows,
     )
-    filename = ("six_material_support_tracking.json" if args.include_little
+    filename = ("index_material_support_tracking.json" if args.indices_only else
+                "six_material_support_tracking.json" if args.include_little
                 else "material_support_tracking.json")
     (args.source / filename).write_text(
         json.dumps(report, indent=2) + "\n"

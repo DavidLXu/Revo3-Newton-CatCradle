@@ -142,6 +142,53 @@ def track_support_patch(indices, count, previous_center, max_shift=8):
     )
 
 
+def retained_support_centers(report, checkpoint_time, released_thumbs=()):
+    """Select original material tracks for an explicitly declared transfer phase.
+
+    Both indices always remain required. Omitting an intentionally departing
+    thumb from this guard does not prove its release or a new bight's capture.
+    """
+    released = set(released_thumbs)
+    if not released.issubset({"left", "right"}) or not np.isfinite(checkpoint_time):
+        raise ValueError("Invalid intentional thumb-release declaration")
+    rows = [row for row in report.get("samples", [])
+            if abs(row["time"] - checkpoint_time) < 1e-5]
+    names = {f"{side}_{finger}" for side in ("left", "right")
+             for finger in ("thumb", "index")
+             if finger == "index" or side not in released}
+    if len(rows) != 1 or not names.issubset(rows[0]["supports"]):
+        raise ValueError("Source lacks required original material tracks at the checkpoint")
+    return {name: rows[0]["supports"][name]["center"] for name in sorted(names)}
+
+
+def captured_far_centers(report, checkpoint_time, plan, particle_count):
+    """Seed new support tracks from a matching held far-material observation.
+
+    Old loops may still be present: their release is a separate task. The
+    caller must also validate the source's physical audit before continuing.
+    """
+    interval = report.get("interval_s", [])
+    end = interval[-1] if interval else float("nan")
+    checks = report.get("checks", {})
+    if (not np.isfinite([end, checkpoint_time]).all()
+            or abs(end - checkpoint_time) > 1e-5
+            or not checks.get("stationary_hold")
+            or not checks.get("original_indices_tracked")):
+        raise ValueError("Source needs a matching held far-material report")
+    centers = {}
+    for side in ("left", "right"):
+        ids = np.asarray(report.get("summary", {}).get(side, {}).get(
+            "persistent_far_particles", []), dtype=int)
+        if (not checks.get(side + "_new_far_contact_held")
+                or not checks.get(side + "_same_far_material")
+                or not len(ids) or np.any(ids < 0) or np.any(ids >= particle_count)
+                or not np.isin(ids, plan[side]["far_indices"]).all()):
+            raise ValueError("Both captured far strands need persistent material")
+        patch = support_contact_patch(np.sort(np.unique(ids)), particle_count)
+        centers[side] = int(patch[(len(patch) - 1) // 2])
+    return centers
+
+
 def directed_support_arc(start, end, count, direction):
     """Keep the original cyclic orientation as the supporting contacts slide."""
     if direction not in (-1, 1):
@@ -262,7 +309,7 @@ def plan_digit_path(
         tf = robot.fk(trial)
         if hand_clearance(tf)[0] < -0.0005:
             return False
-        if gaps(tf, obstacles, side, finger).min() < 0.0015:
+        if len(obstacles) and gaps(tf, obstacles, side, finger).min() < 0.0015:
             return False
         own = [
             g

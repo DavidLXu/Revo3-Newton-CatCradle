@@ -64,6 +64,24 @@ def test_thumb_tip_mirrors_local_direction_and_digit_ik_leaves_arms_fixed():
         )
 
 
+def test_digit_path_with_no_forbidden_rope_still_preserves_joint_scope():
+    from revo3_cat_cradle.transfers import plan_digit_path
+
+    robot = RevoTron()
+    initial = Motion(robot, upright=True).targets[0]
+    target = initial.copy()
+    target[robot.indices["left_thumb_MCP_joint"]] -= .02
+    route = plan_digit_path(robot, initial, target, "left", "thumb", np.empty((0, 3)))
+    np.testing.assert_array_equal(route[-1], target)
+    fixed = [i for i, name in enumerate(robot.names) if not name.startswith("left_thumb_")]
+    for q in route:
+        np.testing.assert_array_equal(q[fixed], initial[fixed])
+    # An actual forbidden strand is still tested at the source endpoint.
+    obstacle = fingertip(robot, initial, "left", "thumb")[None]
+    with pytest.raises(ValueError, match="endpoints are not clear"):
+        plan_digit_path(robot, initial, target, "left", "thumb", obstacle)
+
+
 def test_support_arc_crosses_closed_seam_without_passing_another_support(monkeypatch):
     import revo3_cat_cradle.transfers as transfers
     from types import SimpleNamespace

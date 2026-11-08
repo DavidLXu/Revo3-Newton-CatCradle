@@ -25,6 +25,11 @@ static hold does not establish a secure bearing for every subsequent motion.
 
 ## Run a portable experiment
 
+The [coordinated thumb pickup](development/thumb-exchange.md) retains both new
+far strands and clears the left old loop during a stationary hold. The right
+old loop remains. The page records the one-sided failures and the material
+guards used while intentionally exchanging old thumb supports.
+
 The [orbit-radius comparison](development/orbit-transfer.md) adds a
 parameterized common-wrist planner and a recorded projected overpass. The
 free arc's right-hand contacts still prevent treating that observation as

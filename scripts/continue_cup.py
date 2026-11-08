@@ -15,6 +15,8 @@ from revo3_cat_cradle.transfers import (
     support_arc,
     original_thumb_loop,
     track_support_patch,
+    retained_support_centers,
+    captured_far_centers,
 )
 from revo3_cat_cradle.bimanual_checks import gaps, hand_clearance, self_clearance_margin
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
@@ -55,6 +57,15 @@ def main():
         help="Require both near strands at the source and every output frame; "
              "stop on lost proximity or any paired old-loop sample",
     )
+    p.add_argument(
+        "--release-thumb-supports", choices=("left", "right", "both"),
+        help="Declare an intentional old-thumb transfer: keep both original index "
+             "tracks and the opposite thumb if applicable; requires --stop-on-support-loss. "
+             "New bight capture and old-loop clearance require separate audits",
+    )
+    p.add_argument("--stop-on-far-loss", action="store_true",
+                   help="Track both newly captured far strands from a matching held "
+                        "exchange report; requires original-support guarding")
     p.add_argument(
         "--hold-on-near-pinch", choices=("left", "right", "both"),
         help="During a route, stop closing at opposing thumb/index contact on the "
@@ -158,6 +169,15 @@ def main():
     ):
         p.error("--stop-on-grip-loss requires --side both and a route or hold, "
                 "without contact-seeking options")
+    if a.release_thumb_supports and (
+        not a.stop_on_support_loss or not (a.route_only or a.hold_only)
+        or a.stop_on_grip_loss or a.hold_on_near_pinch
+    ):
+        p.error("--release-thumb-supports requires a guarded route or hold "
+                "without near-pinch retention or seeking")
+    if a.stop_on_far_loss and (not a.stop_on_support_loss
+                              or not (a.route_only or a.hold_only)):
+        p.error("--stop-on-far-loss requires a guarded route or hold")
     if a.hold_on_near_pinch and (
         not a.route_only or not a.approach_path or a.hold_only
         or a.stop_on_near_contact or a.side not in ("both", a.hold_on_near_pinch)
@@ -214,12 +234,18 @@ def main():
         if abs(sim.config.radius - .001) > 1e-10:
             raise ValueError("Original material tracking requires a 1 mm rope radius")
         tracking = json.loads((a.source / "material_support_tracking.json").read_text())
-        samples = [row for row in tracking["samples"]
-                   if abs(row["time"] - float(seed["time"])) < 1e-5]
-        names = {f"{s}_{f}" for s in ("left", "right") for f in ("thumb", "index")}
-        if len(samples) != 1 or set(samples[0]["supports"]) != names:
-            raise ValueError("Source needs four original material tracks at the checkpoint")
-        support_centers = {name: row["center"] for name, row in samples[0]["supports"].items()}
+        released = (() if a.release_thumb_supports is None else
+                    ("left", "right") if a.release_thumb_supports == "both" else
+                    (a.release_thumb_supports,))
+        support_centers = retained_support_centers(tracking, float(seed["time"]), released)
+        guard = dict(source_time_s=float(seed["time"]),
+                     tracked_original_supports=sorted(support_centers),
+                     intentionally_departing_thumb_sides=list(released),
+                     initial_material_centers=support_centers.copy(),
+                     scope="Material retention only; a release declaration is not proof "
+                           "of release, capture or figure completion.")
+        m.metadata.setdefault("support_guard_events", []).append(guard)
+        (out / "support_guard.json").write_text(json.dumps(guard, indent=2) + "\n")
     if a.friction is not None:
         m.metadata.setdefault("initial_friction", data["config"]["friction"])
         m.metadata.setdefault("physics_events", []).append(
@@ -313,6 +339,18 @@ def main():
             target_index=k,
         )
     (out / "transfer_plan.json").write_text(json.dumps(plan, indent=2))
+    far_centers, far_rows, far_errors = {}, [], {}
+    if a.stop_on_far_loss:
+        from revo3_cat_cradle.free_loop import validate_bilateral_release
+        validate_bilateral_release(json.loads(
+            (a.source / "loop_release_audit.json").read_text()), sim.t)
+        far_centers = captured_far_centers(json.loads(
+            (a.source / "thumb_exchange_audit.json").read_text()), sim.t, plan, len(rope))
+        far_rows.append(dict(time=sim.t, centers=far_centers.copy()))
+        far_guard = dict(source_time_s=sim.t, initial_material_centers=far_centers.copy(),
+                         scope="Track newly captured far material; no rope constraint is added.")
+        (out / "far_support_guard.json").write_text(json.dumps(far_guard, indent=2) + "\n")
+        m.metadata.setdefault("far_support_guard_events", []).append(far_guard)
     if a.stop_on_grip_loss:
         initial_grip = bilateral_grip_observation(
             sim.transforms, rope, plan, sim.config.radius)
@@ -332,6 +370,13 @@ def main():
             )
         )
         (out / "transfer_audit.json").write_text(json.dumps(audit, indent=2))
+        if far_centers:
+            (out / "far_material_support_tracking.json").write_text(json.dumps(dict(
+                interval_s=[float(seed["time"]), sim.t],
+                tracking_complete=bool(not far_errors and far_rows
+                                       and abs(far_rows[-1]["time"] - sim.t) < 1e-5),
+                errors=far_errors, samples=far_rows,
+            ), indent=2) + "\n")
 
     def move(t, q, phase, detect_pinch=False, joint_path=None):
         if (
@@ -342,6 +387,8 @@ def main():
             raise ValueError("Transfer target violates joint limits")
         from revo3_cat_cradle.joint_path import evaluate_joint_path, validate_joint_path
         samples = 21
+        if joint_path is None and np.max(abs(q - sim.q)) * 1.875 / (t - sim.t) > 3:
+            raise ValueError("Transfer phase exceeds 3 rad/s")
         if joint_path is not None:
             low, high, speed = validate_joint_path(joint_path, sim.q, q, t - sim.t)
             if np.any(low < r.limits[:, 0] - 1e-6) or np.any(high > r.limits[:, 1] + 1e-6):
@@ -461,6 +508,23 @@ def main():
                         reason=str(exc), contacts=contacts.tolist(),
                     ), indent=2) + "\n")
                     raise RuntimeError("Original support material tracking failed") from exc
+            for side in far_centers:
+                contacts = np.intersect1d(support_contact_indices(
+                    sim.transforms, positions, side, "thumb", meshes), plan[side]["far_indices"])
+                try:
+                    far_centers[side], _, _ = track_support_patch(
+                        contacts, len(positions), far_centers[side])
+                except ValueError as exc:
+                    failure = dict(time_s=sim.t, side=side,
+                                   previous_center=far_centers[side], reason=str(exc),
+                                   contacts=contacts.tolist())
+                    far_errors[side] = failure
+                    save()
+                    sim.save_checkpoint(out / f"state_{i:04d}.npz")
+                    (out / "far_support_stop.json").write_text(json.dumps(failure, indent=2) + "\n")
+                    raise RuntimeError("Captured far-strand material tracking failed") from exc
+            if far_centers:
+                far_rows.append(dict(time=sim.t, centers=far_centers.copy()))
             if a.stop_on_grip_loss:
                 observed = bilateral_grip_observation(
                     sim.transforms, positions, plan, sim.config.radius)
