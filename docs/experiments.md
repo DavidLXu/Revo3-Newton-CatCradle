@@ -25,6 +25,11 @@ static hold does not establish a secure bearing for every subsequent motion.
 
 ## Run a portable experiment
 
+The [orbit-radius comparison](development/orbit-transfer.md) adds a
+parameterized common-wrist planner and a recorded projected overpass. The
+free arc's right-hand contacts still prevent treating that observation as
+a completed Cup transfer; the page includes the physical follow-up failures.
+
 The [November 8 alternative Cup experiments](development/alternate-cup.md)
 test releasing the little loops before exchanging the thumb loops. The old
 release and tilted-preparation chain retained the measured hand contacts, but

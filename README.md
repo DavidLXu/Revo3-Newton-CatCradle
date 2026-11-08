@@ -40,6 +40,14 @@ right fingers by turning the right hand 30° around its near-grip reference.
 The held preparation retains both grips and the original supports. Subsequent
 swings remain experiments toward the unfinished loop flip.
 
+[Orbit-radius experiments](docs/development/orbit-transfer.md) produce a
+projected free-band overpass with a 90 mm common wrist orbit. The held result
+retains its original supports, but the free arc also contacts the right thumb
+base and middle finger. A smaller grip closure followed by middle extension
+clears the latter contact while retaining both near strands. The right-side
+rope routing and full Cup sequence remain unfinished. A parameterized planner
+reproduces the orbit comparison.
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
@@ -273,6 +281,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 [连续摆腕实验](docs/development/continuous-swing.md)去掉腕部轨迹采样点之间的停顿，并从保存的完整物理状态尝试定时下移双手。记录区分了绳环短暂抬高与真正翻越，也保留了被拒绝的实验。
 
 [手掌朝向实验](docs/development/palm-clearance.md)让右手绕近绳夹持处转动 30°，使右中指、无名指和小指在保持阶段离开绳子，同时保留双侧夹持和原有搭挂。后续甩绳仍在验证，自由绳环翻越尚未完成。
+
+[圆周半径实验](docs/development/orbit-transfer.md)用 9 cm 共同摆腕让自由绳环中段越过支撑线，并保持住原有搭挂。后续小幅收拢与中指展开清除了右中指接触，同时保留双侧近绳；右侧绳路及完整 Cup 序列仍未完成。新增参数化轨迹规划脚本，可复现不同半径、速度和后段下移的对照。
 
 ## License and upstream code
 
