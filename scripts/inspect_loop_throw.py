@@ -7,8 +7,13 @@ Use it together with contact tracking, physical audits and the rendered motion.
 import argparse
 import json
 from pathlib import Path
+import sys
 
 import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from revo3_cat_cradle.free_loop import free_loop_material
 
 
 def main():
@@ -27,22 +32,10 @@ def main():
     if abs(times[selected[0]] - args.start) > 1e-5:
         parser.error("Start must match a recorded frame")
     plan = json.loads((args.source / "transfer_plan.json").read_text())
-    count = rope.shape[1]
-    left = int(plan["left"]["far_indices"][0])
-    right = int(plan["right"]["far_indices"][0])
-    thumbs = [
-        int(p["old_thumb_indices"][(len(p["old_thumb_indices"]) - 1) // 2])
-        for p in (plan["left"], plan["right"])
-    ]
-    arcs = [
-        (right + np.arange((left - right) % count + 1)) % count,
-        (right - np.arange((right - left) % count + 1)) % count,
-    ]
-    free = [arc for arc in arcs if not np.intersect1d(arc, thumbs).size]
-    if len(free) != 1 or len(free[0]) < 17:
-        parser.error("Cannot identify a unique original free arc between the indices")
-    middle = len(free[0]) // 2
-    band = free[0][middle - 8 : middle + 9]
+    try:
+        band, thumbs = free_loop_material(plan, rope.shape[1])
+    except ValueError as exc:
+        parser.error(str(exc))
     bridge = rope[selected][:, thumbs].mean(axis=1)
     probe = rope[selected][:, band].mean(axis=1)
     relative = probe - bridge
@@ -52,7 +45,7 @@ def main():
         scope=__doc__,
         interval_s=[float(times[selected[0]]), float(times[selected[-1]])],
         fixed_free_loop_material=band.tolist(),
-        fixed_thumb_bridge_material=thumbs,
+        fixed_thumb_bridge_material=thumbs.tolist(),
         maximum_relative_height_m=float(relative[peak, 2]),
         peak_height_time_s=float(times[selected[peak]]),
         signed_projected_sweep_deg=float(np.rad2deg(angle[-1] - angle[0])),

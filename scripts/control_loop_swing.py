@@ -1,0 +1,202 @@
+"""Time common-wrist reversals from the released loop's measured X turning points.
+
+This experimental controller reuses continue_cup's exact-state continuation and
+collision guards. It observes privileged simulated rope state and commands only
+robot joints. An elevated free band is a timing candidate, not a successful Cup.
+"""
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from revo3_cat_cradle.bimanual import RevoTron
+from revo3_cat_cradle.free_loop import ApexDetector, free_loop_material, common_wrist_translation
+from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
+from revo3_cat_cradle.transfers import track_support_patch
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--amplitude", type=float, default=0.08)
+    parser.add_argument("--strokes", type=int, default=5)
+    parser.add_argument("--stroke-duration", type=float, default=0.6)
+    parser.add_argument("--cartesian-steps", type=int, default=9)
+    parser.add_argument("--probe-step", type=float, default=0.1)
+    parser.add_argument("--apex-timeout", type=float, default=2)
+    parser.add_argument("--apex-min-offset", type=float, default=0.03)
+    parser.add_argument("--hold-duration", type=float, default=1.2)
+    args = parser.parse_args()
+    durations = [args.stroke_duration, args.probe_step, args.apex_timeout, args.hold_duration]
+    if not np.isfinite([args.amplitude, *durations]).all() or not 0 < args.amplitude <= 0.12:
+        parser.error("Amplitude must be finite and in (0, 0.12] m")
+    if args.strokes < 1 or min(durations) <= 0 or any(abs(t * 30 - round(t * 30)) > 1e-7 for t in durations):
+        parser.error("Use positive durations on the 30 Hz grid and at least one stroke")
+    if args.cartesian_steps < 1 or abs(args.stroke_duration / args.cartesian_steps * 30 - round(args.stroke_duration / args.cartesian_steps * 30)) > 1e-7:
+        parser.error("Cartesian segments must lie on the 30 Hz grid")
+    if not np.isfinite(args.apex_min_offset) or not 0 < args.apex_min_offset <= args.amplitude:
+        parser.error("Turning-point displacement gate must lie in (0, amplitude]")
+    source, out = args.source.resolve(), args.output.resolve()
+    saved = np.load(source / "checkpoint.npz")
+    payload = json.loads((source / "trajectory.json").read_text())
+    tracking = json.loads((source / "material_support_tracking.json").read_text())
+    release = json.loads((source / "loop_release_audit.json").read_text())
+    if not tracking["tracking_complete"] or abs(tracking["final"]["time"] - float(saved["time"])) > 1e-5:
+        raise ValueError("Source needs completed material tracking through its checkpoint")
+    if not release["passed_diagnostics"] or abs(release["interval_s"][-1] - float(saved["time"])) > 1e-5:
+        raise ValueError("Source needs passing release diagnostics through its checkpoint")
+    if payload["config"]["fps"] != 30 or payload["config"]["adaptive_length"]:
+        raise ValueError("Controller expects a passive rope at 30 Hz")
+    if abs(payload["config"]["radius"] - 0.001) > 1e-10:
+        raise ValueError("Material tracking expects a 1 mm rope radius")
+    if payload["collision_geometry"].get("robot_body") != "hulls":
+        raise ValueError("Controller requires physical arm/body hull contacts")
+    plan = json.loads((source / "transfer_plan.json").read_text())
+    band, bridge = free_loop_material(plan, len(saved["particle_q"]))
+    robot = RevoTron()
+    meshes = load_knuckle_meshes(robot) if payload["collision_geometry"].get("knuckles") == "mesh" else {}
+    q0 = saved["joints"].copy()
+    wrists = {side: robot.wrist(q0, side).copy() for side in ("left", "right")}
+    q_current = q0.copy()
+    out.mkdir(parents=True, exist_ok=False)
+    centers = {name: item["center"] for name, item in tracking["final"]["supports"].items()}
+    last_checked = float(saved["time"])
+    report = dict(
+        scope=__doc__, source=str(source),
+        source_checkpoint_sha256=hashlib.sha256((source / "checkpoint.npz").read_bytes()).hexdigest(),
+        amplitude_m=args.amplitude, stroke_duration_s=args.stroke_duration,
+        probe_step_s=args.probe_step, apex_timeout_s=args.apex_timeout,
+        apex_minimum_offset_m=args.apex_min_offset,
+        timing_velocity="Three-frame finite difference of fixed-material relative positions",
+        maximum_strokes=args.strokes, cartesian_steps=args.cartesian_steps,
+        fixed_free_material=band.tolist(), fixed_thumb_material=bridge.tolist(),
+        events=[], samples=[], retention_errors=[], height_candidates=[],
+        completed_figure=False, status="running",
+    )
+    current_source = source
+    history = []
+    for frame in payload["frames"][-3:]:
+        rope = np.asarray(frame["rope"])
+        history.append((float(frame["time"]), rope[band].mean(axis=0) - rope[bridge].mean(axis=0)))
+
+    def flush():
+        pending = out / "swing_control.pending.json"
+        pending.write_text(json.dumps(report, indent=2) + "\n")
+        pending.replace(out / "swing_control.json")
+
+    def advance(waypoints=None, duration=None, phase="Hold for the free-loop turning point"):
+        nonlocal current_source, last_checked, q_current
+        moving_until = last_checked + sum(row["duration"] for row in waypoints) if waypoints else last_checked
+        feedback = []
+        command = [sys.executable, str(ROOT / "scripts/continue_cup.py"),
+                   "--source", str(current_source), "--output", str(out), "--side", "both",
+                   "--check-self-collision", "--check-robot-hulls", "--check-body-envelope",
+                   "--max-stretch-ratio", "1.2",
+                   "--checkpoint-every-frame", "--hold-label", phase]
+        if waypoints is None:
+            command += ["--hold-only", "--hold-duration", str(duration or args.probe_step)]
+        else:
+            waypoint = out / "control_waypoint.json"
+            waypoint.write_text(json.dumps(waypoints))
+            command += ["--route-only", "--approach-path", str(waypoint),
+                        "--hold-duration", str(args.probe_step)]
+        with (out / "physics.log").open("a") as log:
+            subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
+        current_source = out
+        with np.load(out / "trajectory.npz") as trajectory:
+            for k in np.flatnonzero(trajectory["time"] > last_checked + 1e-5):
+                time = float(trajectory["time"][k])
+                rope = trajectory["rope"][k]
+                transforms = robot.fk(trajectory["joints"][k])
+                for name in centers:
+                    side, finger = name.split("_")
+                    contacts = support_contact_indices(transforms, rope, side, finger, meshes)
+                    try:
+                        centers[name], _, _ = track_support_patch(contacts, len(rope), centers[name])
+                    except ValueError as exc:
+                        report["retention_errors"].append(dict(time_s=time, support=name, reason=str(exc)))
+                        raise RuntimeError("Original support material tracking failed") from exc
+                strain = float((np.linalg.norm(np.roll(rope, -1, axis=0) - rope, axis=1) / trajectory["rest_lengths"][k]).max())
+                if strain >= 1.2:
+                    report["strain_stop"] = dict(time_s=time, ratio=strain)
+                    raise RuntimeError("Rope stretch reached the unchanged 1.2 gate")
+                relative = rope[band].mean(axis=0) - rope[bridge].mean(axis=0)
+                history.append((time, relative.copy()))
+                del history[:-3]
+                estimated_velocity = (history[-1][1] - history[0][1]) / (history[-1][0] - history[0][0])
+                with np.load(out / f"state_{round(time * 30):04d}.npz") as frame_state:
+                    velocity = frame_state["particle_qd"][band].mean(axis=0) - frame_state["particle_qd"][bridge].mean(axis=0)
+                sample = dict(time_s=time, relative_position_m=relative.tolist(),
+                              relative_velocity_m_s=velocity.tolist(), timing_velocity_m_s=estimated_velocity.tolist())
+                report["samples"].append(sample)
+                if time >= moving_until - 1e-5:
+                    feedback.append(sample)
+                if relative[2] > 0.02:
+                    report["height_candidates"].append(dict(time_s=time, relative_position_m=relative.tolist(), checkpoint=f"state_{round(time * 30):04d}.npz"))
+            last_checked = float(trajectory["time"][-1])
+        state = np.load(out / "checkpoint.npz")
+        q_current = state["joints"].copy()
+        flush()
+        print(report["samples"][-1], flush=True)
+        return feedback
+
+    def turning_time(detector, samples):
+        for sample in samples:
+            if detector.update(sample["relative_position_m"][0], sample["timing_velocity_m_s"][0]):
+                return sample["time_s"]
+        return None
+
+    try:
+        for stroke in range(args.strokes):
+            direction = 1 if stroke % 2 == 0 else -1
+            targets = {s: pose[:3, 3] + [direction * args.amplitude, 0, 0] for s, pose in wrists.items()}
+            waypoints, kinematics = common_wrist_translation(robot, q_current, targets, args.stroke_duration, args.cartesian_steps)
+            report["events"].append(dict(kind="stroke", number=stroke + 1, direction=direction, start_s=last_checked, kinematics=kinematics))
+            flush()
+            samples = advance(waypoints=waypoints)
+            if report["height_candidates"]:
+                report["status"] = "elevated_band_candidate"
+                break
+            if stroke + 1 == args.strokes:
+                report["status"] = "stroke_limit"
+                break
+            detector = ApexDetector(direction, minimum_offset=args.apex_min_offset)
+            until = last_checked + args.apex_timeout
+            apex = turning_time(detector, samples)
+            while apex is None:
+                if last_checked >= until - 1e-5:
+                    report["status"] = "apex_timeout"
+                    break
+                samples = advance()
+                if report["height_candidates"]:
+                    report["status"] = "elevated_band_candidate"
+                    break
+                apex = turning_time(detector, samples)
+            if report["status"] != "running":
+                break
+            report["events"].append(dict(kind="observed_apex", direction=direction,
+                                         observed_time_s=apex, reversal_time_s=last_checked))
+        advance(duration=args.hold_duration, phase="Hold after the measured-phase loop swings")
+        if report["height_candidates"]:
+            report["status"] = "elevated_band_candidate"
+    except Exception as exc:
+        report["status"] = "rejected"
+        report["error"] = str(exc)
+        stop = out / "stretch_stop.json"
+        if stop.exists():
+            report["strain_stop"] = json.loads(stop.read_text())
+        raise
+    finally:
+        flush()
+
+
+if __name__ == "__main__":
+    main()

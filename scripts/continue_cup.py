@@ -28,6 +28,10 @@ def main():
     p.add_argument("--source", type=Path, default=ROOT / "output/publish_opening_a")
     p.add_argument("--output", type=Path, default=ROOT / "output/cup_pickup")
     p.add_argument("--checkpoint", type=Path)
+    p.add_argument("--checkpoint-every-frame", action="store_true",
+                   help="Save exact dynamic states for subsequent contact-timing branches")
+    p.add_argument("--max-stretch-ratio", type=float,
+                   help="Stop at the first recorded frame reaching this stretch ratio")
     p.add_argument("--support-reference", type=Path)
     p.add_argument(
         "--pickup-only",
@@ -122,6 +126,10 @@ def main():
         "--target-index", type=int, help="Material point on the intended far strand"
     )
     a = p.parse_args()
+    if a.max_stretch_ratio is not None and (
+        not np.isfinite(a.max_stretch_ratio) or a.max_stretch_ratio <= 1
+    ):
+        p.error("--max-stretch-ratio must be finite and greater than one")
     if a.friction is not None and (not np.isfinite(a.friction) or a.friction < 0):
         p.error("--friction must be finite and nonnegative")
     if a.prepare_only and not a.index_curl:
@@ -305,6 +313,14 @@ def main():
                 save()
                 raise RuntimeError("Diverged")
             positions = sim.state.particle_q.numpy()
+            if a.max_stretch_ratio is not None and metrics[-1]["max_stretch_ratio"] >= a.max_stretch_ratio:
+                save()
+                sim.save_checkpoint(out / f"state_{i:04d}.npz")
+                (out / "stretch_stop.json").write_text(json.dumps(dict(
+                    time_s=sim.t, ratio=metrics[-1]["max_stretch_ratio"],
+                    threshold=a.max_stretch_ratio,
+                ), indent=2) + "\n")
+                raise RuntimeError("Rope stretch reached the requested gate")
             if hull_checker is not None:
                 intrusions = hull_checker.measure(sim.transforms, positions)
                 if intrusions:
@@ -342,6 +358,8 @@ def main():
             ):
                 save()
                 raise RuntimeError("Transfer contacted the forbidden near strand")
+            if a.checkpoint_every_frame:
+                sim.save_checkpoint(out / f"state_{i:04d}.npz")
             if i % 30 == 0:
                 rope = sim.state.particle_q.numpy()
                 record = dict(

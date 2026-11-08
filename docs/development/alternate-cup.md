@@ -258,6 +258,9 @@ incomplete. The limited strain margin is relevant to the next motion.
 .venv/bin/python scripts/audit_retained_supports.py --source output/raised_thumb_spread --start 6
 ```
 
+Subsequent [free-loop control experiments](free-loop-control.md) use this
+checkpoint to test observed swing timing and Cartesian wrist waypoints.
+
 ## Historical hand-only comparisons
 
 The new comparison starts from the same independently placed Opening A with
