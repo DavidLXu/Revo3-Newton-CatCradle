@@ -349,15 +349,20 @@ def main():
                 raise RuntimeError(
                     "Transfer exceeded the rope self-contact search bound"
                 )
-            if a.stop_on_near_contact and any(
-                gaps(
-                    sim.transforms, positions[plan[s]["near_indices"]], s, "thumb"
-                ).min()
-                < 0.0015
-                for s in sides
-            ):
-                save()
-                raise RuntimeError("Transfer contacted the forbidden near strand")
+            if a.stop_on_near_contact:
+                near_gaps = {
+                    s: float(gaps(
+                        sim.transforms, positions[plan[s]["near_indices"]], s, "thumb"
+                    ).min()) for s in sides
+                }
+                if min(near_gaps.values()) < 0.0015:
+                    save()
+                    sim.save_checkpoint(out / f"state_{i:04d}.npz")
+                    (out / "near_stop.json").write_text(json.dumps(dict(
+                        time_s=sim.t, gap_m=near_gaps, threshold_m=0.0015,
+                        phase=phase, commanded_phase_end_s=t,
+                    ), indent=2) + "\n")
+                    raise RuntimeError("Transfer contacted the forbidden near strand")
             if a.checkpoint_every_frame:
                 sim.save_checkpoint(out / f"state_{i:04d}.npz")
             if i % 30 == 0:

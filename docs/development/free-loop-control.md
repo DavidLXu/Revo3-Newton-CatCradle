@@ -316,6 +316,9 @@ supports, rather than optimizing only the minimum thumb-to-strand distance.
 # The second route keeps identical joints for 0.4 s, then holds for 1.2 s.
 ```
 
+The subsequent [supported-thumb experiments](supported-thumb.md) coordinate
+the wrist and index with the thumb, and test right-hand tension relief.
+
 The controller changes pass all 106 non-integration tests locally and in
 [CI for 9ec1610](https://github.com/DavidLXu/Revo3-Newton-CatCradle/actions/runs/42428070305).
 That run still fails the previously recorded single-hand integration check:
