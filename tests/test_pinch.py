@@ -5,18 +5,21 @@ import pytest
 from scipy.spatial.transform import Rotation
 
 from revo3_cat_cradle.contact_geometry import finger_capsule
-from revo3_cat_cradle.pinch import near_pinch_samples, near_pinch_edge_samples
+from revo3_cat_cradle.pinch import (
+    near_pinch_samples, near_pinch_edge_samples,
+    bilateral_grip_observation, bilateral_grip_checks,
+)
 
 
-def fixture(gap=.002, cooriented=False):
+def fixture(gap=.002, cooriented=False, side="left"):
     transforms = {}
     for finger, sign in (("thumb", -1), ("index", -1 if cooriented else 1)):
         for k, segment in enumerate(("DIP", "PIP", "MCP")):
-            center, _, radius, _ = finger_capsule(finger, segment)
+            center, _, radius, _ = finger_capsule(finger, segment, side)
             tf = np.eye(4)
             tf[:3, 3] = [sign * (radius + gap / 2), k, 0]
             tf[:3, 3] -= center
-            transforms[f"left_{finger}_{segment}_link"] = tf
+            transforms[f"{side}_{finger}_{segment}_link"] = tf
     return transforms
 
 
@@ -88,3 +91,36 @@ def test_edge_sampling_uses_the_same_strict_contact_threshold():
 def test_contact_threshold_cannot_weaken_the_existing_proximity_gate(gap):
     with pytest.raises(ValueError):
         near_pinch_samples(fixture(), np.zeros((1, 3)), "left", [0], max_gap_m=gap)
+
+
+def test_bilateral_guard_rejects_extra_old_contact_while_near_grip_remains():
+    transforms = fixture() | fixture(side="right")
+    rope = np.array([[0, -.002, 0], [0, .002, 0], [0, .2, 0], [0, .3, 0]])
+    plan = {side: dict(near_indices=[0, 1], old_loop_indices=[2, 3])
+            for side in ("left", "right")}
+    observed = bilateral_grip_observation(transforms, rope, plan)
+    assert all(bilateral_grip_checks(observed).values())
+    before = rope.copy()
+    rope[2:] = [[0, -.001, 0], [0, .001, 0]]
+    observed = bilateral_grip_observation(transforms, rope, plan)
+    checks = bilateral_grip_checks(observed)
+    assert checks["left_near_proximity_each_frame"]
+    assert checks["right_near_proximity_each_frame"]
+    assert not checks["left_no_old_strand_paired_samples"]
+    assert not checks["right_no_old_strand_paired_samples"]
+    assert observed["right"]["old_loop_indices"] == [2]
+    np.testing.assert_array_equal(rope[:2], before[:2])
+
+
+def test_bilateral_guard_identifies_the_hand_that_lost_contact():
+    transforms = fixture() | fixture(side="right", gap=.006)
+    rope = np.array([[0, -.002, 0], [0, .002, 0], [0, .2, 0], [0, .3, 0]])
+    plan = {side: dict(near_indices=[0, 1], old_loop_indices=[2, 3])
+            for side in ("left", "right")}
+    unchanged = rope.copy()
+    checks = bilateral_grip_checks(bilateral_grip_observation(transforms, rope, plan))
+    assert checks == dict(left_near_proximity_each_frame=True,
+                         right_near_proximity_each_frame=False,
+                         left_no_old_strand_paired_samples=True,
+                         right_no_old_strand_paired_samples=True)
+    np.testing.assert_array_equal(rope, unchanged)

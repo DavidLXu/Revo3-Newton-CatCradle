@@ -85,3 +85,30 @@ def near_pinch_edge_samples(transforms, rope, side, edge_indices, rope_radius=.0
         row.update(edge=int(edges[sample // samples_per_edge]),
                    fraction=float(fractions[sample % samples_per_edge]))
     return rows
+
+
+def bilateral_grip_observation(transforms, rope, plan, rope_radius=.001):
+    """Observe intended and unwanted paired edges without changing rope state."""
+    observations = {}
+    for side in ("left", "right"):
+        observations[side] = {}
+        for strand in ("near_indices", "old_loop_indices"):
+            ids = np.asarray(plan[side][strand])
+            edges = ids[np.isin((ids + 1) % len(rope), ids)]
+            samples = near_pinch_edge_samples(
+                transforms, rope, side, edges, rope_radius)
+            observations[side][strand] = sorted({
+                row["edge"] for row in samples if row["paired"]})
+    return observations
+
+
+def bilateral_grip_checks(observations):
+    """A retained near strand does not excuse an additional old-loop grip."""
+    return {
+        side + suffix: passed
+        for side in ("left", "right")
+        for suffix, passed in (
+            ("_near_proximity_each_frame", bool(observations[side]["near_indices"])),
+            ("_no_old_strand_paired_samples", not observations[side]["old_loop_indices"]),
+        )
+    }

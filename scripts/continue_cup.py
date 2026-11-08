@@ -22,7 +22,9 @@ from revo3_cat_cradle.palm_clearance import OpposingPalmClearance
 from revo3_cat_cradle.body_envelope import CentralBodyEnvelope
 from revo3_cat_cradle.robot_geometry import RobotHullAudit
 from revo3_cat_cradle.segment_contacts import MAX_SEGMENT_LENGTH
-from revo3_cat_cradle.pinch import near_pinch_samples
+from revo3_cat_cradle.pinch import (
+    near_pinch_samples, bilateral_grip_observation, bilateral_grip_checks,
+)
 
 
 def main():
@@ -47,6 +49,11 @@ def main():
         "--stop-on-support-loss", action="store_true",
         help="Track all four original thumb/index patches at every output frame; "
              "requires a source material_support_tracking.json matching the checkpoint",
+    )
+    p.add_argument(
+        "--stop-on-grip-loss", action="store_true",
+        help="Require both near strands at the source and every output frame; "
+             "stop on lost proximity or any paired old-loop sample",
     )
     p.add_argument(
         "--hold-on-near-pinch", choices=("left", "right", "both"),
@@ -145,6 +152,12 @@ def main():
         p.error("--pinch-max-gap must be finite and in [0, 0.0001] metres")
     if a.pinch_max_gap != .0001 and not a.hold_on_near_pinch:
         p.error("--pinch-max-gap requires --hold-on-near-pinch")
+    if a.stop_on_grip_loss and (
+        a.side != "both" or not (a.route_only or a.hold_only)
+        or a.hold_on_near_pinch or a.stop_on_near_contact
+    ):
+        p.error("--stop-on-grip-loss requires --side both and a route or hold, "
+                "without contact-seeking options")
     if a.hold_on_near_pinch and (
         not a.route_only or not a.approach_path or a.hold_only
         or a.stop_on_near_contact or a.side not in ("both", a.hold_on_near_pinch)
@@ -241,6 +254,8 @@ def main():
     rope = sim.state.particle_q.numpy()
     sides = ("left", "right") if a.side == "both" else (a.side,)
     previous_plan = a.source / "transfer_plan.json"
+    if a.stop_on_grip_loss and not previous_plan.exists():
+        raise ValueError("Grip guard requires source transfer_plan.json material identities")
     plan = json.loads(previous_plan.read_text()) if previous_plan.exists() else {}
     audit = []
     if a.hold_only or a.assist_old:
@@ -297,6 +312,12 @@ def main():
             target_index=k,
         )
     (out / "transfer_plan.json").write_text(json.dumps(plan, indent=2))
+    if a.stop_on_grip_loss:
+        initial_grip = bilateral_grip_observation(
+            sim.transforms, rope, plan, sim.config.radius)
+        if not all(bilateral_grip_checks(initial_grip).values()):
+            raise ValueError("Grip guard requires both near strands and no old-loop "
+                             "paired samples at the source checkpoint")
 
     def save():
         export_bimanual(sim, frames, metrics, out)
@@ -416,6 +437,22 @@ def main():
                         reason=str(exc), contacts=contacts.tolist(),
                     ), indent=2) + "\n")
                     raise RuntimeError("Original support material tracking failed") from exc
+            if a.stop_on_grip_loss:
+                observed = bilateral_grip_observation(
+                    sim.transforms, positions, plan, sim.config.radius)
+                grip_checks = bilateral_grip_checks(observed)
+                if not all(grip_checks.values()):
+                    save()
+                    sim.save_checkpoint(out / f"state_{i:04d}.npz")
+                    (out / "grip_stop.json").write_text(json.dumps(dict(
+                        time_s=sim.t, last_accepted_time_s=(i - 1) / 30,
+                        source_time_s=float(seed["time"]), phase=phase,
+                        commanded_phase_end_s=t, maximum_surface_gap_m=.0001,
+                        checks=grip_checks, sides=observed,
+                        scope="First rejected 30 Hz sample, not a substep contact "
+                              "event. Failed state is retained for diagnosis.",
+                    ), indent=2) + "\n")
+                    raise RuntimeError("Bilateral near-strand grip guard rejected the frame")
             if detect_pinch:
                 pinch_sides = (("left", "right") if a.hold_on_near_pinch == "both"
                                else (a.hold_on_near_pinch,))

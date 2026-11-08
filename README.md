@@ -20,6 +20,11 @@ wrong-strand grips and rejected closures. The [collision correction notes](docs/
 explain why old hand-only release checkpoints are invalid. Published recipes
 and phase-specific audits preserve both the measured progress and failures.
 
+[Grip-clearance trials](docs/development/grip-clearance.md) compare thumb-tip
+extension, index sliding and common wrist turns. Swing continuations now stop
+at the first recorded loss of near-strand proximity or paired old-loop contact.
+Their phase detectors also observe the approaching rope during arm motion.
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)

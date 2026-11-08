@@ -4,7 +4,7 @@ import pytest
 from revo3_cat_cradle.free_loop import (
     ApexDetector, BottomCrossingDetector, free_loop_material,
     common_wrist_translation, validate_bilateral_release,
-    validate_bilateral_near_hold,
+    validate_bilateral_near_hold, observed_phase_time,
 )
 
 
@@ -90,6 +90,39 @@ def test_center_crossing_rejects_invalid_detector_or_observation():
         BottomCrossingDetector(1, minimum_offset=np.nan)
     with pytest.raises(ValueError):
         BottomCrossingDetector(1).update(0, np.nan)
+
+
+def phase_sample(time, x, velocity):
+    return dict(time_s=time, relative_position_m=[x, 0, -.35],
+                timing_velocity_m_s=[velocity, 0, 0])
+
+
+def test_approach_during_stroke_arms_the_next_crossing():
+    # Rounded measurements from the second 100 mm stroke: at the final
+    # waypoint the approach is already inside the 10 mm arming threshold.
+    samples = [phase_sample(43.133333, .0262, -.456),
+               phase_sample(43.166667, .0093, -.415),
+               phase_sample(43.2, -.013, -.588)]
+    assert observed_phase_time(BottomCrossingDetector(-1, minimum_offset=.01),
+                               samples[1:]) is None
+    assert observed_phase_time(BottomCrossingDetector(-1, minimum_offset=.01),
+                               samples, not_before=43.166667) == 43.2
+
+
+def test_crossing_inside_motion_is_not_replayed_after_motion():
+    samples = [phase_sample(0, -.1, .4), phase_sample(.1, .01, .4),
+               phase_sample(.2, .04, .3), phase_sample(.3, .08, .1)]
+    detector = BottomCrossingDetector(1)
+    assert observed_phase_time(detector, samples, not_before=.2) is None
+    assert observed_phase_time(detector, [phase_sample(.4, .09, .1)]) is None
+
+
+def test_observed_phase_state_survives_a_separate_probe():
+    detector = BottomCrossingDetector(1)
+    assert observed_phase_time(detector, [phase_sample(0, -.1, .3),
+                                         phase_sample(.1, -.01, .3)],
+                               not_before=.1) is None
+    assert observed_phase_time(detector, [phase_sample(.2, .01, .3)]) == .2
 
 
 def test_free_material_wraps_without_using_a_thumb_arc():

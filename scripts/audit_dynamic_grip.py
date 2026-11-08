@@ -15,7 +15,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from revo3_cat_cradle.bimanual import RevoTron
-from revo3_cat_cradle.pinch import near_pinch_edge_samples
+from revo3_cat_cradle.pinch import bilateral_grip_observation, bilateral_grip_checks
 
 
 def main():
@@ -39,24 +39,12 @@ def main():
         checks[side + "_no_old_strand_paired_samples"] = True
     for k in selected:
         tf = robot.fk(joints[k])
-        row = dict(time_s=float(times[k]), sides={})
-        for side in ("left", "right"):
-            paired = {}
-            for strand in ("near_indices", "old_loop_indices"):
-                ids = np.asarray(plan[side][strand])
-                edges = ids[np.isin((ids + 1) % len(rope[k]), ids)]
-                samples = near_pinch_edge_samples(tf, rope[k], side, edges,
-                                                  payload["config"]["radius"])
-                paired[strand] = sorted({v["edge"] for v in samples if v["paired"]})
-            row["sides"][side] = paired
-            for suffix, passed in (
-                ("_near_proximity_each_frame", bool(paired["near_indices"])),
-                ("_no_old_strand_paired_samples", not paired["old_loop_indices"]),
-            ):
-                key = side + suffix
-                if not passed:
-                    checks[key] = False
-                    first_failures.setdefault(key, float(times[k]))
+        observed = bilateral_grip_observation(tf, rope[k], plan, payload["config"]["radius"])
+        row = dict(time_s=float(times[k]), sides=observed)
+        for key, passed in bilateral_grip_checks(observed).items():
+            if not passed:
+                checks[key] = False
+                first_failures.setdefault(key, float(times[k]))
         rows.append(row)
     report = dict(scope=__doc__, maximum_surface_gap_m=.0001,
                   interval_s=[float(times[selected[0]]), float(times[-1])],

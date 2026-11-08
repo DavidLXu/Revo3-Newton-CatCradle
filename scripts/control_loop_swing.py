@@ -3,8 +3,8 @@
 This experimental controller reuses continue_cup's exact-state continuation and
 collision guards. It observes privileged simulated rope state and commands only
 robot joints. An elevated free band is a timing candidate, not a successful Cup.
-Optional near-strand checks inspect every recorded frame after each stroke or
-probe, before issuing another command; they are not substep contact feedback.
+Optional near-strand checks stop integration at the first rejected output
+frame; they are not substep contact feedback.
 """
 
 import argparse
@@ -22,9 +22,9 @@ from revo3_cat_cradle.bimanual import RevoTron
 from revo3_cat_cradle.free_loop import (
     ApexDetector, BottomCrossingDetector, free_loop_material,
     common_wrist_translation, validate_bilateral_release,
-    validate_bilateral_near_hold,
+    validate_bilateral_near_hold, observed_phase_time,
 )
-from revo3_cat_cradle.pinch import near_pinch_edge_samples
+from revo3_cat_cradle.pinch import bilateral_grip_observation
 from revo3_cat_cradle.mesh_geometry import load_knuckle_meshes, support_contact_indices
 from revo3_cat_cradle.transfers import track_support_patch
 
@@ -94,6 +94,7 @@ def main():
         amplitude_m=args.amplitude, stroke_duration_s=args.stroke_duration,
         center_offset_m=args.center_offset,
         timing_trigger=args.timing,
+        phase_observation="Approach tracked during strokes; cues accepted after motion",
         probe_step_s=args.probe_step, apex_timeout_s=args.apex_timeout,
         apex_minimum_offset_m=args.apex_min_offset,
         timing_velocity="Three-frame finite difference of fixed-material relative positions",
@@ -127,6 +128,8 @@ def main():
                    "--check-self-collision", "--check-robot-hulls", "--check-body-envelope",
                    "--max-stretch-ratio", "1.2",
                    "--checkpoint-every-frame", "--hold-label", phase]
+        if args.require_near_pinch:
+            command += ["--stop-on-grip-loss"]
         if waypoints is None:
             command += ["--hold-only", "--hold-duration", str(duration or args.probe_step)]
         else:
@@ -143,16 +146,9 @@ def main():
                 rope = trajectory["rope"][k]
                 transforms = robot.fk(trajectory["joints"][k])
                 if args.require_near_pinch:
-                    pairs, old_pairs = {}, {}
-                    for side in ("left", "right"):
-                        ids = np.asarray(plan[side]["near_indices"])
-                        edges = ids[np.isin((ids + 1) % len(rope), ids)]
-                        pairs[side] = sorted({v["edge"] for v in near_pinch_edge_samples(
-                            transforms, rope, side, edges) if v["paired"]})
-                        old_ids = np.asarray(plan[side]["old_loop_indices"])
-                        old_edges = old_ids[np.isin((old_ids + 1) % len(rope), old_ids)]
-                        old_pairs[side] = sorted({v["edge"] for v in near_pinch_edge_samples(
-                            transforms, rope, side, old_edges) if v["paired"]})
+                    observed = bilateral_grip_observation(transforms, rope, plan)
+                    pairs = {side: observed[side]["near_indices"] for side in observed}
+                    old_pairs = {side: observed[side]["old_loop_indices"] for side in observed}
                     if any(old_pairs.values()):
                         report["old_pinch_errors"].append(dict(time_s=time, paired_edges=old_pairs))
                         raise RuntimeError("An old loop entered the near-strand grip during the stroke")
@@ -191,12 +187,6 @@ def main():
         print(report["samples"][-1], flush=True)
         return feedback
 
-    def turning_time(detector, samples):
-        for sample in samples:
-            if detector.update(sample["relative_position_m"][0], sample["timing_velocity_m_s"][0]):
-                return sample["time_s"]
-        return None
-
     try:
         for stroke in range(args.strokes):
             direction = 1 if stroke % 2 == 0 else -1
@@ -205,6 +195,8 @@ def main():
             waypoints, kinematics = common_wrist_translation(robot, q_current, targets, args.stroke_duration, args.cartesian_steps)
             report["events"].append(dict(kind="stroke", number=stroke + 1, direction=direction, start_s=last_checked, kinematics=kinematics))
             flush()
+            first_sample = len(report["samples"])
+            moving_until = last_checked + args.stroke_duration
             samples = advance(waypoints=waypoints)
             if report["height_candidates"]:
                 report["status"] = "elevated_band_candidate"
@@ -215,7 +207,8 @@ def main():
             detector_type = ApexDetector if args.timing == "apex" else BottomCrossingDetector
             detector = detector_type(direction, minimum_offset=args.apex_min_offset)
             until = last_checked + args.apex_timeout
-            apex = turning_time(detector, samples)
+            apex = observed_phase_time(detector, report["samples"][first_sample:],
+                                       not_before=moving_until)
             while apex is None:
                 if last_checked >= until - 1e-5:
                     report["status"] = "apex_timeout" if args.timing == "apex" else "crossing_timeout"
@@ -224,7 +217,7 @@ def main():
                 if report["height_candidates"]:
                     report["status"] = "elevated_band_candidate"
                     break
-                apex = turning_time(detector, samples)
+                apex = observed_phase_time(detector, samples)
             if report["status"] != "running":
                 break
             report["events"].append(dict(kind=("observed_apex" if args.timing == "apex"
@@ -239,6 +232,17 @@ def main():
         stop = out / "stretch_stop.json"
         if stop.exists():
             report["strain_stop"] = json.loads(stop.read_text())
+        grip_stop = out / "grip_stop.json"
+        if grip_stop.exists():
+            stopped = json.loads(grip_stop.read_text())
+            report["grip_stop"] = stopped
+            for strand, field, failed in (
+                ("near_indices", "near_pinch_errors", lambda values: not all(values.values())),
+                ("old_loop_indices", "old_pinch_errors", lambda values: any(values.values())),
+            ):
+                values = {side: stopped["sides"][side][strand] for side in ("left", "right")}
+                if failed(values):
+                    report[field].append(dict(time_s=stopped["time_s"], paired_edges=values))
         raise
     finally:
         flush()
