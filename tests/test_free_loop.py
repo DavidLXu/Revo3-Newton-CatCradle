@@ -35,12 +35,17 @@ def test_a_passing_retention_or_one_sided_release_cannot_start_a_free_loop_swing
 
 def test_bilateral_release_must_describe_the_current_checkpoint_and_clear_both_littles():
     report = dict(passed_diagnostics=True, released_sides=["left", "right"],
-                  interval_s=[6, 12], checks=dict(left_little_clear=True, right_little_clear=True))
+                  interval_s=[6, 12], checks=dict(left_little_clear=True, right_little_clear=True,
+                                                 interval_little_own_palm_clearance=True))
     validate_bilateral_release(report, 12)
     with pytest.raises(ValueError, match="checkpoint"):
         validate_bilateral_release(report, 12.1)
     report["checks"]["right_little_clear"] = False
     with pytest.raises(ValueError, match="bilateral"):
+        validate_bilateral_release(report, 12)
+    report["checks"]["right_little_clear"] = True
+    del report["checks"]["interval_little_own_palm_clearance"]
+    with pytest.raises(ValueError, match="own-palm"):
         validate_bilateral_release(report, 12)
 
 

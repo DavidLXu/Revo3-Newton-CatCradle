@@ -1,4 +1,4 @@
-"""Conservative opposing finger/palm checks for kinematic hand trajectories."""
+"""Conservative finger/palm checks for kinematic hand trajectories."""
 
 import numpy as np
 import trimesh
@@ -18,7 +18,13 @@ def capsule_hull_clearance(surface, a, b, radius, *, max_step=0.0005):
         raise ValueError("Invalid clearance sampling parameters")
     a, b = np.asarray(a), np.asarray(b)
     length = float(np.linalg.norm(b - a))
-    intervals = max(1, int(np.ceil(length / max_step)))
+    # Rigid-transform roundoff should not change a 32-interval axis into 33.
+    # The bound below still subtracts half the actual spacing, so rounding
+    # near an integer does not weaken its conservative distance guarantee.
+    ratio = length / max_step
+    if abs(ratio - round(ratio)) < 1e-10:
+        ratio = round(ratio)
+    intervals = max(1, int(np.ceil(ratio)))
     points = np.linspace(a, b, intervals + 1)
     _, distances, _ = trimesh.proximity.closest_point_naive(surface, points)
     planes = np.einsum("ij,ij->i", surface.face_normals, surface.triangles_center)
@@ -31,9 +37,9 @@ def capsule_hull_clearance(surface, a, b, radius, *, max_step=0.0005):
 class OpposingPalmClearance:
     """Use the same convex palm surfaces as BimanualSimulation's hull mode.
 
-    This covers opposite-hand capsules against palms, plus a bounding-sphere
-    separation check for the two palms. Knuckles, arms and swept motion are
-    outside its scope.
+    ``measure`` covers opposite-hand capsules and palm bounding spheres.
+    ``own_distal_clearance`` checks one digit's distal capsules against its own
+    palm. Knuckles, arms and swept motion are outside both methods' scope.
     """
 
     def __init__(self, robot, transforms, *, geometry="hull"):
@@ -69,6 +75,25 @@ class OpposingPalmClearance:
             center = surface.bounds.mean(axis=0)
             radius = float(np.linalg.norm(surface.vertices - center, axis=1).max())
             self.bounds[side] = center, radius
+
+    def own_distal_clearance(self, transforms, side, finger):
+        """Check PIP/DIP capsules against their own palm hull.
+
+        The adjoining MCP is excluded. This extra check is useful when folding
+        a digit; the opposing-hand check does not cover it. A negative sampled
+        gap proves proxy overlap, not intersection of the original meshes.
+        """
+        inverse = np.linalg.inv(transforms[side + "_hand_base_link"])
+        rows = []
+        for segment in ("PIP", "DIP"):
+            name = f"{side}_{finger}_{segment}_link"
+            center, axis, radius, half = finger_capsule(finger, segment, side)
+            tf = inverse @ transforms[name]
+            ends = np.array([center - half * axis, center + half * axis])
+            ends = ends @ tf[:3, :3].T + tf[:3, 3]
+            bound, sampled = capsule_hull_clearance(self.hulls[side], *ends, radius)
+            rows.append(dict(link=name, lower_bound_m=bound, sampled_gap_m=sampled))
+        return min(rows, key=lambda row: row["lower_bound_m"])
 
     def measure(self, transforms, *, quick=False):
         worst, sampled, label = float("inf"), float("inf"), None

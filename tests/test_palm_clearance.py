@@ -88,3 +88,30 @@ def test_deeper_index_hook_clears_opposing_palm_during_release():
         report = checker.measure(robot.fk((1 - u) * start + u * end), quick=True)
         assert report["finger_palm_lower_bound_m"] > 0.001
         assert report["palm_palm_sphere_lower_bound_m"] > 0.02
+
+
+def test_overfolded_little_passes_opposing_check_but_overlaps_own_palm():
+    from revo3_cat_cradle.bimanual import RevoTron
+
+    path = (Path(__file__).resolve().parents[1]
+            / "examples/transfers/attempt_roll_released_back40.json")
+    robot = RevoTron()
+    q = np.asarray(json.loads(path.read_text())[-1]["joints"])
+    checker = OpposingPalmClearance(robot, robot.fk(q))
+    initial = checker.own_distal_clearance(robot.fk(q), "left", "little")
+    assert initial["lower_bound_m"] > 0
+    for joint, angle in [("MCP", 1.583), ("PIP", 1.6001), ("DIP", 1.55)]:
+        q[robot.indices[f"left_little_{joint}_joint"]] = angle
+    poses = robot.fk(q)
+    assert checker.measure(poses, quick=True)["finger_palm_lower_bound_m"] > 0
+    own = checker.own_distal_clearance(poses, "left", "little")
+    assert own["link"] == "left_little_DIP_link"
+    assert own["sampled_gap_m"] < -.004
+    # Arm motion is deliberately absent from the continuation/audit cache key.
+    from scipy.spatial.transform import Rotation
+    world = np.eye(4)
+    world[:3, :3] = Rotation.from_euler("xyz", [30, -40, 70], degrees=True).as_matrix()
+    world[:3, 3] = [.4, -.2, .1]
+    moved = checker.own_distal_clearance(
+        {name: world @ pose for name, pose in poses.items()}, "left", "little")
+    np.testing.assert_allclose(moved["lower_bound_m"], own["lower_bound_m"], atol=1e-12)

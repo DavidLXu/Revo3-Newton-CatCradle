@@ -25,6 +25,11 @@ extension, index sliding and common wrist turns. Swing continuations now stop
 at the first recorded loss of near-strand proximity or paired old-loop contact.
 Their phase detectors also observe the approaching rope during arm motion.
 
+[Little-finger clearance trials](docs/development/little-clearance.md) add an
+own-palm check after an overfolded little finger passed the opposing-hand
+checks. The revised preparation retains both near strands; the free-loop
+flip remains unfinished.
+
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 
 ![Middle-to-thumb strand pickup at 5 seconds](docs/preview.png)
@@ -252,6 +257,8 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 最新的[脱圈前压线实验](docs/development/pre-release-clamp.md)先收起右手中指，再释放双小指绳圈，并微调右侧闭合。双侧目标近绳已通过保持阶段的“同一绳段、双面非正间隙”检查，四处原有拇指／食指搭挂及物理脱圈检查也通过。这是采样接触结果，尚未测量夹持力；自由绳环翻转以及完整 Cup → 船形 → Star 仍未完成，拉伸与碰撞限制没有放宽。
 
 [早期侧向夹持实验](docs/development/side-clamp.md)保留了误夹旧拇指线等失败记录。[碰撞修正说明](docs/development/alternate-cup.md#correction-missing-arm-collisions)解释了为什么旧的无手臂碰撞起点已被弃用。公开配方可以复算各次动作，脱圈前保持和脱圈后的检查分别记录。
+
+[小指避让实验](docs/development/little-clearance.md)补上了小指与自身手掌的碰撞代理检查，撤下了过度弯曲的候选姿态。修正后的准备动作保持住双侧近绳；自由绳环翻越仍未完成。
 
 ## License and upstream code
 

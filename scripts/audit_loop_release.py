@@ -98,6 +98,14 @@ def main():
         )
         for name, values in contacts.items()
     }
+    little_motion = {}
+    for side in ("left", "right"):
+        values = np.asarray(contacts[side + "_little"])
+        little_motion[side] = dict(minimum_gap_m=float(values.min()))
+        for name, threshold in (("first_within_2mm_s", .002),
+                                ("first_nonpositive_gap_s", 0)):
+            hit = np.flatnonzero(values <= threshold)
+            little_motion[side][name] = float(times[selected[hit[0]]]) if len(hit) else None
     released = (() if args.released == "none" else
                 ("left", "right") if args.released == "both" else (args.released,))
     checks = {
@@ -121,6 +129,16 @@ def main():
     palms = OpposingPalmClearance(
         robot, robot.fk(joints[0]), geometry=payload["collision_geometry"]["palm"]
     )
+    own_cache, own_rows = {}, []
+    for k in selected:
+        for side in ("left", "right"):
+            key = (side, *(joints[k][robot.indices[f"{side}_little_{j}_joint"]]
+                           for j in ("MPR", "MCP", "PIP", "DIP")))
+            if key not in own_cache:
+                own_cache[key] = palms.own_distal_clearance(robot.fk(joints[k]), side, "little")
+            own_rows.append(dict(time_s=float(times[k]), **own_cache[key]))
+    worst_own = min(own_rows, key=lambda row: row["lower_bound_m"])
+    checks["interval_little_own_palm_clearance"] = worst_own["lower_bound_m"] >= 0
     palm_cache = {}
     palm_results = []
     body_envelopes = CentralBodyEnvelope(robot)
@@ -178,7 +196,7 @@ def main():
     )
     report = dict(
         scope="Necessary release diagnostics only; not a threading or figure certificate. "
-        "Excludes swept collisions, robot self-collisions, rope-radius clearance "
+        "Excludes swept collisions, full robot self-collision checks, rope-radius clearance "
         "at robot-body meshes and material identity. Central-body boxes and "
         "complete-edge arm/body hull checks are conservative: overlap does not "
         "by itself prove penetration of the original mesh.",
@@ -188,10 +206,16 @@ def main():
         released_sides=list(released),
         interval_s=[float(times[selected[0]]), float(times[-1])],
         supports=supports,
+        interval_little_rope=little_motion,
         full_history_peak_stretch=stretch,
         full_history_minimum_rope_separation_m=float(separation.min()),
         minimum_separation_time_s=float(times[separation.argmin()]),
         interval_minimum_capsule_gap_m=worst_capsule_gap,
+        interval_little_own_palm=dict(
+            scope="PIP/DIP capsules against their own convex palm; adjoining MCP excluded. "
+                  "Sampled poses, not full robot self-collision certification.",
+            **worst_own,
+        ),
         full_history_palm_clearance=dict(
             time_s=float(times[worst_palm_frame]),
             **palm_results[worst_palm_frame],

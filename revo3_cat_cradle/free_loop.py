@@ -16,9 +16,11 @@ def validate_bilateral_release(report, checkpoint_time):
     if (not report.get("passed_diagnostics")
             or set(report.get("released_sides", [])) != {"left", "right"}
             or not all(checks.get(side + "_little_clear") for side in ("left", "right"))
+            or not checks.get("interval_little_own_palm_clearance")
             or not interval or not np.isfinite([interval[-1], checkpoint_time]).all()
             or abs(interval[-1] - checkpoint_time) > 1e-5):
-        raise ValueError("Source needs completed bilateral little-loop release at its checkpoint")
+        raise ValueError("Source needs completed bilateral little-loop release and own-palm "
+                         "clearance at its checkpoint; rerun audit_loop_release.py")
 
 
 def validate_bilateral_near_hold(report, checkpoint_time):

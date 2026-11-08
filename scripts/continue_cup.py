@@ -246,6 +246,7 @@ def main():
     metrics = json.loads((a.source / "metrics.json").read_text())["metrics"][:count]
     q = sim.q.copy()
     palm_checker = OpposingPalmClearance(r, r.fk(q)) if a.check_self_collision else None
+    own_little_cache = {}
     body_checker = CentralBodyEnvelope(r) if a.check_body_envelope else None
     hull_checker = RobotHullAudit(r) if a.check_robot_hulls else None
     # Subsequent arm-assisted transfers start in the actual saved wrist frames,
@@ -344,12 +345,25 @@ def main():
             if hand_clearance(r.fk(trial))[0] < -0.0005:
                 raise ValueError(f"Transfer phase crosses opposing hand: {phase}")
             if a.check_self_collision:
+                poses = r.fk(trial)
                 for side in ("left", "right"):
-                    if self_clearance_margin(r.fk(trial), side) < 0:
+                    if self_clearance_margin(poses, side) < 0:
                         raise ValueError(
                             f"Transfer phase self-collides on {side}: {phase}"
                         )
-                clearance = palm_checker.measure(r.fk(trial), quick=True)
+                    # This relative geometry depends only on the digit joints;
+                    # arm motion does not require another palm distance query.
+                    key = (side, *(trial[r.indices[f"{side}_little_{j}_joint"]]
+                                   for j in ("MPR", "MCP", "PIP", "DIP")))
+                    if key not in own_little_cache:
+                        own_little_cache[key] = palm_checker.own_distal_clearance(
+                            poses, side, "little")
+                    if own_little_cache[key]["lower_bound_m"] < 0:
+                        raise ValueError(
+                            f"Transfer phase lacks own little/palm clearance: {phase}; "
+                            f"{own_little_cache[key]}"
+                        )
+                clearance = palm_checker.measure(poses, quick=True)
                 if (
                     clearance["finger_palm_lower_bound_m"] < 0
                     or clearance["palm_palm_sphere_lower_bound_m"] < 0
