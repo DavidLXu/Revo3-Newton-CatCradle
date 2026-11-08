@@ -279,6 +279,18 @@ MCP capsules, with ratio 1.228630. It is rejected too. The next planning task
 is to keep both passages wide enough for the 2 mm rope while preserving the
 required material contacts.
 
+`inspect_stretch_stop.py` reports the terminal checkpoint's most stretched
+material edges, their original strand memberships and exact edge/capsule
+gaps. It reproduces the two locations above without advancing the simulation:
+
+```bash
+.venv/bin/python scripts/inspect_stretch_stop.py --source output/failed_probe --count 5
+```
+
+The resulting `stretch_diagnostic.json` includes the checkpoint hash and stop
+event. Nearby surfaces help choose the next clearance proposal; the report
+does not measure pinch forces or establish a cause by itself.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

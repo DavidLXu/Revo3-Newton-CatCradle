@@ -14413,7 +14413,87 @@
       },
       "public_intent": "attempt_thumb_helper60_diagonal80.intent.json",
       "accepted_for_temporary_helper_continuation": false,
-      "temporary_helper_rejection": "Far material track did not complete"
+      "temporary_helper_rejection": "Far material track did not complete",
+      "terminal_stretch_diagnostic": {
+        "scope": "Locate stretched material edges and their nearest finger capsules.\n\nThis reads a terminal checkpoint without advancing or repairing it. Multiple\nnearby fingers identify a possible passage to inspect, not proof of a pinch\nforce or the cause of the stretch. Meshes and body surfaces are not included.\n",
+        "time_s": 76.3,
+        "rope_radius_m": 0.001,
+        "stop_event": {
+          "time_s": 76.3,
+          "ratio": 1.200798749923706,
+          "threshold": 1.2
+        },
+        "checkpoint_sha256": "dec636ccd9af5f4bb49c17451456a0caa3ac5f4a7c62393145eed6dc418494db",
+        "edges": [
+          {
+            "edge": 551,
+            "length_m": 0.0023731556721031666,
+            "rest_length_m": 0.0019763142336159945,
+            "ratio": 1.200798749923706,
+            "material_regions": [
+              "left_old_loop_indices",
+              "right_near_indices"
+            ],
+            "nearest_capsules": [
+              {
+                "finger": "right_ring_MCP_link",
+                "edge": 551,
+                "edge_fraction": 0.5822186126466004,
+                "edge_length_m": 0.0023731556721031666,
+                "edge_gap_m": -8.590989836965417e-05,
+                "minimum_particle_gap_m": -4.979193677564966e-05,
+                "rope_axial_m": 0.002345976170598078,
+                "capsule_half_length_m": 0.0191,
+                "closest_region": "shaft"
+              },
+              {
+                "finger": "right_little_MCP_link",
+                "edge": 551,
+                "edge_fraction": 0.42220056022418784,
+                "edge_length_m": 0.0023731556721031666,
+                "edge_gap_m": -7.621494737918098e-05,
+                "minimum_particle_gap_m": -4.525890861369671e-05,
+                "rope_axial_m": 0.00829112305500676,
+                "capsule_half_length_m": 0.0191,
+                "closest_region": "shaft"
+              },
+              {
+                "finger": "right_little_PIP_link",
+                "edge": 551,
+                "edge_fraction": 1.0,
+                "edge_length_m": 0.0023731556721031666,
+                "edge_gap_m": 0.012001226780219972,
+                "minimum_particle_gap_m": 0.012001226780219972,
+                "rope_axial_m": -0.028419382961879926,
+                "capsule_half_length_m": 0.0113,
+                "closest_region": "negative_cap"
+              },
+              {
+                "finger": "right_ring_PIP_link",
+                "edge": 551,
+                "edge_fraction": 0.0,
+                "edge_length_m": 0.0023731556721031666,
+                "edge_gap_m": 0.01627884470861591,
+                "minimum_particle_gap_m": 0.01627884470861591,
+                "rope_axial_m": -0.03642263299091547,
+                "capsule_half_length_m": 0.0113,
+                "closest_region": "negative_cap"
+              },
+              {
+                "finger": "right_middle_MCP_link",
+                "edge": 551,
+                "edge_fraction": 1.0,
+                "edge_length_m": 0.0023731556721031666,
+                "edge_gap_m": 0.02290211545952605,
+                "minimum_particle_gap_m": 0.02290211545952605,
+                "rope_axial_m": 0.006290099337112503,
+                "capsule_half_length_m": 0.0191,
+                "closest_region": "shaft"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "name": "helper60_diagonal80_left40",
@@ -16541,7 +16621,87 @@
       },
       "public_intent": "attempt_thumb_helper60_diagonal80_left40_open_two.intent.json",
       "accepted_for_temporary_helper_continuation": false,
-      "temporary_helper_rejection": "Far material track did not complete"
+      "temporary_helper_rejection": "Far material track did not complete",
+      "terminal_stretch_diagnostic": {
+        "scope": "Locate stretched material edges and their nearest finger capsules.\n\nThis reads a terminal checkpoint without advancing or repairing it. Multiple\nnearby fingers identify a possible passage to inspect, not proof of a pinch\nforce or the cause of the stretch. Meshes and body surfaces are not included.\n",
+        "time_s": 76.9,
+        "rope_radius_m": 0.001,
+        "stop_event": {
+          "time_s": 76.9,
+          "ratio": 1.2286301851272583,
+          "threshold": 1.2
+        },
+        "checkpoint_sha256": "cd369e1fa31addf64e6f85f3ebc25182f6bdfffb47cc4d14af22596e4f314bcf",
+        "edges": [
+          {
+            "edge": 411,
+            "length_m": 0.0024740437511354685,
+            "rest_length_m": 0.002013660268858075,
+            "ratio": 1.2286301851272583,
+            "material_regions": [
+              "left_near_indices",
+              "right_old_loop_indices"
+            ],
+            "nearest_capsules": [
+              {
+                "finger": "right_index_MCP_link",
+                "edge": 411,
+                "edge_fraction": 0.7527643648280262,
+                "edge_length_m": 0.0024740437511354685,
+                "edge_gap_m": -5.522843567655391e-05,
+                "minimum_particle_gap_m": -4.111180818755066e-05,
+                "rope_axial_m": 0.023531472987776456,
+                "capsule_half_length_m": 0.0191,
+                "closest_region": "positive_cap"
+              },
+              {
+                "finger": "right_thumb_DIP_link",
+                "edge": 411,
+                "edge_fraction": 0.5356841134797387,
+                "edge_length_m": 0.0024740437511354685,
+                "edge_gap_m": -4.539576211548286e-05,
+                "minimum_particle_gap_m": 7.468376183142854e-06,
+                "rope_axial_m": 0.012358804113860965,
+                "capsule_half_length_m": 0.009,
+                "closest_region": "positive_cap"
+              },
+              {
+                "finger": "right_index_PIP_link",
+                "edge": 411,
+                "edge_fraction": 1.0,
+                "edge_length_m": 0.0024740437511354685,
+                "edge_gap_m": 0.002679805089845745,
+                "minimum_particle_gap_m": 0.002679805089845745,
+                "rope_axial_m": -0.01657048904130405,
+                "capsule_half_length_m": 0.0113,
+                "closest_region": "negative_cap"
+              },
+              {
+                "finger": "right_thumb_PIP_link",
+                "edge": 411,
+                "edge_fraction": 1.0,
+                "edge_length_m": 0.0024740437511354685,
+                "edge_gap_m": 0.01873091150071405,
+                "minimum_particle_gap_m": 0.01873091150071405,
+                "rope_axial_m": 0.03433689785297064,
+                "capsule_half_length_m": 0.012,
+                "closest_region": "positive_cap"
+              },
+              {
+                "finger": "right_index_DIP_link",
+                "edge": 411,
+                "edge_fraction": 1.0,
+                "edge_length_m": 0.0024740437511354685,
+                "edge_gap_m": 0.026085140479683452,
+                "minimum_particle_gap_m": 0.026085140479683452,
+                "rope_axial_m": -0.04439568908965383,
+                "capsule_half_length_m": 0.008,
+                "closest_region": "negative_cap"
+              }
+            ]
+          }
+        ]
+      }
     }
   ],
   "preflight_rejections": [
