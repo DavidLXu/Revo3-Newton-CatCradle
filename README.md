@@ -22,6 +22,10 @@ retain the original supports during two short steps, but fail the subsequent
 hold. Little-finger release and the new bight remain unresolved at that pose.
 Middle-finger assistance produces intermittent fingertip contact with the target
 strand; a stable new bight remains unverified.
+The [middle-finger underpass trials](docs/development/middle-underpass.md)
+now compare lateral passage routes and distinguish tip contact from shaft
+contact. The first route retains the original supports while moving, but
+fails its subsequent hold; no completed transfer is claimed.
 
 The single-hand demo includes a hardcoded correction that lets the little finger pick up the **middle-to-thumb strand** around 4.5–5.2 s. It is a scripted simulation experiment, not a learned policy or a validated reproduction of a complete cat's-cradle routine.
 

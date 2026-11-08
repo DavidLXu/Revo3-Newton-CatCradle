@@ -198,9 +198,9 @@ The actual rope edge 205 touches the middle DIP's distal cap at 57.866667 s.
 Its closest centerline point is 19.407 mm along the capsule axis; the cylindrical
 half-length is 8 mm and the tip's centerline contact limit is 19.5 mm. Thus the
 contact is almost at the fingertip's axial end, rather than against the shaft.
-This explains why small gap values have not established a hooked bight. A next
-trial should plan passage around the strand and seating on the finger, while
-retaining the original supports; that path has not yet been executed.
+This explains why small gap values have not established a hooked bight. The
+[following underpass trials](middle-underpass.md) execute lateral and forward
+steps from this checkpoint; passage and a stable new bight remain unverified.
 
 ## Stopped states and validation
 

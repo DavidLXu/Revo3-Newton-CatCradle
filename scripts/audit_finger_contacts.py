@@ -13,7 +13,18 @@ from revo3_cat_cradle.bimanual import RevoTron
 from revo3_cat_cradle.contact_geometry import finger_capsule
 
 
-def audit_frame(robot, joints, points, rope_radius):
+def audit_frame(robot, joints, points, rope_radius, *, edge_indices=None):
+    """Inspect a closed rope, optionally restricting the material edges.
+
+    Region names describe the closest point only; even shaft contact cannot
+    certify a secured bight or a completed string figure.
+    """
+    selected = np.arange(len(points)) if edge_indices is None else np.asarray(edge_indices)
+    if (selected.ndim != 1 or not len(selected)
+            or not np.issubdtype(selected.dtype, np.integer)
+            or np.any(selected < 0) or np.any(selected >= len(points))):
+        raise ValueError("Select existing material edge indices")
+    selected_nodes = np.unique(np.r_[selected, (selected + 1) % len(points)])
     poses = robot.fk(joints)
     u = np.roll(points, -1, axis=0) - points
     aa = np.einsum("ij,ij->i", u, u)
@@ -61,7 +72,13 @@ def audit_frame(robot, joints, points, rope_radius):
                     - radius
                     - rope_radius
                 )
-                i = int(gaps.argmin())
+                i = int(selected[gaps[selected].argmin()])
+                closest_rope = points[i] + s[i] * u[i]
+                axial = float((closest_rope - (a + b) / 2) @ (tf[:3, :3] @ axis))
+                region = (
+                    "negative_cap" if axial < -half else
+                    "positive_cap" if axial > half else "shaft"
+                )
                 rows.append(
                     dict(
                         finger=name,
@@ -69,7 +86,10 @@ def audit_frame(robot, joints, points, rope_radius):
                         edge_fraction=float(s[i]),
                         edge_length_m=float(np.sqrt(aa[i])),
                         edge_gap_m=float(gaps[i]),
-                        minimum_particle_gap_m=float(node_gaps.min()),
+                        minimum_particle_gap_m=float(node_gaps[selected_nodes].min()),
+                        rope_axial_m=axial,
+                        capsule_half_length_m=float(half),
+                        closest_region=region,
                     )
                 )
     return sorted(rows, key=lambda item: item["edge_gap_m"])
@@ -80,13 +100,23 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--time", type=float, nargs="*", help="Defaults to final frame")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--material-range", type=int, nargs=2, metavar=("START", "END"),
+                        help="Inspect only edges START <= i < END, preserving material IDs")
     args = parser.parse_args()
     with np.load(args.source / "trajectory.npz") as archive:
         times, joints, rope = (archive[key] for key in ("time", "joints", "rope"))
     payload = json.loads((args.source / "trajectory.json").read_text())
+    selected = None
+    if args.material_range is not None:
+        start, end = args.material_range
+        if not 0 <= start < end <= rope.shape[1]:
+            parser.error("Material range must select existing rope edges")
+        selected = np.arange(start, end)
     robot = RevoTron()
     report = dict(
-        scope="Discrete edge/capsule gaps; excludes palm, meshes and swept collisions",
+        scope="Discrete edge/capsule gaps and contact location; not a pickup certificate. "
+              "Excludes palm, meshes and swept collisions",
+        material_edge_range=args.material_range,
         frames=[],
     )
     for requested in args.time or [times[-1]]:
@@ -97,7 +127,8 @@ def main():
             dict(
                 time_s=float(times[i]),
                 contacts=audit_frame(
-                    robot, joints[i], rope[i], payload["config"]["radius"]
+                    robot, joints[i], rope[i], payload["config"]["radius"],
+                    edge_indices=selected,
                 ),
             )
         )
