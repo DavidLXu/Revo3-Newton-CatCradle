@@ -418,6 +418,26 @@ contact. This endpoint is rejected as a continuation source. The recipe is
 `attempt_thumb_release_helper_gravity60_back100.json`; further experiments
 must replay from the validated pre-tilt state and check a complete new hold.
 
+The `release_helper_gravity60_settle24` comparison repeats that tilt from the
+valid source with `--hold-duration 2.4`. At the earlier endpoint, 91.966667 s,
+particle positions, velocities, joints and rest lengths match the short-hold
+run exactly. The longer replay ends at 93.166667 s but still has left-little
+contact within its final held second. Extra settling time therefore does not
+resolve this contact, and the longer endpoint also stays rejected.
+
+A separate preparation extends only the right thumb DIP from 0.801839 to
+0.2 rad over 1 s, then holds for 1.2 s. It starts from the validated
+86.766667 s straight-little state and ends at 88.966667 s. Both new far tracks
+and original indices survive. Right near clearance is at least 22.213 mm and
+right old-loop clearance is 10.714 mm; both near/old-loop and all middle/ring
+checks pass. Only final right-little release fails. This preparation is an
+accepted temporary-helper source for new tilt trials. Its recipe is
+`attempt_thumb_release_helper_thumb_extend20_before_tilt.json`.
+
+The numerical record includes `planned_hold_duration_s` for these release
+trials. The final hold is a `continue_cup.py` argument, separate from the motion
+recipe; reproduce it with the recorded duration.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

@@ -18546,7 +18546,8 @@
       },
       "public_intent": "attempt_thumb_release_helper_unhook_fold.intent.json",
       "accepted_for_temporary_helper_continuation": true,
-      "declared_helper": "right_little"
+      "declared_helper": "right_little",
+      "planned_hold_duration_s": 1.2
     },
     {
       "name": "release_helper_straight_fold",
@@ -18998,7 +18999,8 @@
       },
       "public_intent": "attempt_thumb_release_helper_straight_fold.intent.json",
       "accepted_for_temporary_helper_continuation": true,
-      "declared_helper": "right_little"
+      "declared_helper": "right_little",
+      "planned_hold_duration_s": 1.2
     },
     {
       "name": "release_helper_straight_spread50",
@@ -19451,7 +19453,8 @@
       },
       "public_intent": "attempt_thumb_release_helper_straight_spread50.intent.json",
       "accepted_for_temporary_helper_continuation": true,
-      "declared_helper": "right_little"
+      "declared_helper": "right_little",
+      "planned_hold_duration_s": 1.2
     },
     {
       "name": "release_helper_extend_spread50",
@@ -19913,7 +19916,8 @@
       },
       "public_intent": "attempt_thumb_release_helper_extend_spread50.intent.json",
       "accepted_for_temporary_helper_continuation": true,
-      "declared_helper": "right_little"
+      "declared_helper": "right_little",
+      "planned_hold_duration_s": 1.2
     },
     {
       "name": "release_helper_base30_bspline",
@@ -20729,7 +20733,8 @@
       },
       "public_intent": "attempt_thumb_release_helper_base30_bspline.intent.json",
       "accepted_for_temporary_helper_continuation": true,
-      "declared_helper": "right_little"
+      "declared_helper": "right_little",
+      "planned_hold_duration_s": 1.2
     },
     {
       "name": "release_helper_mpr_roll",
@@ -21089,7 +21094,8 @@
             ]
           }
         ]
-      }
+      },
+      "planned_hold_duration_s": 1.2
     },
     {
       "name": "release_helper_gravity60_back100",
@@ -21564,7 +21570,956 @@
       },
       "public_intent": "attempt_thumb_release_helper_gravity60_back100.intent.json",
       "accepted_for_temporary_helper_continuation": false,
-      "temporary_helper_rejection": "Helper source fails physical or nonhelper support checks"
+      "temporary_helper_rejection": "Helper source fails physical or nonhelper support checks",
+      "planned_hold_duration_s": 1.2
+    },
+    {
+      "name": "release_helper_gravity60_settle24",
+      "source": "alternative_cup_release_helper_straight_fold_20261109",
+      "interval_s": [
+        86.76666666666667,
+        93.166667
+      ],
+      "source_checkpoint_sha256": "77f31613fa974036b32dc7c7b366c9dab9a95cf6fecaad413e1ddb71d7e1420b",
+      "checkpoint_sha256": "75d75f6d961d13cf0ba053b5e91cfe4214c09786993f1898b77dfe12731a1464",
+      "joint_commands_sha256": "7c20624c96251340c0a2585576d79ab9f2e49561596cbed6023e407f706a94e2",
+      "recipe": "attempt_thumb_release_helper_gravity60_settle24.json",
+      "recipe_sha256": "a0bd1a2e3a19355f75c0527bf0f14a435ede01b883700c281d641682b5d516ee",
+      "declared_departing_thumbs": "both",
+      "stops": [],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "The same common tilt with a 2.4 s hold exactly reproduces the earlier short-hold checkpoint from its valid parent. Recurrent left-little contact still fails the final hold; endpoint remains rejected. Near clearance and right old-loop release also remain unresolved.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 86.76666666666667,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 289,
+          "right_index": 614
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          93.166667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_thumb",
+          "left_index",
+          "right_thumb",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "left_thumb": {
+            "time_s": 64.433333,
+            "reason": "Tracked support moved beyond continuity bound"
+          },
+          "right_thumb": {
+            "time_s": 79.566667,
+            "reason": "Tracked support moved beyond continuity bound"
+          }
+        }
+      },
+      "index_material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          93.166667
+        ],
+        "initial_centers": {
+          "left_index": 299,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {}
+      },
+      "loop_release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, full robot self-collision checks, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": false,
+          "right_little_clear": false,
+          "interval_little_own_palm_clearance": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          86.766667,
+          93.166667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -8.209742600870026e-07,
+            "maximum_hold_gap_m": -4.805185154785688e-07,
+            "maximum_transfer_gap_m": -4.691520031014154e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -8.884105525486588e-07,
+            "maximum_hold_gap_m": -4.57538455731106e-07,
+            "maximum_transfer_gap_m": -3.8420689408864145e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": -6.05422453133983e-08,
+            "maximum_hold_gap_m": 0.013543556976260942,
+            "maximum_transfer_gap_m": 0.040411298676413784
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -9.063896880450242e-07,
+            "maximum_hold_gap_m": -5.956413512185968e-07,
+            "maximum_transfer_gap_m": -1.0678646809956366e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -6.171672021796845e-07,
+            "maximum_hold_gap_m": -4.993171332902738e-07,
+            "maximum_transfer_gap_m": -4.993171332902738e-07
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -3.611476672262361e-06,
+            "maximum_hold_gap_m": -2.16789231458135e-06,
+            "maximum_transfer_gap_m": -1.1089156387404913e-06
+          }
+        },
+        "interval_little_rope": {
+          "left": {
+            "minimum_gap_m": -4.253048745276114e-07,
+            "first_within_2mm_s": 88.9,
+            "first_nonpositive_gap_s": 88.9
+          },
+          "right": {
+            "minimum_gap_m": -4.8266254925105265e-06,
+            "first_within_2mm_s": 86.766667,
+            "first_nonpositive_gap_s": 86.766667
+          }
+        },
+        "full_history_peak_stretch": 1.1992730249949428,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -1.524856800490075e-06,
+        "interval_little_own_palm": {
+          "scope": "PIP/DIP capsules against their own convex palm; adjoining MCP excluded. Sampled poses, not full robot self-collision certification.",
+          "time_s": 88.933333,
+          "link": "left_little_DIP_link",
+          "lower_bound_m": 0.001144143240738787,
+          "sampled_gap_m": 0.001394143240738787
+        },
+        "full_history_palm_clearance": {
+          "time_s": 84.666667,
+          "finger_palm_lower_bound_m": 0.06337167831611783,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_little_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.086664173682622,
+          "opposing_finger_gap_m": 0.027258097728318963,
+          "same_hand_finger_margin_m": 0.0012447628447437098,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.0598115977379059,
+          "minimum_opposing_finger_gap_m": 0.0007636441756373943,
+          "minimum_same_hand_finger_margin_m": 0.00021394931060464157
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "thumb_exchange_audit": {
+        "scope": "Check necessary material/contact conditions after intentional thumb exchange.\n\nPassing these conditions does not certify a threaded bight, Cup, or any other\nfigure. The original index tracks, new far strands and complete old-loop arcs\nare inspected separately; captions and generic thumb contact are insufficient.\n",
+        "passed_diagnostics": false,
+        "checks": {
+          "physics_completed_hold": true,
+          "physics_contact_search_bound": true,
+          "physics_dynamic_rope": true,
+          "physics_full_history_central_body_envelopes_clear": true,
+          "physics_full_history_finger_clearance": true,
+          "physics_full_history_opposing_palm_clearance": true,
+          "physics_full_history_robot_hull_centerlines_clear": true,
+          "physics_full_history_sampled_self_contact": true,
+          "physics_full_history_strain": true,
+          "physics_interval_little_own_palm_clearance": true,
+          "physics_joint_limits": true,
+          "physics_left_little_clear": false,
+          "physics_right_little_clear": false,
+          "original_indices_tracked": true,
+          "intentional_phase_declared": true,
+          "nondeparting_original_supports_tracked": true,
+          "stationary_hold": true,
+          "left_new_far_contact_held": true,
+          "left_same_far_material": true,
+          "left_near_strand_clear": false,
+          "left_old_loop_clear": true,
+          "right_new_far_contact_held": true,
+          "right_same_far_material": true,
+          "right_near_strand_clear": false,
+          "right_old_loop_clear": false,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": false,
+          "right_middle_clear": true,
+          "right_ring_clear": true,
+          "right_little_clear": false
+        },
+        "completed_figure": false,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          86.76666666666667,
+          93.166667
+        ],
+        "summary": {
+          "left": {
+            "maximum_far_gap_m": -4.805185154785688e-07,
+            "minimum_near_gap_m": 0.0019788893891442587,
+            "minimum_old_loop_gap_m": 0.06925567910408205,
+            "persistent_far_particles": [
+              221,
+              222,
+              223,
+              224,
+              225,
+              226,
+              227,
+              228,
+              229,
+              230,
+              231,
+              232,
+              233,
+              234
+            ]
+          },
+          "right": {
+            "maximum_far_gap_m": -3.167913904420991e-07,
+            "minimum_near_gap_m": -9.063896880450242e-07,
+            "minimum_old_loop_gap_m": 0.001111166908043532,
+            "persistent_far_particles": [
+              642,
+              643,
+              644,
+              645,
+              646,
+              647,
+              648,
+              654,
+              655,
+              656,
+              657,
+              658,
+              659,
+              660,
+              661,
+              662
+            ]
+          }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.029178487300589584,
+          "left_ring": 0.03398411366338554,
+          "left_little": -6.05422453133983e-08,
+          "right_middle": 0.00784586467593552,
+          "right_ring": 0.004582073251267542,
+          "right_little": -3.611476672262361e-06
+        }
+      },
+      "far_support_guard": {
+        "source_time_s": 86.76666666666667,
+        "initial_material_centers": {
+          "left": 226,
+          "right": 664
+        },
+        "scope": "Track newly captured far material; no rope constraint is added.",
+        "source_contact_phase": "temporary_helper",
+        "declared_helper": "right_little",
+        "final_helper_release_completed": false
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          86.76666666666667,
+          93.16666666666667
+        ],
+        "tracking_complete": true,
+        "errors": {},
+        "first_and_last_samples": [
+          {
+            "time": 86.76666666666667,
+            "centers": {
+              "left": 226,
+              "right": 664
+            }
+          },
+          {
+            "time": 93.16666666666667,
+            "centers": {
+              "left": 228,
+              "right": 658
+            }
+          }
+        ]
+      },
+      "temporary_helper_audit": {
+        "scope": "Track declared temporary old-loop contact on an otherwise unused finger.\n\nThis measures material continuity only. A contacting rope point can slide along\nthe finger; the report does not certify a grasp, release, physical validity or\na completed figure. It never changes the rope or robot commands.\n",
+        "intent": {
+          "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+          "start_s": 86.76666666666667,
+          "release_attempt": true,
+          "temporary_helper": {
+            "side": "right",
+            "finger": "little",
+            "old_loop_material_window": [
+              452,
+              453,
+              454,
+              455,
+              456,
+              457,
+              458,
+              459,
+              460,
+              461,
+              462,
+              463,
+              464,
+              465,
+              466,
+              467,
+              468,
+              469,
+              470,
+              471,
+              472,
+              473,
+              474,
+              475,
+              476,
+              477,
+              478
+            ],
+            "initial_material_center": 465,
+            "expected_contact_interval_s": [
+              86.76666666666667,
+              93.16666666666667
+            ]
+          },
+          "release_completed": false,
+          "completed_figure": false,
+          "joint_recipe_sha256": "fed13cd79ab5c8de105f5d1ccb7fe5470d05f8c8042e89ce7d101b4aa9dd5514",
+          "scope": "Declared before fresh Newton replay from the validated pre-tilt source: use the same 60-degree common tilt and 100 mm retraction, then hold 2.4 s. The earlier 1.2 s final window includes transient left-little contact and is not an accepted continuation source. No rope state or gate is changed; only the planned stationary interval is longer."
+        },
+        "completed_figure": false,
+        "release_completed": false,
+        "expected_interval_s": [
+          86.76666666666667,
+          93.16666666666667
+        ],
+        "sampling_fps": 30.0,
+        "recorded_end_s": 93.166667,
+        "helper_track_complete": true,
+        "failure": null
+      },
+      "preflight": {
+        "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+        "source_time_s": 86.76666666666667,
+        "passed": true,
+        "scope": "Common rigid wrist motion preserves relative hand geometry and finger angles. The little shaft is aimed toward gravity, but helper release and all material retention require Newton replay. No rope state is changed. Same motion with a 2.4 s final stationary interval, replayed from the validated pre-tilt source. The earlier 1.2 s hold fails the nonhelper little-clearance gate and is not resumed.",
+        "common_rotation_degrees": 60,
+        "rotation_axis": [
+          -0.591707295857163,
+          -0.8061528862625276,
+          -0.0
+        ],
+        "pivot": [
+          0.5191404249728073,
+          -0.04028728859540845,
+          1.0593714149645574
+        ],
+        "translation": [
+          -0.1,
+          0.0,
+          0.0
+        ],
+        "minimum_speed_bound_rad_s": 0.6278766703052535,
+        "maximum_speed_bound_rad_s": 0.6278766703052535,
+        "minimum_self_margin_m": 0.001244762844743474,
+        "maximum_self_margin_m": 0.0012447628447439076,
+        "minimum_opposing_gap_m": 0.04381421736760648,
+        "maximum_opposing_gap_m": 0.04382662001045099,
+        "minimum_palm_gap_m": 0.0777791509509111,
+        "maximum_palm_gap_m": 0.07779771775291446,
+        "minimum_own_little_bound_m": 0.028898604913797362,
+        "maximum_own_little_bound_m": 0.02889860491379841,
+        "minimum_relative_position_drift_m": 0.0,
+        "maximum_relative_position_drift_m": 3.320650928928062e-05,
+        "minimum_relative_rotation_drift_rad": 2.5378513430647014e-18,
+        "maximum_relative_rotation_drift_rad": 4.7214704191725126e-05
+      },
+      "intent": {
+        "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+        "start_s": 86.76666666666667,
+        "release_attempt": true,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            452,
+            453,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478
+          ],
+          "initial_material_center": 465,
+          "expected_contact_interval_s": [
+            86.76666666666667,
+            93.16666666666667
+          ]
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "fed13cd79ab5c8de105f5d1ccb7fe5470d05f8c8042e89ce7d101b4aa9dd5514",
+        "scope": "Declared before fresh Newton replay from the validated pre-tilt source: use the same 60-degree common tilt and 100 mm retraction, then hold 2.4 s. The earlier 1.2 s final window includes transient left-little contact and is not an accepted continuation source. No rope state or gate is changed; only the planned stationary interval is longer."
+      },
+      "public_intent": "attempt_thumb_release_helper_gravity60_settle24.intent.json",
+      "accepted_for_temporary_helper_continuation": false,
+      "temporary_helper_rejection": "Helper source fails physical or nonhelper support checks",
+      "planned_hold_duration_s": 2.4,
+      "prefix_dynamics_comparison": {
+        "scope": "Fresh long-hold replay compared at the complete earlier short-hold checkpoint; that rejected endpoint was not restored.",
+        "time_s": 91.96666666666667,
+        "reference_checkpoint": "output/alternative_cup_release_helper_gravity60_back100_20261109/checkpoint.npz",
+        "reference_sha256": "bf5546eca7bb48a971192930edcb4697c0dd0de96bdf1fe052ffe63abc901a9f",
+        "replayed_state": "output/alternative_cup_release_helper_gravity60_settle24_20261109/state_2759.npz",
+        "replayed_sha256": "bf5546eca7bb48a971192930edcb4697c0dd0de96bdf1fe052ffe63abc901a9f",
+        "maximum_absolute_differences": {
+          "particle_q": 0.0,
+          "particle_qd": 0.0,
+          "joints": 0.0,
+          "rest_lengths": 0.0
+        }
+      }
+    },
+    {
+      "name": "release_helper_thumb_extend20_before_tilt",
+      "source": "alternative_cup_release_helper_straight_fold_20261109",
+      "interval_s": [
+        86.76666666666667,
+        88.966667
+      ],
+      "source_checkpoint_sha256": "77f31613fa974036b32dc7c7b366c9dab9a95cf6fecaad413e1ddb71d7e1420b",
+      "checkpoint_sha256": "7894ed4392179f327eb862785ee3f2eb0576b8012169b98c0ae2b22925d8534c",
+      "joint_commands_sha256": "cea47bc7928595284a627248bcb6c0f9b7f1060bae2d06c0894f6d80a6e24eef",
+      "recipe": "attempt_thumb_release_helper_thumb_extend20_before_tilt.json",
+      "recipe_sha256": "ed82bc66eb66c731925fa124b49dcc3c36ca1ca4db88753d14afc53bb551c64f",
+      "declared_departing_thumbs": "both",
+      "stops": [],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "Extending only right thumb DIP to 0.2 rad retains both far tracks and original indices. Near/old-loop and middle/ring clearance checks pass; only final right-little release fails. Accepted as a temporary-helper preparation for a new common tilt.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 86.76666666666667,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 289,
+          "right_index": 614
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          88.966667
+        ],
+        "initial_centers": {
+          "left_thumb": 502,
+          "left_index": 299,
+          "right_thumb": 415,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_thumb",
+          "left_index",
+          "right_thumb",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "left_thumb": {
+            "time_s": 64.433333,
+            "reason": "Tracked support moved beyond continuity bound"
+          },
+          "right_thumb": {
+            "time_s": 79.566667,
+            "reason": "Tracked support moved beyond continuity bound"
+          }
+        }
+      },
+      "index_material_support_tracking": {
+        "scope": "Follow original material supports through clamping and little-loop release.\n\nThis is a material-continuity diagnostic, not a threading certificate. Extra\ncontact patches remain in the report. Particle samples and enabled knuckle\nmeshes are checked; rope-edge contact alone cannot establish a material track.\nThe optional six-support audit also follows the original little loops before\ntheir intended release and writes a separate report.\n",
+        "interval_s": [
+          6.0,
+          88.966667
+        ],
+        "initial_centers": {
+          "left_index": 299,
+          "right_index": 610
+        },
+        "tracking_method": "midpoint_with_retained_material_sample",
+        "tracked_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": true,
+        "errors": {}
+      },
+      "loop_release_audit": {
+        "scope": "Necessary release diagnostics only; not a threading or figure certificate. Excludes swept collisions, full robot self-collision checks, rope-radius clearance at robot-body meshes and material identity. Central-body boxes and complete-edge arm/body hull checks are conservative: overlap does not by itself prove penetration of the original mesh.",
+        "passed_diagnostics": false,
+        "checks": {
+          "thumb_and_index_contacts_retained": true,
+          "left_little_clear": true,
+          "right_little_clear": false,
+          "interval_little_own_palm_clearance": true,
+          "full_history_strain": true,
+          "full_history_sampled_self_contact": true,
+          "contact_search_bound": true,
+          "dynamic_rope": true,
+          "joint_limits": true,
+          "full_history_opposing_palm_clearance": true,
+          "full_history_finger_clearance": true,
+          "full_history_central_body_envelopes_clear": true,
+          "full_history_robot_hull_centerlines_clear": true,
+          "completed_hold": true
+        },
+        "full_history_robot_hull_intrusions": [],
+        "released_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          86.766667,
+          88.966667
+        ],
+        "supports": {
+          "left_thumb": {
+            "minimum_hold_gap_m": -7.667464943820687e-07,
+            "maximum_hold_gap_m": -5.348391713443437e-07,
+            "maximum_transfer_gap_m": -5.264354285784353e-07
+          },
+          "left_index": {
+            "minimum_hold_gap_m": -8.367793466424953e-07,
+            "maximum_hold_gap_m": -4.506151707718911e-07,
+            "maximum_transfer_gap_m": -4.506151707718911e-07
+          },
+          "left_little": {
+            "minimum_hold_gap_m": 0.0355717097137002,
+            "maximum_hold_gap_m": 0.03864422416726106,
+            "maximum_transfer_gap_m": 0.04029873404355365
+          },
+          "right_thumb": {
+            "minimum_hold_gap_m": -5.382945258468677e-07,
+            "maximum_hold_gap_m": -3.4077058394619414e-07,
+            "maximum_transfer_gap_m": -2.2660505230153588e-07
+          },
+          "right_index": {
+            "minimum_hold_gap_m": -7.297849294483558e-07,
+            "maximum_hold_gap_m": -5.234522064212835e-07,
+            "maximum_transfer_gap_m": -5.234522064212835e-07
+          },
+          "right_little": {
+            "minimum_hold_gap_m": -1.4109386324236053e-06,
+            "maximum_hold_gap_m": -9.712070506572197e-07,
+            "maximum_transfer_gap_m": -9.712070506572197e-07
+          }
+        },
+        "interval_little_rope": {
+          "left": {
+            "minimum_gap_m": 0.0355717097137002,
+            "first_within_2mm_s": null,
+            "first_nonpositive_gap_s": null
+          },
+          "right": {
+            "minimum_gap_m": -2.092329564124234e-06,
+            "first_within_2mm_s": 86.766667,
+            "first_nonpositive_gap_s": 86.766667
+          }
+        },
+        "full_history_peak_stretch": 1.1992730249949428,
+        "full_history_minimum_rope_separation_m": 0.001934369998126068,
+        "minimum_separation_time_s": 0.0,
+        "interval_minimum_capsule_gap_m": -8.367793466424953e-07,
+        "interval_little_own_palm": {
+          "scope": "PIP/DIP capsules against their own convex palm; adjoining MCP excluded. Sampled poses, not full robot self-collision certification.",
+          "time_s": 87.033333,
+          "link": "left_little_DIP_link",
+          "lower_bound_m": 0.0011441432407388475,
+          "sampled_gap_m": 0.0013941432407388477
+        },
+        "full_history_palm_clearance": {
+          "time_s": 84.666667,
+          "finger_palm_lower_bound_m": 0.06337167831611783,
+          "sampled_finger_palm_gap_m": null,
+          "closest_pair": "right_little_DIP_link / left palm",
+          "palm_palm_sphere_lower_bound_m": 0.086664173682622,
+          "opposing_finger_gap_m": 0.027258097728318963,
+          "same_hand_finger_margin_m": 0.0012447628447437098,
+          "minimum_palm_palm_sphere_lower_bound_m": 0.0598115977379059,
+          "minimum_opposing_finger_gap_m": 0.0007636441756373943,
+          "minimum_same_hand_finger_margin_m": 0.00021394931060464157
+        },
+        "full_history_central_body_clearance": {
+          "time_s": 0.0,
+          "minimum_face_margin_m": 0.1545791677236557,
+          "closest_envelope": "head_Link",
+          "closest_edge": 424,
+          "unresolved_edge_count": 0
+        },
+        "initialization": "Independent placement, not replay of Position 1 or source dynamics"
+      },
+      "thumb_exchange_audit": {
+        "scope": "Check necessary material/contact conditions after intentional thumb exchange.\n\nPassing these conditions does not certify a threaded bight, Cup, or any other\nfigure. The original index tracks, new far strands and complete old-loop arcs\nare inspected separately; captions and generic thumb contact are insufficient.\n",
+        "passed_diagnostics": false,
+        "checks": {
+          "physics_completed_hold": true,
+          "physics_contact_search_bound": true,
+          "physics_dynamic_rope": true,
+          "physics_full_history_central_body_envelopes_clear": true,
+          "physics_full_history_finger_clearance": true,
+          "physics_full_history_opposing_palm_clearance": true,
+          "physics_full_history_robot_hull_centerlines_clear": true,
+          "physics_full_history_sampled_self_contact": true,
+          "physics_full_history_strain": true,
+          "physics_interval_little_own_palm_clearance": true,
+          "physics_joint_limits": true,
+          "physics_left_little_clear": true,
+          "physics_right_little_clear": false,
+          "original_indices_tracked": true,
+          "intentional_phase_declared": true,
+          "nondeparting_original_supports_tracked": true,
+          "stationary_hold": true,
+          "left_new_far_contact_held": true,
+          "left_same_far_material": true,
+          "left_near_strand_clear": true,
+          "left_old_loop_clear": true,
+          "right_new_far_contact_held": true,
+          "right_same_far_material": true,
+          "right_near_strand_clear": true,
+          "right_old_loop_clear": true,
+          "left_middle_clear": true,
+          "left_ring_clear": true,
+          "left_little_clear": true,
+          "right_middle_clear": true,
+          "right_ring_clear": true,
+          "right_little_clear": false
+        },
+        "completed_figure": false,
+        "active_sides": [
+          "left",
+          "right"
+        ],
+        "interval_s": [
+          86.76666666666667,
+          88.966667
+        ],
+        "summary": {
+          "left": {
+            "maximum_far_gap_m": -5.348391713443437e-07,
+            "minimum_near_gap_m": 0.005273716066158699,
+            "minimum_old_loop_gap_m": 0.08001293254329844,
+            "persistent_far_particles": [
+              220,
+              221,
+              222,
+              223,
+              224,
+              225,
+              226,
+              227,
+              228,
+              229,
+              230,
+              231,
+              232,
+              233,
+              234
+            ]
+          },
+          "right": {
+            "maximum_far_gap_m": -3.4077058394619414e-07,
+            "minimum_near_gap_m": 0.022212884670262074,
+            "minimum_old_loop_gap_m": 0.010713697847046857,
+            "persistent_far_particles": [
+              657,
+              658,
+              659,
+              660,
+              661,
+              662,
+              663,
+              664,
+              665,
+              666,
+              667,
+              668,
+              669,
+              670,
+              671,
+              672,
+              673
+            ]
+          }
+        },
+        "unused_finger_minimum_held_gaps_m": {
+          "left_middle": 0.03889903745289244,
+          "left_ring": 0.049758564088941214,
+          "left_little": 0.0355717097137002,
+          "right_middle": 0.005505676299476823,
+          "right_ring": 0.007213681851244638,
+          "right_little": -1.4109386324236053e-06
+        }
+      },
+      "far_support_guard": {
+        "source_time_s": 86.76666666666667,
+        "initial_material_centers": {
+          "left": 226,
+          "right": 664
+        },
+        "scope": "Track newly captured far material; no rope constraint is added.",
+        "source_contact_phase": "temporary_helper",
+        "declared_helper": "right_little",
+        "final_helper_release_completed": false
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          86.76666666666667,
+          88.96666666666667
+        ],
+        "tracking_complete": true,
+        "errors": {},
+        "first_and_last_samples": [
+          {
+            "time": 86.76666666666667,
+            "centers": {
+              "left": 226,
+              "right": 664
+            }
+          },
+          {
+            "time": 88.96666666666667,
+            "centers": {
+              "left": 227,
+              "right": 665
+            }
+          }
+        ]
+      },
+      "temporary_helper_audit": {
+        "scope": "Track declared temporary old-loop contact on an otherwise unused finger.\n\nThis measures material continuity only. A contacting rope point can slide along\nthe finger; the report does not certify a grasp, release, physical validity or\na completed figure. It never changes the rope or robot commands.\n",
+        "intent": {
+          "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+          "start_s": 86.76666666666667,
+          "release_attempt": true,
+          "temporary_helper": {
+            "side": "right",
+            "finger": "little",
+            "old_loop_material_window": [
+              452,
+              453,
+              454,
+              455,
+              456,
+              457,
+              458,
+              459,
+              460,
+              461,
+              462,
+              463,
+              464,
+              465,
+              466,
+              467,
+              468,
+              469,
+              470,
+              471,
+              472,
+              473,
+              474,
+              475,
+              476,
+              477,
+              478
+            ],
+            "initial_material_center": 465,
+            "expected_contact_interval_s": [
+              86.76666666666667,
+              88.96666666666667
+            ]
+          },
+          "release_completed": false,
+          "completed_figure": false,
+          "joint_recipe_sha256": "36824cd773a61ce11ffdd8269b372942d6f89c54e4311b461709d1920f7d818a",
+          "scope": "Declared before replay from the validated pre-tilt source: extend only right thumb DIP to 0.2 rad over 1 s. Test whether the retained new far strand survives this preparation for a later common tilt. Other contacts and material continuity remain Newton outcomes; this does not claim little release."
+        },
+        "completed_figure": false,
+        "release_completed": false,
+        "expected_interval_s": [
+          86.76666666666667,
+          88.96666666666667
+        ],
+        "sampling_fps": 30.0,
+        "recorded_end_s": 88.966667,
+        "helper_track_complete": true,
+        "failure": null
+      },
+      "preflight": {
+        "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+        "source_time_s": 86.76666666666667,
+        "passed": true,
+        "scope": "Thumb DIP extension only. Frozen-rope gaps are planning observations, not a contact or release certificate. Newton must preserve the original indices and new far strands while other contacts depart.",
+        "minimum_self_margin_m": 0.0012447628447437098,
+        "maximum_self_margin_m": 0.0012447628447437098,
+        "minimum_opposing_gap_m": 0.043822143131094,
+        "maximum_opposing_gap_m": 0.043822143131094,
+        "minimum_palm_gap_m": 0.07779771688731853,
+        "maximum_palm_gap_m": 0.07779771688731853,
+        "minimum_own_thumb_bound_m": 0.02690148412965448,
+        "maximum_own_thumb_bound_m": 0.03443250519706491,
+        "minimum_own_little_bound_m": 0.028898604913797716,
+        "maximum_own_little_bound_m": 0.028898604913797716,
+        "minimum_speed_bound_rad_s": 1.1284476838778263,
+        "maximum_speed_bound_rad_s": 1.1284476838778263
+      },
+      "intent": {
+        "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+        "start_s": 86.76666666666667,
+        "release_attempt": true,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            452,
+            453,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478
+          ],
+          "initial_material_center": 465,
+          "expected_contact_interval_s": [
+            86.76666666666667,
+            88.96666666666667
+          ]
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "36824cd773a61ce11ffdd8269b372942d6f89c54e4311b461709d1920f7d818a",
+        "scope": "Declared before replay from the validated pre-tilt source: extend only right thumb DIP to 0.2 rad over 1 s. Test whether the retained new far strand survives this preparation for a later common tilt. Other contacts and material continuity remain Newton outcomes; this does not claim little release."
+      },
+      "public_intent": "attempt_thumb_release_helper_thumb_extend20_before_tilt.intent.json",
+      "accepted_for_temporary_helper_continuation": true,
+      "declared_helper": "right_little",
+      "planned_hold_duration_s": 1.2
     }
   ],
   "preflight_rejections": [

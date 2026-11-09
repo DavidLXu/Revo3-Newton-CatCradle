@@ -1,0 +1,48 @@
+{
+  "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+  "start_s": 86.76666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      86.76666666666667,
+      88.96666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "ed82bc66eb66c731925fa124b49dcc3c36ca1ca4db88753d14afc53bb551c64f",
+  "scope": "Declared before replay from the validated pre-tilt source: extend only right thumb DIP to 0.2 rad over 1 s. Test whether the retained new far strand survives this preparation for a later common tilt. Other contacts and material continuity remain Newton outcomes; this does not claim little release.",
+  "original_declaration_recipe_sha256": "36824cd773a61ce11ffdd8269b372942d6f89c54e4311b461709d1920f7d818a"
+}

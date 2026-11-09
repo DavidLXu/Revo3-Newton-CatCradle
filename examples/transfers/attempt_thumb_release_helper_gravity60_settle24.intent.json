@@ -1,0 +1,48 @@
+{
+  "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+  "start_s": 86.76666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      86.76666666666667,
+      93.16666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "a0bd1a2e3a19355f75c0527bf0f14a435ede01b883700c281d641682b5d516ee",
+  "scope": "Declared before fresh Newton replay from the validated pre-tilt source: use the same 60-degree common tilt and 100 mm retraction, then hold 2.4 s. The earlier 1.2 s final window includes transient left-little contact and is not an accepted continuation source. No rope state or gate is changed; only the planned stationary interval is longer.",
+  "original_declaration_recipe_sha256": "fed13cd79ab5c8de105f5d1ccb7fe5470d05f8c8042e89ce7d101b4aa9dd5514"
+}
