@@ -27568,6 +27568,213 @@
       "planned_hold_duration_s": 1.2,
       "accepted_for_temporary_helper_continuation": false,
       "temporary_helper_rejection": "Right far-material guard stops before the required hold completes; no far contact remains."
+    },
+    {
+      "name": "release_helper_thumb_hook90_little_lift",
+      "source": "alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+      "interval_s": [
+        105.66666666666667,
+        106.466667
+      ],
+      "source_checkpoint_sha256": "abbd144e53779d6e2adc7344f2138a3222f097df74f7255b6393a89e7059056f",
+      "checkpoint_sha256": "5f91eb3ff2968310f8e7cb8922120fad5d0ec07aeef8d8bebbaf7d0ef12fbe4e",
+      "joint_commands_sha256": "1832fe02ea547389a22a22f188f7dbb9b58901da11569bcc861c05cd35064b07",
+      "recipe": "attempt_thumb_release_helper_thumb_hook90_little_lift.json",
+      "recipe_sha256": "65e37de292b185e549af683e599bcbe7f14b9748fd1e57b0d7ac9a8aa12f15d5",
+      "declared_departing_thumbs": "both",
+      "stops": [
+        {
+          "file": "far_support_stop.json",
+          "time_s": 106.46666666666667,
+          "side": "right",
+          "previous_center": 671,
+          "reason": "Tracked support moved beyond continuity bound",
+          "contacts": [
+            645
+          ]
+        }
+      ],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "Curling only the right thumb DIP to 0.9 rad loses its tracked far bight before the little-lift phase. At 106.466667 s the previously held 671..672 patch is absent and only separate material 645 contacts. The guard rejects this discontinuity; the old endpoint is not resumed.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 105.66666666666667,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 281,
+          "right_index": 613
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "far_support_guard": {
+        "source_time_s": 105.66666666666667,
+        "initial_material_centers": {
+          "left": 225,
+          "right": 670
+        },
+        "scope": "Track newly captured far material; no rope constraint is added.",
+        "source_contact_phase": "temporary_helper",
+        "declared_helper": "right_little",
+        "final_helper_release_completed": false
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          105.66666666666667,
+          106.46666666666667
+        ],
+        "tracking_method": "midpoint_with_retained_and_overlapping_patch_material",
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "right": {
+            "time_s": 106.46666666666667,
+            "side": "right",
+            "previous_center": 671,
+            "reason": "Tracked support moved beyond continuity bound",
+            "contacts": [
+              645
+            ]
+          }
+        },
+        "first_and_last_samples": [
+          {
+            "time": 105.66666666666667,
+            "centers": {
+              "left": 225,
+              "right": 670
+            }
+          },
+          {
+            "time": 106.43333333333334,
+            "centers": {
+              "left": 223,
+              "right": 671
+            },
+            "patches": {
+              "left": [
+                213,
+                214,
+                215,
+                216,
+                217,
+                218,
+                219,
+                220,
+                221,
+                222,
+                223,
+                224,
+                225,
+                226,
+                227,
+                228,
+                229,
+                230,
+                231,
+                232,
+                233
+              ],
+              "right": [
+                671,
+                672
+              ]
+            }
+          }
+        ]
+      },
+      "preflight": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "source_time_s": 105.66666666666667,
+        "passed": true,
+        "scope": "Joint-only thumb/little coordination. Curl only the right thumb DIP before raising only the right little MCP; both wrists and all other joints stay fixed. Intended to prevent the observed far bight sliding off the thumb during helper withdrawal. Frozen gaps do not establish retention or release; all physical gates remain unchanged.",
+        "target_thumb_DIP_rad": 0.9,
+        "minimum_self_margin_m": 0.0012447628447436127,
+        "maximum_self_margin_m": 0.0012447628447436127,
+        "minimum_opposing_gap_m": 0.03570449101530813,
+        "maximum_opposing_gap_m": 0.0633844681634858,
+        "minimum_palm_gap_m": 0.12724417768276025,
+        "maximum_palm_gap_m": 0.13762518833418685,
+        "minimum_own_little_bound_m": 0.0288986049137978,
+        "maximum_own_little_bound_m": 0.0454997253296961,
+        "minimum_own_thumb_bound_m": 0.03388708211101032,
+        "maximum_own_thumb_bound_m": 0.03388708211101032,
+        "minimum_speed_bound_rad_s": 1.1423757281109743,
+        "maximum_speed_bound_rad_s": 1.4375
+      },
+      "intent": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "start_s": 105.66666666666667,
+        "release_attempt": true,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491,
+            492,
+            493,
+            494,
+            495,
+            496,
+            497,
+            498,
+            499,
+            500,
+            501,
+            502
+          ],
+          "initial_material_center": 483,
+          "expected_contact_interval_s": [
+            105.66666666666667,
+            109.36666666666667
+          ]
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "fc506c0449095596de3448ce7a7e2ca3ec2c72b5177d21a1d84721ff22368dce",
+        "scope": "Declared before Newton replay: Joint-only thumb/little coordination. Curl only the right thumb DIP before raising only the right little MCP; both wrists and all other joints stay fixed. Intended to prevent the observed far bight sliding off the thumb during helper withdrawal. Frozen gaps do not establish retention or release; all physical gates remain unchanged. Helper contact is observed, never constrained. Hold 1.2 s."
+      },
+      "public_intent": "attempt_thumb_release_helper_thumb_hook90_little_lift.intent.json",
+      "planned_hold_duration_s": 1.2,
+      "accepted_for_temporary_helper_continuation": false,
+      "temporary_helper_rejection": "Original right far patch disappears before the little-lift phase; only distant material remains."
     }
   ],
   "preflight_rejections": [

@@ -534,6 +534,13 @@ intentional right-little contact; right old/near thumb contact remains. It is
 a valid helper source, but the larger downward pull alone does not release
 the noose.
 
+`release_helper_thumb_hook90_little_lift` tries curling the right thumb DIP
+to 0.9 rad before the little lift. It stops in the thumb preparation at
+106.466667 s: the tracked 671–672 far patch disappears and only separate
+material 645 remains in contact. The little-lift phase never runs. Curling
+that joint alone does not preserve the existing bight; subsequent proposals
+must account for the moving contact surface.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using
