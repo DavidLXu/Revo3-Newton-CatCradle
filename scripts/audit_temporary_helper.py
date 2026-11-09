@@ -55,7 +55,7 @@ def main():
     meshes = (load_knuckle_meshes(robot)
               if payload["collision_geometry"].get("knuckles") == "mesh" else {})
     selected = np.flatnonzero((times >= start - 1e-5) & (times <= end + 1e-5))
-    rows, failure = [], None
+    rows, failure, previous_patch = [], None, None
     for k in selected:
         transforms = robot.fk(joints[k])
         contacts = support_contact_indices(transforms, rope[k], side, finger, meshes)
@@ -63,13 +63,15 @@ def main():
         try:
             if not rows and center not in candidates:
                 raise ValueError("Declared helper material is absent at phase acquisition")
-            center, patch, extras = track_support_patch(candidates, len(rope[k]), center)
+            center, patch, extras = track_support_patch(
+                candidates, len(rope[k]), center, previous_patch=previous_patch)
         except ValueError as error:
             failure = dict(time_s=float(times[k]), reason=str(error), previous_center=center)
             break
         rows.append(dict(time_s=float(times[k]), center=center, patch=patch.tolist(),
                          other_old_patches=[x.tolist() for x in extras],
                          other_material=np.setdiff1d(contacts, arc).tolist()))
+        previous_patch = patch
     expected = np.arange(round(start * fps), round(end * fps) + 1) / fps
     complete = bool(failure is None and len(rows) == len(expected)
                     and np.allclose([r["time_s"] for r in rows], expected, atol=1e-5, rtol=0))
@@ -77,7 +79,9 @@ def main():
                   release_completed=False, expected_interval_s=[start, end],
                   sampling_fps=fps,
                   recorded_end_s=float(times[-1]), helper_track_complete=complete,
-                  failure=failure, samples=rows)
+                  failure=failure, samples=rows,
+                  tracking_method="midpoint_with_retained_and_overlapping_patch_material",
+                  maximum_center_shift_per_frame_particles=8)
     destination = args.output or args.source / "temporary_helper_audit.json"
     destination.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k not in ("samples", "intent")}, indent=2))

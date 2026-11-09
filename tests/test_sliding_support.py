@@ -58,3 +58,45 @@ def test_patch_growth_across_closed_seam_preserves_retained_material():
     center, patch, extras = track_support_patch(list(range(20, 40)) + [0, 1], 40, 0, 2)
     assert center == 0
     assert 0 in patch and extras == []
+
+
+@pytest.mark.parametrize("previous, before, after, expected", [
+    # Recorded helper edge erosion: two particles leave a 22-particle patch.
+    (482, range(461, 483), range(460, 481), 480),
+    # A wider erosion still obeys the representative's eight-particle bound.
+    (230, range(220, 231), range(220, 224), 223),
+])
+def test_overlapping_boundary_erosion_keeps_bounded_material_continuity(
+    previous, before, after, expected
+):
+    with pytest.raises(ValueError, match="continuity"):
+        track_support_patch(after, 689, previous)
+    center, patch, extras = track_support_patch(
+        after, 689, previous, previous_patch=before)
+    assert center == expected and abs(center - previous) <= 8
+    np.testing.assert_array_equal(patch, list(after))
+    assert extras == []
+
+
+def test_overlap_does_not_relax_the_shift_limit_or_choose_a_split_successor():
+    with pytest.raises(ValueError, match="continuity"):
+        track_support_patch(range(461, 471), 689, 482,
+                            previous_patch=range(461, 483))
+    with pytest.raises(ValueError, match="Ambiguous overlapping"):
+        track_support_patch([10, 11, 12, 16, 17, 18], 40, 14,
+                            previous_patch=range(10, 19))
+    with pytest.raises(ValueError, match="Previous support patch"):
+        track_support_patch(range(460, 481), 689, 482,
+                            previous_patch=range(461, 480))
+    # Actual left-far loss in the axial withdrawal has no overlapping material.
+    # It must keep failing even though its closest new sample is seven away.
+    with pytest.raises(ValueError, match="continuity"):
+        track_support_patch(range(220, 224), 689, 230,
+                            previous_patch=range(226, 235))
+
+
+def test_boundary_erosion_across_seam_uses_circular_material_distance():
+    center, patch, extras = track_support_patch(
+        range(20, 40), 40, 0, 2, previous_patch=[*range(20, 40), 0])
+    assert center == 39 and extras == []
+    np.testing.assert_array_equal(patch, np.arange(20, 40))

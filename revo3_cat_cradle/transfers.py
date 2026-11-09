@@ -98,13 +98,15 @@ def support_contact_patch(indices, count):
     return patches[0]
 
 
-def track_support_patch(indices, count, previous_center, max_shift=8):
+def track_support_patch(indices, count, previous_center, max_shift=8, *, previous_patch=None):
     """Follow a support's material patch through sliding, without relabeling jumps.
 
     Prefer a patch containing the previous representative material sample.
     When growth/merging moves that patch's midpoint beyond max_shift, retain
     the still-contacting representative instead of treating midpoint drift as
-    material loss. Otherwise the original midpoint continuity bound applies.
+    material loss. With the previous frame's patch, boundary erosion can use
+    its unique overlapping successor and a contacting representative within
+    the same max_shift bound. Without that evidence the midpoint rule applies.
     Other contact patches are returned explicitly. This tracks a known support,
     not a topology certificate; an extra patch can be a new unwanted capture.
     Call sequentially, once per saved frame. Lost or ambiguous tracks fail closed.
@@ -112,6 +114,10 @@ def track_support_patch(indices, count, previous_center, max_shift=8):
     indices = np.sort(np.unique(np.asarray(indices, dtype=int)))
     if not len(indices):
         raise ValueError("Tracked support has no contact")
+    if previous_patch is not None:
+        previous_patch = np.asarray(previous_patch, dtype=int)
+        if previous_center not in previous_patch:
+            raise ValueError("Previous support patch lacks its tracked material")
     patches = list(np.split(indices, np.flatnonzero(np.diff(indices) > 1) + 1))
     if len(patches) > 1 and patches[0][0] == 0 and patches[-1][-1] == count - 1:
         patches = [np.r_[patches[-1], patches[0]]] + patches[1:-1]
@@ -129,6 +135,24 @@ def track_support_patch(indices, count, previous_center, max_shift=8):
             patches[containing],
             [patch for i, patch in enumerate(patches) if i != containing],
         )
+    if previous_patch is not None:
+        overlapping = [i for i, patch in enumerate(patches)
+                       if np.intersect1d(patch, previous_patch).size]
+        if len(overlapping) > 1:
+            raise ValueError("Ambiguous overlapping support successors")
+        if overlapping:
+            selected = overlapping[0]
+            patch = patches[selected]
+            shifts = np.minimum((patch - previous_center) % count,
+                                (previous_center - patch) % count)
+            nearest = np.flatnonzero(shifts == shifts.min())
+            if shifts.min() > max_shift:
+                raise ValueError("Tracked support moved beyond continuity bound")
+            if len(nearest) != 1:
+                raise ValueError("Ambiguous support representative")
+            center = (centers[selected] if distances[selected] <= max_shift
+                      else int(patch[nearest[0]]))
+            return center, patch, [p for i, p in enumerate(patches) if i != selected]
     order = np.argsort(distances)
     if distances[order[0]] > max_shift:
         raise ValueError("Tracked support moved beyond continuity bound")

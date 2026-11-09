@@ -405,6 +405,15 @@ def main():
                              final_helper_release_completed=False)
         (out / "far_support_guard.json").write_text(json.dumps(far_guard, indent=2) + "\n")
         m.metadata.setdefault("far_support_guard_events", []).append(far_guard)
+    support_patches, far_patches = {}, {}
+    for name, center in support_centers.items():
+        side, finger = name.split("_")
+        contacts = support_contact_indices(sim.transforms, rope, side, finger, meshes or {})
+        _, support_patches[name], _ = track_support_patch(contacts, len(rope), center)
+    for side, center in far_centers.items():
+        contacts = np.intersect1d(support_contact_indices(
+            sim.transforms, rope, side, "thumb", meshes), plan[side]["far_indices"])
+        _, far_patches[side], _ = track_support_patch(contacts, len(rope), center)
     if a.stop_on_grip_loss:
         initial_grip = bilateral_grip_observation(
             sim.transforms, rope, plan, sim.config.radius)
@@ -427,6 +436,8 @@ def main():
         if far_centers:
             (out / "far_material_support_tracking.json").write_text(json.dumps(dict(
                 interval_s=[float(seed["time"]), sim.t],
+                tracking_method="midpoint_with_retained_and_overlapping_patch_material",
+                maximum_center_shift_per_frame_particles=8,
                 tracking_complete=bool(not far_errors and far_rows
                                        and abs(far_rows[-1]["time"] - sim.t) < 1e-5),
                 errors=far_errors, samples=far_rows,
@@ -552,8 +563,9 @@ def main():
                 contacts = support_contact_indices(sim.transforms, positions, side,
                                                    finger, meshes or {})
                 try:
-                    support_centers[name], _, _ = track_support_patch(
-                        contacts, len(positions), support_centers[name])
+                    support_centers[name], support_patches[name], _ = track_support_patch(
+                        contacts, len(positions), support_centers[name],
+                        previous_patch=support_patches[name])
                 except ValueError as exc:
                     save()
                     sim.save_checkpoint(out / f"state_{i:04d}.npz")
@@ -566,8 +578,9 @@ def main():
                 contacts = np.intersect1d(support_contact_indices(
                     sim.transforms, positions, side, "thumb", meshes), plan[side]["far_indices"])
                 try:
-                    far_centers[side], _, _ = track_support_patch(
-                        contacts, len(positions), far_centers[side])
+                    far_centers[side], far_patches[side], _ = track_support_patch(
+                        contacts, len(positions), far_centers[side],
+                        previous_patch=far_patches[side])
                 except ValueError as exc:
                     failure = dict(time_s=sim.t, side=side,
                                    previous_center=far_centers[side], reason=str(exc),
@@ -578,7 +591,8 @@ def main():
                     (out / "far_support_stop.json").write_text(json.dumps(failure, indent=2) + "\n")
                     raise RuntimeError("Captured far-strand material tracking failed") from exc
             if far_centers:
-                far_rows.append(dict(time=sim.t, centers=far_centers.copy()))
+                far_rows.append(dict(time=sim.t, centers=far_centers.copy(),
+                                     patches={s: p.tolist() for s, p in far_patches.items()}))
             if a.stop_on_grip_loss:
                 observed = bilateral_grip_observation(
                     sim.transforms, positions, plan, sim.config.radius)

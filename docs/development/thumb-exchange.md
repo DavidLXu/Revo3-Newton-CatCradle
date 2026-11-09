@@ -448,10 +448,10 @@ right-little contact. This is an accepted temporary-helper source, although
 the right old and near thumb strands have returned to contact.
 
 A comparison reduces wrist spacing by 30 mm during the same tilt. It passes
-the other physical checks, but its helper track exceeds the material
-continuity bound at 92.3 s. Right-little contact is still present at the end;
-the tracking failure does not establish release. This comparison is rejected
-as a temporary-helper source.
+the other physical checks. The original helper tracker rejected it at 92.3 s;
+the boundary-erosion correction described below recovers a complete material
+track on the unchanged trajectory. It is now an accepted temporary-helper
+source. Right-little and right old/near thumb contact still remain.
 
 From the accepted fixed-spacing tilt, lowering only the left wrist by 80 mm
 over 2.5 s and holding for 2.4 s ends at 100.266667 s. Both hands retain their
@@ -474,6 +474,37 @@ These recipes have suffixes `release_helper_extended_thumb_gravity60`,
 `examples/transfers/attempt_thumb_`. Each has a declaration made before replay
 and a numerical record with its source, hold duration and acceptance result.
 None completes Cup & Saucer.
+
+### Contact-patch boundary erosion
+
+The convergence trial exposed a tracking error. At 92.266667 s, its old-loop
+helper patch spans particles 461–482, with representative 482. In the next
+frame it spans 460–480. Twenty previously contacting particles remain, but
+the midpoint jumps to 470, twelve particles from the representative. The
+midpoint rule incorrectly rejects this continuous patch contraction.
+
+The tracker now accepts a unique successor that overlaps the preceding patch,
+choosing a contacting representative within the unchanged eight-particle
+limit. In this example it chooses 480, a shift of two. Split successors,
+excessive shifts and missing contacts still fail. Calls without a previous
+patch retain the earlier rule. Runtime transfer guards and the index/helper
+audits now carry the preceding patch explicitly. This changes tracking only;
+rope forces, trajectories, contact distances and physical thresholds stay
+unchanged. The numerical record preserves the original rejected audit beside
+the new assessment. All 190 tests pass, including boundary erosion, seam
+wrapping and retained failure cases.
+
+The axial withdrawal comparison `release_helper_lower80_base30` is a retained
+failure: at 101.566667 s its left far contact changes from 226–234 to 220–223.
+Those patches do not overlap, and midpoint 221 exceeds the eight-particle
+limit from representative 230. The fix does not recover that run. It stopped
+before its hold and is not a continuation source.
+
+The separate `release_helper_lower80_thumb_reclear` trial moves only the right
+thumb over 1.5 s, then holds 1.2 s. The 102.966667 s endpoint retains both
+original indices, new far strands and the little helper. Old-loop clearance
+increases but remains below 4 mm, and the near strand still touches the thumb.
+Its valid helper endpoint supports a further thumb-only separation attempt.
 
 ## Reproduce
 

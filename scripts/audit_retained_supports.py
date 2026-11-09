@@ -66,6 +66,7 @@ def main():
         else {}
     )
     errors = {}
+    previous_patches = {}
     rows = []
     for k in selected:
         rope = data["rope"][k]
@@ -78,8 +79,10 @@ def main():
             contacts = support_contact_indices(transforms, rope, side, finger, meshes)
             try:
                 centers[name], patch, extras = track_support_patch(
-                    contacts, len(rope), centers[name]
+                    contacts, len(rope), centers[name],
+                    previous_patch=previous_patches.get(name),
                 )
+                previous_patches[name] = patch
                 row["supports"][name] = dict(
                     center=centers[name],
                     patch=patch.tolist(),
@@ -92,7 +95,7 @@ def main():
         scope=__doc__,
         interval_s=[float(times[selected[0]]), float(times[-1])],
         initial_centers=initial_centers,
-        tracking_method="midpoint_with_retained_material_sample",
+        tracking_method="midpoint_with_retained_and_overlapping_patch_material",
         tracked_supports=list(initial_centers),
         maximum_center_shift_per_frame_particles=8,
         tracking_complete=not errors,
