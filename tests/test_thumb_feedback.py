@@ -175,3 +175,26 @@ def test_near_strand_feedback_cannot_accumulate_thumb_index_overlap():
         for u in np.linspace(0, 1, 21):
             assert self_clearance_margin(robot.fk(q + u * (target - q)), "left") >= 0
         q = target
+
+
+def test_retained_prediction_reacts_to_far_velocity_without_changing_observations():
+    robot = RevoTron()
+    q = Motion(robot, upright=True).targets[0]
+    tip = fingertip(robot, q, "right", "thumb")
+    rope = np.array([tip+[0,0,.002], tip+[0,0,.05], tip+[0,0,.08]])
+    plan = {"right": dict(far_indices=[0],near_indices=[1],old_loop_indices=[2])}
+    velocity = np.zeros_like(rope)
+    velocity[0] = [0,0,.3]
+    saved = velocity.copy()
+    results = []
+    for predict_retained in (False, True):
+        zero = feedback_target(robot,q,rope,np.zeros_like(rope),plan,q,1/30,1.,
+                               .002,1.,sides=("right",),retained_strands=("far_indices",),
+                               predict_retained=predict_retained)[0]
+        moving = feedback_target(robot,q,rope,velocity,plan,q,1/30,1.,
+                                 .002,1.,sides=("right",),retained_strands=("far_indices",),
+                                 predict_retained=predict_retained)[0]
+        results.append((zero,moving))
+    np.testing.assert_array_equal(*results[0])
+    assert np.max(abs(results[1][0]-results[1][1])) > 1e-6
+    np.testing.assert_array_equal(velocity,saved)

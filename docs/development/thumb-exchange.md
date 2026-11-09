@@ -541,6 +541,53 @@ material 645 remains in contact. The little-lift phase never runs. Curling
 that joint alone does not preserve the existing bight; subsequent proposals
 must account for the moving contact surface.
 
+The `release_helper_seated_thumb_little_lift` proposal coordinates all five
+right-thumb joints. Its planned surface reference moves material 670 from
+8.255 mm along the distal capsule to the shaft center while DIP curls to
+0.65 rad. The joint path tracks that frozen reference within 0.021 mm. Newton
+retains the preparation, but all right far contact leaves at 107.833333 s
+during the subsequent little lift. The previous patch is 666–673. The failed
+replay shows that a frozen surface target does not ensure retention of the
+moving bight; its endpoint remains rejected.
+
+### Joint feedback during helper withdrawal
+
+`continue_cup.py --follow-far-thumb right` now adjusts the thumb using current
+rope positions and velocities during simple joint waypoints. It follows only
+the tracked far-material neighborhood, within eight particles on either side
+of its current representative. Other far patches and the old thumb loop are
+not eligible substitutes for this contact objective. Near-strand avoidance
+and distal seating remain planning costs, not release certificates.
+
+The thumb defaults to a 1 rad/s limit; all actual per-frame quintics are
+bounded by 3 rad/s. Each proposed step is checked for joint limits and
+finger/palm clearance. Original-index and far-material tracking, body/hull
+checks and the stretch stop remain active. No rope state or rest length is
+changed. Feedback stops before the final hold, which freezes the actual
+terminal joint pose for independent release and retention audits.
+
+The option requires `--route-only`, `--approach-path`, `--stop-on-far-loss`,
+all three collision checks and `--max-stretch-ratio 1.2` or stricter. It accepts
+simple waypoints; saved `joint_path` curves are not supported in feedback
+mode. `far_thumb_feedback.json` records each observed material neighborhood,
+optimization result and actual joint-speed bound. This is an experimental
+controller, not evidence of a completed Cup. Its input immutability, material
+scope and speed bounds are covered by the 198-test suite.
+
+The first trial, `release_helper_feedback_little_lift`, uses current far
+positions and a 2.1 s little lift. It stops at 107.666667 s after 60 feedback
+steps because right far contact disappears. Its maximum actual per-frame
+joint-speed bound is 2.745075 rad/s, below 3. The nominal recipe also includes
+1.2 s of feedback settling, followed by a separately requested 1.2 s stationary
+hold; neither is reached in this run. Reproduction requires the recorded
+`--follow-far-thumb right --thumb-feedback-speed 1` arguments.
+
+The optional `--predict-far-thumb` additionally penalizes separation from the
+tracked bight's one-frame velocity prediction. Current-contact costs stay
+active; the prediction is only a joint-planning observation. It does not
+advance or overwrite the simulated rope. The earlier controller remains the
+default so its stopped replay can still be reproduced.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

@@ -27775,6 +27775,651 @@
       "planned_hold_duration_s": 1.2,
       "accepted_for_temporary_helper_continuation": false,
       "temporary_helper_rejection": "Original right far patch disappears before the little-lift phase; only distant material remains."
+    },
+    {
+      "name": "release_helper_seated_thumb_little_lift",
+      "source": "alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+      "interval_s": [
+        105.66666666666667,
+        107.833333
+      ],
+      "source_checkpoint_sha256": "abbd144e53779d6e2adc7344f2138a3222f097df74f7255b6393a89e7059056f",
+      "checkpoint_sha256": "e9d20e6791aa5adc8b86c7e158b858d4ea69cc0bad9ce35cfd94ce106bda0b91",
+      "joint_commands_sha256": "363227bec78f05d6541ff376a496488077e8ec5b05d1f038d49929d978e230a8",
+      "recipe": "attempt_thumb_release_helper_seated_thumb_little_lift.json",
+      "recipe_sha256": "0c7f4fd06bc5f12f41a4228033b1bb84251e2594d5d3552be2f34ab0885637c7",
+      "declared_departing_thumbs": "both",
+      "stops": [
+        {
+          "file": "far_support_stop.json",
+          "time_s": 107.83333333333333,
+          "side": "right",
+          "previous_center": 669,
+          "reason": "Tracked support has no contact",
+          "contacts": []
+        }
+      ],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "A coordinated thumb path plans to seat tracked material 670 from axial 8.255 mm to the distal-shaft center while curling DIP to 0.65 rad. The guarded replay retains the preparation but loses all right far contact at 107.833333 s during the subsequent little lift. The last accepted patch is 666..673. Frozen surface-reference placement did not guarantee moving-rope retention; the stopped endpoint is rejected.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 105.66666666666667,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 281,
+          "right_index": 613
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "far_support_guard": {
+        "source_time_s": 105.66666666666667,
+        "initial_material_centers": {
+          "left": 225,
+          "right": 670
+        },
+        "scope": "Track newly captured far material; no rope constraint is added.",
+        "source_contact_phase": "temporary_helper",
+        "declared_helper": "right_little",
+        "final_helper_release_completed": false
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          105.66666666666667,
+          107.83333333333333
+        ],
+        "tracking_method": "midpoint_with_retained_and_overlapping_patch_material",
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "right": {
+            "time_s": 107.83333333333333,
+            "side": "right",
+            "previous_center": 669,
+            "reason": "Tracked support has no contact",
+            "contacts": []
+          }
+        },
+        "first_and_last_samples": [
+          {
+            "time": 105.66666666666667,
+            "centers": {
+              "left": 225,
+              "right": 670
+            }
+          },
+          {
+            "time": 107.8,
+            "centers": {
+              "left": 222,
+              "right": 669
+            },
+            "patches": {
+              "left": [
+                210,
+                211,
+                212,
+                213,
+                214,
+                215,
+                216,
+                217,
+                218,
+                219,
+                220,
+                221,
+                222,
+                223,
+                224,
+                225,
+                226,
+                227,
+                228,
+                229,
+                230,
+                231,
+                232,
+                233,
+                234
+              ],
+              "right": [
+                666,
+                667,
+                668,
+                669,
+                670,
+                671,
+                672,
+                673
+              ]
+            }
+          }
+        ]
+      },
+      "preflight": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "source_time_s": 105.66666666666667,
+        "passed": true,
+        "scope": "Thumb joint coordination moves an observed far-material surface reference from its initial distal axial position to the middle of the distal shaft while curling DIP to 0.65 rad. Then only little MCP rises to -0.09 rad. Surface references constrain joint planning only, never Newton rope particles. Actual material retention and helper release require guarded physics.",
+        "far_material": 670,
+        "initial_contact_axial_m": 0.008254711970706808,
+        "target_contact_axial_m": 0.0,
+        "fits": [
+          {
+            "fraction": 0.016666666666666666,
+            "surface_reference_error_m": 1.0116737488559521e-08,
+            "DIP_error_rad": 1.179969266018599e-06,
+            "nfev": 10
+          },
+          {
+            "fraction": 0.05000000000000001,
+            "surface_reference_error_m": 1.2322929852980154e-08,
+            "DIP_error_rad": 1.0999903835573477e-06,
+            "nfev": 20
+          },
+          {
+            "fraction": 0.10000000000000002,
+            "surface_reference_error_m": 1.135206701114712e-08,
+            "DIP_error_rad": 5.745009054591854e-07,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.15,
+            "surface_reference_error_m": 8.437684673051593e-09,
+            "DIP_error_rad": 1.0833712743574253e-07,
+            "nfev": 15
+          },
+          {
+            "fraction": 0.20000000000000004,
+            "surface_reference_error_m": 6.947921333370674e-09,
+            "DIP_error_rad": 1.5295589195218895e-07,
+            "nfev": 15
+          },
+          {
+            "fraction": 0.25,
+            "surface_reference_error_m": 6.046224340795944e-09,
+            "DIP_error_rad": 3.3073669836181097e-07,
+            "nfev": 16
+          },
+          {
+            "fraction": 0.30000000000000004,
+            "surface_reference_error_m": 5.442781457054874e-09,
+            "DIP_error_rad": 4.664714489677202e-07,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.3500000000000001,
+            "surface_reference_error_m": 5.011043665234645e-09,
+            "DIP_error_rad": 5.780620321860219e-07,
+            "nfev": 10
+          },
+          {
+            "fraction": 0.39999999999999997,
+            "surface_reference_error_m": 4.687194176838388e-09,
+            "DIP_error_rad": 6.744553496806915e-07,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.45,
+            "surface_reference_error_m": 4.4357127832392944e-09,
+            "DIP_error_rad": 7.605952933031901e-07,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.5,
+            "surface_reference_error_m": 4.235331072394999e-09,
+            "DIP_error_rad": 8.394276386214372e-07,
+            "nfev": 10
+          },
+          {
+            "fraction": 0.55,
+            "surface_reference_error_m": 4.0725993922034555e-09,
+            "DIP_error_rad": 9.1280707736896e-07,
+            "nfev": 12
+          },
+          {
+            "fraction": 0.6000000000000001,
+            "surface_reference_error_m": 3.938610105174882e-09,
+            "DIP_error_rad": 9.819518446141373e-07,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.65,
+            "surface_reference_error_m": 3.8272690107702595e-09,
+            "DIP_error_rad": 1.047692027578151e-06,
+            "nfev": 10
+          },
+          {
+            "fraction": 0.7000000000000001,
+            "surface_reference_error_m": 3.734274179792613e-09,
+            "DIP_error_rad": 1.110607671717112e-06,
+            "nfev": 12
+          },
+          {
+            "fraction": 0.75,
+            "surface_reference_error_m": 3.656499152511683e-09,
+            "DIP_error_rad": 1.1711091145727437e-06,
+            "nfev": 12
+          },
+          {
+            "fraction": 0.8000000000000002,
+            "surface_reference_error_m": 3.5916526564116545e-09,
+            "DIP_error_rad": 1.229492273324695e-06,
+            "nfev": 12
+          },
+          {
+            "fraction": 0.8500000000000001,
+            "surface_reference_error_m": 3.5379500001825945e-09,
+            "DIP_error_rad": 1.285974297937642e-06,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.9,
+            "surface_reference_error_m": 3.494073403801803e-09,
+            "DIP_error_rad": 1.3407079360039376e-06,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.9500000000000001,
+            "surface_reference_error_m": 3.4589564702576047e-09,
+            "DIP_error_rad": 1.393806737470804e-06,
+            "nfev": 11
+          },
+          {
+            "fraction": 0.9833333333333334,
+            "surface_reference_error_m": 3.218627661357664e-09,
+            "DIP_error_rad": 1.2478898840928565e-06,
+            "nfev": 6
+          },
+          {
+            "fraction": 1.0,
+            "surface_reference_error_m": 3.0021931538135732e-09,
+            "DIP_error_rad": 1.0843774373991977e-06,
+            "nfev": 5
+          }
+        ],
+        "minimum_self_margin_m": 0.0012447628447435815,
+        "maximum_self_margin_m": 0.0012447628447436786,
+        "minimum_opposing_gap_m": 0.03570282989982892,
+        "maximum_opposing_gap_m": 0.10274260772894653,
+        "minimum_palm_gap_m": 0.12724683375992044,
+        "maximum_palm_gap_m": 0.1376251883341871,
+        "minimum_own_thumb_bound_m": 0.0337770878369771,
+        "maximum_own_thumb_bound_m": 0.03400256965266679,
+        "minimum_own_little_bound_m": 0.028898604913797577,
+        "maximum_own_little_bound_m": 0.04628933050038656,
+        "minimum_speed_bound_rad_s": 0.676344514583678,
+        "maximum_speed_bound_rad_s": 1.4642857142857144,
+        "minimum_surface_reference_error_m": 1.3877787807814457e-17,
+        "maximum_surface_reference_error_m": 2.0426085409200678e-05,
+        "samples_with_surface_reference_error_m": 161
+      },
+      "intent": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "start_s": 105.66666666666667,
+        "release_attempt": true,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491,
+            492,
+            493,
+            494,
+            495,
+            496,
+            497,
+            498,
+            499,
+            500,
+            501,
+            502
+          ],
+          "initial_material_center": 483,
+          "expected_contact_interval_s": [
+            105.66666666666667,
+            110.46666666666667
+          ]
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "44b28296a7adfa5d4caa295e4591f6a4ffb6cd6da60f3bde042a24b73486bc85",
+        "scope": "Declared before Newton replay: Thumb joint coordination moves an observed far-material surface reference from its initial distal axial position to the middle of the distal shaft while curling DIP to 0.65 rad. Then only little MCP rises to -0.09 rad. Surface references constrain joint planning only, never Newton rope particles. Actual material retention and helper release require guarded physics. Helper contact is observed, never constrained. Hold 1.2 s."
+      },
+      "public_intent": "attempt_thumb_release_helper_seated_thumb_little_lift.intent.json",
+      "accepted_for_temporary_helper_continuation": false,
+      "temporary_helper_rejection": "Far material track did not complete",
+      "planned_hold_duration_s": 1.2
+    },
+    {
+      "name": "release_helper_feedback_little_lift",
+      "source": "alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+      "interval_s": [
+        105.66666666666667,
+        107.666667
+      ],
+      "source_checkpoint_sha256": "abbd144e53779d6e2adc7344f2138a3222f097df74f7255b6393a89e7059056f",
+      "checkpoint_sha256": "7c5d39fa03ee788138267f34614d80c9d93d4734cb6a6ca6af267e91747e1c65",
+      "joint_commands_sha256": "d85359ef6e48e790eb80d4003a36acbf02ba9d159b07c41fab301d0cd229eda4",
+      "recipe": "attempt_thumb_release_helper_feedback_little_lift.json",
+      "recipe_sha256": "7894e3e7a667a7617d780c522ae6e9133de8862a86f8bc2c8350f8696b5f54a4",
+      "declared_departing_thumbs": "both",
+      "stops": [
+        {
+          "file": "far_support_stop.json",
+          "time_s": 107.66666666666667,
+          "side": "right",
+          "previous_center": 672,
+          "reason": "Tracked support has no contact",
+          "contacts": []
+        }
+      ],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "First joint-feedback withdrawal follows current right far material and raises little MCP toward -0.09 rad. All contact is lost at 107.666667 s before the motion completes. The preceding patch is 670..675. Sixty feedback steps remain within the 3 rad/s per-frame quintic limit, peaking at 2.745075 rad/s. This current-position controller does not complete release; its stopped endpoint is rejected.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 105.66666666666667,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 281,
+          "right_index": 613
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "far_support_guard": {
+        "source_time_s": 105.66666666666667,
+        "initial_material_centers": {
+          "left": 225,
+          "right": 670
+        },
+        "scope": "Track newly captured far material; no rope constraint is added.",
+        "source_contact_phase": "temporary_helper",
+        "declared_helper": "right_little",
+        "final_helper_release_completed": false
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          105.66666666666667,
+          107.66666666666667
+        ],
+        "tracking_method": "midpoint_with_retained_and_overlapping_patch_material",
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "right": {
+            "time_s": 107.66666666666667,
+            "side": "right",
+            "previous_center": 672,
+            "reason": "Tracked support has no contact",
+            "contacts": []
+          }
+        },
+        "first_and_last_samples": [
+          {
+            "time": 105.66666666666667,
+            "centers": {
+              "left": 225,
+              "right": 670
+            }
+          },
+          {
+            "time": 107.63333333333334,
+            "centers": {
+              "left": 223,
+              "right": 672
+            },
+            "patches": {
+              "left": [
+                212,
+                213,
+                214,
+                215,
+                216,
+                217,
+                218,
+                219,
+                220,
+                221,
+                222,
+                223,
+                224,
+                225,
+                226,
+                227,
+                228,
+                229,
+                230,
+                231,
+                232,
+                233,
+                234
+              ],
+              "right": [
+                670,
+                671,
+                672,
+                673,
+                674,
+                675
+              ]
+            }
+          }
+        ]
+      },
+      "preflight": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "source_time_s": 105.66666666666667,
+        "passed": true,
+        "scope": "Nominal motion raises only the right little MCP from 1.55 to -0.09 rad over 2.1 s, followed by 1.2 s of feedback settling. Runtime right-thumb feedback follows the current tracked far-material neighborhood, with a 1 rad/s thumb limit and 3 rad/s limit for all per-frame quintics. These geometric checks cover the nominal route; each feedback proposal must also pass runtime joint, finger, palm and material guards. No rope position, velocity, mass or rest length is edited. After feedback ends, the actual terminal joint pose is held for the independent release audit.",
+        "runtime_arguments": [
+          "--follow-far-thumb",
+          "right",
+          "--thumb-feedback-speed",
+          "1"
+        ],
+        "scripted_frame_speed_bound_rad_s": 2.7455357142857144,
+        "feedback_only_settle_s": 1.2,
+        "minimum_self_margin_m": 0.0012447628447436127,
+        "maximum_self_margin_m": 0.0012447628447436127,
+        "minimum_opposing_gap_m": 0.03570292676390901,
+        "maximum_opposing_gap_m": 0.10758685355817012,
+        "minimum_palm_gap_m": 0.12724683375992044,
+        "maximum_palm_gap_m": 0.13762518833418685,
+        "minimum_own_little_bound_m": 0.0288986049137978,
+        "maximum_own_little_bound_m": 0.046289899908904496,
+        "minimum_frozen_rope_gap_m": -0.010754651752246765,
+        "maximum_frozen_rope_gap_m": 0.0003254053897516233,
+        "minimum_speed_bound_rad_s": 1.4642857142857144,
+        "maximum_speed_bound_rad_s": 1.4642857142857144
+      },
+      "intent": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "start_s": 105.66666666666667,
+        "release_attempt": true,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491,
+            492,
+            493,
+            494,
+            495,
+            496,
+            497,
+            498,
+            499,
+            500,
+            501,
+            502
+          ],
+          "initial_material_center": 483,
+          "expected_contact_interval_s": [
+            105.66666666666667,
+            110.16666666666667
+          ]
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "9426a1a5018d6d08d27b02b5bdbe72204de49efa56c158a539d7bb1a903eb94e",
+        "scope": "Declared before Newton replay: Nominal motion raises only the right little MCP from 1.55 to -0.09 rad over 2.1 s, followed by 1.2 s of feedback settling. Runtime right-thumb feedback follows the current tracked far-material neighborhood, with a 1 rad/s thumb limit and 3 rad/s limit for all per-frame quintics. These geometric checks cover the nominal route; each feedback proposal must also pass runtime joint, finger, palm and material guards. No rope position, velocity, mass or rest length is edited. After feedback ends, the actual terminal joint pose is held for the independent release audit. Helper contact is observed, never constrained. Hold 1.2 s."
+      },
+      "public_intent": "attempt_thumb_release_helper_feedback_little_lift.intent.json",
+      "accepted_for_temporary_helper_continuation": false,
+      "temporary_helper_rejection": "Far material track did not complete",
+      "planned_hold_duration_s": 1.2,
+      "far_thumb_feedback": {
+        "scope": "Joint-only feedback from the current rope and tracked material. No particle edits or added rope constraints. Feedback ends before the stationary hold; support and physical audits remain required.",
+        "side": "right",
+        "speed_rad_s": 1.0,
+        "maximum_scripted_joint_speed_rad_s": 3.0,
+        "material_window_radius": 8,
+        "contact_weight": 80.0,
+        "near_margin_m": 0.002,
+        "seat_depth_m": 0.002,
+        "completed_figure": false,
+        "sample_count": 60,
+        "first_and_last_samples": [
+          {
+            "time_s": 105.7,
+            "peak_joint_speed_bound_rad_s": 0.11296427617368127,
+            "cost": 0.0004245298437009192,
+            "evaluations": 27,
+            "tracked_material": 670,
+            "material_window": [
+              662,
+              663,
+              664,
+              665,
+              666,
+              667,
+              668,
+              669,
+              670,
+              671,
+              672,
+              673,
+              674,
+              675,
+              676,
+              677,
+              678
+            ],
+            "nominal_joint_lag_rad": 0.0020082537986432225
+          },
+          {
+            "time_s": 107.66666666666667,
+            "peak_joint_speed_bound_rad_s": 0.40535473325574534,
+            "cost": 0.0008534748112377142,
+            "evaluations": 20,
+            "tracked_material": 672,
+            "material_window": [
+              664,
+              665,
+              666,
+              667,
+              668,
+              669,
+              670,
+              671,
+              672,
+              673,
+              674,
+              675,
+              676,
+              677,
+              678,
+              679,
+              680
+            ],
+            "nominal_joint_lag_rad": 0.07870192346562338
+          }
+        ],
+        "peak_joint_speed_bound_rad_s": 2.745074585841663,
+        "predict_retained": false,
+        "prediction_frames": 0.0
+      },
+      "runtime_arguments": [
+        "--follow-far-thumb",
+        "right",
+        "--thumb-feedback-speed",
+        "1"
+      ]
     }
   ],
   "preflight_rejections": [

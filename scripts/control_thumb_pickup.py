@@ -80,6 +80,7 @@ def feedback_target(
     retained_by_side=None,
     pose_weights=None,
     seated_strands=None,
+    predict_retained=False,
 ):
     ids = [
         i
@@ -121,15 +122,17 @@ def feedback_target(
             )
             required = (retained_by_side or {}).get(side, retained_strands)
             for name in required:
-                contact = gaps(tf, rope[plan[side][name]], side, "thumb").min()
-                result.append(
-                    np.array(
-                        [
-                            contact_weight * max(contact - 0.0001, 0),
-                            8 * max(-contact - 0.0002, 0),
-                        ]
+                observations = (rope, rope + predict*dt*velocity) if predict_retained else (rope,)
+                for observed in observations:
+                    contact = gaps(tf, observed[plan[side][name]], side, "thumb").min()
+                    result.append(
+                        np.array(
+                            [
+                                contact_weight * max(contact - 0.0001, 0),
+                                8 * max(-contact - 0.0002, 0),
+                            ]
+                        )
                     )
-                )
             seat_name = (seated_strands or {}).get(side, "far_indices")
             if seat_depth is not None and seat_name in required:
                 c, axis, radius, half = finger_capsule("thumb", "DIP", side)

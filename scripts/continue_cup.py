@@ -30,6 +30,44 @@ from revo3_cat_cradle.pinch import (
 )
 
 
+def far_follow_step(robot, current, nominal, rope, velocity, plan, side, center,
+                    dt, speed=1.0, *, predict_retained=False):
+    """Move joints toward a tracked bight; never prescribe particle motion.
+
+    Limit the actual per-frame quintic to 3 rad/s for scripted joints and to
+    ``speed`` for the controlled thumb. Only the current tracked material
+    neighborhood is eligible for the thumb's contact objective.
+    """
+    from scripts.control_thumb_pickup import feedback_target
+
+    if (side not in ("left", "right") or not np.isfinite([dt, speed]).all()
+            or dt <= 0 or not 0 < speed <= 3):
+        raise ValueError("Invalid far-thumb feedback timing or speed")
+    if (not isinstance(center, (int, np.integer)) or isinstance(center, bool)
+            or not 0 <= center < len(rope)):
+        raise ValueError("Invalid tracked far-material sample")
+    thumb_ids = [i for i, name in enumerate(robot.names)
+                 if name.startswith(side + "_thumb_")]
+    delta = np.asarray(nominal) - current
+    delta[thumb_ids] = 0
+    fraction = min(1., 3 * dt / 1.875 / max(float(np.max(abs(delta))), 1e-15))
+    base = current + fraction * delta
+    window = np.intersect1d((center + np.arange(-8, 9)) % len(rope),
+                            plan[side]["far_indices"])
+    if not len(window) or center not in window:
+        raise ValueError("Feedback lacks its tracked far-material neighborhood")
+    observed_plan = {side: {**plan[side], "far_indices": window.tolist()}}
+    target, cost, evaluations = feedback_target(
+        robot, base, rope, velocity, observed_plan, nominal, dt, speed, .002,
+        1., contact_weight=80., seat_depth=.002, sides=(side,),
+        pose_weight=.0002, retained_strands=("far_indices",),
+        predict_retained=predict_retained,
+    )
+    return target, dict(cost=cost, evaluations=evaluations,
+                        tracked_material=center, material_window=window.tolist(),
+                        nominal_joint_lag_rad=float(np.max(abs(target - nominal))))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--source", type=Path, default=ROOT / "output/publish_opening_a")
@@ -75,6 +113,15 @@ def main():
                    help="Declare a switch to a second far-contact patch already held "
                         "alongside the old patch throughout the source hold; requires "
                         "--stop-on-far-loss. Does not restore a lost track")
+    p.add_argument("--follow-far-thumb", choices=("left", "right"),
+                   help="During simple joint waypoints, adjust one thumb from current "
+                        "rope observations; then hold the actual terminal joint pose. "
+                        "Requires all material, collision and stretch guards")
+    p.add_argument("--thumb-feedback-speed", type=float, default=1.,
+                   help="Peak per-frame quintic thumb speed, rad/s (maximum 3)")
+    p.add_argument("--predict-far-thumb", action="store_true",
+                   help="Include one-frame velocity prediction for the tracked far bight; "
+                        "requires --follow-far-thumb")
     p.add_argument(
         "--hold-on-near-pinch", choices=("left", "right", "both"),
         help="During a route, stop closing at opposing thumb/index contact on the "
@@ -168,6 +215,21 @@ def main():
         "--target-index", type=int, help="Material point on the intended far strand"
     )
     a = p.parse_args()
+    if a.predict_far_thumb and not a.follow_far_thumb:
+        p.error("--predict-far-thumb requires --follow-far-thumb")
+    if (not np.isfinite(a.thumb_feedback_speed)
+            or not 0 < a.thumb_feedback_speed <= 3):
+        p.error("--thumb-feedback-speed must be finite and in (0, 3]")
+    if a.follow_far_thumb and (
+        not a.route_only or not a.approach_path or a.hold_only
+        or not a.stop_on_far_loss or not a.check_self_collision
+        or not a.check_robot_hulls or not a.check_body_envelope
+        or a.max_stretch_ratio is None or not 1 < a.max_stretch_ratio <= 1.2
+        or a.side not in ("both", a.follow_far_thumb)
+        or a.hold_on_near_pinch or a.stop_on_grip_loss
+    ):
+        p.error("--follow-far-thumb requires a matching guarded route, both collision "
+                "audits, body-envelope checks and a stretch limit at most 1.2")
     if not np.isfinite(a.pinch_max_gap) or not 0 <= a.pinch_max_gap <= .0001:
         p.error("--pinch-max-gap must be finite and in [0, 0.0001] metres")
     if a.pinch_max_gap != .0001 and not a.hold_on_near_pinch:
@@ -421,6 +483,8 @@ def main():
             raise ValueError("Grip guard requires both near strands and no old-loop "
                              "paired samples at the source checkpoint")
 
+    feedback_rows = []
+
     def save():
         export_bimanual(sim, frames, metrics, out)
         (out / "joint_commands.json").write_text(
@@ -442,8 +506,20 @@ def main():
                                        and abs(far_rows[-1]["time"] - sim.t) < 1e-5),
                 errors=far_errors, samples=far_rows,
             ), indent=2) + "\n")
+        if a.follow_far_thumb:
+            (out / "far_thumb_feedback.json").write_text(json.dumps(dict(
+                scope="Joint-only feedback from the current rope and tracked material. "
+                      "No particle edits or added rope constraints. Feedback ends before "
+                      "the stationary hold; support and physical audits remain required.",
+                side=a.follow_far_thumb, speed_rad_s=a.thumb_feedback_speed,
+                maximum_scripted_joint_speed_rad_s=3., material_window_radius=8,
+                contact_weight=80., near_margin_m=.002, seat_depth_m=.002,
+                predict_retained=a.predict_far_thumb,
+                prediction_frames=1. if a.predict_far_thumb else 0.,
+                completed_figure=False, samples=feedback_rows,
+            ), indent=2) + "\n")
 
-    def move(t, q, phase, detect_pinch=False, joint_path=None):
+    def move(t, q, phase, detect_pinch=False, joint_path=None, follow_thumb=False):
         if (
             not np.isfinite(q).all()
             or np.any(q < r.limits[:, 0] - 1e-6)
@@ -451,6 +527,9 @@ def main():
         ):
             raise ValueError("Transfer target violates joint limits")
         from revo3_cat_cradle.joint_path import evaluate_joint_path, validate_joint_path
+        if follow_thumb and joint_path is not None:
+            raise ValueError("Far-thumb feedback currently requires simple joint waypoints")
+        phase_start, initial = sim.t, sim.q.copy()
         samples = 21
         if joint_path is None and np.max(abs(q - sim.q)) * 1.875 / (t - sim.t) > 3:
             raise ValueError("Transfer phase exceeds 3 rad/s")
@@ -494,8 +573,44 @@ def main():
                         f"Transfer phase lacks opposing palm clearance: {phase}; "
                         f"{clearance}"
                     )
-        m.append(t, q, phase, joint_path=joint_path)
+        if not follow_thumb:
+            m.append(t, q, phase, joint_path=joint_path)
         for i in range(round(sim.t * 30) + 1, round(t * 30) + 1):
+            if follow_thumb:
+                u = (i / 30 - phase_start) / (t - phase_start)
+                u = u**3 * (10 + u * (-15 + 6*u))
+                nominal = (1-u)*initial + u*q
+                try:
+                    target, observation = far_follow_step(
+                        r, sim.q, nominal, sim.state.particle_q.numpy(),
+                        sim.state.particle_qd.numpy(), plan, a.follow_far_thumb,
+                        far_centers[a.follow_far_thumb], 1/30, a.thumb_feedback_speed,
+                        predict_retained=a.predict_far_thumb)
+                    if (not np.isfinite(target).all()
+                            or np.any(target < r.limits[:, 0]-1e-6)
+                            or np.any(target > r.limits[:, 1]+1e-6)
+                            or np.max(abs(target-sim.q))*1.875*30 > 3+1e-9):
+                        raise ValueError("Feedback step violates joint limits or speed")
+                    for v in np.linspace(0, 1, 5):
+                        tf = r.fk((1-v)*sim.q + v*target)
+                        palm = palm_checker.measure(tf, quick=True)
+                        if (hand_clearance(tf)[0] < -.0005
+                                or any(self_clearance_margin(tf, s) < 0 for s in ("left", "right"))
+                                or min(palm["finger_palm_lower_bound_m"],
+                                       palm["palm_palm_sphere_lower_bound_m"]) < 0
+                                or any(palm_checker.own_distal_clearance(tf, s, "little")["lower_bound_m"] < 0
+                                       for s in ("left", "right"))
+                                or palm_checker.own_distal_clearance(tf, a.follow_far_thumb, "thumb")["lower_bound_m"] < 0):
+                            raise ValueError("Feedback step lacks finger/palm clearance")
+                except ValueError as exc:
+                    save()
+                    (out / "feedback_stop.json").write_text(json.dumps(dict(
+                        time_s=sim.t, proposed_time_s=i/30, reason=str(exc)), indent=2)+"\n")
+                    raise
+                feedback_rows.append(dict(time_s=i/30,
+                    peak_joint_speed_bound_rad_s=float(np.max(abs(target-sim.q))*1.875*30),
+                    **observation))
+                m.append(i/30, target, phase + " · far-thumb feedback")
             sim.advance(i / 30)
             frames.append(sim.snapshot())
             metrics.append(sim.metrics())
@@ -778,12 +893,14 @@ def main():
                     f"Route thumb around near string {j + 1}",
                 )
             if move(sim.t + duration, q, phase, detect_pinch=bool(a.hold_on_near_pinch),
-                    joint_path=joint_path):
+                    joint_path=joint_path, follow_thumb=bool(a.follow_far_thumb)):
                 q = sim.q.copy()
                 break
     if a.route_only:
         if not a.approach_path:
             raise ValueError("--route-only requires --approach-path")
+        if a.follow_far_thumb:
+            q = sim.q.copy()
         move(sim.t + a.hold_duration, q, a.hold_label)
         return
     for label, offset, dt in [
