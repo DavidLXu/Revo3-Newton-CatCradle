@@ -506,6 +506,34 @@ original indices, new far strands and the little helper. Old-loop clearance
 increases but remains below 4 mm, and the near strand still touches the thumb.
 Its valid helper endpoint supports a further thumb-only separation attempt.
 
+The next thumb-only trial, `release_helper_lower80_thumb_reclear10`, ends at
+105.666667 s after another 1.5 s motion and 1.2 s hold. Right near clearance
+passes at 2.321 mm throughout the held second. Right old-loop clearance is
+2.610 mm, below the 4 mm requirement, while the little helper remains engaged.
+All other exchange checks pass. This is a valid helper source, not Cup.
+
+Further separation in `release_helper_lower80_thumb_margin10` loses the right
+new far bight at 106.5 s. Its preceding frame holds particles 669–678; the next
+frame has no right far contact at all. The runtime guard stops the replay.
+This is a contact loss, not a patch-boundary tracking error, and the endpoint
+is rejected.
+
+Raising only the straight right little MCP from 1.55 to 0.4 rad in
+`release_helper_reclear10_little_lift` clears the right old loop by about
+18 mm during motion. However, the new far bight slides toward the unchanged
+thumb tip and loses contact at 107.6 s during the hold. The preceding frame
+holds 670–674; the stopped frame has no right far contact. The little still
+touches rope, so this endpoint is also rejected. Further trials need to retain
+the new thumb bight while withdrawing the helper.
+
+The independent `release_helper_close30_lower100` comparison starts from the
+reassessed converging tilt. It lowers the left wrist 100 mm over 2.5 s and
+holds 2.4 s, ending at 100.266667 s. Both original indices, new far strands
+and the temporary helper remain tracked. Physical checks pass except for the
+intentional right-little contact; right old/near thumb contact remains. It is
+a valid helper source, but the larger downward pull alone does not release
+the noose.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using
