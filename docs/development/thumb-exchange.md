@@ -588,6 +588,14 @@ active; the prediction is only a joint-planning observation. It does not
 advance or overwrite the simulated rope. The earlier controller remains the
 default so its stopped replay can still be reproduced.
 
+The predictive trial, `release_helper_predictive_little_lift`, slows the little
+lift to 4 s. It still loses every right far-bight contact at 107.333333 s,
+before the little completes its motion. The preceding contact patch is
+658–664. Its 50 feedback steps stay below 1.354412 rad/s, but neither the
+feedback-settling phase nor the stationary hold is reached. This endpoint is
+rejected. Reproduction adds `--predict-far-thumb` to the preceding feedback
+arguments; the recipe and numerical record retain that distinction.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

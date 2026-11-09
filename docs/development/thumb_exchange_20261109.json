@@ -28420,6 +28420,300 @@
         "--thumb-feedback-speed",
         "1"
       ]
+    },
+    {
+      "name": "release_helper_predictive_little_lift",
+      "source": "alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+      "interval_s": [
+        105.66666666666667,
+        107.333333
+      ],
+      "source_checkpoint_sha256": "abbd144e53779d6e2adc7344f2138a3222f097df74f7255b6393a89e7059056f",
+      "checkpoint_sha256": "56514540cc0f8a163f4e6c843148c4b715100016231923c0bd018a05f4a1ee9f",
+      "joint_commands_sha256": "0bf5886ab8ed4c83383745a056d0f58ebc17d82a940ddb518ff200bafd527be4",
+      "recipe": "attempt_thumb_release_helper_predictive_little_lift.json",
+      "recipe_sha256": "b8a18ed1b9f23f9652e15f6a77e2f9ab5c88af68753e0b6f186f08e40043ec5e",
+      "declared_departing_thumbs": "both",
+      "stops": [
+        {
+          "file": "far_support_stop.json",
+          "time_s": 107.33333333333333,
+          "side": "right",
+          "previous_center": 661,
+          "reason": "Tracked support has no contact",
+          "contacts": []
+        }
+      ],
+      "completed_figure": false,
+      "accepted_for_released_loop_continuation": false,
+      "reason": "Slowing the nominal little lift to 4 s and adding one-frame far-position prediction still loses all right far contact at 107.333333 s. The preceding held patch is 658..664. Fifty feedback steps peak at 1.354411 rad/s but do not complete the motion or hold; the endpoint is rejected.",
+      "full_history_stretch_including_terminal": 1.1992730249949428,
+      "rest_lengths_unchanged_since_6s": true,
+      "positive_particle_masses": true,
+      "anchors": [],
+      "support_guard": {
+        "source_time_s": 105.66666666666667,
+        "tracked_original_supports": [
+          "left_index",
+          "right_index"
+        ],
+        "intentionally_departing_thumb_sides": [
+          "left",
+          "right"
+        ],
+        "initial_material_centers": {
+          "left_index": 281,
+          "right_index": 613
+        },
+        "scope": "Material retention only; a release declaration is not proof of release, capture or figure completion."
+      },
+      "far_support_guard": {
+        "source_time_s": 105.66666666666667,
+        "initial_material_centers": {
+          "left": 225,
+          "right": 670
+        },
+        "scope": "Track newly captured far material; no rope constraint is added.",
+        "source_contact_phase": "temporary_helper",
+        "declared_helper": "right_little",
+        "final_helper_release_completed": false
+      },
+      "far_material_support_tracking": {
+        "interval_s": [
+          105.66666666666667,
+          107.33333333333333
+        ],
+        "tracking_method": "midpoint_with_retained_and_overlapping_patch_material",
+        "maximum_center_shift_per_frame_particles": 8,
+        "tracking_complete": false,
+        "errors": {
+          "right": {
+            "time_s": 107.33333333333333,
+            "side": "right",
+            "previous_center": 661,
+            "reason": "Tracked support has no contact",
+            "contacts": []
+          }
+        },
+        "first_and_last_samples": [
+          {
+            "time": 105.66666666666667,
+            "centers": {
+              "left": 225,
+              "right": 670
+            }
+          },
+          {
+            "time": 107.3,
+            "centers": {
+              "left": 223,
+              "right": 661
+            },
+            "patches": {
+              "left": [
+                213,
+                214,
+                215,
+                216,
+                217,
+                218,
+                219,
+                220,
+                221,
+                222,
+                223,
+                224,
+                225,
+                226,
+                227,
+                228,
+                229,
+                230,
+                231,
+                232,
+                233
+              ],
+              "right": [
+                658,
+                659,
+                660,
+                661,
+                662,
+                663,
+                664
+              ]
+            }
+          }
+        ]
+      },
+      "preflight": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "source_time_s": 105.66666666666667,
+        "passed": true,
+        "scope": "Nominal right little MCP rises from 1.55 to -0.09 rad over 4 s, then stays at its target during 1.2 s of feedback settling. Runtime right-thumb joint feedback uses current and one-frame predicted positions of the tracked far-material neighborhood. Thumb speed is bounded by 1 rad/s and every actual per-frame quintic by 3 rad/s. Nominal geometry is prechecked; all feedback proposals also pass runtime geometry and unchanged physical/material guards. The actual terminal joint pose is then frozen for a 1.2 s hold. No rope state, mass or rest length is edited.",
+        "runtime_arguments": [
+          "--follow-far-thumb",
+          "right",
+          "--thumb-feedback-speed",
+          "1",
+          "--predict-far-thumb"
+        ],
+        "scripted_frame_speed_bound_rad_s": 1.44140625,
+        "feedback_only_settle_s": 1.2,
+        "minimum_self_margin_m": 0.0012447628447436127,
+        "maximum_self_margin_m": 0.0012447628447436127,
+        "minimum_opposing_gap_m": 0.03570292676390901,
+        "maximum_opposing_gap_m": 0.10758685355817012,
+        "minimum_palm_gap_m": 0.12724683375992044,
+        "maximum_palm_gap_m": 0.13762518833418685,
+        "minimum_own_little_bound_m": 0.0288986049137978,
+        "maximum_own_little_bound_m": 0.046289899908904496,
+        "minimum_frozen_rope_gap_m": -0.010754651752246765,
+        "maximum_frozen_rope_gap_m": 0.0003254053897516233,
+        "minimum_speed_bound_rad_s": 0.76875,
+        "maximum_speed_bound_rad_s": 0.76875
+      },
+      "intent": {
+        "source": "output/alternative_cup_release_helper_lower80_thumb_reclear10_20261109",
+        "start_s": 105.66666666666667,
+        "release_attempt": true,
+        "temporary_helper": {
+          "side": "right",
+          "finger": "little",
+          "old_loop_material_window": [
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491,
+            492,
+            493,
+            494,
+            495,
+            496,
+            497,
+            498,
+            499,
+            500,
+            501,
+            502
+          ],
+          "initial_material_center": 483,
+          "expected_contact_interval_s": [
+            105.66666666666667,
+            112.06666666666668
+          ]
+        },
+        "release_completed": false,
+        "completed_figure": false,
+        "joint_recipe_sha256": "25c4af6995498c71d9075dd9d8287fcb222a8659518ef843c06e140c09e9262d",
+        "scope": "Declared before Newton replay: Nominal right little MCP rises from 1.55 to -0.09 rad over 4 s, then stays at its target during 1.2 s of feedback settling. Runtime right-thumb joint feedback uses current and one-frame predicted positions of the tracked far-material neighborhood. Thumb speed is bounded by 1 rad/s and every actual per-frame quintic by 3 rad/s. Nominal geometry is prechecked; all feedback proposals also pass runtime geometry and unchanged physical/material guards. The actual terminal joint pose is then frozen for a 1.2 s hold. No rope state, mass or rest length is edited. Helper contact is observed, never constrained. Hold 1.2 s."
+      },
+      "public_intent": "attempt_thumb_release_helper_predictive_little_lift.intent.json",
+      "accepted_for_temporary_helper_continuation": false,
+      "temporary_helper_rejection": "Far material track did not complete",
+      "planned_hold_duration_s": 1.2,
+      "far_thumb_feedback": {
+        "scope": "Joint-only feedback from the current rope and tracked material. No particle edits or added rope constraints. Feedback ends before the stationary hold; support and physical audits remain required.",
+        "side": "right",
+        "speed_rad_s": 1.0,
+        "maximum_scripted_joint_speed_rad_s": 3.0,
+        "material_window_radius": 8,
+        "contact_weight": 80.0,
+        "near_margin_m": 0.002,
+        "seat_depth_m": 0.002,
+        "predict_retained": true,
+        "prediction_frames": 1.0,
+        "completed_figure": false,
+        "sample_count": 50,
+        "first_and_last_samples": [
+          {
+            "time_s": 105.7,
+            "peak_joint_speed_bound_rad_s": 0.1129643607936423,
+            "cost": 0.0004245298313899087,
+            "evaluations": 27,
+            "tracked_material": 670,
+            "material_window": [
+              662,
+              663,
+              664,
+              665,
+              666,
+              667,
+              668,
+              669,
+              670,
+              671,
+              672,
+              673,
+              674,
+              675,
+              676,
+              677,
+              678
+            ],
+            "nominal_joint_lag_rad": 0.0020082553029980854
+          },
+          {
+            "time_s": 107.33333333333333,
+            "peak_joint_speed_bound_rad_s": 1.3544113991969677,
+            "cost": 0.007655074523993692,
+            "evaluations": 8,
+            "tracked_material": 661,
+            "material_window": [
+              653,
+              654,
+              655,
+              656,
+              657,
+              658,
+              659,
+              660,
+              661,
+              662,
+              663,
+              664,
+              665,
+              666,
+              667,
+              668,
+              669
+            ],
+            "nominal_joint_lag_rad": 0.3282882901691508
+          }
+        ],
+        "peak_joint_speed_bound_rad_s": 1.3544113991969677
+      },
+      "runtime_arguments": [
+        "--follow-far-thumb",
+        "right",
+        "--thumb-feedback-speed",
+        "1",
+        "--predict-far-thumb"
+      ]
     }
   ],
   "preflight_rejections": [
