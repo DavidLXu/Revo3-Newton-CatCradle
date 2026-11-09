@@ -1,0 +1,48 @@
+{
+  "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+  "start_s": 86.76666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      86.76666666666667,
+      91.96666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "a0bd1a2e3a19355f75c0527bf0f14a435ede01b883700c281d641682b5d516ee",
+  "scope": "Declared before Newton replay: both hands tilt together 60 degrees and translate 100 mm toward the robot, preserving relative wrist pose and every finger angle. This points the straight right little approximately downward. Gravity, collision and friction determine helper sliding; all original index/new far guards and final physical release conditions remain required.",
+  "original_declaration_recipe_sha256": "fed13cd79ab5c8de105f5d1ccb7fe5470d05f8c8042e89ce7d101b4aa9dd5514"
+}

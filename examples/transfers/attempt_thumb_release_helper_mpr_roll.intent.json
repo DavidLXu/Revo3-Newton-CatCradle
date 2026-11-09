@@ -1,0 +1,48 @@
+{
+  "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+  "start_s": 86.76666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      86.76666666666667,
+      88.46666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "86b5b5a005df77bb44ef82cda1b6795e0ff4c5ff827f064430cba36f72591a21",
+  "scope": "Declared before replay: sweep right little MPR from its current lower limit to 0.1745 rad over 0.5 s, with straight PIP/DIP and every other joint fixed. Test whether the rotating surface lets the helper slip; contact guards and final release audit remain unchanged.",
+  "original_declaration_recipe_sha256": "44bd07832870938c26e60c5c43b1078bf57980e419259842e71c80abbeea5fc4"
+}

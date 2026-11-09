@@ -390,6 +390,34 @@ rigid wrist pivots at the arm limits. No rejected planning endpoint is loaded
 as a physics state. Reorienting the helper while preserving the new supports
 remains the next release problem.
 
+A separate 0.5 s little-MPR roll, with every other joint fixed, stops at
+87.133333 s: edge 550 reaches a stretch ratio of 1.576319 against the unchanged
+1.2 gate. That edge is on the right near arc, next to the little MCP. The
+terminal geometry identifies the affected material and nearby surface; it
+does not establish a friction-force diagnosis. The recipe
+`attempt_thumb_release_helper_mpr_roll.json` is a rejected experiment, and
+its stopped state is excluded from continuation.
+
+A common wrist tilt supplies another release direction without changing the
+relative hand arrangement. Both hands rotate 60 degrees and retract 100 mm
+over 4 s, leaving the straight right little nearly downward. The planned
+relative-pose drift is at most 0.0333 mm and 0.00271 degrees. Finger angles,
+rope length and friction stay fixed.
+
+The Newton replay and 1.2 s hold finish at 91.966667 s. Both far tracks,
+original indices and the old helper track survive. Two of the four right-little
+contact patches leave, but the remaining root patches do not. The right near
+strand contacts its thumb again, and right old-loop clearance falls to
+0.943 mm during the held second. Left near clearance is 1.973 mm, just below
+the unchanged 2 mm requirement.
+
+The physical source check also fails left-little release: that unused finger
+briefly contacts rope during the final held-second window. Its terminal frame
+is clear, with a capsule-edge gap of 7.912 mm, which does not erase the earlier
+contact. This endpoint is rejected as a continuation source. The recipe is
+`attempt_thumb_release_helper_gravity60_back100.json`; further experiments
+must replay from the validated pre-tilt state and check a complete new hold.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using
