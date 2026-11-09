@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_release_helper_thumb_extend20_before_tilt_20261109",
+  "start_s": 88.96666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      88.96666666666667,
+      95.36666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "05381444b46e1b86ab1345bc67c2283476137d22ab47d9747a7d2365bb8e0bbb",
+  "scope": "Declared before replay from the validated extended-thumb preparation: Intentional bilateral convergence: reduce wrist spacing by 30 mm during the 60-degree tilt and 100 mm retraction, keeping finger angles and relative wrist orientation fixed. Relative translation is compared with the declared converging target, not a rigid-grasp assumption. This tests whether lower tension permits helper release; Newton determines actual slip and support retention. No rope state is changed. Hold for 2.4 s before the unchanged final release and material checks.",
+  "original_declaration_recipe_sha256": "2ee4c9407ccdd48e94a7766d6dee18425931fabfc28ac831dc1b8687086929f5"
+}

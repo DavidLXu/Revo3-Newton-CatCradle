@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_release_helper_thumb_extend20_before_tilt_20261109",
+  "start_s": 88.96666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      88.96666666666667,
+      91.16666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "f96da63a4e9340723b1f8e38927ab5036eeeffd05833148db2f061625dbdc143",
+  "scope": "Declared before replay: reposition only the unused left little from the validated extended-thumb preparation, avoiding the band observed in the failed common tilt. The observation supplies planning geometry only. The right little remains the declared helper; all physical gates and both far/index guards stay enabled.",
+  "original_declaration_recipe_sha256": "91de184c9dee3ea1261d3c2d187dce62b98ce70e12ecb1c548f7ec209a75cf91"
+}

@@ -438,6 +438,43 @@ The numerical record includes `planned_hold_duration_s` for these release
 trials. The final hold is a `continue_cup.py` argument, separate from the motion
 recipe; reproduce it with the recorded duration.
 
+### Extended-thumb tilt and downward pull
+
+Repeating the common 60-degree tilt from the extended-thumb preparation
+avoids the unused left-little contact. The 4 s motion and 2.4 s hold end at
+95.366667 s. Original indices, new far strands and the declared right-little
+helper remain tracked. All physical source checks pass except the intentional
+right-little contact. This is an accepted temporary-helper source, although
+the right old and near thumb strands have returned to contact.
+
+A comparison reduces wrist spacing by 30 mm during the same tilt. It passes
+the other physical checks, but its helper track exceeds the material
+continuity bound at 92.3 s. Right-little contact is still present at the end;
+the tracking failure does not establish release. This comparison is rejected
+as a temporary-helper source.
+
+From the accepted fixed-spacing tilt, lowering only the left wrist by 80 mm
+over 2.5 s and holding for 2.4 s ends at 100.266667 s. Both hands retain their
+finger angles and the right hand stays fixed. The left support centers finish
+below the right little fingertip. The noose contacts extend along the little
+shaft, but the finger does not leave the rope. All original-index, new-far and
+helper tracks survive; right old/near thumb contact also remains. This state
+is valid for another helper phase, not for a released-loop continuation.
+
+A separate preparation from 88.966667 s changes only the unused left little:
+MCP 1.55 to 1.0 rad and DIP 0.8 to 1.3 rad, over 1 s with a 1.2 s hold.
+It uses earlier tilted-rope frames only as planning obstacles, then replays
+from the accepted source. Both old-thumb loops and near strands remain clear;
+all support tracks survive. Its terminal state is a backup preparation for
+further tilt experiments, not evidence that the subsequent tilt succeeds.
+
+These recipes have suffixes `release_helper_extended_thumb_gravity60`,
+`release_helper_extended_thumb_gravity60_close30`,
+`release_helper_left_lower80` and `release_helper_left_little_clear` under
+`examples/transfers/attempt_thumb_`. Each has a declaration made before replay
+and a numerical record with its source, hold duration and acceptance result.
+None completes Cup & Saucer.
+
 ## Reproduce
 
 First reproduce the cleared orbit follow-up at 61.166667 s using

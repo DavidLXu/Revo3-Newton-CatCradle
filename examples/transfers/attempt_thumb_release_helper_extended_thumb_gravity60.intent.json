@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_release_helper_thumb_extend20_before_tilt_20261109",
+  "start_s": 88.96666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      88.96666666666667,
+      95.36666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "1147362ea5b78515bdbb0d88fd326e9a3610da54b84711e54884570eaf755c6d",
+  "scope": "Declared before replay from the validated extended-thumb preparation: Reuse the 60-degree common tilt and 100 mm retraction after replacing only constant finger coordinates with the new source pose. Arm start must match exactly. All relative-pose, joint and geometry checks rerun; material retention and release require Newton. Hold for 2.4 s before the unchanged final release and material checks.",
+  "original_declaration_recipe_sha256": "f263ceff0186c39cceda7d03c48fadbd5e92a816aa6020319c9a61a2a3772e64"
+}
