@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_helper60_diagonal80_passages_buffer_20261109",
+  "start_s": 82.36666666666666,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 466,
+    "expected_contact_interval_s": [
+      82.36666666666666,
+      86.76666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "d999b3b8fcf489956e12728c1fbeb18fd87af59eec7c4d321ac987f6fedd4635",
+  "scope": "Declared before replay from the same valid old-thumb-release source: straighten the little DIP, then lower the little by flexing only its MCP while keeping PIP and DIP straight. This avoids forming the PIP hook seen in the folded comparison. Monitor the old helper material for diagnosis; final release requires the physical little-clearance audit, and neither outcome alone certifies Cup.",
+  "original_declaration_recipe_sha256": "39d8615c2884aa048758a0353c9258db7e15baa24aef0d4287089673819c967e"
+}

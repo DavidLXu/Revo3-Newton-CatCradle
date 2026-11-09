@@ -1,0 +1,48 @@
+{
+  "source": "output/alternative_cup_release_helper_straight_fold_20261109",
+  "start_s": 86.76666666666667,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 465,
+    "expected_contact_interval_s": [
+      86.76666666666667,
+      91.93333333333334
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "5bd12434cd288b84135ee4bc3581789c024aab84c77996a1e4fc367e6672b98b",
+  "scope": "Declared before Newton replay: withdraw the right little MCP center 30 mm along the negative initial shaft axis, allowing the straight shaft to reorient. Thumb center/axis and index surface references guide joints only. Original index and new far tracks, all physical gates and final little clearance remain required. Observe helper departure without forcing it; neither contact retention nor departure certifies Cup.",
+  "original_declaration_recipe_sha256": "4b7e5049895132b730f639a5322b46202c14bacc6752bed2a6ec9a9f048b1f4e"
+}

@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_helper60_diagonal80_passages_buffer_20261109",
+  "start_s": 82.36666666666666,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 466,
+    "expected_contact_interval_s": [
+      82.36666666666666,
+      86.76666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "c2a5a944c305496771099b75b7a774f7bdb22cff2a5e00cdd745182a20bc3b3b",
+  "scope": "Declared before Newton replay: straighten the right little DIP, then flex only its MCP while the left wrist translates 50 mm outward, preserving left fingers and wrist orientation. The old helper track is observed for diagnosis; completion requires actual little clearance, retained indices and far strands, and all physical release checks. This declaration does not certify Cup.",
+  "original_declaration_recipe_sha256": "bf5b1d155f791e5037d85229f4eafb0672283e1d60564b43ef897c69c3a198af"
+}

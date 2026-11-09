@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_helper60_diagonal80_passages_buffer_20261109",
+  "start_s": 82.36666666666666,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 466,
+    "expected_contact_interval_s": [
+      82.36666666666666,
+      86.76666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "634ef2a73509905ea557e4dd36d84329734d59114852bab24258ba50f2016caa",
+  "scope": "Declared before replay: straighten the little DIP, then fold the splayed little MCP/PIP to release the temporary helper. The contact interval is a diagnostic monitoring window: a complete old-material track would mean the intended release did not occur. A departed helper is accepted only by the physical final-release audit; near contact and figure completion remain separate checks.",
+  "original_declaration_recipe_sha256": "3fb9c854195ec3f226148af7f5210809f3a98d536fa3dafb081ff55eaf42db2d"
+}

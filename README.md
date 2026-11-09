@@ -6,7 +6,13 @@ The repository includes the original single-hand forward/inverse loop, a RevoTro
 
 The newer [two-hand transfer experiments](docs/experiments.md) add wider hand spacing, longer initial rope, checkpoint continuation, and joint-only thumb feedback. A left-thumb pickup from an independently placed Opening A passed the recorded pickup checks. The right pickup and the full Cup & Saucer → boat → Star sequence remain unfinished. Portable recipes include both that milestone and an unsuccessful right-pickup attempt.
 
-The latest [pre-release clamp experiments](docs/development/pre-release-clamp.md)
+The latest [thumb-exchange experiments](docs/development/thumb-exchange.md)
+clear both old thumb loops while retaining the new far strands and original
+index supports. A follow-up also clears the near strands and unused middle
+and ring fingers. The temporary right little still holds several rope patches;
+its release and the full Cup → boat → Star sequence remain unfinished.
+
+The earlier [pre-release clamp experiments](docs/development/pre-release-clamp.md)
 tuck the unused right middle finger before releasing the little loops, then
 slightly close the right grip. Both intended near strands pass a held,
 same-material edge test with **nonpositive gaps to both surfaces**. Four original
@@ -272,7 +278,9 @@ The CPU reference run has 346 states, no anchors, and a peak edge stretch ratio 
 
 后续加长绳子、增大手距和挑绳切换的代码见[双手实验指南](docs/experiments.md)。已保存一条通过左拇指挑绳检查的记录，起点是独立搭好的 Opening A；右拇指挑绳及 Cup & Saucer、船形、Star 的连续切换仍在调试。仓库提供初始绳形和关节指令配方，可以重新计算物理，不依赖开发机器的中间文件。
 
-最新的[脱圈前压线实验](docs/development/pre-release-clamp.md)先收起右手中指，再释放双小指绳圈，并微调右侧闭合。双侧目标近绳已通过保持阶段的“同一绳段、双面非正间隙”检查，四处原有拇指／食指搭挂及物理脱圈检查也通过。这是采样接触结果，尚未测量夹持力；自由绳环翻转以及完整 Cup → 船形 → Star 仍未完成，拉伸与碰撞限制没有放宽。
+最新的[拇指换线实验](docs/development/thumb-exchange.md)已让两侧旧拇指线圈脱开，同时保留新挑起的远绳和原有食指搭挂。后续动作也清开了拇指附近的近绳，以及中指、无名指的多余接触。右小指仍挂着几段绳，尚未完成退绳；完整 Cup → 船形 → Star 仍在调试。
+
+较早的[脱圈前压线实验](docs/development/pre-release-clamp.md)先收起右手中指，再释放双小指绳圈，并微调右侧闭合。双侧目标近绳已通过保持阶段的“同一绳段、双面非正间隙”检查，四处原有拇指／食指搭挂及物理脱圈检查也通过。这是采样接触结果，尚未测量夹持力；当时自由绳环翻转尚未完成，拉伸与碰撞限制没有放宽。
 
 [早期侧向夹持实验](docs/development/side-clamp.md)保留了误夹旧拇指线等失败记录。[碰撞修正说明](docs/development/alternate-cup.md#correction-missing-arm-collisions)解释了为什么旧的无手臂碰撞起点已被弃用。公开配方可以复算各次动作，脱圈前保持和脱圈后的检查分别记录。
 

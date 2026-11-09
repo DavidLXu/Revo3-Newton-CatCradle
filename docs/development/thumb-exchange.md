@@ -1,11 +1,11 @@
 # Releasing the old thumb loops and unloading the helper
 
-At 82.366667 s, both thumbs clear their original old loops throughout the
-final stationary second. Minimum old-loop clearances are 86.265 mm on the
-left and 10.905 mm on the right. Both new far-material tracks and both original
-index tracks remain held. The right little still carries the temporary helper
-loop, the left near strand touches its thumb, and the right middle remains
-within 2 mm of rope. Cup & Saucer, boat and Star are not complete.
+The straight-little follow-up reaches 86.766667 s with both old thumb loops
+clear, both new far-material tracks and both original indices retained, and
+both near strands clear of their thumbs. Every unused middle and ring finger
+also clears. The remaining failed release condition is the right little:
+several rope patches still lie around its shaft and root. Cup & Saucer, boat
+and Star are not complete.
 
 This continues the [orbit and middle-clearance experiments](orbit-transfer.md).
 The [numerical record](thumb_exchange_20261109.json) includes the failed
@@ -320,9 +320,75 @@ existing original-support, far, collision and stretch guards.
 
 This endpoint is accepted only as a temporary-helper source. Left near
 clearance is still approximately zero; right middle clearance reaches only
-1.457 mm, while right ring clearance is 5.960 mm. The next release attempt
-straightens the little tip before folding that helper. Its outcome must be
-measured separately.
+1.457 mm, while right ring clearance is 5.960 mm. The release comparisons below
+continue from this validated helper state.
+
+## Unloading the right little
+
+Two little-only motions start at 82.366667 s. They first straighten the DIP
+over 1 s, then flex the MCP to 1.55 rad over 2.2 s, followed by a 1.2 s hold.
+One also flexes the PIP to 1.2 rad; the other keeps PIP and DIP straight.
+All other joints stay fixed.
+
+Both motions preserve the original indices, new far strands and old-loop
+clearance. Both clear the left near strand and the unused right middle and
+ring. Neither releases the little. The physical audit and exchange audit fail
+only their right-little release conditions; the temporary-helper audit passes.
+
+| Final held-second minimum gap | Curled PIP | Straight PIP |
+| --- | ---: | ---: |
+| Left near strand / thumb | 4.538 mm | 4.380 mm |
+| Right near strand / thumb | 14.507 mm | 14.524 mm |
+| Left old loop / thumb | 79.575 mm | 79.554 mm |
+| Right old loop / thumb | 7.952 mm | 7.979 mm |
+| Right middle / rope, including knuckle meshes | 4.226 mm | 4.283 mm |
+| Right ring / rope, including knuckle meshes | 7.166 mm | 7.169 mm |
+
+At the straight-PIP endpoint, little contacts remain on material patches
+173–182, 359–385, 452–478 and 532–551. The old helper patch remains at the MCP
+root, so removing the distal bend alone does not free it. Contact-patch
+observations describe where the rope lies; they do not measure friction force.
+
+The recipes are `attempt_thumb_release_helper_unhook_fold.json` and
+`attempt_thumb_release_helper_straight_fold.json`, each with a companion intent.
+They use the same guards as the preceding helper continuation, without a new
+far-patch handoff. Their start time for release/exchange audits is 82.366667 s.
+The helper declaration is a release attempt, so continued helper contact is a
+failed release even when it permits a further temporary-helper continuation.
+
+Moving the left wrist 50 mm outward during the straight-little fold opens the
+planned inter-hand passage to at least 9.972 mm. Its Newton replay still leaves
+the little engaged and brings the left near strand back into thumb contact.
+Both far tracks and original indices survive. The recipe is
+`attempt_thumb_release_helper_straight_spread50.json`; extra hand separation
+does not by itself solve this release.
+
+The extended-little comparison keeps the MCP at its starting angle after
+straightening PIP and DIP, then uses the same 50 mm left-wrist translation.
+It also retains both far tracks and original indices, but fails little release
+and left near clearance. Three terminal little-contact patches remain:
+353–398, 454–476 and 534–553. Its recipe is
+`attempt_thumb_release_helper_extend_spread50.json`.
+
+A further continuation starts from the straight-fold state at 86.766667 s.
+It withdraws the little MCP center 30 mm along the negative initial shaft axis,
+while allowing the straight shaft to reorient. Thumb center/axis and index
+surface references guide the other joints. A bounded cubic B-spline keeps the
+joint curve inside its control poses' limits; it takes 3.966667 s under a
+1.985 rad/s bound, then holds for 1.2 s.
+
+At 91.933333 s, both far tracks and original indices still hold. Minimum
+held near clearances are 5.227 mm left and 17.048 mm right; old-loop clearances
+are 104.276 mm and 14.275 mm. Only the right-little release checks fail.
+The rope follows the little root during withdrawal, so root displacement
+does not establish relative sliding or release. The recipe is
+`attempt_thumb_release_helper_base30_bspline.json`, with its companion intent;
+use 86.766667 s as its release/exchange audit start.
+
+Read-only planning also rejects a strictly fixed-axis withdrawal and direct
+rigid wrist pivots at the arm limits. No rejected planning endpoint is loaded
+as a physics state. Reorienting the helper while preserving the new supports
+remains the next release problem.
 
 ## Reproduce
 

@@ -1,0 +1,45 @@
+{
+  "source": "output/alternative_cup_helper60_diagonal80_passages_buffer_20261109",
+  "start_s": 82.36666666666666,
+  "release_attempt": true,
+  "temporary_helper": {
+    "side": "right",
+    "finger": "little",
+    "old_loop_material_window": [
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478
+    ],
+    "initial_material_center": 466,
+    "expected_contact_interval_s": [
+      82.36666666666666,
+      86.76666666666667
+    ]
+  },
+  "release_completed": false,
+  "completed_figure": false,
+  "joint_recipe_sha256": "50196850d0cab4eb3551d9db7c6caf2c3a6e4484c718a3dd7a9e698a791bbbd3",
+  "scope": "Declared before Newton replay: straighten the right little PIP and DIP and retain its extended MCP pose while the left wrist translates 50 mm outward, preserving left fingers and wrist orientation. Compare with folding the little during the same wrist motion. Observe helper departure; final release and Cup remain unverified until physical and material audits.",
+  "original_declaration_recipe_sha256": "ebfbf35a57bb0c4822a536298dd43384fd5686f71920e0aec1e7bb0412266cb3"
+}
