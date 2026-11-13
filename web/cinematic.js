@@ -3,6 +3,7 @@ import * as THREE from 'three';
 // Rendering only: the Newton particle positions and hand poses are unchanged.
 export function studio(scene, renderer, camera, controls) {
   const landscape = new URLSearchParams(location.search).get('layout') === 'side-by-side';
+  const dark = new URLSearchParams(location.search).get('theme') === 'dark';
   document.body.classList.add('cinematic');
   const style = document.createElement('style');
   style.textContent = `.cinematic header,.cinematic .badge,.cinematic #readout,
@@ -24,30 +25,42 @@ export function studio(scene, renderer, camera, controls) {
   if(new URLSearchParams(location.search).has('stacked')) {
     title.style.display='none'; note.style.display='none';
   }
+  if(dark) {
+    title.style.color='#e9edf2'; note.style.color='#8995a3';
+    title.querySelector('small').style.color='#9ca8b5';
+    title.querySelector('.english').style.color='#b6c0cb';
+  }
 
-  scene.background = new THREE.Color('#dce1e0');
-  scene.fog = new THREE.Fog('#dce1e0', .8, 2.4);
-  renderer.toneMappingExposure = landscape ? .95 : .85;
+  scene.background = new THREE.Color(dark ? '#14161a' : '#dce1e0');
+  scene.fog = dark ? new THREE.Fog('#14161a', .45, 1.6) : new THREE.Fog('#dce1e0', .8, 2.4);
+  renderer.toneMappingExposure = dark ? .95 : (landscape ? .95 : .85);
   renderer.shadowMap.type = THREE.VSMShadowMap;
   for (const object of [...scene.children]) if (object.isLight) scene.remove(object);
-  scene.add(new THREE.HemisphereLight('#eaf2ff', '#9e9485', .8));
+  scene.add(new THREE.HemisphereLight(dark ? '#c4d3ed' : '#eaf2ff', dark ? '#15171d' : '#9e9485', dark ? .24 : .8));
 
   // Large luminous panels provide smooth reflections on the metal housing.
   const environment = new THREE.Scene();
-  environment.background = new THREE.Color('#525c67');
+  environment.background = new THREE.Color(dark ? '#080a0e' : '#525c67');
   function panel(position, size, color, intensity) {
     const material = new THREE.MeshBasicMaterial({color, side:THREE.DoubleSide});
     material.color.multiplyScalar(intensity);
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(...size), material);
     mesh.position.set(...position); mesh.lookAt(0,0,0); environment.add(mesh);
   }
-  panel([2,-2,3], [3,4], '#fff4e4', 4);
-  panel([1,3,1], [2,4], '#e6f0ff', 2.5);
-  panel([-2,0,2], [1,3], '#ffffff', 4);
-  if(landscape)panel([3,.3,.8], [.65,3], '#ffffff', 3);
+  if(dark) {
+    panel([1.8,-1.4,2], [1.7,3.8], '#f2f5ff', 5);
+    panel([.8,2,1], [.7,3], '#c9d8f5', 3);
+    panel([-1.7,-.5,1.6], [1.6,2.5], '#ffffff', 4.5);
+    panel([3,.2,.8], [.5,3], '#ffffff', 3.4);
+  } else {
+    panel([2,-2,3], [3,4], '#fff4e4', 4);
+    panel([1,3,1], [2,4], '#e6f0ff', 2.5);
+    panel([-2,0,2], [1,3], '#ffffff', 4);
+    if(landscape)panel([3,.3,.8], [.65,3], '#ffffff', 3);
+  }
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(environment, .06).texture;
-  scene.environmentIntensity = .75;
+  scene.environmentIntensity = dark ? .85 : .75;
   pmrem.dispose();
   environment.traverse(object => {object.geometry?.dispose();object.material?.dispose();});
 
@@ -59,16 +72,30 @@ export function studio(scene, renderer, camera, controls) {
       source.shadow.mapSize.set(2048,2048);
       Object.assign(source.shadow.camera, {left:-.22,right:.22,top:.30,bottom:-.18,near:.01,far:2});
       source.shadow.bias = -.00008; source.shadow.normalBias = .0005;
-      source.shadow.radius = 4; source.shadow.blurSamples = 8;
+      source.shadow.radius = dark ? 14 : 4; source.shadow.blurSamples = dark ? 12 : 8;
     }
     scene.add(source, source.target);
   }
-  light([.3,-.32,.62], '#fff2df', 2.0, true);
-  light([.25,.42,.32], '#dceaff', 1.1);
-  light([-.3,.05,.5], '#ffffff', 2.2);
+  if(dark) {
+    light([.25,-.3,.65], '#e3eaff', 2.6, true);
+    light([.3,.42,.32], '#abbcdb', .35);
+    light([-.3,.05,.5], '#ffffff', 2.8);
+  } else {
+    light([.3,-.32,.62], '#fff2df', 2.0, true);
+    light([.25,.42,.32], '#dceaff', 1.1);
+    light([-.3,.05,.5], '#ffffff', 2.2);
+  }
   // Matte floor with a subtle contact shadow beneath the pedestal.
   const floor = scene.children.find(x => x.isMesh && x.geometry.type === 'BoxGeometry' && x.geometry.parameters.width === 3);
-  floor.material.color.set('#bcc6c5'); floor.material.roughness = .95; floor.material.metalness = 0;
+  floor.material.color.set(dark ? '#12161d' : '#bcc6c5'); floor.material.roughness = .95; floor.material.metalness = 0;
+  if(dark) {
+    for(const object of scene.children) {
+      if(object.isMesh && object !== floor) {
+        object.material.color.set('#171b21');
+        object.material.metalness=.25; object.material.roughness=.65;
+      }
+    }
+  }
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
   const context = canvas.getContext('2d');
   const gradient = context.createRadialGradient(128,128,20,128,128,128);

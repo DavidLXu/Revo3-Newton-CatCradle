@@ -4,6 +4,7 @@ import { studio } from './cinematic.js';
 import { texturedVisuals } from './appearance.js';
 const cinematic = new URLSearchParams(location.search).has('cinematic');
 const bimanual = new URLSearchParams(location.search).has('bimanual');
+const darkStudio = cinematic && new URLSearchParams(location.search).get('theme') === 'dark';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#e9e7e2');
@@ -101,7 +102,10 @@ try {
     const mesh=new THREE.Mesh(geo,mat);mesh.castShadow=true;mesh.receiveShadow=true;groups.get(item.link).add(mesh);
   }
   const n = data.frames[0].rope.length;
-  const ropeMat = new THREE.MeshStandardMaterial({color:'#bd1238',roughness:.68,metalness:.02});
+  const ropeMat = darkStudio
+    ? new THREE.MeshPhysicalMaterial({color:'#e3061c',roughness:.64,metalness:0,
+        specularIntensity:.3,emissive:'#bf0010',emissiveIntensity:.035})
+    : new THREE.MeshStandardMaterial({color:'#bd1238',roughness:.68,metalness:.02});
   const cylinders = new THREE.InstancedMesh(new THREE.CylinderGeometry(data.config.radius,data.config.radius,1,10),ropeMat,n);
   const balls = new THREE.InstancedMesh(new THREE.SphereGeometry(data.config.radius,8,6),ropeMat,n);
   cylinders.instanceMatrix.setUsage(THREE.DynamicDrawUsage);balls.instanceMatrix.setUsage(THREE.DynamicDrawUsage);

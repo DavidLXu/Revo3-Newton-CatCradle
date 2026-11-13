@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--preview',action='store_true')
     parser.add_argument('--output-dir',type=Path,default=None)
     parser.add_argument('--layout',choices=('portrait','side-by-side'),default='portrait')
+    parser.add_argument('--theme',choices=('light','dark'),default='light',help='Studio lighting and background palette')
     parser.add_argument('--meshes',type=Path,help='Optional exported USD appearance meshes.json')
     parser.add_argument('--software',action='store_true',help='Use SwiftShader instead of Metal on macOS')
     parser.add_argument('--loop',action='store_true',help='No cover; blend the last quiet 0.6 s into the settled first frame')
@@ -39,7 +40,8 @@ def main():
     if not mesh_path.is_file():raise FileNotFoundError(mesh_path)
     landscape=args.layout=='side-by-side'
     width,height=(1920,1080) if landscape else (1080,1920)
-    out=args.output_dir.resolve() if args.output_dir else simulation/('landscape' if landscape else 'portrait')
+    folder=('landscape' if landscape else 'portrait')+('_dark' if args.theme=='dark' else '')
+    out=args.output_dir.resolve() if args.output_dir else simulation/folder
     out.mkdir(parents=True,exist_ok=True)
     duration=data['frames'][-1]['time']
     fps=30
@@ -64,7 +66,7 @@ def main():
             errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
             query=urlencode(dict(trajectory=f'../{relative.as_posix()}/trajectory.json',
-                                 meshes=f'../{mesh_relative.as_posix()}',layout=args.layout))
+                                 meshes=f'../{mesh_relative.as_posix()}',layout=args.layout,theme=args.theme))
             page.goto(f'http://127.0.0.1:{server.server_port}/web/stacked.html?{query}',wait_until='networkidle')
             page.wait_for_function('window.stackedReady?.()===true',timeout=120000)
             info=page.evaluate('window.stackedInfo()')
@@ -104,7 +106,7 @@ def main():
                     if encoder.wait()!=0:raise RuntimeError('Video encoding failed')
                 finally:
                     if encoder.poll() is None:encoder.terminate();encoder.wait()
-                metadata=dict(width=width,height=height,layout=args.layout,fps=fps,frames=count,duration_s=count/fps,
+                metadata=dict(width=width,height=height,layout=args.layout,theme=args.theme,fps=fps,frames=count,duration_s=count/fps,
                               simulation_seconds=duration,motion_speed=data['config'].get('motion_speed',1),
                               playback_speed=1,cover_seconds=cover_frames/fps,fixed_azimuths=[0,-45],
                               synchronized=True,simulation_dir=str(relative),

@@ -157,6 +157,12 @@ the left and the −45° camera on the right. It uses the same 1.5× physical cy
 18.2-second edit and successful-Star poster. The shared labels are **Revo3**,
 **Cat's Cradle** and **NEWTON PHYSICS**.
 
+The default film uses the dark studio: a charcoal background and floor,
+cool-white reflection panels, softer shadows and a saturated red rope with
+reduced white specular reflection. Hand materials remain the imported USD
+materials. Append `?theme=light` to `web/loop.html` to play the earlier silver
+studio recording, or `?layout=portrait` for the original stacked film.
+
 `export_hand_appearance.py` reads RevoBench's
 `assets/robots/revotron/appearance/revosim_bionic_silver` bundle. Its USD
 PreviewSurface networks provide color, metallic, roughness and normal maps;
@@ -175,18 +181,19 @@ uv pip install --python .venv/bin/python -r requirements-usd.txt
 .venv/bin/python scripts/export_hand_appearance.py \
   --bundle /path/to/RevoBench/assets/robots/revotron/appearance/revosim_bionic_silver
 .venv/bin/python scripts/render_stacked.py --simulation-dir output/cycle_speed_1_5 \
-  --layout side-by-side --meshes output/hand_appearance/meshes.json \
-  --output-dir output/cycle_speed_1_5/landscape_silver --loop --preview
+  --layout side-by-side --theme dark --meshes output/hand_appearance/meshes.json \
+  --output-dir output/cycle_speed_1_5/landscape_dark --loop --preview
 # Inspect the three PNG previews, then repeat without --preview to record.
 .venv/bin/python scripts/render_stacked.py --simulation-dir output/cycle_speed_1_5 \
-  --layout side-by-side --meshes output/hand_appearance/meshes.json \
-  --output-dir output/cycle_speed_1_5/landscape_silver --loop
+  --layout side-by-side --theme dark --meshes output/hand_appearance/meshes.json \
+  --output-dir output/cycle_speed_1_5/landscape_dark --loop
 .venv/bin/python scripts/edit_cycle_timing.py \
-  output/cycle_speed_1_5/landscape_silver/revo3_cycle_landscape.mp4 \
-  output/cycle_speed_1_5/landscape_silver/revo3_cycle_final.mp4
+  output/cycle_speed_1_5/landscape_dark/revo3_cycle_landscape.mp4 \
+  output/cycle_speed_1_5/landscape_dark/revo3_cycle_final.mp4
 ```
 
 On macOS the recorder uses Metal; pass `--software` to use SwiftShader.
+Use `--theme light` with a separate output directory to reproduce the earlier palette.
 Material conversion requires the optional USD dependency; the ordinary
 untextured viewer and existing physics commands do not.
 
