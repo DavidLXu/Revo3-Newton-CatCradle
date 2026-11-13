@@ -10,3 +10,12 @@
 The joint-name ordering was checked against [RevoLab's deployment mapping](https://github.com/BrainCoTech/RevoLab/blob/bb3f6f32b1e55d870b399aa54f6cda7ac8b7519f/deploy/revo3/config/revo3_right.yaml) and [the SDK joint map](https://github.com/BrainCoTech/brainco-revo3-sdk/blob/3fcf173ac8e0c020ba9cc48f4a74c7459d074a93/python/revo3/revo3_joint_map.md). Those repositories are not copied into this project.
 
 Python packages are installed from the pinned `requirements.lock` under their respective licenses. `docs/preview.png` shows a render of the external BrainCo model and the simulated rope; it does not include reusable model meshes. Original reference media and hardware calibration records are not distributed.
+
+The optional landscape renderer can import the local RevoBench
+`revosim_bionic_silver` appearance bundle, sourced from BrainCoTech/RevoSim
+commit `99581e7ddbe7526815f16c180ef6f8a116987735`. It copies only the supplied
+render materials, textures and matching visual UVs into ignored `output/`.
+The exporter preserves `RevoSim.LICENSE`, `SOURCE_NOTICES.md` and source hashes.
+The source notices retain the original authorization for the supplied CAD and
+appearance assets; this repository does not grant a new asset license.
+The optional `usd-core` dependency is pinned separately in `requirements-usd.txt`.

@@ -1,4 +1,4 @@
-"""Record two synchronized fixed views in a 1080 x 1920 portrait video."""
+"""Record synchronized fixed views in portrait or side-by-side landscape."""
 import argparse
 from functools import partial
 from http.server import ThreadingHTTPServer
@@ -8,6 +8,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import threading
+import sys
+import hashlib
 from urllib.parse import urlencode
 
 from playwright.sync_api import sync_playwright
@@ -20,6 +22,9 @@ def main():
     parser.add_argument('--simulation-dir',type=Path,default=ROOT/'output/speed_1_5')
     parser.add_argument('--preview',action='store_true')
     parser.add_argument('--output-dir',type=Path,default=None)
+    parser.add_argument('--layout',choices=('portrait','side-by-side'),default='portrait')
+    parser.add_argument('--meshes',type=Path,help='Optional exported USD appearance meshes.json')
+    parser.add_argument('--software',action='store_true',help='Use SwiftShader instead of Metal on macOS')
     parser.add_argument('--loop',action='store_true',help='No cover; blend the last quiet 0.6 s into the settled first frame')
     args=parser.parse_args()
     simulation=args.simulation_dir.resolve()
@@ -27,9 +32,14 @@ def main():
     data=json.loads((simulation/'trajectory.json').read_text())
     if not data['validation']['deformation_bounds_passed']:
         raise RuntimeError('Simulation failed deformation checks')
-    if not (ROOT/'output/meshes_cinematic.json').exists():
+    if not args.meshes and not (ROOT/'output/meshes_cinematic.json').exists():
         raise RuntimeError('Run render_cinematic.py --preview to export detailed meshes first')
-    out=args.output_dir.resolve() if args.output_dir else simulation/'portrait'
+    mesh_path=args.meshes.resolve() if args.meshes else ROOT/'output/meshes_cinematic.json'
+    mesh_relative=mesh_path.relative_to(ROOT)
+    if not mesh_path.is_file():raise FileNotFoundError(mesh_path)
+    landscape=args.layout=='side-by-side'
+    width,height=(1920,1080) if landscape else (1080,1920)
+    out=args.output_dir.resolve() if args.output_dir else simulation/('landscape' if landscape else 'portrait')
     out.mkdir(parents=True,exist_ok=True)
     duration=data['frames'][-1]['time']
     fps=30
@@ -45,15 +55,16 @@ def main():
     threading.Thread(target=server.serve_forever,daemon=True).start()
     try:
         with sync_playwright() as p:
-            options=dict(headless=True,args=['--enable-webgl','--use-gl=angle',
-                         '--use-angle=swiftshader','--enable-unsafe-swiftshader'])
+            options=dict(headless=True,args=(['--use-angle=metal'] if sys.platform=='darwin' and not args.software
+                         else ['--enable-webgl','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']))
             chrome=Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
             if chrome.exists():options['executable_path']=str(chrome)
             browser=p.chromium.launch(**options)
-            page=browser.new_page(viewport={'width':1080,'height':1920},device_scale_factor=1)
+            page=browser.new_page(viewport={'width':width,'height':height},device_scale_factor=1)
             errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
-            query=urlencode(dict(trajectory=f'../{relative.as_posix()}/trajectory.json'))
+            query=urlencode(dict(trajectory=f'../{relative.as_posix()}/trajectory.json',
+                                 meshes=f'../{mesh_relative.as_posix()}',layout=args.layout))
             page.goto(f'http://127.0.0.1:{server.server_port}/web/stacked.html?{query}',wait_until='networkidle')
             page.wait_for_function('window.stackedReady?.()===true',timeout=120000)
             info=page.evaluate('window.stackedInfo()')
@@ -66,7 +77,8 @@ def main():
             if not args.preview:
                 ffmpeg=shutil.which('ffmpeg')
                 if not ffmpeg:raise RuntimeError('ffmpeg is required')
-                video=out/('revo3_cycle_portrait.mp4' if args.loop else 'revo3_dual_view_portrait.mp4')
+                suffix='landscape' if landscape else 'portrait'
+                video=out/(f'revo3_cycle_{suffix}.mp4' if args.loop else f'revo3_dual_view_{suffix}.mp4')
                 page.evaluate('time=>window.renderStacked(time)',0)
                 first_image=Image.open(io.BytesIO(page.screenshot(type='png'))).convert('RGB')
                 command=[ffmpeg,'-y','-hide_banner','-loglevel','error','-f','image2pipe',
@@ -92,10 +104,12 @@ def main():
                     if encoder.wait()!=0:raise RuntimeError('Video encoding failed')
                 finally:
                     if encoder.poll() is None:encoder.terminate();encoder.wait()
-                metadata=dict(width=1080,height=1920,fps=fps,frames=count,duration_s=count/fps,
+                metadata=dict(width=width,height=height,layout=args.layout,fps=fps,frames=count,duration_s=count/fps,
                               simulation_seconds=duration,motion_speed=data['config'].get('motion_speed',1),
                               playback_speed=1,cover_seconds=cover_frames/fps,fixed_azimuths=[0,-45],
-                              synchronized=True,simulation_dir=str(relative))
+                              synchronized=True,simulation_dir=str(relative),
+                              trajectory_sha256=hashlib.sha256((simulation/'trajectory.json').read_bytes()).hexdigest(),
+                              appearance=info['source'].get('appearance'),physics_changed=False)
                 if args.loop:
                     metadata.update(loop=True,preroll_seconds=data['motion']['preroll_seconds'],
                         seam_dissolve_seconds=.6,seam='Quiet final pose dissolves into settled first frame; physics states are not modified')

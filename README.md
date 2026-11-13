@@ -144,11 +144,51 @@ After setup, run the following from the repository root. Install `ffmpeg` (inclu
 bash scripts/serve.sh
 ```
 
-Open **http://127.0.0.1:8765/web/loop.html** for automatic repeat playback. The final MP4 is `output/cycle_speed_1_5/portrait_english/revo3_cycle_final.mp4`: 1080×1920, 30 fps, 546 frames, 18.2 seconds. The upper camera faces the palm; the lower camera is at −45°. The only visible labels are **Revo3**, **Cat's Cradle** (54 px), and **Newton physics**. The poster shows the completed star, without adding a cover segment to the movie.
+Open **http://127.0.0.1:8765/web/loop.html?layout=portrait** for the original portrait recording. The final MP4 is `output/cycle_speed_1_5/portrait_english/revo3_cycle_final.mp4`: 1080×1920, 30 fps, 546 frames, 18.2 seconds. The upper camera faces the palm; the lower camera is at −45°. The visible labels are **Revo3**, **Cat's Cradle** (54 px), and **Newton physics**. The poster shows the completed star, without adding a cover segment to the movie.
 
 The initial settling is excluded from the recording. In the reference run it took 3 seconds; the runner requires a full second of submillimeter shape convergence before starting. It exports settling, contact, crossing and endpoint checks in `cycle_validation.json`. Rope particles remain dynamic throughout the physical forward/inverse sequence.
 
 The final one-second star hold is an editorial freeze frame. The last 0.6 seconds dissolve into the first settled image to smooth the playback seam; this does not alter the exported physics or imply an exactly periodic physical state. `edit_cycle_timing.py` deliberately accepts only the 576-frame, 30 fps cycle recording produced by this recipe.
+
+### Landscape recording with RevoBench hand materials
+
+The updated `web/loop.html` plays a 1920×1080 recording with the front camera on
+the left and the −45° camera on the right. It uses the same 1.5× physical cycle,
+18.2-second edit and successful-Star poster. The shared labels are **Revo3**,
+**Cat's Cradle** and **NEWTON PHYSICS**.
+
+`export_hand_appearance.py` reads RevoBench's
+`assets/robots/revotron/appearance/revosim_bionic_silver` bundle. Its USD
+PreviewSurface networks provide color, metallic, roughness and normal maps;
+the original face-varying UVs are transferred only after each visual mesh's
+source hash matches. The 57 full-resolution single-hand visuals contain
+241,252 triangles. The renderer uses studio-panel reflections to bring out
+the metal finish while retaining the rubber materials. The exported bundle
+records source/texture hashes and preserves the supplied notices. It is a
+local rendering asset, excluded from Git; no geometry, articulation or
+collision assets from the USD replace the Newton model.
+
+With the cycle above already generated:
+
+```bash
+uv pip install --python .venv/bin/python -r requirements-usd.txt
+.venv/bin/python scripts/export_hand_appearance.py \
+  --bundle /path/to/RevoBench/assets/robots/revotron/appearance/revosim_bionic_silver
+.venv/bin/python scripts/render_stacked.py --simulation-dir output/cycle_speed_1_5 \
+  --layout side-by-side --meshes output/hand_appearance/meshes.json \
+  --output-dir output/cycle_speed_1_5/landscape_silver --loop --preview
+# Inspect the three PNG previews, then repeat without --preview to record.
+.venv/bin/python scripts/render_stacked.py --simulation-dir output/cycle_speed_1_5 \
+  --layout side-by-side --meshes output/hand_appearance/meshes.json \
+  --output-dir output/cycle_speed_1_5/landscape_silver --loop
+.venv/bin/python scripts/edit_cycle_timing.py \
+  output/cycle_speed_1_5/landscape_silver/revo3_cycle_landscape.mp4 \
+  output/cycle_speed_1_5/landscape_silver/revo3_cycle_final.mp4
+```
+
+On macOS the recorder uses Metal; pass `--software` to use SwiftShader.
+Material conversion requires the optional USD dependency; the ordinary
+untextured viewer and existing physics commands do not.
 
 ## RevoTron: two arms and two hands
 
@@ -205,7 +245,8 @@ flowchart LR
 | `web/` | Offline Three.js trajectory viewer |
 | `scripts/run_cycle.py` | Initial settling and continuous forward/inverse physics with endpoint diagnostics |
 | `scripts/render_cinematic.py`, `web/cinematic.js` | Detailed meshes, studio lighting and the orbiting landscape render |
-| `scripts/render_stacked.py`, `web/stacked.html` | Synchronized portrait cameras and English-only titles |
+| `scripts/render_stacked.py`, `web/stacked.html` | Synchronized portrait or landscape cameras and English-only titles |
+| `scripts/export_hand_appearance.py`, `web/appearance.js` | Verified RevoBench USD materials and UVs for the existing hand visuals |
 | `scripts/edit_cycle_timing.py`, `web/loop.html` | Final star hold, shorter ending and repeat playback |
 | `revo3_cat_cradle/bimanual.py` | RevoTron kinematics, arm IK and shared dynamic rope |
 | `revo3_cat_cradle/robot_geometry.py`, `scripts/audit_robot_hulls.py` | Optional arm/body collision hulls and complete-edge intrusion checks |

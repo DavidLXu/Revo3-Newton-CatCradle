@@ -12,9 +12,18 @@
 </head>
 <body>
   <video controls autoplay loop muted playsinline preload="auto"
-    poster="../output/cycle_speed_1_5/portrait_english/cover.png"
+    poster="../output/cycle_speed_1_5/landscape_silver/cover.png"
     aria-label="Revo3 forward and inverse cat's cradle loop">
-    <source src="../output/cycle_speed_1_5/portrait_english/revo3_cycle_final.mp4" type="video/mp4">
+    <source src="../output/cycle_speed_1_5/landscape_silver/revo3_cycle_final.mp4" type="video/mp4">
   </video>
+  <script>
+    // The previous portrait recording remains available without rerendering.
+    if(new URLSearchParams(location.search).get('layout')==='portrait') {
+      const video=document.querySelector('video');
+      video.poster='../output/cycle_speed_1_5/portrait_english/cover.png';
+      video.querySelector('source').src='../output/cycle_speed_1_5/portrait_english/revo3_cycle_final.mp4';
+      video.load();
+    }
+  </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 // Rendering only: the Newton particle positions and hand poses are unchanged.
 export function studio(scene, renderer, camera, controls) {
+  const landscape = new URLSearchParams(location.search).get('layout') === 'side-by-side';
   document.body.classList.add('cinematic');
   const style = document.createElement('style');
   style.textContent = `.cinematic header,.cinematic .badge,.cinematic #readout,
@@ -26,7 +27,7 @@ export function studio(scene, renderer, camera, controls) {
 
   scene.background = new THREE.Color('#dce1e0');
   scene.fog = new THREE.Fog('#dce1e0', .8, 2.4);
-  renderer.toneMappingExposure = .85;
+  renderer.toneMappingExposure = landscape ? .95 : .85;
   renderer.shadowMap.type = THREE.VSMShadowMap;
   for (const object of [...scene.children]) if (object.isLight) scene.remove(object);
   scene.add(new THREE.HemisphereLight('#eaf2ff', '#9e9485', .8));
@@ -43,6 +44,7 @@ export function studio(scene, renderer, camera, controls) {
   panel([2,-2,3], [3,4], '#fff4e4', 4);
   panel([1,3,1], [2,4], '#e6f0ff', 2.5);
   panel([-2,0,2], [1,3], '#ffffff', 4);
+  if(landscape)panel([3,.3,.8], [.65,3], '#ffffff', 3);
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(environment, .06).texture;
   scene.environmentIntensity = .75;
@@ -79,8 +81,9 @@ export function studio(scene, renderer, camera, controls) {
   return (progress, azimuth) => {
     // Constant-speed −15° to +15° front orbit, with gentle vertical elevation.
     const theta = THREE.MathUtils.degToRad(azimuth ?? (-15 + 30 * Math.max(0,Math.min(1,progress))));
-    controls.target.set(.012,0,.120);
-    camera.position.set(.012 + .52*Math.cos(theta), .52*Math.sin(theta), .210);
+    controls.target.set(.012,0,landscape ? .135 : .120);
+    const distance = landscape ? .57 : .52;
+    camera.position.set(.012 + distance*Math.cos(theta), distance*Math.sin(theta), landscape ? .225 : .210);
     camera.lookAt(controls.target);
   };
 }

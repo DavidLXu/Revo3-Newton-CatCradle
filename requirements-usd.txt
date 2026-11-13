@@ -1,0 +1,2 @@
+# Optional: export the existing RevoBench USD appearance layer for web rendering.
+usd-core==26.11

@@ -7,6 +7,10 @@ header{position:absolute;top:48px;left:56px;pointer-events:none}header small{fon
 h1{font-size:54px;font-weight:400;letter-spacing:.5px;margin:18px 0 0}
 .divider{position:absolute;top:50%;left:56px;right:56px;height:1px;background:#87949250}
 footer{position:absolute;left:56px;bottom:38px;font-size:22px;letter-spacing:2px;color:#7e898b}
+.landscape iframe{top:0;width:50%;height:100%}.landscape #front{left:0}.landscape #oblique{top:0;left:50%}
+.landscape header{top:48px;left:64px}.landscape header small{font-size:30px;letter-spacing:5px}
+.landscape h1{font-size:58px;margin-top:12px}.landscape footer{left:64px;bottom:40px;font-size:24px;letter-spacing:2.5px}
+.landscape .divider{top:190px;bottom:100px;left:50%;right:auto;width:1px;height:auto;background:#87949235}
 </style></head><body>
 <iframe id="front" title="Fixed front view"></iframe><iframe id="oblique" title="Fixed oblique view"></iframe>
 <header><small>Revo3</small><h1 lang="en">Cat's Cradle</h1></header>
@@ -15,6 +19,8 @@ footer{position:absolute;left:56px;bottom:38px;font-size:22px;letter-spacing:2px
 const panels=[document.querySelector('#front'),document.querySelector('#oblique')];
 const angles=[0,-45];
 const query=new URLSearchParams(location.search);
+if(query.get('layout')==='side-by-side')document.body.classList.add('landscape');
+document.querySelector('footer').textContent='NEWTON PHYSICS';
 query.set('capture','1');query.set('cinematic','1');query.set('stacked','1');
 for(const panel of panels)panel.src=`./?${query}`;
 window.stackedReady=()=>panels.every(panel=>panel.contentWindow.viewerReady===true);

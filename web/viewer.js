@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import { studio } from './cinematic.js';
+import { texturedVisuals } from './appearance.js';
 const cinematic = new URLSearchParams(location.search).has('cinematic');
 const bimanual = new URLSearchParams(location.search).has('bimanual');
 
@@ -85,7 +86,13 @@ try {
   }
   const groups = new Map();
   data.links.forEach(name=>{const group=new THREE.Group();group.matrixAutoUpdate=false;groups.set(name,group);scene.add(group);});
-  for(const item of meshes) {
+  if(meshes.format === 'revo3-textured-visuals-v1') {
+    const assetURL = new URL(new URLSearchParams(location.search).get('meshes'), location.href);
+    for(const item of await texturedVisuals(meshes, assetURL, renderer)) {
+      if(!groups.has(item.link)) throw new Error(`Visual link missing from trajectory: ${item.link}`);
+      groups.get(item.link).add(item.mesh);
+    }
+  } else for(const item of meshes) {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position',new THREE.Float32BufferAttribute(item.vertices.flat(),3));
     geo.setIndex(item.faces.flat());geo.computeVertexNormals();
@@ -169,7 +176,7 @@ try {
     controls.update();renderer.render(scene,camera);
   };
   window.setSide=()=>{camera.position.set(.12,-.65,.24);controls.update();renderer.render(scene,camera);};
-  window.revo3={frameCount:data.frames.length,particles:n,meshes:meshes.length,fps:data.config.fps,motionSource:motion?.source,direction:motion?.direction,interaction:data.interaction,anchors:data.anchor_indices.length};
+  window.revo3={frameCount:data.frames.length,particles:n,meshes:meshes.meshes?.length ?? meshes.length,fps:data.config.fps,motionSource:motion?.source,direction:motion?.direction,interaction:data.interaction,anchors:data.anchor_indices.length,appearance:meshes.provenance ?? null};
   const requestedTime=Number(new URLSearchParams(location.search).get('t') ?? 0);
   clock=Number.isFinite(requestedTime)?Math.max(0,Math.min(data.frames.at(-1).time,requestedTime)):0;
   setFrame(clock*data.config.fps);window.viewerReady=true;
